@@ -1,31 +1,41 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
- * 
- * Licensed under the Open Software License version 3.0
- * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * This content is released under the MIT License (MIT)
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Language Class
@@ -34,31 +44,32 @@
  * @subpackage	Libraries
  * @category	Language
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/language.html
+ * @link		https://codeigniter.com/user_guide/libraries/language.html
  */
 class CI_Lang {
 
 	/**
 	 * List of translations
 	 *
-	 * @var array
+	 * @var	array
 	 */
-	var $language	= array();
+	public $language =	array();
+
 	/**
 	 * List of loaded language files
 	 *
-	 * @var array
+	 * @var	array
 	 */
-	var $is_loaded	= array();
+	public $is_loaded =	array();
 
 	/**
-	 * Constructor
+	 * Class constructor
 	 *
-	 * @access	public
+	 * @return	void
 	 */
-	function __construct()
+	public function __construct()
 	{
-		log_message('debug', "Language Class Initialized");
+		log_message('info', 'Language Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -66,98 +77,122 @@ class CI_Lang {
 	/**
 	 * Load a language file
 	 *
-	 * @access	public
-	 * @param	mixed	the name of the language file to be loaded. Can be an array
-	 * @param	string	the language (english, etc.)
-	 * @param	bool	return loaded array of translations
-	 * @param 	bool	add suffix to $langfile
-	 * @param 	string	alternative path to look for language file
-	 * @return	mixed
+	 * @param	mixed	$langfile	Language file name
+	 * @param	string	$idiom		Language name (english, etc.)
+	 * @param	bool	$return		Whether to return the loaded array of translations
+	 * @param 	bool	$add_suffix	Whether to add suffix to $langfile
+	 * @param 	string	$alt_path	Alternative path to look for the language file
+	 *
+	 * @return	void|string[]	Array containing translations, if $return is set to TRUE
 	 */
-	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
+		if (is_array($langfile))
+		{
+			foreach ($langfile as $value)
+			{
+				$this->load($value, $idiom, $return, $add_suffix, $alt_path);
+			}
+
+			return;
+		}
+
 		$langfile = str_replace('.php', '', $langfile);
 
-		if ($add_suffix == TRUE)
+		if ($add_suffix === TRUE)
 		{
-			$langfile = str_replace('_lang.', '', $langfile).'_lang';
+			$langfile = preg_replace('/_lang$/', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
+		if (empty($idiom) OR ! preg_match('/^[a-z_-]+$/i', $idiom))
+		{
+			$config =& get_config();
+			$idiom = empty($config['language']) ? 'english' : $config['language'];
+		}
+
+		if ($return === FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
 		{
 			return;
 		}
 
-		$config =& get_config();
-
-		if ($idiom == '')
+		// Load the base file, so any others found can override it
+		$basepath = BASEPATH.'language/'.$idiom.'/'.$langfile;
+		if (($found = file_exists($basepath)) === TRUE)
 		{
-			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
-			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
+			include($basepath);
 		}
 
-		// Determine where the language file is and load it
-		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
+		// Do we have an alternative path to look in?
+		if ($alt_path !== '')
 		{
-			include($alt_path.'language/'.$idiom.'/'.$langfile);
+			$alt_path .= 'language/'.$idiom.'/'.$langfile;
+			if (file_exists($alt_path))
+			{
+				include($alt_path);
+				$found = TRUE;
+			}
 		}
 		else
 		{
-			$found = FALSE;
-
 			foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
 			{
-				if (file_exists($package_path.'language/'.$idiom.'/'.$langfile))
+				$package_path .= 'language/'.$idiom.'/'.$langfile;
+				if ($basepath !== $package_path && file_exists($package_path))
 				{
-					include($package_path.'language/'.$idiom.'/'.$langfile);
+					include($package_path);
 					$found = TRUE;
 					break;
 				}
 			}
-
-			if ($found !== TRUE)
-			{
-				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
-			}
 		}
 
+		if ($found !== TRUE)
+		{
+			show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
+		}
 
 		if ( ! isset($lang) OR ! is_array($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
+
+			if ($return === TRUE)
+			{
+				return array();
+			}
 			return;
 		}
 
-		if ($return == TRUE)
+		if ($return === TRUE)
 		{
 			return $lang;
 		}
 
-		$this->is_loaded[] = $langfile;
-		$this->language = $this->language + $lang;
-		unset($lang);
+		$this->is_loaded[$langfile] = $idiom;
+		$this->language = array_merge($this->language, $lang);
 
-		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
+		log_message('info', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Fetch a single line of text from the language array
+	 * Language line
 	 *
-	 * @access	public
-	 * @param	string	$line	the language line
-	 * @return	string
+	 * Fetches a single line of text from the language array
+	 *
+	 * @param	string	$line		Language line key
+	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
+	 * @return	string	Translation
 	 */
-	function line($line = '')
+	public function line($line, $log_errors = TRUE)
 	{
-		$value = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
+		$value = isset($this->language[$line]) ? $this->language[$line] : FALSE;
 
 		// Because killer robots like unicorns!
-		if ($value === FALSE)
+		if ($value === FALSE && $log_errors === TRUE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
 		}
@@ -166,7 +201,3 @@ class CI_Lang {
 	}
 
 }
-// END Language Class
-
-/* End of file Lang.php */
-/* Location: ./system/core/Lang.php */

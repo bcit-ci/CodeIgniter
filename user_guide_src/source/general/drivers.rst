@@ -8,18 +8,18 @@ parent class, but not their siblings. Drivers provide an elegant syntax
 in your :doc:`controllers <controllers>` for libraries that benefit
 from or require being broken down into discrete classes.
 
-Drivers are found in the system/libraries folder, in their own folder
-which is identically named to the parent library class. Also inside that
-folder is a subfolder named drivers, which contains all of the possible
-child class files.
+Drivers are found in the *system/libraries/* directory, in their own
+sub-directory which is identically named to the parent library class.
+Also inside that directory is a subdirectory named drivers, which
+contains all of the possible child class files.
 
 To use a driver you will initialize it within a controller using the
-following initialization function::
+following initialization method::
 
-	$this->load->driver('class name'); 
+	$this->load->driver('class_name');
 
 Where class name is the name of the driver class you want to invoke. For
-example, to load a driver named "Some Parent" you would do this::
+example, to load a driver named "Some_parent" you would do this::
 
 	$this->load->driver('some_parent');
 

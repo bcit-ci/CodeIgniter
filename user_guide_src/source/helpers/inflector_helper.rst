@@ -3,83 +3,94 @@ Inflector Helper
 ################
 
 The Inflector Helper file contains functions that permits you to change
-words to plural, singular, camel case, etc.
+**English** words to plural, singular, camel case, etc.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('inflector');
 
+Available Functions
+===================
+
 The following functions are available:
 
-singular()
-==========
 
-Changes a plural word to singular. Example
+.. php:function:: singular($str)
 
-::
+	:param	string	$str: Input string
+	:returns:	A singular word
+	:rtype:	string
 
-	$word = "dogs";
-	echo singular($word); // Returns "dog"
+	Changes a plural word to singular. Example::
 
-plural()
-========
+		echo singular('dogs'); // Prints 'dog'
 
-Changes a singular word to plural. Example
+.. php:function:: plural($str)
 
-::
+	:param	string	$str: Input string
+	:returns:	A plural word
+	:rtype:	string
 
-	$word = "dog";
-	echo plural($word); // Returns "dogs"
+	Changes a singular word to plural. Example::
 
-To force a word to end with "es" use a second "true" argument.
+		echo plural('dog'); // Prints 'dogs'
 
-::
+.. php:function:: camelize($str)
 
-	$word = "pass";
-	echo plural($word, TRUE); // Returns "passes"
+	:param	string	$str: Input string
+	:returns:	Camelized string
+	:rtype:	string
 
-camelize()
-==========
+	Changes a string of words separated by spaces or underscores to camel
+	case. Example::
 
-Changes a string of words separated by spaces or underscores to camel
-case. Example
+		echo camelize('my_dog_spot'); // Prints 'myDogSpot'
 
-::
+.. php:function:: underscore($str)
 
-	$word = "my_dog_spot";
-	echo camelize($word); // Returns "myDogSpot"
+	:param	string	$str: Input string
+	:returns:	String containing underscores instead of spaces
+	:rtype:	string
 
-underscore()
-============
+	Takes multiple words separated by spaces and underscores them.
+	Example::
 
-Takes multiple words separated by spaces and underscores them. Example
+		echo underscore('my dog spot'); // Prints 'my_dog_spot'
 
-::
+.. php:function:: humanize($str[, $separator = '_'])
 
-	$word = "my dog spot";
-	echo underscore($word); // Returns "my_dog_spot"
+	:param	string	$str: Input string
+	:param	string	$separator: Input separator
+	:returns:	Humanized string
+	:rtype:	string
 
-humanize()
-==========
+	Takes multiple words separated by underscores and adds spaces between
+	them. Each word is capitalized.
 
-Takes multiple words separated by underscores and adds spaces between
-them. Each word is capitalized. Example
+	Example::
 
-::
+		echo humanize('my_dog_spot'); // Prints 'My Dog Spot'
 
-	$word = "my_dog_spot";
-	echo humanize($word); // Returns "My Dog Spot"
+	To use dashes instead of underscores::
 
-To use dashes instead of underscores
+		echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
 
-::
+.. php:function:: is_countable($word)
 
-	$word = "my-dog-spot";
-	echo humanize($word, '-'); // Returns "My Dog Spot"
+	:param	string	$word: Input string
+	:returns:	TRUE if the word is countable or FALSE if not
+	:rtype:	bool
+
+	Checks if the given word has a plural version. Example::
+
+		is_countable('equipment'); // Returns FALSE

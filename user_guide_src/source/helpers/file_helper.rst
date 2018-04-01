@@ -4,132 +4,199 @@ File Helper
 
 The File Helper file contains functions that assist in working with files.
 
-.. contents:: Page Contents
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('file');
 
+Available Functions
+===================
+
 The following functions are available:
 
-read_file('path')
-=================
 
-Returns the data contained in the file specified in the path. Example
+.. php:function:: read_file($file)
 
-::
+	:param	string	$file: File path
+	:returns:	File contents or FALSE on failure
+	:rtype:	string
 
-	$string = read_file('./path/to/file.php');
+	Returns the data contained in the file specified in the path.
 
-The path can be a relative or full server path. Returns FALSE (boolean) on failure.
+	Example::
 
-.. note:: The path is relative to your main site index.php file, NOT your
-	controller or view files. CodeIgniter uses a front controller so paths
-	are always relative to the main site index.
+		$string = read_file('./path/to/file.php');
 
-If your server is running an `open_basedir` restriction this function might not work if you are trying to access a file above the calling script.
+	The path can be a relative or full server path. Returns FALSE (boolean) on failure.
 
-write_file('path', $data)
-=========================
+	.. note:: The path is relative to your main site index.php file, NOT your
+		controller or view files. CodeIgniter uses a front controller so paths
+		are always relative to the main site index.
 
-Writes data to the file specified in the path. If the file does not exist the function will create it. Example
+	.. note:: This function is DEPRECATED. Use the native ``file_get_contents()``
+		instead.
 
-::
+	.. important:: If your server is running an **open_basedir** restriction this
+		function might not work if you are trying to access a file above the
+		calling script.
 
-	$data = 'Some file data';
-	if ( ! write_file('./path/to/file.php', $data))
-	{     
-		echo 'Unable to write the file';
-	}
-	else
-	{     
-		echo 'File written!';
-	}
+.. php:function:: write_file($path, $data[, $mode = 'wb'])
 
-You can optionally set the write mode via the third parameter
+	:param	string	$path: File path
+	:param	string	$data: Data to write to file
+	:param	string	$mode: ``fopen()`` mode
+	:returns:	TRUE if the write was successful, FALSE in case of an error
+	:rtype:	bool
 
-::
+	Writes data to the file specified in the path. If the file does not exist then the
+	function will create it.
 
-	write_file('./path/to/file.php', $data, 'r+');
+	Example::
 
-The default mode is wb. Please see the `PHP user guide <http://php.net/fopen>`_ for mode options.
+		$data = 'Some file data';
+		if ( ! write_file('./path/to/file.php', $data))
+		{     
+			echo 'Unable to write the file';
+		}
+		else
+		{     
+			echo 'File written!';
+		}
 
-Note: In order for this function to write data to a file its file permissions must be set such that it is writable (666, 777, etc.). If the file does not already exist, the directory containing it must be writable.
+	You can optionally set the write mode via the third parameter::
 
-.. note:: The path is relative to your main site index.php file, NOT your
-	controller or view files. CodeIgniter uses a front controller so paths
-	are always relative to the main site index.
+		write_file('./path/to/file.php', $data, 'r+');
 
-delete_files('path')
-====================
+	The default mode is 'wb'. Please see the `PHP user guide <http://php.net/manual/en/function.fopen.php>`_
+	for mode options.
 
-Deletes ALL files contained in the supplied path. Example
+	.. note: In order for this function to write data to a file, its permissions must
+		be set such that it is writable. If the file does not already exist,
+		then the directory containing it must be writable.
 
-::
+	.. note:: The path is relative to your main site index.php file, NOT your
+		controller or view files. CodeIgniter uses a front controller so paths
+		are always relative to the main site index.
 
-	delete_files('./path/to/directory/');
+	.. note:: This function acquires an exclusive lock on the file while writing to it.
 
-If the second parameter is set to true, any directories contained within the supplied root path will be deleted as well. Example
+.. php:function:: delete_files($path[, $del_dir = FALSE[, $htdocs = FALSE]])
 
-::
+	:param	string	$path: Directory path
+	:param	bool	$del_dir: Whether to also delete directories
+	:param	bool	$htdocs: Whether to skip deleting .htaccess and index page files
+	:returns:	TRUE on success, FALSE in case of an error
+	:rtype:	bool
 
-	delete_files('./path/to/directory/', TRUE);
+	Deletes ALL files contained in the supplied path.
 
-.. note:: The files must be writable or owned by the system in order to be deleted.
+	Example::
 
-get_filenames('path/to/directory/')
-===================================
+		delete_files('./path/to/directory/');
 
-Takes a server path as input and returns an array containing the names of all files contained within it. The file path can optionally be added to the file names by setting the second parameter to TRUE.
+	If the second parameter is set to TRUE, any directories contained within the supplied
+	root path will be deleted as well.
 
-get_dir_file_info('path/to/directory/', $top_level_only = TRUE)
-===============================================================
+	Example::
 
-Reads the specified directory and builds an array containing the filenames, filesize, dates, and permissions. Sub-folders contained within the specified path are only read if forced by sending the second parameter, $top_level_only to FALSE, as this can be an intensive operation.
+		delete_files('./path/to/directory/', TRUE);
 
-get_file_info('path/to/file', $file_information)
-================================================
+	.. note:: The files must be writable or owned by the system in order to be deleted.
 
-Given a file and path, returns the name, path, size, date modified. Second parameter allows you to explicitly declare what information you want returned; options are: `name`, `server_path`, `size`, `date`, `readable`, `writable`, `executable`, `fileperms`. Returns FALSE if the file cannot be found.
+.. php:function:: get_filenames($source_dir[, $include_path = FALSE])
 
-.. note:: The "writable" uses the PHP function is_writable() which is known
-	to have issues on the IIS webserver. Consider using fileperms instead,
-	which returns information from PHP's fileperms() function.
+	:param	string	$source_dir: Directory path
+	:param	bool	$include_path: Whether to include the path as part of the filenames
+	:returns:	An array of file names
+	:rtype:	array
 
-get_mime_by_extension('file')
-=============================
+	Takes a server path as input and returns an array containing the names of all files
+	contained within it. The file path can optionally be added to the file names by setting
+	the second parameter to TRUE.
 
-Translates a file extension into a mime type based on config/mimes.php. Returns FALSE if it can't determine the type, or open the mime config file.
+	Example::
 
-::
+		$controllers = get_filenames(APPPATH.'controllers/');
 
-	$file = "somefile.png";
-	echo $file . ' is has a mime type of ' . get_mime_by_extension($file);
+.. php:function:: get_dir_file_info($source_dir, $top_level_only)
 
+	:param	string	$source_dir: Directory path
+	:param	bool	$top_level_only: Whether to look only at the specified directory (excluding sub-directories)
+	:returns:	An array containing info on the supplied directory's contents
+	:rtype:	array
 
-.. note:: This is not an accurate way of determining file mime types, and
-	is here strictly as a convenience. It should not be used for security.
+	Reads the specified directory and builds an array containing the filenames, filesize,
+	dates, and permissions. Sub-folders contained within the specified path are only read
+	if forced by sending the second parameter to FALSE, as this can be an intensive
+	operation.
 
-symbolic_permissions($perms)
-============================
+	Example::
 
-Takes numeric permissions (such as is returned by `fileperms()` and returns standard symbolic notation of file permissions.
+		$models_info = get_dir_file_info(APPPATH.'models/');
 
-::
+.. php:function:: get_file_info($file[, $returned_values = array('name', 'server_path', 'size', 'date')])
 
-	echo symbolic_permissions(fileperms('./index.php'));  // -rw-r--r--
+	:param	string	$file: File path
+	:param	array	$returned_values: What type of info to return
+	:returns:	An array containing info on the specified file or FALSE on failure
+	:rtype:	array
 
-octal_permissions($perms)
-=========================
+	Given a file and path, returns (optionally) the *name*, *path*, *size* and *date modified*
+	information attributes for a file. Second parameter allows you to explicitly declare what
+	information you want returned.
 
-Takes numeric permissions (such as is returned by fileperms() and returns a three character octal notation of file permissions.
+	Valid ``$returned_values`` options are: `name`, `size`, `date`, `readable`, `writeable`,
+	`executable` and `fileperms`.
 
-::
+.. php:function:: get_mime_by_extension($filename)
 
-	echo octal_permissions(fileperms('./index.php'));  // 644
+	:param	string	$filename: File name
+	:returns:	MIME type string or FALSE on failure
+	:rtype:	string
 
+	Translates a filename extension into a MIME type based on *config/mimes.php*.
+	Returns FALSE if it can't determine the type, or read the MIME config file.
+
+	::
+
+		$file = 'somefile.png';
+		echo $file.' is has a mime type of '.get_mime_by_extension($file);
+
+	.. note:: This is not an accurate way of determining file MIME types, and
+		is here strictly for convenience. It should not be used for security
+		purposes.
+
+.. php:function:: symbolic_permissions($perms)
+
+	:param	int	$perms: Permissions
+	:returns:	Symbolic permissions string
+	:rtype:	string
+
+	Takes numeric permissions (such as is returned by ``fileperms()``) and returns
+	standard symbolic notation of file permissions.
+
+	::
+
+		echo symbolic_permissions(fileperms('./index.php'));  // -rw-r--r--
+
+.. php:function:: octal_permissions($perms)
+
+	:param	int	$perms: Permissions
+	:returns:	Octal permissions string
+	:rtype:	string
+
+	Takes numeric permissions (such as is returned by ``fileperms()``) and returns
+	a three character octal notation of file permissions.
+
+	::
+
+		echo octal_permissions(fileperms('./index.php')); // 644

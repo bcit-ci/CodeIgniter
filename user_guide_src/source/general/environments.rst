@@ -11,10 +11,16 @@ when "live".
 The ENVIRONMENT Constant
 ========================
 
-By default, CodeIgniter comes with the environment constant set to
+By default, CodeIgniter comes with the environment constant set to use
+the value provided in ``$_SERVER['CI_ENV']``, otherwise defaults to
 'development'. At the top of index.php, you will see::
 
-	 define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+
+This server variable can be set in your .htaccess file, or Apache 
+config using `SetEnv <https://httpd.apache.org/docs/2.2/mod/mod_env.html#setenv>`_. 
+Alternative methods are available for nginx and other servers, or you can 
+remove this logic entirely and set the constant based on the server's IP address.
 
 In addition to affecting some basic framework behavior (see the next
 section), you may use this constant in your own development to
@@ -42,5 +48,5 @@ Configuration Files
 Optionally, you can have CodeIgniter load environment-specific
 configuration files. This may be useful for managing things like
 differing API keys across multiple environments. This is described in
-more detail in the environment section of the `Config
-Class <../libraries/config.html#environments>`_ documentation.
+more detail in the environment section of the :doc:`Config Class
+<../libraries/config>` documentation.

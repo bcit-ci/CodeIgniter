@@ -21,9 +21,9 @@ Why run via the command-line?
 There are many reasons for running CodeIgniter from the command-line,
 but they are not always obvious.
 
--  Run your cron-jobs without needing to use wget or curl
+-  Run your cron-jobs without needing to use *wget* or *curl*
 -  Make your cron-jobs inaccessible from being loaded in the URL by
-   checking for ``$this->input->is_cli_request()``
+   checking the return value of :php:func:`is_cli()`.
 -  Make interactive "tasks" that can do things like set permissions,
    prune cache folders, run backups, etc.
 -  Integrate with other applications in other languages. For example, a
@@ -33,7 +33,7 @@ Let's try it: Hello World!
 ==========================
 
 Let's create a simple controller so you can see it in action. Using your
-text editor, create a file called tools.php, and put the following code
+text editor, create a file called Tools.php, and put the following code
 in it::
 
 	<?php
@@ -44,15 +44,14 @@ in it::
 			echo "Hello {$to}!".PHP_EOL;
 		}
 	}
-	?>
 
-Then save the file to your application/controllers/ folder.
+Then save the file to your *application/controllers/* folder.
 
-Now normally you would visit the your site using a URL similar to this::
+Now normally you would visit the site using a URL similar to this::
 
 	example.com/index.php/tools/message/to
 
-Instead, we are going to open Terminal in Mac/Lunix or go to Run > "cmd"
+Instead, we are going to open the terminal in Mac/Linux or go to Run > "cmd"
 in Windows and navigate to our CodeIgniter project.
 
 .. code-block:: bash
@@ -60,19 +59,20 @@ in Windows and navigate to our CodeIgniter project.
 	$ cd /path/to/project;
 	$ php index.php tools message
 
-If you did it right, you should see Hello World!.
+If you did it right, you should see *Hello World!* printed.
 
 .. code-block:: bash
 
 	$ php index.php tools message "John Smith"
 
 Here we are passing it a argument in the same way that URL parameters
-work. "John Smith" is passed as a argument and output is: Hello John
-Smith!.
+work. "John Smith" is passed as a argument and output is::
+
+	Hello John Smith!
 
 That's it!
 ==========
 
 That, in a nutshell, is all there is to know about controllers on the
 command line. Remember that this is just a normal controller, so routing
-and _remap works fine.
+and ``_remap()`` works fine.

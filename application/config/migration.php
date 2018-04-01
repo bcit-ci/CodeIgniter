@@ -1,29 +1,5 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * CodeIgniter
- *
- * An open source application development framework for PHP 5.1.6 or newer
- *
- * NOTICE OF LICENSE
- *
- * Licensed under the Academic Free License version 3.0
- *
- * This source file is subject to the Academic Free License (AFL 3.0) that is
- * bundled with this package in the files license_afl.txt / license_afl.rst.
- * It is also available through the world wide web at this URL:
- * http://opensource.org/licenses/AFL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
- *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/AFL-3.0 Academic Free License (AFL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
- * @filesource
- */
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,12 +15,30 @@ $config['migration_enabled'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Migration Type
+|--------------------------------------------------------------------------
+|
+| Migration file names may be based on a sequential identifier or on
+| a timestamp. Options are:
+|
+|   'sequential' = Sequential migration naming (001_add_blog.php)
+|   'timestamp'  = Timestamp migration naming (20121031104401_add_blog.php)
+|                  Use timestamp format YYYYMMDDHHIISS.
+|
+| Note: If this configuration value is missing the Migration library
+|       defaults to 'sequential' for backward compatibility with CI2.
+|
+*/
+$config['migration_type'] = 'timestamp';
+
+/*
+|--------------------------------------------------------------------------
 | Migrations table
 |--------------------------------------------------------------------------
 |
 | This is the name of the table that will store the current migrations state.
 | When migrations runs it will store in a database table which migration
-| level the system is at. It then compares the migration level in the this
+| level the system is at. It then compares the migration level in this
 | table to the $config['migration_version'] if they are not the same it
 | will migrate up. This must be set.
 |
@@ -87,7 +81,4 @@ $config['migration_version'] = 0;
 | Also, writing permission is required within the migrations path.
 |
 */
-$config['migration_path'] = APPPATH . 'migrations/';
-
-
-/* End of file migration.php */
+$config['migration_path'] = APPPATH.'migrations/';

@@ -50,11 +50,11 @@ to ::
 Step 4: Update stored encrypted data
 ====================================
 
-.. note:: If your application does not use the Encryption library, does
+.. note:: If your application does not use the Encrypt library, does
 	not store Encrypted data permanently, or is on an environment that does
 	not support Mcrypt, you may skip this step.
 
-The Encryption library has had a number of improvements, some for
+The Encrypt library has had a number of improvements, some for
 encryption strength and some for performance, that has an unavoidable
 consequence of making it no longer possible to decode encrypted data
 produced by the original version of this library. To help with the
@@ -64,8 +64,8 @@ string using the improved methods. This will enable you to easily
 replace stale encrypted data with fresh in your applications, either on
 the fly or en masse.
 
-Please read `how to use this
-method <../libraries/encryption.html#legacy>`_ in the Encryption library
+Please read :doc:`how to use this
+method <../libraries/encrypt>` in the Encrypt library
 documentation.
 
 Step 5: Remove loading calls for the compatibility helper.
@@ -87,7 +87,14 @@ All native CodeIgniter classes now use the PHP 5 \__construct()
 convention. Please update extended libraries to call
 parent::\__construct().
 
-Step 8: Update your user guide
+Step 8: Move any core extensions to application/core
+====================================================
+
+Any extensions to core classes (e.g. MY_Controller.php) in your
+application/libraries folder must be moved to the new 
+application/core folder.
+
+Step 9: Update your user guide
 ==============================
 
 Please replace your local copy of the user guide with the new version,
@@ -102,7 +109,6 @@ Please refer to the :ref:`2.0.0 Change Log <2.0.0-changelog>` for full
 details, but here are some of the larger changes that are more likely to
 impact your code:
 
-- CodeIgniter now requires PHP 5.1.6.
 - Scaffolding has been removed.
 - The CAPTCHA plugin in now a :doc:`helper </helpers/captcha_helper>`.
 - The JavaScript calendar plugin was removed.

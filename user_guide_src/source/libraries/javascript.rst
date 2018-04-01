@@ -1,6 +1,3 @@
-.. note:: This driver is experimental. Its feature set and
-	implementation may change in future releases.
-
 ################
 Javascript Class
 ################
@@ -11,21 +8,45 @@ does not require the jQuery library to run, and that any scripting
 library will work equally well. The jQuery library is simply presented
 as a convenience if you choose to use it.
 
+.. important:: This library is DEPRECATED and should not be used. It has always
+	been with an 'experimental' status and is now no longer supported.
+	Currently only kept for backwards compatibility.
+
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+**************************
+Using the Javascript Class
+**************************
+
 Initializing the Class
 ======================
 
 To initialize the Javascript class manually in your controller
-constructor, use the $this->load->library function. Currently, the only
-available library is jQuery, which will automatically be loaded like
-this::
+constructor, use the ``$this->load->library()`` method. Currently,
+the only available library is jQuery, which will automatically be
+loaded like this::
 
 	$this->load->library('javascript');
 
-The Javascript class also accepts parameters, js_library_driver
-(string) default 'jquery' and autoload (bool) default TRUE. You may
-override the defaults if you wish by sending an associative array::
+The Javascript class also accepts parameters:
 
-	$this->load->library('javascript', array('js_library_driver' => 'scripto', 'autoload' => FALSE));
+- js_library_driver (string) *default: 'jquery'*
+- autoload (bool) *default: TRUE*
+
+You may override the defaults by sending an associative array::
+
+	$this->load->library(
+		'javascript',
+		array(
+			'js_library_driver' => 'scripto',
+			'autoload' => FALSE
+		)
+	);
 
 Again, presently only 'jquery' is available. You may wish to set
 autoload to FALSE, though, if you do not want the jQuery library to
@@ -34,7 +55,8 @@ is useful if you are loading it from a location outside of CodeIgniter,
 or already have the script tag in your markup.
 
 Once loaded, the jQuery library object will be available using:
-$this->javascript
+
+	$this->javascript
 
 Setup and Configuration
 =======================
@@ -47,8 +69,8 @@ application.
 
 As Javascript is a client side language, the library must be able to
 write content into your final output. This generally means a view.
-You'll need to include the following variables in the <head> sections of
-your output.
+You'll need to include the following variables in the ``<head>``
+sections of your output.
 
 ::
 
@@ -56,17 +78,17 @@ your output.
 	<?php echo $script_head;?>
 
 
-$library_src, is where the actual library file will be loaded, as well
-as any subsequent plugin script calls; $script_head is where specific
-events, functions and other commands will be rendered.
+``$library_src``, is where the actual library file will be loaded, as
+well as any subsequent plugin script calls; $script_head is where
+specific events, functions and other commands will be rendered.
 
 Set the path to the librarys with config items
 ----------------------------------------------
 
 There are some configuration items in Javascript library. These can
-either be set in application/config.php, within its own
-config/javascript.php file, or within any controller usings the
-set_item() function.
+either be set in *application/config.php*, within its own
+*config/javascript.php* file, or within any controller usings the
+``set_item()`` function.
 
 An image to be used as an "ajax loader", or progress indicator. Without
 one, the simple text message of "loading" will appear when Ajax calls
@@ -84,49 +106,48 @@ The jQuery Class
 ================
 
 To initialize the jQuery class manually in your controller constructor,
-use the $this->load->library function::
+use the ``$this->load->library()`` method::
 
-	$this->load->library('jquery');
+	$this->load->library('javascript/jquery');
 
 You may send an optional parameter to determine whether or not a script
 tag for the main jQuery file will be automatically included when loading
 the library. It will be created by default. To prevent this, load the
 library as follows::
 
-	$this->load->library('jquery', FALSE);
+	$this->load->library('javascript/jquery', FALSE);
 
 Once loaded, the jQuery library object will be available using:
-$this->jquery
+
+	$this->jquery
 
 jQuery Events
 =============
 
 Events are set using the following syntax.
-
 ::
 
 	$this->jquery->event('element_path', code_to_run());
-
 
 In the above example:
 
 -  "event" is any of blur, change, click, dblclick, error, focus, hover,
    keydown, keyup, load, mousedown, mouseup, mouseover, mouseup, resize,
    scroll, or unload.
--  "element_path" is any valid `jQuery
-   selector <http://docs.jquery.com/Selectors>`_. Due to jQuery's unique
+-  "element_path" is any valid `jQuery selector
+   <http://api.jquery.com/category/selectors/>`_. Due to jQuery's unique
    selector syntax, this is usually an element id, or CSS selector. For
-   example "#notice_area" would effect <div id="notice_area">, and
+   example "#notice_area" would effect ``<div id="notice_area">``, and
    "#content a.notice" would effect all anchors with a class of "notice"
    in the div with id "content".
--  "code_to_run()" is script your write yourself, or an action such as
+-  "``code_to_run()``" is script your write yourself, or an action such as
    an effect from the jQuery library below.
 
 Effects
 =======
 
 The query library supports a powerful
-`Effects <http://docs.jquery.com/Effects>`_ repertoire. Before an effect
+`Effects <http://api.jquery.com/category/effects/>`_ repertoire. Before an effect
 can be used, it must be loaded::
 
 	$this->jquery->effect([optional path] plugin name); // for example $this->jquery->effect('bounce');
@@ -180,7 +201,7 @@ animate()
    other additional information.
 
 For a full summary, see
-`http://docs.jquery.com/Effects/animate <http://docs.jquery.com/Effects/animate>`_
+`http://api.jquery.com/animate/ <http://api.jquery.com/animate/>`_
 
 Here is an example of an animate() called on a div with an id of "note",
 and triggered by a click using the jQuery library's click() event.
@@ -192,7 +213,7 @@ and triggered by a click using the jQuery library's click() event.
 	'width' => '50%',
 	'marginLeft' => 125
 	);
-	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, normal));
+	$this->jquery->click('#trigger', $this->jquery->animate('#note', $params, 'normal'));
 
 fadeIn() / fadeOut()
 --------------------
@@ -267,7 +288,7 @@ corner()
 --------
 
 Used to add distinct corners to page elements. For full details see
-`http://www.malsup.com/jquery/corner/ <http://www.malsup.com/jquery/corner/>`_
+`http://malsup.com/jquery/corner/ <http://malsup.com/jquery/corner/>`_
 
 ::
 

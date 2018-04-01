@@ -16,7 +16,7 @@ This tutorial will primarily focus on:
 -  Model-View-Controller basics
 -  Routing basics
 -  Form validation
--  Performing basic database queries using "Active Record"
+-  Performing basic database queries using "Query Builder"
 
 The entire tutorial is split up over several pages, each explaining a
 small part of the functionality of the CodeIgniter framework. You'll go
@@ -24,13 +24,13 @@ through the following pages:
 
 -  Introduction, this page, which gives you an overview of what to
    expect.
--  `Static pages <static_pages.html>`_, which will teach you the basics
+-  :doc:`Static pages <static_pages>`, which will teach you the basics
    of controllers, views and routing.
--  `News section <news_section.html>`_, where you'll start using models
+-  :doc:`News section <news_section>`, where you'll start using models
    and will be doing some basic database operations.
--  `Create news items <create_news_items.html>`_, which will introduce
+-  :doc:`Create news items <create_news_items>`, which will introduce
    more advanced database operations and form validation.
--  `Conclusion <conclusion.html>`_, which will give you some pointers on
+-  :doc:`Conclusion <conclusion>`, which will give you some pointers on
    further reading and other resources.
 
 Enjoy your exploration of the CodeIgniter framework.

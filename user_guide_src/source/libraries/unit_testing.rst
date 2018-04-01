@@ -11,6 +11,17 @@ evaluation function and two result functions. It's not intended to be a
 full-blown test suite but rather a simple mechanism to evaluate your
 code to determine if it is producing the correct data type and result.
 
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+******************************
+Using the Unit Testing Library
+******************************
+
 Initializing the Class
 ======================
 
@@ -19,16 +30,15 @@ initialized in your controller using the $this->load->library function::
 
 	$this->load->library('unit_test');
 
-Once loaded, the Unit Test object will be available using: $this->unit
+Once loaded, the Unit Test object will be available using ``$this->unit``
 
 Running Tests
 =============
 
-Running a test involves supplying a test and an expected result to the
-following function:
+Running a test involves supplying a test and an expected result in the
+following way:
 
-$this->unit->run( test, expected result, 'test name', 'notes');
-===============================================================
+	$this->unit->run('test', 'expected result', 'test name', 'notes');
 
 Where test is the result of the code you wish to test, expected result
 is the data type you expect, test name is an optional name you can give
@@ -66,6 +76,7 @@ result. Here is a list of allowed comparison types:
 -  is_double
 -  is_array
 -  is_null
+-  is_resource
 
 Generating Reports
 ==================
@@ -114,7 +125,7 @@ Enabling/Disabling Unit Testing
 If you would like to leave some testing in place in your scripts, but
 not have it run unless you need it, you can disable unit testing using::
 
-	$this->unit->active(FALSE)
+	$this->unit->active(FALSE);
 
 Unit Test Display
 =================
@@ -131,7 +142,7 @@ default:
 -  Any notes you entered for the test (notes)
 
 You can customize which of these items get displayed by using
-$this->unit->set_items(). For example, if you only wanted the test name
+$this->unit->set_test_items(). For example, if you only wanted the test name
 and the result displayed:
 
 Customizing displayed tests
@@ -150,15 +161,85 @@ template. Note the required pseudo-variables::
 
 	$str = '
 	<table border="0" cellpadding="4" cellspacing="1">
-	    {rows}
-	        <tr>
-	        <td>{item}</td>
-	        <td>{result}</td>
-	        </tr>
-	    {/rows}
+	{rows}
+		<tr>
+			<td>{item}</td>
+			<td>{result}</td>
+		</tr>
+	{/rows}
 	</table>';
 
 	$this->unit->set_template($str);
 
 .. note:: Your template must be declared **before** running the unit
 	test process.
+
+***************
+Class Reference
+***************
+
+.. php:class:: CI_Unit_test
+
+	.. php:method:: set_test_items($items)
+
+		:param array $items: List of visible test items
+		:returns: void
+
+		Sets a list of items that should be visible in tests.
+		Valid options are:
+
+		  - test_name
+		  - test_datatype
+		  - res_datatype
+		  - result
+		  - file
+		  - line
+		  - notes
+
+	.. php:method:: run($test[, $expected = TRUE[, $test_name = 'undefined'[, $notes = '']]])
+
+		:param	mixed	$test: Test data
+		:param	mixed	$expected: Expected result
+		:param	string	$test_name: Test name
+		:param	string	$notes: Any notes to be attached to the test
+		:returns:	Test report
+		:rtype:	string
+
+		Runs unit tests.
+
+	.. php:method:: report([$result = array()])
+
+		:param	array	$result: Array containing tests results
+		:returns:	Test report
+		:rtype:	string
+
+		Generates a report about already complete tests.
+
+	.. php:method:: use_strict([$state = TRUE])
+
+		:param	bool	$state: Strict state flag
+		:rtype:	void
+
+		Enables/disables strict type comparison in tests.
+
+	.. php:method:: active([$state = TRUE])
+
+		:param	bool	$state: Whether to enable testing
+		:rtype:	void
+
+		Enables/disables unit testing.
+
+	.. php:method:: result([$results = array()])
+
+		:param	array	$results: Tests results list
+		:returns:	Array of raw result data
+		:rtype:	array
+
+		Returns raw tests results data.
+
+	.. php:method:: set_template($template)
+
+		:param	string	$template: Test result template
+		:rtype:	void
+
+		Sets the template for displaying tests results.

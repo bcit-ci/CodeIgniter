@@ -1,0 +1,50 @@
+language: php
+dist: precise
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - hhvm
+  
+env:
+  - DB=mysql
+  - DB=mysqli
+  - DB=pgsql
+  - DB=sqlite
+  - DB=pdo/mysql
+  - DB=pdo/pgsql
+  - DB=pdo/sqlite
+
+sudo: false
+
+before_script:
+  - sh -c "composer install --dev --no-progress"
+  - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
+
+script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7 -d mbstring.internal_encoding=UTF-8 vendor/bin/phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
+
+matrix:
+  allow_failures:
+    - php: hhvm
+  exclude:
+    - php: hhvm
+      env: DB=pgsql
+    - php: hhvm
+      env: DB=pdo/pgsql
+    - php: 7.0
+      env: DB=mysql
+    - php: 7.1
+      env: DB=mysql
+
+branches:
+  only:
+    - develop
+    - 3.0-stable
+    - 3.1-stable
+    - /^feature\/.+$/

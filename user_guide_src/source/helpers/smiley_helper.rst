@@ -5,21 +5,27 @@ Smiley Helper
 The Smiley Helper file contains functions that let you manage smileys
 (emoticons).
 
-.. contents:: Page Contents
+.. important:: The Smiley helper is DEPRECATED and should not be used.
+	It is currently only kept for backwards compatibility.
+
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
 
 Loading this Helper
 ===================
 
-This helper is loaded using the following code
-
-::
+This helper is loaded using the following code::
 
 	$this->load->helper('smiley');
 
 Overview
 ========
 
-The Smiley helper has a renderer that takes plain text simileys, like
+The Smiley helper has a renderer that takes plain text smileys, like
 :-) and turns them into a image representation, like |smile!|
 
 It also lets you display a set of smiley images that when clicked will
@@ -36,29 +42,29 @@ smileys next to a form field. This example requires that you first
 download and install the smiley images, then create a controller and the
 View as described.
 
-.. important:: Before you begin, please `download the smiley images <http://codeigniter.com/download_files/smileys.zip>`_
-	and put them in a publicly accessible place on your server. This helper
-	also assumes you have the smiley replacement array located at
-	`application/config/smileys.php`
+.. important:: Before you begin, please `download the smiley images
+	<https://ellislab.com/asset/ci_download_files/smileys.zip>`_
+	and put them in a publicly accessible place on your server.
+	This helper also assumes you have the smiley replacement array
+	located at `application/config/smileys.php`
 
 The Controller
 --------------
 
-In your `application/controllers/` folder, create a file called
-smileys.php and place the code below in it.
+In your **application/controllers/** directory, create a file called
+Smileys.php and place the code below in it.
 
-.. important:: Change the URL in the `get_clickable_smileys()`
+.. important:: Change the URL in the :php:func:`get_clickable_smileys()`
 	function below so that it points to your smiley folder.
 
-You'll notice that in addition to the smiley helper we are using the :doc:`Table Class <../libraries/table>`.
-
-::
+You'll notice that in addition to the smiley helper, we are also using
+the :doc:`Table Class <../libraries/table>`::
 
 	<?php
 
 	class Smileys extends CI_Controller {
 
-		function index()
+		public function index()
 		{
 			$this->load->helper('smiley');
 			$this->load->library('table');
@@ -69,12 +75,11 @@ You'll notice that in addition to the smiley helper we are using the :doc:`Table
 			$data['smiley_table'] = $this->table->generate($col_array);
 			$this->load->view('smiley_view', $data);
 		}
+
 	}
 
-In your `application/views/` folder, create a file called `smiley_view.php`
-and place this code in it:
-
-::
+In your **application/views/** directory, create a file called **smiley_view.php**
+and place this code in it::
 
 	<html>
 		<head>
@@ -102,59 +107,63 @@ links a generic name that will be tied to a specific id in your view.
 
 	$image_array = get_smiley_links("http://example.com/images/smileys/", "comment_textarea_alias");
 
-To map the alias to the field id, pass them both into the `smiley_js`
-function
-
-::
+To map the alias to the field id, pass them both into the
+:func:`smiley_js()` function::
 
 	$image_array = smiley_js("comment_textarea_alias", "comments");
 
-******************
-Function Reference
-******************
+Available Functions
+===================
 
-get_clickable_smileys()
-=======================
+.. php:function:: get_clickable_smileys($image_url[, $alias = ''[, $smileys = NULL]])
 
-Returns an array containing your smiley images wrapped in a clickable
-link. You must supply the URL to your smiley folder and a field id or
-field alias.
+	:param	string	$image_url: URL path to the smileys directory
+	:param	string	$alias: Field alias
+	:returns:	An array of ready to use smileys
+	:rtype:	array
 
-::
+	Returns an array containing your smiley images wrapped in a clickable
+	link. You must supply the URL to your smiley folder and a field id or
+	field alias.
 
-	$image_array = get_smiley_links("http://example.com/images/smileys/", "comment");
+	Example::
 
-Note: Usage of this function without the second parameter, in
-combination with `js_insert_smiley` has been deprecated.
+		$image_array = get_clickable_smileys('http://example.com/images/smileys/', 'comment');
 
-smiley_js()
-===========
+.. php:function:: smiley_js([$alias = ''[, $field_id = ''[, $inline = TRUE]]])
 
-Generates the JavaScript that allows the images to be clicked and
-inserted into a form field. If you supplied an alias instead of an id
-when generating your smiley links, you need to pass the alias and
-corresponding form id into the function. This function is designed to be
-placed into the <head> area of your web page.
+	:param	string	$alias: Field alias
+	:param	string	$field_id: Field ID
+	:param	bool	$inline: Whether we're inserting an inline smiley
+	:returns:	Smiley-enabling JavaScript code
+	:rtype:	string
 
-::
+	Generates the JavaScript that allows the images to be clicked and
+	inserted into a form field. If you supplied an alias instead of an id
+	when generating your smiley links, you need to pass the alias and
+	corresponding form id into the function. This function is designed to be
+	placed into the <head> area of your web page.
 
-	<?php echo smiley_js(); ?>
+	Example::
 
-Note: This function replaces `js_insert_smiley`, which has been
-deprecated.
+		<?php echo smiley_js(); ?>
 
-parse_smileys()
-===============
+.. php:function:: parse_smileys([$str = ''[, $image_url = ''[, $smileys = NULL]]])
 
-Takes a string of text as input and replaces any contained plain text
-smileys into the image equivalent. The first parameter must contain your
-string, the second must contain the URL to your smiley folder
+	:param	string	$str: Text containing smiley codes
+	:param	string	$image_url: URL path to the smileys directory
+	:param	array	$smileys: An array of smileys
+	:returns:	Parsed smileys
+	:rtype:	string
 
-::
+	Takes a string of text as input and replaces any contained plain text
+	smileys into the image equivalent. The first parameter must contain your
+	string, the second must contain the URL to your smiley folder
 
-	$str = 'Here are some simileys: :-)  ;-)';
-	$str = parse_smileys($str, "http://example.com/images/smileys/");
-	echo $str;
+	Example::
 
+		$str = 'Here are some smileys: :-)  ;-)';
+		$str = parse_smileys($str, 'http://example.com/images/smileys/');
+		echo $str;
 
 .. |smile!| image:: ../images/smile.gif

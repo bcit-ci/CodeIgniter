@@ -1,31 +1,41 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
- * 
- * Licensed under the Open Software License version 3.0
- * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * This content is released under the MIT License (MIT)
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Parser Class
@@ -34,21 +44,52 @@
  * @subpackage	Libraries
  * @category	Parser
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/parser.html
+ * @link		https://codeigniter.com/user_guide/libraries/parser.html
  */
 class CI_Parser {
 
-	var $l_delim = '{';
-	var $r_delim = '}';
-	var $object;
+	/**
+	 * Left delimiter character for pseudo vars
+	 *
+	 * @var string
+	 */
+	public $l_delim = '{';
 
 	/**
-	 *  Parse a template
+	 * Right delimiter character for pseudo vars
+	 *
+	 * @var string
+	 */
+	public $r_delim = '}';
+
+	/**
+	 * Reference to CodeIgniter instance
+	 *
+	 * @var object
+	 */
+	protected $CI;
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		$this->CI =& get_instance();
+		log_message('info', 'Parser Class Initialized');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template view,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @param	bool
@@ -56,8 +97,7 @@ class CI_Parser {
 	 */
 	public function parse($template, $data, $return = FALSE)
 	{
-		$CI =& get_instance();
-		$template = $CI->load->view($template, $data, TRUE);
+		$template = $this->CI->load->view($template, $data, TRUE);
 
 		return $this->_parse($template, $data, $return);
 	}
@@ -65,18 +105,17 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a String
+	 * Parse a String
 	 *
 	 * Parses pseudo-variables contained in the specified string,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @param	bool
 	 * @return	string
 	 */
-	function parse_string($template, $data, $return = FALSE)
+	public function parse_string($template, $data, $return = FALSE)
 	{
 		return $this->_parse($template, $data, $return);
 	}
@@ -84,40 +123,40 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a template
+	 * Parse a template
 	 *
 	 * Parses pseudo-variables contained in the specified template,
 	 * replacing them with the data in the second param
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @param	bool
 	 * @return	string
 	 */
-	function _parse($template, $data, $return = FALSE)
+	protected function _parse($template, $data, $return = FALSE)
 	{
-		if ($template == '')
+		if ($template === '')
 		{
 			return FALSE;
 		}
 
+		$replace = array();
 		foreach ($data as $key => $val)
 		{
-			if (is_array($val))
-			{
-				$template = $this->_parse_pair($key, $val, $template);
-			}
-			else
-			{
-				$template = $this->_parse_single($key, (string)$val, $template);
-			}
+			$replace = array_merge(
+				$replace,
+				is_array($val)
+					? $this->_parse_pair($key, $val, $template)
+					: $this->_parse_single($key, (string) $val, $template)
+			);
 		}
 
-		if ($return == FALSE)
+		unset($data);
+		$template = strtr($template, $replace);
+
+		if ($return === FALSE)
 		{
-			$CI =& get_instance();
-			$CI->output->append_output($template);
+			$this->CI->output->append_output($template);
 		}
 
 		return $template;
@@ -126,14 +165,13 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Set the left/right variable delimiters
+	 * Set the left/right variable delimiters
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	string
 	 * @return	void
 	 */
-	function set_delimiters($l = '{', $r = '}')
+	public function set_delimiters($l = '{', $r = '}')
 	{
 		$this->l_delim = $l;
 		$this->r_delim = $r;
@@ -142,83 +180,69 @@ class CI_Parser {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a single key/value
+	 * Parse a single key/value
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	string
 	 * @param	string
 	 * @return	string
 	 */
-	function _parse_single($key, $val, $string)
+	protected function _parse_single($key, $val, $string)
 	{
-		return str_replace($this->l_delim.$key.$this->r_delim, $val, $string);
+		return array($this->l_delim.$key.$this->r_delim => (string) $val);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Parse a tag pair
+	 * Parse a tag pair
 	 *
-	 * Parses tag pairs:  {some_tag} string... {/some_tag}
+	 * Parses tag pairs: {some_tag} string... {/some_tag}
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	array
 	 * @param	string
 	 * @return	string
 	 */
-	function _parse_pair($variable, $data, $string)
+	protected function _parse_pair($variable, $data, $string)
 	{
-		if (FALSE === ($match = $this->_match_pair($string, $variable)))
-		{
-			return $string;
-		}
+		$replace = array();
+		preg_match_all(
+			'#'.preg_quote($this->l_delim.$variable.$this->r_delim).'(.+?)'.preg_quote($this->l_delim.'/'.$variable.$this->r_delim).'#s',
+			$string,
+			$matches,
+			PREG_SET_ORDER
+		);
 
-		$str = '';
-		foreach ($data as $row)
+		foreach ($matches as $match)
 		{
-			$temp = $match['1'];
-			foreach ($row as $key => $val)
+			$str = '';
+			foreach ($data as $row)
 			{
-				if ( ! is_array($val))
+				$temp = array();
+				foreach ($row as $key => $val)
 				{
-					$temp = $this->_parse_single($key, $val, $temp);
+					if (is_array($val))
+					{
+						$pair = $this->_parse_pair($key, $val, $match[1]);
+						if ( ! empty($pair))
+						{
+							$temp = array_merge($temp, $pair);
+						}
+
+						continue;
+					}
+
+					$temp[$this->l_delim.$key.$this->r_delim] = $val;
 				}
-				else
-				{
-					$temp = $this->_parse_pair($key, $val, $temp);
-				}
+
+				$str .= strtr($match[1], $temp);
 			}
 
-			$str .= $temp;
+			$replace[$match[0]] = $str;
 		}
 
-		return str_replace($match['0'], $str, $string);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 *  Matches a variable pair
-	 *
-	 * @access	private
-	 * @param	string
-	 * @param	string
-	 * @return	mixed
-	 */
-	function _match_pair($string, $variable)
-	{
-		if ( ! preg_match("|" . preg_quote($this->l_delim) . $variable . preg_quote($this->r_delim) . "(.+?)". preg_quote($this->l_delim) . '/' . $variable . preg_quote($this->r_delim) . "|s", $string, $match))
-		{
-			return FALSE;
-		}
-
-		return $match;
+		return $replace;
 	}
 
 }
-// END Parser Class
-
-/* End of file Parser.php */
-/* Location: ./system/libraries/Parser.php */

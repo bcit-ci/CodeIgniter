@@ -1,9 +1,9 @@
 ##################
-The Database Class
+Database Reference
 ##################
 
 CodeIgniter comes with a full-featured and very fast abstracted database
-class that supports both traditional structures and Active Record
+class that supports both traditional structures and Query Builder
 patterns. The database functions offer clear, simple syntax.
 
 .. toctree::
@@ -15,11 +15,11 @@ patterns. The database functions offer clear, simple syntax.
 	Running Queries <queries>
 	Generating Query Results <results>
 	Query Helper Functions <helpers>
-	Active Record Class <active_record>
+	Query Builder Class <query_builder>
 	Transactions <transactions>
-	Table MetaData <table_data>
-	Field MetaData <fields>
+	Getting MetaData <metadata>
 	Custom Function Calls <call_function>
 	Query Caching <caching>
 	Database Manipulation with Database Forge <forge>
 	Database Utilities Class <utilities>
+	Database Driver Reference <db_driver_reference>

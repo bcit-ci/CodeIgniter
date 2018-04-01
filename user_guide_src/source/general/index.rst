@@ -20,6 +20,7 @@ General Topics
 	hooks
 	autoloader
 	common_functions
+	compatibility_functions
 	routing
 	errors
 	Caching <caching>

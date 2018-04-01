@@ -1,31 +1,41 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
- * 
- * Licensed under the Open Software License version 3.0
- * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * This content is released under the MIT License (MIT)
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2006 - 2011, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Driver Library Class
@@ -41,70 +51,147 @@
  */
 class CI_Driver_Library {
 
-	protected $valid_drivers	= array();
-	protected static $lib_name;
+	/**
+	 * Array of drivers that are available to use with the driver class
+	 *
+	 * @var array
+	 */
+	protected $valid_drivers = array();
 
-	// The first time a child is used it won't exist, so we instantiate it
-	// subsequents calls will go straight to the proper child.
-	function __get($child)
+	/**
+	 * Name of the current class - usually the driver class
+	 *
+	 * @var string
+	 */
+	protected $lib_name;
+
+	/**
+	 * Get magic method
+	 *
+	 * The first time a child is used it won't exist, so we instantiate it
+	 * subsequents calls will go straight to the proper child.
+	 *
+	 * @param	string	Child class name
+	 * @return	object	Child class
+	 */
+	public function __get($child)
 	{
-		if ( ! isset($this->lib_name))
-		{
-			$this->lib_name = get_class($this);
-		}
-
-		// The class will be prefixed with the parent lib
-		$child_class = $this->lib_name.'_'.$child;
-	
-		// Remove the CI_ prefix and lowercase
-		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
-		$driver_name = strtolower(str_replace('CI_', '', $child_class));
-		
-		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
-		{
-			// check and see if the driver is in a separate file
-			if ( ! class_exists($child_class))
-			{
-				// check application path first
-				foreach (get_instance()->load->get_package_paths(TRUE) as $path)
-				{
-					// loves me some nesting!
-					foreach (array(ucfirst($driver_name), $driver_name) as $class)
-					{
-						$filepath = $path.'libraries/'.$lib_name.'/drivers/'.$class.'.php';
-
-						if (file_exists($filepath))
-						{
-							include_once $filepath;
-							break;
-						}
-					}
-				}
-
-				// it's a valid driver, but the file simply can't be found
-				if ( ! class_exists($child_class))
-				{
-					log_message('error', "Unable to load the requested driver: ".$child_class);
-					show_error("Unable to load the requested driver: ".$child_class);
-				}
-			}
-
-			$obj = new $child_class;
-			$obj->decorate($this);
-			$this->$child = $obj;
-			return $this->$child;
-		}
-
-		// The requested driver isn't valid!
-		log_message('error', "Invalid driver requested: ".$child_class);
-		show_error("Invalid driver requested: ".$child_class);
+		// Try to load the driver
+		return $this->load_driver($child);
 	}
 
-	// --------------------------------------------------------------------
+	/**
+	 * Load driver
+	 *
+	 * Separate load_driver call to support explicit driver load by library or user
+	 *
+	 * @param	string	Driver name (w/o parent prefix)
+	 * @return	object	Child class
+	 */
+	public function load_driver($child)
+	{
+		// Get CodeIgniter instance and subclass prefix
+		$prefix = config_item('subclass_prefix');
+
+		if ( ! isset($this->lib_name))
+		{
+			// Get library name without any prefix
+			$this->lib_name = str_replace(array('CI_', $prefix), '', get_class($this));
+		}
+
+		// The child will be prefixed with the parent lib
+		$child_name = $this->lib_name.'_'.$child;
+
+		// See if requested child is a valid driver
+		if ( ! in_array($child, $this->valid_drivers))
+		{
+			// The requested driver isn't valid!
+			$msg = 'Invalid driver requested: '.$child_name;
+			log_message('error', $msg);
+			show_error($msg);
+		}
+
+		// Get package paths and filename case variations to search
+		$CI = get_instance();
+		$paths = $CI->load->get_package_paths(TRUE);
+
+		// Is there an extension?
+		$class_name = $prefix.$child_name;
+		$found = class_exists($class_name, FALSE);
+		if ( ! $found)
+		{
+			// Check for subclass file
+			foreach ($paths as $path)
+			{
+				// Does the file exist?
+				$file = $path.'libraries/'.$this->lib_name.'/drivers/'.$prefix.$child_name.'.php';
+				if (file_exists($file))
+				{
+					// Yes - require base class from BASEPATH
+					$basepath = BASEPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
+					if ( ! file_exists($basepath))
+					{
+						$msg = 'Unable to load the requested class: CI_'.$child_name;
+						log_message('error', $msg);
+						show_error($msg);
+					}
+
+					// Include both sources and mark found
+					include_once($basepath);
+					include_once($file);
+					$found = TRUE;
+					break;
+				}
+			}
+		}
+
+		// Do we need to search for the class?
+		if ( ! $found)
+		{
+			// Use standard class name
+			$class_name = 'CI_'.$child_name;
+			if ( ! class_exists($class_name, FALSE))
+			{
+				// Check package paths
+				foreach ($paths as $path)
+				{
+					// Does the file exist?
+					$file = $path.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
+					if (file_exists($file))
+					{
+						// Include source
+						include_once($file);
+						break;
+					}
+				}
+			}
+		}
+
+		// Did we finally find the class?
+		if ( ! class_exists($class_name, FALSE))
+		{
+			if (class_exists($child_name, FALSE))
+			{
+				$class_name = $child_name;
+			}
+			else
+			{
+				$msg = 'Unable to load the requested driver: '.$class_name;
+				log_message('error', $msg);
+				show_error($msg);
+			}
+		}
+
+		// Instantiate, decorate and add child
+		$obj = new $class_name();
+		$obj->decorate($this);
+		$this->$child = $obj;
+		return $this->$child;
+	}
 
 }
-// END CI_Driver_Library CLASS
 
+// --------------------------------------------------------------------------
 
 /**
  * CodeIgniter Driver Class
@@ -119,12 +206,35 @@ class CI_Driver_Library {
  * @link
  */
 class CI_Driver {
-	protected $parent;
 
-	private $methods = array();
-	private $properties = array();
+	/**
+	 * Instance of the parent class
+	 *
+	 * @var object
+	 */
+	protected $_parent;
 
-	private static $reflections = array();
+	/**
+	 * List of methods in the parent class
+	 *
+	 * @var array
+	 */
+	protected $_methods = array();
+
+	/**
+	 * List of properties in the parent class
+	 *
+	 * @var array
+	 */
+	protected $_properties = array();
+
+	/**
+	 * Array of methods and properties for the parent class(es)
+	 *
+	 * @static
+	 * @var	array
+	 */
+	protected static $_reflections = array();
 
 	/**
 	 * Decorate
@@ -136,14 +246,14 @@ class CI_Driver {
 	 */
 	public function decorate($parent)
 	{
-		$this->parent = $parent;
+		$this->_parent = $parent;
 
 		// Lock down attributes to what is defined in the class
 		// and speed up references in magic methods
 
 		$class_name = get_class($parent);
 
-		if ( ! isset(self::$reflections[$class_name]))
+		if ( ! isset(self::$_reflections[$class_name]))
 		{
 			$r = new ReflectionObject($parent);
 
@@ -151,7 +261,7 @@ class CI_Driver {
 			{
 				if ($method->isPublic())
 				{
-					$this->methods[] = $method->getName();
+					$this->_methods[] = $method->getName();
 				}
 			}
 
@@ -159,15 +269,15 @@ class CI_Driver {
 			{
 				if ($prop->isPublic())
 				{
-					$this->properties[] = $prop->getName();
+					$this->_properties[] = $prop->getName();
 				}
 			}
 
-			self::$reflections[$class_name] = array($this->methods, $this->properties);
+			self::$_reflections[$class_name] = array($this->_methods, $this->_properties);
 		}
 		else
 		{
-			list($this->methods, $this->properties) = self::$reflections[$class_name];
+			list($this->_methods, $this->_properties) = self::$_reflections[$class_name];
 		}
 	}
 
@@ -178,21 +288,18 @@ class CI_Driver {
 	 *
 	 * Handles access to the parent driver library's methods
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @return	mixed
 	 */
 	public function __call($method, $args = array())
 	{
-		if (in_array($method, $this->methods))
+		if (in_array($method, $this->_methods))
 		{
-			return call_user_func_array(array($this->parent, $method), $args);
+			return call_user_func_array(array($this->_parent, $method), $args);
 		}
 
-		$trace = debug_backtrace();
-		_exception_handler(E_ERROR, "No such method '{$method}'", $trace[1]['file'], $trace[1]['line']);
-		exit;
+		throw new BadMethodCallException('No such method: '.$method.'()');
 	}
 
 	// --------------------------------------------------------------------
@@ -207,9 +314,9 @@ class CI_Driver {
 	 */
 	public function __get($var)
 	{
-		if (in_array($var, $this->properties))
+		if (in_array($var, $this->_properties))
 		{
-			return $this->parent->$var;
+			return $this->_parent->$var;
 		}
 	}
 
@@ -226,16 +333,10 @@ class CI_Driver {
 	 */
 	public function __set($var, $val)
 	{
-		if (in_array($var, $this->properties))
+		if (in_array($var, $this->_properties))
 		{
-			$this->parent->$var = $val;
+			$this->_parent->$var = $val;
 		}
 	}
 
-	// --------------------------------------------------------------------
-
 }
-// END CI_Driver CLASS
-
-/* End of file Driver.php */
-/* Location: ./system/libraries/Driver.php */

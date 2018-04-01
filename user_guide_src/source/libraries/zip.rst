@@ -2,9 +2,19 @@
 Zip Encoding Class
 ##################
 
-CodeIgniter's Zip Encoding Class classes permit you to create Zip
-archives. Archives can be downloaded to your desktop or saved to a
-directory.
+CodeIgniter's Zip Encoding Class permits you to create Zip archives.
+Archives can be downloaded to your desktop or saved to a directory.
+
+.. contents::
+  :local:
+
+.. raw:: html
+
+  <div class="custom-index container"></div>
+
+****************************
+Using the Zip Encoding Class
+****************************
 
 Initializing the Class
 ======================
@@ -14,7 +24,9 @@ your controller using the $this->load->library function::
 
 	$this->load->library('zip');
 
-Once loaded, the Zip library object will be available using: $this->zip
+Once loaded, the Zip library object will be available using::
+
+	$this->zip
 
 Usage Example
 =============
@@ -30,179 +42,202 @@ your server, and download it to your desktop.
 	$this->zip->add_data($name, $data);
 
 	// Write the zip file to a folder on your server. Name it "my_backup.zip"
-	$this->zip->archive('/path/to/directory/my_backup.zip'); 
+	$this->zip->archive('/path/to/directory/my_backup.zip');
 
 	// Download the file to your desktop. Name it "my_backup.zip"
 	$this->zip->download('my_backup.zip');
 
-******************
-Function Reference
-******************
+***************
+Class Reference
+***************
 
-$this->zip->add_data()
-=======================
+.. php:class:: CI_Zip
 
-Permits you to add data to the Zip archive. The first parameter must
-contain the name you would like given to the file, the second parameter
-must contain the file data as a string::
+	.. attribute:: $compression_level = 2
 
-	$name = 'my_bio.txt';
-	$data = 'I was born in an elevator...';
+		The compression level to use.
 
-	$this->zip->add_data($name, $data);
+		It can range from 0 to 9, with 9 being the highest and 0 effectively disabling compression::
 
-You are allowed multiple calls to this function in order to add several
-files to your archive. Example::
+			$this->zip->compression_level = 0;
 
-	$name = 'mydata1.txt';
-	$data = 'A Data String!';
-	$this->zip->add_data($name, $data);
+	.. php:method:: add_data($filepath[, $data = NULL])
 
-	$name = 'mydata2.txt';
-	$data = 'Another Data String!';
-	$this->zip->add_data($name, $data);
+		:param	mixed	$filepath: A single file path or an array of file => data pairs
+		:param	array	$data: File contents (ignored if $filepath is an array)
+		:rtype:	void
 
-Or you can pass multiple files using an array::
+		Adds data to the Zip archive. Can work both in single and multiple files mode.
 
-	$data = array(
-	                'mydata1.txt' => 'A Data String!',
-	                'mydata2.txt' => 'Another Data String!'
-	            );
+		When adding a single file, the first parameter must contain the name you would
+		like given to the file and the second must contain the file contents::
 
-	$this->zip->add_data($data);
+			$name = 'mydata1.txt';
+			$data = 'A Data String!';
+			$this->zip->add_data($name, $data);
 
-	$this->zip->download('my_backup.zip');
+			$name = 'mydata2.txt';
+			$data = 'Another Data String!';
+			$this->zip->add_data($name, $data);
 
-If you would like your compressed data organized into sub-folders,
-include the path as part of the filename::
+		When adding multiple files, the first parameter must contain *file => contents* pairs
+		and the second parameter is ignored::
 
-	$name = 'personal/my_bio.txt';
-	$data = 'I was born in an elevator...';
+			$data = array(
+				'mydata1.txt' => 'A Data String!',
+				'mydata2.txt' => 'Another Data String!'
+			);
 
-	$this->zip->add_data($name, $data);
+			$this->zip->add_data($data);
 
-The above example will place my_bio.txt inside a folder called
-personal.
+		If you would like your compressed data organized into sub-directories, simply include
+		the path as part of the filename(s)::
 
-$this->zip->add_dir()
-======================
+			$name = 'personal/my_bio.txt';
+			$data = 'I was born in an elevator...';
 
-Permits you to add a directory. Usually this function is unnecessary
-since you can place your data into folders when using
-$this->zip->add_data(), but if you would like to create an empty folder
-you can do so. Example::
+			$this->zip->add_data($name, $data);
 
-	$this->zip->add_dir('myfolder'); // Creates a folder called "myfolder"
+		The above example will place my_bio.txt inside a folder called personal.
 
-$this->zip->read_file()
-========================
+	.. php:method:: add_dir($directory)
 
-Permits you to compress a file that already exists somewhere on your
-server. Supply a file path and the zip class will read it and add it to
-the archive::
+		:param	mixed	$directory: Directory name string or an array of multiple directories
+		:rtype:	void
 
-	$path = '/path/to/photo.jpg';
+		Permits you to add a directory. Usually this method is unnecessary since you can place
+		your data into directories when using ``$this->zip->add_data()``, but if you would like
+		to create an empty directory you can do so::
 
-	$this->zip->read_file($path); 
+			$this->zip->add_dir('myfolder'); // Creates a directory called "myfolder"
 
-	// Download the file to your desktop. Name it "my_backup.zip"
-	$this->zip->download('my_backup.zip');
+	.. php:method:: read_file($path[, $archive_filepath = FALSE])
 
-If you would like the Zip archive to maintain the directory structure of
-the file in it, pass TRUE (boolean) in the second parameter. Example::
+		:param	string	$path: Path to file
+		:param	mixed	$archive_filepath: New file name/path (string) or (boolean) whether to maintain the original filepath
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-	$path = '/path/to/photo.jpg';
+		Permits you to compress a file that already exists somewhere on your server.
+		Supply a file path and the zip class will read it and add it to the archive::
 
-	$this->zip->read_file($path, TRUE); 
+			$path = '/path/to/photo.jpg';
 
-	// Download the file to your desktop. Name it "my_backup.zip"
-	$this->zip->download('my_backup.zip');
+			$this->zip->read_file($path);
 
-In the above example, photo.jpg will be placed inside two folders:
-path/to/
+			// Download the file to your desktop. Name it "my_backup.zip"
+			$this->zip->download('my_backup.zip');
 
-$this->zip->read_dir()
-=======================
+		If you would like the Zip archive to maintain the directory structure of
+		the file in it, pass TRUE (boolean) in the second parameter. Example::
 
-Permits you to compress a folder (and its contents) that already exists
-somewhere on your server. Supply a file path to the directory and the
-zip class will recursively read it and recreate it as a Zip archive. All
-files contained within the supplied path will be encoded, as will any
-sub-folders contained within it. Example::
+			$path = '/path/to/photo.jpg';
 
-	$path = '/path/to/your/directory/';
+			$this->zip->read_file($path, TRUE);
 
-	$this->zip->read_dir($path); 
+			// Download the file to your desktop. Name it "my_backup.zip"
+			$this->zip->download('my_backup.zip');
 
-	// Download the file to your desktop. Name it "my_backup.zip"
-	$this->zip->download('my_backup.zip');
+		In the above example, photo.jpg will be placed into the *path/to/* directory.
 
-By default the Zip archive will place all directories listed in the
-first parameter inside the zip. If you want the tree preceding the
-target folder to be ignored you can pass FALSE (boolean) in the second
-parameter. Example::
+		You can also specify a new name (path included) for the added file on the fly::
 
-	$path = '/path/to/your/directory/';
+			$path = '/path/to/photo.jpg';
+			$new_path = '/new/path/some_photo.jpg';
 
-	$this->zip->read_dir($path, FALSE);
+			$this->zip->read_file($path, $new_path);
 
-This will create a ZIP with the folder "directory" inside, then all
-sub-folders stored correctly inside that, but will not include the
-folders /path/to/your.
+			// Download ZIP archive containing /new/path/some_photo.jpg
+			$this->zip->download('my_archive.zip');
 
-$this->zip->archive()
-=====================
+	.. php:method:: read_dir($path[, $preserve_filepath = TRUE[, $root_path = NULL]])
 
-Writes the Zip-encoded file to a directory on your server. Submit a
-valid server path ending in the file name. Make sure the directory is
-writable (666 or 777 is usually OK). Example::
+		:param	string	$path: Path to directory
+		:param	bool	$preserve_filepath: Whether to maintain the original path
+		:param	string	$root_path: Part of the path to exclude from the archive directory
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-	$this->zip->archive('/path/to/folder/myarchive.zip'); // Creates a file named myarchive.zip
+		Permits you to compress a directory (and its contents) that already exists somewhere on your server.
+		Supply a path to the directory and the zip class will recursively read and recreate it as a Zip archive.
+		All files contained within the supplied path will be encoded, as will any sub-directories contained within it. Example::
 
-$this->zip->download()
-======================
+			$path = '/path/to/your/directory/';
 
-Causes the Zip file to be downloaded from your server. The function must
-be passed the name you would like the zip file called. Example::
+			$this->zip->read_dir($path);
 
-	$this->zip->download('latest_stuff.zip'); // File will be named "latest_stuff.zip"
+			// Download the file to your desktop. Name it "my_backup.zip"
+			$this->zip->download('my_backup.zip');
 
-.. note:: Do not display any data in the controller in which you call
-	this function since it sends various server headers that cause the
-	download to happen and the file to be treated as binary.
+		By default the Zip archive will place all directories listed in the first parameter
+		inside the zip. If you want the tree preceding the target directory to be ignored,
+		you can pass FALSE (boolean) in the second parameter. Example::
 
-$this->zip->get_zip()
-======================
+			$path = '/path/to/your/directory/';
 
-Returns the Zip-compressed file data. Generally you will not need this
-function unless you want to do something unique with the data. Example::
+			$this->zip->read_dir($path, FALSE);
 
-	$name = 'my_bio.txt';
-	$data = 'I was born in an elevator...';
+		This will create a ZIP with a directory named "directory" inside, then all sub-directories
+		stored correctly inside that, but will not include the */path/to/your* part of the path.
 
-	$this->zip->add_data($name, $data);
+	.. php:method:: archive($filepath)
 
-	$zip_file = $this->zip->get_zip();
+		:param	string	$filepath: Path to target zip archive
+		:returns:	TRUE on success, FALSE on failure
+		:rtype:	bool
 
-$this->zip->clear_data()
-=========================
+		Writes the Zip-encoded file to a directory on your server. Submit a valid server path
+		ending in the file name. Make sure the directory is writable (755 is usually OK).
+		Example::
 
-The Zip class caches your zip data so that it doesn't need to recompile
-the Zip archive for each function you use above. If, however, you need
-to create multiple Zips, each with different data, you can clear the
-cache between calls. Example::
+			$this->zip->archive('/path/to/folder/myarchive.zip'); // Creates a file named myarchive.zip
 
-	$name = 'my_bio.txt';
-	$data = 'I was born in an elevator...';
+	.. php:method:: download($filename = 'backup.zip')
 
-	$this->zip->add_data($name, $data);
-	$zip_file = $this->zip->get_zip();
+		:param	string	$filename: Archive file name
+		:rtype:	void
 
-	$this->zip->clear_data(); 
+		Causes the Zip file to be downloaded from your server.
+		You must pass the name you would like the zip file called. Example::
 
-	$name = 'photo.jpg';
-	$this->zip->read_file("/path/to/photo.jpg"); // Read the file's contents
+			$this->zip->download('latest_stuff.zip'); // File will be named "latest_stuff.zip"
 
+		.. note:: Do not display any data in the controller in which you call
+			this method since it sends various server headers that cause the
+			download to happen and the file to be treated as binary.
 
-	$this->zip->download('myphotos.zip');
+	.. php:method:: get_zip()
 
+		:returns:	Zip file content
+		:rtype:	string
+
+		Returns the Zip-compressed file data. Generally you will not need this method unless you
+		want to do something unique with the data. Example::
+
+			$name = 'my_bio.txt';
+			$data = 'I was born in an elevator...';
+
+			$this->zip->add_data($name, $data);
+
+			$zip_file = $this->zip->get_zip();
+
+	.. php:method:: clear_data()
+
+		:rtype:	void
+
+		The Zip class caches your zip data so that it doesn't need to recompile the Zip archive
+		for each method you use above. If, however, you need to create multiple Zip archives,
+		each with different data, you can clear the cache between calls. Example::
+
+			$name = 'my_bio.txt';
+			$data = 'I was born in an elevator...';
+
+			$this->zip->add_data($name, $data);
+			$zip_file = $this->zip->get_zip();
+
+			$this->zip->clear_data();
+
+			$name = 'photo.jpg';
+			$this->zip->read_file("/path/to/photo.jpg"); // Read the file's contents
+
+			$this->zip->download('myphotos.zip');

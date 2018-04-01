@@ -1,31 +1,41 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP
  *
- * NOTICE OF LICENSE
- * 
- * Licensed under the Open Software License version 3.0
- * 
- * This source file is subject to the Open Software License (OSL 3.0) that is
- * bundled with this package in the files license.txt / license.rst.  It is
- * also available through the world wide web at this URL:
- * http://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * This content is released under the MIT License (MIT)
  *
- * @package		CodeIgniter
- * @author		EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc. (http://ellislab.com/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Exceptions Class
@@ -34,52 +44,46 @@
  * @subpackage	Libraries
  * @category	Exceptions
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/exceptions.html
+ * @link		https://codeigniter.com/user_guide/libraries/exceptions.html
  */
 class CI_Exceptions {
-	var $action;
-	var $severity;
-	var $message;
-	var $filename;
-	var $line;
 
 	/**
 	 * Nesting level of the output buffering mechanism
 	 *
-	 * @var int
-	 * @access public
+	 * @var	int
 	 */
-	var $ob_level;
+	public $ob_level;
 
 	/**
-	 * List if available error levels
+	 * List of available error levels
 	 *
-	 * @var array
-	 * @access public
+	 * @var	array
 	 */
-	var $levels = array(
-						E_ERROR				=>	'Error',
-						E_WARNING			=>	'Warning',
-						E_PARSE				=>	'Parsing Error',
-						E_NOTICE			=>	'Notice',
-						E_CORE_ERROR		=>	'Core Error',
-						E_CORE_WARNING		=>	'Core Warning',
-						E_COMPILE_ERROR		=>	'Compile Error',
-						E_COMPILE_WARNING	=>	'Compile Warning',
-						E_USER_ERROR		=>	'User Error',
-						E_USER_WARNING		=>	'User Warning',
-						E_USER_NOTICE		=>	'User Notice',
-						E_STRICT			=>	'Runtime Notice'
-					);
-
+	public $levels = array(
+		E_ERROR			=>	'Error',
+		E_WARNING		=>	'Warning',
+		E_PARSE			=>	'Parsing Error',
+		E_NOTICE		=>	'Notice',
+		E_CORE_ERROR		=>	'Core Error',
+		E_CORE_WARNING		=>	'Core Warning',
+		E_COMPILE_ERROR		=>	'Compile Error',
+		E_COMPILE_WARNING	=>	'Compile Warning',
+		E_USER_ERROR		=>	'User Error',
+		E_USER_WARNING		=>	'User Warning',
+		E_USER_NOTICE		=>	'User Notice',
+		E_STRICT		=>	'Runtime Notice'
+	);
 
 	/**
-	 * Constructor
+	 * Class constructor
+	 *
+	 * @return	void
 	 */
 	public function __construct()
 	{
 		$this->ob_level = ob_get_level();
-		// Note:  Do not log messages from this constructor.
+		// Note: Do not log messages from this constructor.
 	}
 
 	// --------------------------------------------------------------------
@@ -87,45 +91,52 @@ class CI_Exceptions {
 	/**
 	 * Exception Logger
 	 *
-	 * This function logs PHP generated error messages
+	 * Logs PHP generated error messages
 	 *
-	 * @access	private
-	 * @param	string	the error severity
-	 * @param	string	the error string
-	 * @param	string	the error filepath
-	 * @param	string	the error line number
-	 * @return	string
+	 * @param	int	$severity	Log level
+	 * @param	string	$message	Error message
+	 * @param	string	$filepath	File path
+	 * @param	int	$line		Line number
+	 * @return	void
 	 */
-	function log_exception($severity, $message, $filepath, $line)
+	public function log_exception($severity, $message, $filepath, $line)
 	{
-		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
-
-		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
+		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
+		log_message('error', 'Severity: '.$severity.' --> '.$message.' '.$filepath.' '.$line);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * 404 Page Not Found Handler
+	 * 404 Error Handler
 	 *
-	 * @access	private
-	 * @param	string	the page
-	 * @param 	bool	log error yes/no
-	 * @return	string
+	 * @uses	CI_Exceptions::show_error()
+	 *
+	 * @param	string	$page		Page URI
+	 * @param 	bool	$log_error	Whether to log the error
+	 * @return	void
 	 */
-	function show_404($page = '', $log_error = TRUE)
+	public function show_404($page = '', $log_error = TRUE)
 	{
-		$heading = "404 Page Not Found";
-		$message = "The page you requested was not found.";
+		if (is_cli())
+		{
+			$heading = 'Not Found';
+			$message = 'The controller/method pair you requested was not found.';
+		}
+		else
+		{
+			$heading = '404 Page Not Found';
+			$message = 'The page you requested was not found.';
+		}
 
 		// By default we log this, but allow a dev to skip it
 		if ($log_error)
 		{
-			log_message('error', '404 Page Not Found --> '.$page);
+			log_message('error', $heading.': '.$page);
 		}
 
 		echo $this->show_error($heading, $message, 'error_404', 404);
-		exit;
+		exit(4); // EXIT_UNKNOWN_FILE
 	}
 
 	// --------------------------------------------------------------------
@@ -133,29 +144,42 @@ class CI_Exceptions {
 	/**
 	 * General Error Page
 	 *
-	 * This function takes an error message as input
-	 * (either as a string or an array) and displays
-	 * it using the specified template.
+	 * Takes an error message as input (either as a string or an array)
+	 * and displays it using the specified template.
 	 *
-	 * @access	private
-	 * @param	string	the heading
-	 * @param	string	the message
-	 * @param	string	the template name
-	 * @param 	int		the status code
-	 * @return	string
+	 * @param	string		$heading	Page heading
+	 * @param	string|string[]	$message	Error message
+	 * @param	string		$template	Template name
+	 * @param 	int		$status_code	(default: 500)
+	 *
+	 * @return	string	Error page output
 	 */
-	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		set_status_header($status_code);
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
 
-		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+		if (is_cli())
+		{
+			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
+			$template = 'cli'.DIRECTORY_SEPARATOR.$template;
+		}
+		else
+		{
+			set_status_header($status_code);
+			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
+			$template = 'html'.DIRECTORY_SEPARATOR.$template;
+		}
 
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/'.$template.'.php');
+		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -163,27 +187,77 @@ class CI_Exceptions {
 
 	// --------------------------------------------------------------------
 
+	public function show_exception($exception)
+	{
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
+
+		$message = $exception->getMessage();
+		if (empty($message))
+		{
+			$message = '(null)';
+		}
+
+		if (is_cli())
+		{
+			$templates_path .= 'cli'.DIRECTORY_SEPARATOR;
+		}
+		else
+		{
+			$templates_path .= 'html'.DIRECTORY_SEPARATOR;
+		}
+
+		if (ob_get_level() > $this->ob_level + 1)
+		{
+			ob_end_flush();
+		}
+
+		ob_start();
+		include($templates_path.'error_exception.php');
+		$buffer = ob_get_contents();
+		ob_end_clean();
+		echo $buffer;
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * Native PHP error handler
 	 *
-	 * @access	private
-	 * @param	string	the error severity
-	 * @param	string	the error string
-	 * @param	string	the error filepath
-	 * @param	string	the error line number
-	 * @return	string
+	 * @param	int	$severity	Error level
+	 * @param	string	$message	Error message
+	 * @param	string	$filepath	File path
+	 * @param	int	$line		Line number
+	 * @return	void
 	 */
-	function show_php_error($severity, $message, $filepath, $line)
+	public function show_php_error($severity, $message, $filepath, $line)
 	{
-		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
-
-		$filepath = str_replace("\\", "/", $filepath);
-
-		// For safety reasons we do not show the full file path
-		if (FALSE !== strpos($filepath, '/'))
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
 		{
-			$x = explode('/', $filepath);
-			$filepath = $x[count($x)-2].'/'.end($x);
+			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
+
+		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
+
+		// For safety reasons we don't show the full file path in non-CLI requests
+		if ( ! is_cli())
+		{
+			$filepath = str_replace('\\', '/', $filepath);
+			if (FALSE !== strpos($filepath, '/'))
+			{
+				$x = explode('/', $filepath);
+				$filepath = $x[count($x)-2].'/'.end($x);
+			}
+
+			$template = 'html'.DIRECTORY_SEPARATOR.'error_php';
+		}
+		else
+		{
+			$template = 'cli'.DIRECTORY_SEPARATOR.'error_php';
 		}
 
 		if (ob_get_level() > $this->ob_level + 1)
@@ -191,15 +265,10 @@ class CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/error_php.php');
+		include($templates_path.$template.'.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
 	}
 
-
 }
-// END Exceptions Class
-
-/* End of file Exceptions.php */
-/* Location: ./system/core/Exceptions.php */
