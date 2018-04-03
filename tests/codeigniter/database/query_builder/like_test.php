@@ -103,4 +103,27 @@ class Like_test extends CI_TestCase {
 		$this->assertCount(1, $tabs);
 	}
 
+	/**
+	 * GitHub issue #5462
+	 *
+	 * @see ./mocks/schema/skeleton.php
+	 *
+	 * @dataProvider like_set_side_provider
+	 */
+	public function test_like_set_side($str, $side, $expected_name)
+	{
+		$actual = $this->db->like('name', $str, $side)->get('job')->result_array();
+		$this->assertCount(1, $actual);
+		$this->assertEquals($expected_name, $actual[0]['name']);
+	}
+
+	public function like_set_side_provider()
+	{
+		return [
+			['Developer', 'none', 'Developer'],
+			['tician', 'before', 'Politician'],
+			['Accou', 'after', 'Accountant'],
+			['usicia', 'both', 'Musician'],
+		];
+	}
 }
