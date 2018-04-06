@@ -960,6 +960,9 @@ class CI_Loader {
 		include($_ci_path); // include() vs include_once() allows for multiple views with the same name
 		log_message('info', 'File loaded: '.$_ci_path);
 
+		// Reset cached variables
+		$this->_ci_cached_vars = array();
+
 		// Return the file data if requested
 		if ($_ci_return === TRUE)
 		{
