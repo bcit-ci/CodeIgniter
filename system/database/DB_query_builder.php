@@ -1042,7 +1042,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$v = "'{$v}'";
 					break;
 				case 'before':
-					$v = "%'{$v}'";
+					$v = "'%{$v}'";
 					break;
 				case 'after':
 					$v = "'{$v}%'";
