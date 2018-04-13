@@ -8,6 +8,11 @@ Version 3.1.9
 Release Date: Not Released
 
 
+Bug fixes for 3.1.9
+-------------------
+
+-  Fixed a regression (#5448) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) didn't apply *dbprefix* or identifier escaping.
+
 Version 3.1.8
 =============
 
