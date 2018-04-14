@@ -119,11 +119,11 @@ class Like_test extends CI_TestCase {
 
 	public function like_set_side_provider()
 	{
-		return [
-			['Developer', 'none', 'Developer'],
-			['tician', 'before', 'Politician'],
-			['Accou', 'after', 'Accountant'],
-			['usicia', 'both', 'Musician'],
-		];
+		return array(
+			array('Developer', 'none', 'Developer'),
+			array('tician', 'before', 'Politician'),
+			array('Accou', 'after', 'Accountant'),
+			array('usicia', 'both', 'Musician'),
+		);
 	}
 }
