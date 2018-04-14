@@ -12,6 +12,7 @@ Bug fixes for 3.1.9
 -------------------
 
 -  Fixed a regression (#5448) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) didn't apply *dbprefix* or identifier escaping.
+-  Fixed a regression (#5462) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) produced incorrect SQL syntax when used with ``'before'`` as the third parameter.
 
 Version 3.1.8
 =============
