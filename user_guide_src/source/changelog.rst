@@ -7,6 +7,9 @@ Version 3.1.9
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
 
 Bug fixes for 3.1.9
 -------------------
