@@ -7,6 +7,13 @@ Version 3.1.9
 
 Release Date: Not Released
 
+- **Security**
+
+   -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+
+-  General Changes
+
+   -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
 
 Bug fixes for 3.1.9
 -------------------
@@ -21,7 +28,6 @@ Release Date: Mar 22, 2018
 
 - **Security**
 
-   -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
    -  Updated :doc:`Security Library <libraries/security>` method ``xss_clean()`` to also filter JavaScript tag functions.
    -  Fixed a bug where :doc:`Security Library <libraries/security>` method ``xss_clean()`` didn't check for parentheses around JavaScript's ``document``.
 
