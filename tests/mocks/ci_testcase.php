@@ -24,7 +24,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function __construct($name = null, array $data = [], $dataName = '')
+	public function __construct($name = null, array $data = array(), $dataName = '')
 	{
 		parent::__construct($name, $data, $dataName);
 		$this->ci_instance = new stdClass();

@@ -1059,7 +1059,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				$v .= sprintf($this->_like_escape_str, $this->_like_escape_chr);
 			}
 
-			$qb_where = array('condition' => "{$prefix} {$k} {$not} LIKE", 'value' => $v, 'escape' => $escape);
+			$qb_where = array('condition' => "{$prefix} {$k} {$not} LIKE {$v}", 'value' => NULL, 'escape' => $escape);
 			$this->qb_where[] = $qb_where;
 			if ($this->qb_caching === TRUE)
 			{

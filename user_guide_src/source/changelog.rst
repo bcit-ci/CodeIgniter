@@ -133,6 +133,19 @@ Version 3.1.9
 
 Release Date: Not Released
 
+- **Security**
+
+   -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+
+-  General Changes
+
+   -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
+
+Bug fixes for 3.1.9
+-------------------
+
+-  Fixed a regression (#5448) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) didn't apply *dbprefix* or identifier escaping.
+-  Fixed a regression (#5462) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) produced incorrect SQL syntax when used with ``'before'`` as the third parameter.
 
 Version 3.1.8
 =============
@@ -141,7 +154,6 @@ Release Date: Mar 22, 2018
 
 - **Security**
 
-   -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
    -  Updated :doc:`Security Library <libraries/security>` method ``xss_clean()`` to also filter JavaScript tag functions.
    -  Fixed a bug where :doc:`Security Library <libraries/security>` method ``xss_clean()`` didn't check for parentheses around JavaScript's ``document``.
 
