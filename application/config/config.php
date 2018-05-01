@@ -469,3 +469,19 @@ $config['time_reference'] = 'local';
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Asset Version
+|--------------------------------------------------------------------------
+|
+| Enables addition of a version identify to the URL of static assets
+| such as CSS, JS and Images.
+|
+| Particularly useful when all your assets are cached.
+|
+| You should change this number whenever an update is made on any asset. This
+| enables the users browser to force the refresh of cached assets.
+|
+*/
+$config['asset_version']	= 1;
