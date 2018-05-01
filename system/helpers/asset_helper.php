@@ -38,7 +38,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter CAPTCHA Helper
+ * CodeIgniter Asset Helper
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
