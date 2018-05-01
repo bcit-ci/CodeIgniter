@@ -484,4 +484,4 @@ $config['proxy_ips'] = '';
 | enables the users browser to force the refresh of cached assets.
 |
 */
-$config['asset_version']	= 1;
+$config['asset_version'] = 1;
