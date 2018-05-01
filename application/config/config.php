@@ -475,7 +475,7 @@ $config['proxy_ips'] = '';
 | Asset Version
 |--------------------------------------------------------------------------
 |
-| Enables addition of a version identify to the URL of static assets
+| Enables addition of a version identifier to the URL of static assets
 | such as CSS, JS and Images.
 |
 | Particularly useful when all your assets are cached.
