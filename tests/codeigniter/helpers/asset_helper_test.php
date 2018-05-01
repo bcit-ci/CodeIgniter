@@ -20,4 +20,5 @@ class Asset_helper_test extends CI_TestCase {
 			asset_version('assets/css/bootstrap.css')
 		);
 	}
+	
 }
