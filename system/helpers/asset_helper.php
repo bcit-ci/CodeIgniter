@@ -54,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  	 * Returns the current version URL of assets.
  	 *
  	 * @param	string $uri
+   * @param	string	$protocol
  	 * @return	string
  	 */
  	function asset_version($uri = '', $protocol = NULL)
