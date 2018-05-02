@@ -38,28 +38,28 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
-* CodeIgniter Asset Helper
-*
-* @package		CodeIgniter
-* @subpackage	Helpers
-* @category	Helpers
-* @author		EllisLab Dev Team
-*/
+ * CodeIgniter Asset Helper
+ *
+ * @package		CodeIgniter
+ * @subpackage	Helpers
+ * @category	Helpers
+ * @author		EllisLab Dev Team
+ */
 
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
-if ( ! function_exists('asset_version'))
+if ( ! function_exists('uri_string'))
 {
-  /**
-  * Returns the current version URL of assets.
-  *
-  * @param	string $uri
-  * @param	string	$protocol
-  * @return	string
-  */
-  function asset_version($uri = '', $protocol = NULL)
-  {
-    $version = get_instance()->config->item('asset_version');
-    return get_instance()->config->base_url($uri, $protocol) . '?v=' . $version;
-  }
+        /**
+         * Returns the current version URL of assets.
+         *
+         * @param	string $uri
+         * @param	string	$protocol
+         * @return	string
+         */
+      	function asset_version($uri = '', $protocol = NULL)
+      	{
+      		$version = get_instance()->config->item('asset_version');
+      		return get_instance()->config->base_url($uri, $protocol) . '?v=' . $version;
+      	}
 }
