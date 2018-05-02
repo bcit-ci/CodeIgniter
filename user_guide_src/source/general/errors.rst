@@ -118,3 +118,29 @@ The following functions let you generate errors:
 		*application/config/config.php*. You might, for example,
 		only want error messages to be logged, and not the other
 		two types. If you set it to zero logging will be disabled.
+
+##################
+Exception Handling
+##################
+
+Some of the CodeIgniter components 
+(:doc:`Database <../database/index>`, 
+:doc:`Migration <../libraries/migration>` and 
+:doc:`Pagination <../libraries/pagination>`)
+use exceptions for problems that you can recover from.
+
+Use a try/catch construct if you want to handle such error conditions yourself.
+
+	Example::
+
+		try
+		{
+                        // load the proper model, if it has been implemented
+			$this->load->model('fancymodel','mymodel');
+		}
+		catch (Exception $e)
+		{
+                        // otherwise, load the backup model
+			$this->load->model('defaultmodel','mymodel');
+		}
+
