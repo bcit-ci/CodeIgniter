@@ -125,7 +125,7 @@ page after they log in, you may find this example useful::
 	passed to ``Auth::login()``.
 
 For those of you who don't know regular expressions and want to learn
-more about them, `regular-expressions.info <http://www.regular-expressions.info/>`_
+more about them, `regular-expressions.info <https://www.regular-expressions.info/>`_
 might be a good starting point.
 
 .. note:: You can also mix and match wildcards with regular expressions.

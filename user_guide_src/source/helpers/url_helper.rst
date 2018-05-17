@@ -144,7 +144,7 @@ The following functions are available:
 	be a string or an array.
 
 	.. note:: If you are building links that are internal to your application
-		do not include the base URL (http&#58;//...). This will be added
+		do not include the base URL (\http://...). This will be added
 		automatically from the information specified in your config file.
 		Include only the URI segments you wish appended to the URL.
 
@@ -204,7 +204,7 @@ The following functions are available:
 		| echo anchor_popup('news/local/123', 'Click Me!', array());
 
 	.. note:: The **window_name** is not really an attribute, but an argument to
-		the JavaScript `window.open() <http://www.w3schools.com/jsref/met_win_open.asp>`
+		the JavaScript `window.open() <https://www.w3schools.com/jsref/met_win_open.asp>`
 		method, which accepts either a window name or a window target.
 
 	.. note:: Any other attribute than the listed above will be parsed as an
@@ -317,7 +317,7 @@ The following functions are available:
 	:returns:	Protocol-prefixed URL string
 	:rtype:	string
 
-	This function will add http&#58;// in the event that a protocol prefix
+	This function will add \http:// in the event that a protocol prefix
 	is missing from a URL.
 
 	Pass the URL string to the function like this::

@@ -110,7 +110,7 @@ loading any libraries or helpers.
 		set_status_header(401);
 		// Sets the header as:  Unauthorized
 
-	`See here <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
+	`See here <https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>`_ for
 	a full list of headers.
 
 .. php:function:: remove_invisible_characters($str[, $url_encoded = TRUE])

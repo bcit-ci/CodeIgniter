@@ -50,7 +50,7 @@ The following functions are available:
 	:returns:	MySQL-formatted date
 	:rtype:	string
 
-	This function is identical to PHP's `date() <http://php.net/manual/en/function.date.php>`_
+	This function is identical to PHP's `date() <https://secure.php.net/manual/en/function.date.php>`_
 	function, except that it lets you use MySQL style date codes, where each
 	code letter is preceded with a percent sign, e.g. `%Y %m %d`
 

@@ -248,3 +248,12 @@ on global filters is a bad practice, giving you a false sense of security.
 This functionality is now removed, and so if you've relied on it for
 whatever reasons, you should double-check that you are properly validating
 all user inputs in your application (as you always should do).
+
+Step 12: Clear your output cache (optional)
+===========================================
+
+Internal changes to the :doc:`Output Class <../libraries/output>` make it
+so that if you're using the :doc:`Web Page Caching <../general/caching>`
+feature, you'll be left with some old, garbage cache files.
+
+That shouldn't be a problem, but you may want to clear them.

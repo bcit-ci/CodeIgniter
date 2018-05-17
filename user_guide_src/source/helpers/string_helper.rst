@@ -108,7 +108,7 @@ The following functions are available:
 	:rtype:	string
 
 	Converts double slashes in a string to a single slash, except those
-	found in URL protocol prefixes (e.g. http&#58;//).
+	found in URL protocol prefixes (e.g. \http://).
 
 	Example::
 
