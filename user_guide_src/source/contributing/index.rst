@@ -31,7 +31,7 @@ Support
 
 Please note that GitHub is not for general support questions! If you are
 having trouble using a feature of CodeIgniter, ask for help on our
-`forums <http://forum.codeigniter.com/>`_ instead.
+`forums <https://forum.codeigniter.com/>`_ instead.
 
 If you are not sure whether you are using something correctly or if you
 have found a bug, again - please ask on the forums first.
@@ -112,7 +112,7 @@ Branching
 =========
 
 CodeIgniter uses the `Git-Flow
-<http://nvie.com/posts/a-successful-git-branching-model/>`_ branching model
+<https://nvie.com/posts/a-successful-git-branching-model/>`_ branching model
 which requires all pull requests to be sent to the "develop" branch. This is
 where the next planned version will be developed. The "master" branch will
 always contain the latest stable version and is kept clean so a "hotfix" (e.g:

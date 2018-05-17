@@ -181,7 +181,7 @@ be passed as a parameter to the ``_remap()`` method::
 
 Any extra segments after the method name are passed into ``_remap()`` as an
 optional second parameter. This array can be used in combination with
-PHP's `call_user_func_array() <http://php.net/call_user_func_array>`_
+PHP's `call_user_func_array() <https://secure.php.net/call_user_func_array>`_
 to emulate CodeIgniter's default behavior.
 
 Example::
