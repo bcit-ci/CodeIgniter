@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -211,7 +211,7 @@ if ( ! function_exists('anchor_popup'))
 		{
 			$attributes = array($attributes);
 
-			// Ref: http://www.w3schools.com/jsref/met_win_open.asp
+			// Ref: https://www.w3schools.com/jsref/met_win_open.asp
 			$window_name = '_blank';
 		}
 		elseif ( ! empty($attributes['window_name']))
@@ -546,7 +546,7 @@ if ( ! function_exists('redirect'))
 			if (isset($_SERVER['SERVER_PROTOCOL'], $_SERVER['REQUEST_METHOD']) && $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
 			{
 				$code = ($_SERVER['REQUEST_METHOD'] !== 'GET')
-					? 303	// reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+					? 303	// reference: https://en.wikipedia.org/wiki/Post/Redirect/Get
 					: 307;
 			}
 			else

@@ -6,7 +6,7 @@ The Trackback Class provides functions that enable you to send and
 receive Trackback data.
 
 If you are not familiar with Trackbacks you'll find more information
-`here <http://en.wikipedia.org/wiki/Trackback>`_.
+`here <https://en.wikipedia.org/wiki/Trackback>`_.
 
 .. contents::
   :local:
