@@ -158,7 +158,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			}
 		}
 
-		if (is_array($this->encrypt))
+		if (is_array($this->encrypt) or $this->encrypt === true)
 		{
 			$ssl = array();
 			empty($this->encrypt['ssl_key'])    OR $ssl['key']    = $this->encrypt['ssl_key'];
@@ -167,35 +167,32 @@ class CI_DB_mysqli_driver extends CI_DB {
 			empty($this->encrypt['ssl_capath']) OR $ssl['capath'] = $this->encrypt['ssl_capath'];
 			empty($this->encrypt['ssl_cipher']) OR $ssl['cipher'] = $this->encrypt['ssl_cipher'];
 
-			if ( ! empty($ssl))
+			if (isset($this->encrypt['ssl_verify']))
 			{
-				if (isset($this->encrypt['ssl_verify']))
+				if ($this->encrypt['ssl_verify'])
 				{
-					if ($this->encrypt['ssl_verify'])
-					{
-						defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT') && $this->_mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
-					}
-					// Apparently (when it exists), setting MYSQLI_OPT_SSL_VERIFY_SERVER_CERT
-					// to FALSE didn't do anything, so PHP 5.6.16 introduced yet another
-					// constant ...
-					//
-					// https://secure.php.net/ChangeLog-5.php#5.6.16
-					// https://bugs.php.net/bug.php?id=68344
-					elseif (defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT'))
-					{
-						$client_flags |= MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
-					}
+					defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT') && $this->_mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, TRUE);
 				}
-
-				$client_flags |= MYSQLI_CLIENT_SSL;
-				$this->_mysqli->ssl_set(
-					isset($ssl['key'])    ? $ssl['key']    : NULL,
-					isset($ssl['cert'])   ? $ssl['cert']   : NULL,
-					isset($ssl['ca'])     ? $ssl['ca']     : NULL,
-					isset($ssl['capath']) ? $ssl['capath'] : NULL,
-					isset($ssl['cipher']) ? $ssl['cipher'] : NULL
-				);
+				// Apparently (when it exists), setting MYSQLI_OPT_SSL_VERIFY_SERVER_CERT
+				// to FALSE didn't do anything, so PHP 5.6.16 introduced yet another
+				// constant ...
+				//
+				// https://secure.php.net/ChangeLog-5.php#5.6.16
+				// https://bugs.php.net/bug.php?id=68344
+				elseif (defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT'))
+				{
+					$client_flags |= MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+				}
 			}
+
+			$client_flags |= MYSQLI_CLIENT_SSL;
+			$this->_mysqli->ssl_set(
+				isset($ssl['key'])    ? $ssl['key']    : NULL,
+				isset($ssl['cert'])   ? $ssl['cert']   : NULL,
+				isset($ssl['ca'])     ? $ssl['ca']     : NULL,
+				isset($ssl['capath']) ? $ssl['capath'] : NULL,
+				isset($ssl['cipher']) ? $ssl['cipher'] : NULL
+			);
 		}
 
 		if ($this->_mysqli->real_connect($hostname, $this->username, $this->password, $this->database, $port, $socket, $client_flags))
