@@ -119,6 +119,23 @@ class CI_DB_ibase_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Replace statement
+	 *
+	 * Generates a platform-specific replace string from the supplied data
+	 *
+	 * @param	string	$table	Table name
+	 * @param	array	$keys	INSERT keys
+	 * @param	array	$values	INSERT values
+	 * @return	string
+	 */
+	protected function _replace($table, $keys, $values)
+	{
+		return 'UPDATE OR INSERT '.substr(parent::_replace($table, $keys, $values), 8);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Execute the query
 	 *
 	 * @param	string	$sql	an SQL query
