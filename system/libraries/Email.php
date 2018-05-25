@@ -1017,7 +1017,11 @@ class CI_Email {
 			$domain = defined('INTL_IDNA_VARIANT_UTS46')
 				? idn_to_ascii($matches[2], 0, INTL_IDNA_VARIANT_UTS46)
 				: idn_to_ascii($matches[2]);
-			$email = $matches[1].'@'.$domain;
+			//If idn_to_ascii() fails, treat it like it doesn't exists
+			if ($domain !== FALSE)
+			{
+				$email = $account.'@'.$domain;
+			}
 		}
 
 		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -1828,7 +1832,11 @@ class CI_Email {
 			$domain = defined('INTL_IDNA_VARIANT_UTS46')
 				? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46)
 				: idn_to_ascii($domain);
-			$email = $account.'@'.$domain;
+			//If idn_to_ascii() fails, treat it like it doesn't exists
+			if ($domain !== FALSE)
+			{
+				$email = $account.'@'.$domain;
+			}
 		}
 
 		return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email && preg_match('#\A[a-z0-9._+-]+@[a-z0-9.-]{1,253}\z#i', $email));
