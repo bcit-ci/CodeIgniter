@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('uri_string'))
+if ( ! function_exists('asset_version'))
 {
         /**
          * Returns the current version URL of assets.
@@ -58,8 +58,8 @@ if ( ! function_exists('uri_string'))
          * @return	string
          */
       	function asset_version($uri = '', $protocol = NULL)
-      	{
-      		$version = get_instance()->config->item('asset_version');
+      	{ 
+      		$version = filemtime(FCPATH . $uri);
       		return get_instance()->config->base_url($uri, $protocol) . '?v=' . $version;
       	}
 }
