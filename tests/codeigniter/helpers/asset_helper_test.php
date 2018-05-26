@@ -1,4 +1,5 @@
 <?php
+define('FCPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
 
 class Asset_helper_test extends CI_TestCase {
 
@@ -14,7 +15,7 @@ class Asset_helper_test extends CI_TestCase {
 	{
 		$this->ci_set_config('base_url', 'http://localhost/');
 
-		$asset_directory = 'assets_test';
+		$asset_directory = FCPATH . 'assets_test';
 
 		if (! is_dir($asset_directory))
 		{
