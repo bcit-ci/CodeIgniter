@@ -138,6 +138,16 @@ class CI_Loader {
 		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_classes =& is_loaded();
 
+		$this->_ci_library_paths = (array_merge(unserialize(APPPATHS_EXTRA), $this->_ci_library_paths));
+		$this->_ci_helper_paths = array_unique(array_merge(unserialize(APPPATHS_EXTRA), $this->_ci_helper_paths));
+		$this->_ci_model_paths = array_unique(array_merge(unserialize(APPPATHS_EXTRA), $this->_ci_model_paths));
+		$_ci_view_paths = array();
+		foreach (unserialize(APPPATHS_EXTRA) as $APPPATH)
+		{
+			$_ci_view_paths = array($APPPATH.'views'.DIRECTORY_SEPARATOR => TRUE) + $_ci_view_paths;
+		}
+		$this->_ci_view_paths = array_merge($this->_ci_view_paths, $_ci_view_paths);
+
 		log_message('info', 'Loader Class Initialized');
 	}
 
@@ -856,11 +866,16 @@ class CI_Loader {
 		}
 
 		// make sure the application default paths are still in the array
-		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, array(APPPATH, BASEPATH)));
-		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, array(APPPATH)));
-		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(APPPATH.'views/' => TRUE));
-		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(APPPATH)));
+		$this->_ci_library_paths = array_unique(array_merge($this->_ci_library_paths, unserialize(APPPATHS), array(APPPATH, BASEPATH)));
+		$this->_ci_helper_paths = array_unique(array_merge($this->_ci_helper_paths, unserialize(APPPATHS), array(APPPATH, BASEPATH)));
+		$this->_ci_model_paths = array_unique(array_merge($this->_ci_model_paths, unserialize(APPPATHS), array(APPPATH)));
+		$_ci_view_paths = array();
+		foreach (unserialize(APPPATHS) as $APPPATH)
+		{
+			$_ci_view_paths = array($APPPATH.'views'.DIRECTORY_SEPARATOR => TRUE) + $_ci_view_paths;
+		}
+		$this->_ci_view_paths = array_merge($this->_ci_view_paths, array(APPPATH.'views'.DIRECTORY_SEPARATOR => TRUE), $_ci_view_paths);
+		$config->_config_paths = array_unique(array_merge($config->_config_paths, array(APPPATH), unserialize(APPPATHS)));
 
 		return $this;
 	}
@@ -1127,8 +1142,16 @@ class CI_Loader {
 		}
 
 		$paths = $this->_ci_library_paths;
-		array_pop($paths); // BASEPATH
+		if (count(unserialize(APPPATHS_EXTRA)) > 0)
+		{
+			// pop user defined app paths
+			for ($i = 0; $i < count(unserialize(APPPATHS_EXTRA)); $i++)
+			{
+				array_pop($paths);
+			}
+		}
 		array_pop($paths); // APPPATH (needs to be the first path checked)
+		array_pop($paths); // BASEPATH
 		array_unshift($paths, APPPATH);
 
 		foreach ($paths as $path)
@@ -1183,9 +1206,12 @@ class CI_Loader {
 	 *						NULL to search in config paths;
 	 *						array containing configuration data
 	 * @param	string		$object_name	Optional object name to assign to
+	 * @param	bool		$config_break   If config should break on first found config
+	 *						TRUE to break
+	 *						NULL to continue searching
 	 * @return	void
 	 */
-	protected function _ci_init_library($class, $prefix, $config = FALSE, $object_name = NULL)
+	protected function _ci_init_library($class, $prefix, $config = FALSE, $object_name = NULL, $config_break = TRUE)
 	{
 		// Is there an associated config file for this class? Note: these should always be lowercase
 		if ($config === NULL)
@@ -1225,7 +1251,7 @@ class CI_Loader {
 
 					// Break on the first found configuration, thus package
 					// files are not overridden by default paths
-					if ($found === TRUE)
+					if ($config_break && $found === TRUE)
 					{
 						break;
 					}
@@ -1287,14 +1313,17 @@ class CI_Loader {
 	 */
 	protected function _ci_autoloader()
 	{
-		if (file_exists(APPPATH.'config/autoload.php'))
+		foreach (unserialize(APPPATHS) as $APPPATH)
 		{
-			include(APPPATH.'config/autoload.php');
-		}
+			if (file_exists($APPPATH.'config/autoload.php'))
+			{
+				include($APPPATH.'config/autoload.php');
+			}
 
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
+			if (file_exists($APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
+			{
+				include($APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
+			}
 		}
 
 		if ( ! isset($autoload))

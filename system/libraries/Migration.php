@@ -135,10 +135,15 @@ class CI_Migration {
 		}
 
 		// If not set, set it
-		$this->_migration_path !== '' OR $this->_migration_path = APPPATH.'migrations/';
+		$this->_migration_path !== '' OR $this->_migration_path = APPPATH.'migrations'.DIRECTORY_SEPARATOR;
 
-		// Add trailing slash if not set
-		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
+		$_migration_paths = array_unique(array_merge(array($this->_migration_path), unserialize(APPPATHS)));
+		$this->_migration_path = array();
+		foreach ($_migration_paths as $_migration_path)
+		{
+			// Add trailing slash if not set
+			$this->_migration_path[] = rtrim($_migration_path, '/').'/';
+		}
 
 		// Load migration language
 		$this->lang->load('migration');
@@ -380,7 +385,13 @@ class CI_Migration {
 		$migrations = array();
 
 		// Load all *_*.php files in the migrations path
-		foreach (glob($this->_migration_path.'*_*.php') as $file)
+		$_migration_files = [];
+		foreach ($this->_migration_path as $path)
+		{
+			$_migration_files = array_merge($_migration_files, glob($path.'*_*.php'));
+		}
+
+		foreach ($_migration_files as $file)
 		{
 			$name = basename($file, '.php');
 

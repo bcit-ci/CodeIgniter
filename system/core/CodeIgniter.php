@@ -62,16 +62,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the framework constants
  * ------------------------------------------------------
  */
-	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+	if (!isset($APPPATHS))
 	{
-		require_once(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+		// Initialize the array if no user defined app paths
+		$APPPATHS = array();
 	}
 
-	if (file_exists(APPPATH.'config/constants.php'))
-	{
-		require_once(APPPATH.'config/constants.php');
-	}
+	// define extra apppaths only
+	define('APPPATHS_EXTRA', serialize($APPPATHS));
 
+	$APPPATHS[] = APPPATH;
+
+	// Reverse them so that user defined ones are last
+	define('APPPATHS', serialize(array_reverse($APPPATHS)));
+
+	foreach (unserialize(APPPATHS) as $APPPATH)
+	{
+		if (file_exists($APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
+		{
+			require_once($APPPATH.'config/'.ENVIRONMENT.'/constants.php');
+		}
+
+		if (file_exists($APPPATH.'config/constants.php'))
+		{
+			require_once($APPPATH.'config/constants.php');
+		}
+	}
 /*
  * ------------------------------------------------------
  *  Load the global functions
@@ -351,13 +367,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$class = ucfirst($RTR->class);
 	$method = $RTR->method;
 
-	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
+	$found = FALSE;
+	foreach (array_reverse(unserialize(APPPATHS)) as $APPPATH)
+	{
+		if (file_exists($APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
+		{
+		    $found = TRUE;
+		}
+	}
+
+	if (empty($class) OR ! $found)
 	{
 		$e404 = TRUE;
 	}
 	else
 	{
-		require_once(APPPATH.'controllers/'.$RTR->directory.$class.'.php');
+		foreach (array_reverse(unserialize(APPPATHS)) as $APPPATH)
+		{
+			if (file_exists($APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
+			{
+				require_once($APPPATH.'controllers/'.$RTR->directory.$class.'.php');
+
+				// Stop on the first occurrence found
+				break;
+			}
+		}
 
 		if ( ! class_exists($class, FALSE) OR $method[0] === '_' OR method_exists('CI_Controller', $method))
 		{
@@ -406,18 +440,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			if ( ! class_exists($error_class, FALSE))
 			{
-				if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php'))
+				$found = FALSE;
+				foreach (array_reverse(unserialize(APPPATHS)) as $APPPATH)
 				{
-					require_once(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php');
-					$e404 = ! class_exists($error_class, FALSE);
-				}
-				// Were we in a directory? If so, check for a global override
-				elseif ( ! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php'))
-				{
-					require_once(APPPATH.'controllers/'.$error_class.'.php');
-					if (($e404 = ! class_exists($error_class, FALSE)) === FALSE)
+					if (file_exists($APPPATH.'controllers/'.$RTR->directory.$error_class.'.php'))
 					{
-						$RTR->directory = '';
+						require_once($APPPATH.'controllers/'.$RTR->directory.$error_class.'.php');
+						$e404 = $found = ! class_exists($error_class, FALSE);
+					}
+					// Were we in a directory? If so, check for a global override
+					elseif ( ! empty($RTR->directory) && file_exists($APPPATH.'controllers/'.$error_class.'.php'))
+					{
+						require_once($APPPATH.'controllers/'.$error_class.'.php');
+						if (($e404 = ! class_exists($error_class, FALSE)) === FALSE)
+						{
+							$RTR->directory = '';
+						}
+						else
+						{
+						    $found = TRUE;
+						}
+					}
+
+					if ($found === TRUE)
+					{
+						break;
 					}
 				}
 			}

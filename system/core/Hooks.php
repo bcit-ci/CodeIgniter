@@ -97,15 +97,18 @@ class CI_Hooks {
 			return;
 		}
 
-		// Grab the "hooks" definition file.
-		if (file_exists(APPPATH.'config/hooks.php'))
+		foreach (unserialize(APPPATHS) as $APPPATH)
 		{
-			include(APPPATH.'config/hooks.php');
-		}
+			// Grab the "hooks" definition file.
+			if (file_exists($APPPATH.'config/hooks.php'))
+			{
+				include($APPPATH.'config/hooks.php');
+			}
 
-		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
-		{
-			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+			if (file_exists($APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
+			{
+				include($APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+			}
 		}
 
 		// If there are no hooks, we're done.
@@ -198,9 +201,16 @@ class CI_Hooks {
 			return FALSE;
 		}
 
-		$filepath = APPPATH.$data['filepath'].'/'.$data['filename'];
+		$filepath = '';
+		foreach (array_reverse(unserialize(APPPATHS)) as $APPPATH)
+		{
+			if (file_exists($APPPATH.$data['filepath'].DIRECTORY_SEPARATOR.$data['filename']))
+			{
+				$filepath = $APPPATH.$data['filepath'].DIRECTORY_SEPARATOR.$data['filename'];
+			}
+		}
 
-		if ( ! file_exists($filepath))
+		if (empty($filepath))
 		{
 			return FALSE;
 		}

@@ -66,7 +66,7 @@ function &DB($params = '', $query_builder_override = NULL)
 		// given that the controller instance already exists
 		if (class_exists('CI_Controller', FALSE))
 		{
-			foreach (get_instance()->load->get_package_paths() as $path)
+			foreach (array_unique(array_merge(get_instance()->load->get_package_paths(), unserialize(APPPATHS))) as $path)
 			{
 				if ($path !== APPPATH)
 				{

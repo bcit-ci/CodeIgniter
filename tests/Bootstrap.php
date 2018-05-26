@@ -32,6 +32,8 @@ defined('BASEPATH') OR define('BASEPATH', vfsStream::url('system/'));
 defined('APPPATH') OR define('APPPATH', vfsStream::url('application/'));
 defined('VIEWPATH') OR define('VIEWPATH', APPPATH.'views/');
 defined('ENVIRONMENT') OR define('ENVIRONMENT', 'development');
+defined('APPPATHS_EXTRA') OR define('APPPATHS_EXTRA', serialize(array()));
+defined('APPPATHS') OR define('APPPATHS', serialize(array(APPPATH)));
 
 // Set localhost "remote" IP
 isset($_SERVER['REMOTE_ADDR']) OR $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
