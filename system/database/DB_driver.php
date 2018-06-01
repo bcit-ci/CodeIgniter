@@ -1712,7 +1712,7 @@ abstract class CI_DB_driver {
 				if (strpos($call['file'], BASEPATH.'database') === FALSE && strpos($call['class'], 'Loader') === FALSE)
 				{
 					// Found it - use a relative path for safety
-					$message[] = 'Filename: '.str_replace(array(APPPATH, BASEPATH), '', $call['file']);
+					$message[] = 'Filename: '.str_replace(array_merge(array(APPPATH, BASEPATH), unserialize(APPPATHS)), '', $call['file']);
 					$message[] = 'Line Number: '.$call['line'];
 					break;
 				}

@@ -235,14 +235,17 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($doctypes))
 		{
-			if (file_exists(APPPATH.'config/doctypes.php'))
+			foreach (unserialize(APPPATHS) as $APPPATH)
 			{
-				include(APPPATH.'config/doctypes.php');
-			}
+				if (file_exists($APPPATH.'config/doctypes.php'))
+				{
+					include($APPPATH.'config/doctypes.php');
+				}
 
-			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
-			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
+				if (file_exists($APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
+				{
+					include($APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
+				}
 			}
 
 			if (empty($_doctypes) OR ! is_array($_doctypes))

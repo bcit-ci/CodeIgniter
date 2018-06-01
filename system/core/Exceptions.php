@@ -156,16 +156,6 @@ class CI_Exceptions {
 	 */
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		$templates_path = config_item('error_views_path');
-		if (empty($templates_path))
-		{
-			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
-		}
-		else
-		{
-			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
-		}
-
 		if (is_cli())
 		{
 			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
@@ -176,6 +166,16 @@ class CI_Exceptions {
 			set_status_header($status_code);
 			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
 			$template = 'html'.DIRECTORY_SEPARATOR.$template;
+		}
+
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = $this->get_template_path($template.'.php');
+		}
+		else
+		{
+			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
 		}
 
 		if (ob_get_level() > $this->ob_level + 1)
@@ -193,10 +193,19 @@ class CI_Exceptions {
 
 	public function show_exception($exception)
 	{
+		if (is_cli())
+		{
+			$template = 'cli'.DIRECTORY_SEPARATOR;
+		}
+		else
+		{
+			$template = 'html'.DIRECTORY_SEPARATOR;
+		}
+
 		$templates_path = config_item('error_views_path');
 		if (empty($templates_path))
 		{
-			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+			$templates_path = $this->get_template_path($template.'error_exception.php');
 		}
 		else
 		{
@@ -209,22 +218,13 @@ class CI_Exceptions {
 			$message = '(null)';
 		}
 
-		if (is_cli())
-		{
-			$templates_path .= 'cli'.DIRECTORY_SEPARATOR;
-		}
-		else
-		{
-			$templates_path .= 'html'.DIRECTORY_SEPARATOR;
-		}
-
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
 
 		ob_start();
-		include($templates_path.'error_exception.php');
+		include($templates_path.$template.'error_exception.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
@@ -243,16 +243,6 @@ class CI_Exceptions {
 	 */
 	public function show_php_error($severity, $message, $filepath, $line)
 	{
-		$templates_path = config_item('error_views_path');
-		if (empty($templates_path))
-		{
-			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
-		}
-		else
-		{
-			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
-		}
-
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 
 		// For safety reasons we don't show the full file path in non-CLI requests
@@ -272,7 +262,17 @@ class CI_Exceptions {
 			$template = 'cli'.DIRECTORY_SEPARATOR.'error_php';
 		}
 
-		if (ob_get_level() > $this->ob_level + 1)
+		$templates_path = config_item('error_views_path');
+		if (empty($templates_path))
+		{
+			$templates_path = $this->get_template_path($template.'.php');
+		}
+		else
+		{
+			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
+		}
+
+                if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
 		}
@@ -281,6 +281,28 @@ class CI_Exceptions {
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
+	}
+
+	private function get_template_path($file) {
+		$templates_path = '';
+
+		$view_paths = array();
+		foreach (array_reverse(unserialize(APPPATHS)) as $APPPATH)
+		{
+			$view_paths[] = $APPPATH.'views'.DIRECTORY_SEPARATOR;
+		}
+
+		foreach (array_unique(array_merge($view_paths, array(VIEWPATH))) as $view_path)
+		{
+			$templates_path = $view_path.'errors'.DIRECTORY_SEPARATOR;
+
+			if (file_exists($templates_path.DIRECTORY_SEPARATOR.$file))
+			{
+				break;
+			}
+		}
+
+		return $templates_path;
 	}
 
 }

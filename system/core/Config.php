@@ -83,6 +83,7 @@ class CI_Config {
 	 */
 	public function __construct()
 	{
+		$this->_config_paths = unserialize(APPPATHS);
 		$this->config =& get_config();
 
 		// Set the base_url automatically if none was provided

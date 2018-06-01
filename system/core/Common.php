@@ -151,7 +151,7 @@ if ( ! function_exists('load_class'))
 
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
-		foreach (array(APPPATH, BASEPATH) as $path)
+		foreach (array_merge(array_reverse(unserialize(APPPATHS)), array(BASEPATH)) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
 			{
@@ -166,14 +166,17 @@ if ( ! function_exists('load_class'))
 			}
 		}
 
-		// Is the request a class extension? If so we load it too
-		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
+		foreach (array_reverse(unserialize(APPPATHS)) as $APPPATH)
 		{
-			$name = config_item('subclass_prefix').$class;
-
-			if (class_exists($name, FALSE) === FALSE)
+			// Is the request a class extension? If so we load it too
+			if (file_exists($APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 			{
-				require_once(APPPATH.$directory.'/'.$name.'.php');
+				$name = config_item('subclass_prefix').$class;
+
+				if (class_exists($name, FALSE) === FALSE)
+				{
+					require_once($APPPATH.$directory.'/'.$name.'.php');
+				}
 			}
 		}
 
@@ -240,24 +243,21 @@ if ( ! function_exists('get_config'))
 
 		if (empty($config))
 		{
-			$file_path = APPPATH.'config/config.php';
 			$found = FALSE;
-			if (file_exists($file_path))
+			foreach (unserialize(APPPATHS) as $APPPATH)
 			{
-				$found = TRUE;
-				require($file_path);
-			}
+				$file_path = $APPPATH.'config/config.php';
+				if (file_exists($file_path))
+				{
+					$found = TRUE;
+					require($file_path);
+				}
 
-			// Is the config file in the environment folder?
-			if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
-			{
-				require($file_path);
-			}
-			elseif ( ! $found)
-			{
-				set_status_header(503);
-				echo 'The configuration file does not exist.';
-				exit(3); // EXIT_CONFIG
+				// Is the config file in the environment folder?
+				if (file_exists($file_path = $APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+				{
+					require($file_path);
+				}
 			}
 
 			// Does the $config array exist in the file?
@@ -265,6 +265,13 @@ if ( ! function_exists('get_config'))
 			{
 				set_status_header(503);
 				echo 'Your config file does not appear to be formatted correctly.';
+				exit(3); // EXIT_CONFIG
+			}
+
+			if ( ! $found)
+			{
+				set_status_header(503);
+				echo 'The configuration file does not exist.';
 				exit(3); // EXIT_CONFIG
 			}
 		}
@@ -318,13 +325,19 @@ if ( ! function_exists('get_mimes'))
 
 		if (empty($_mimes))
 		{
-			$_mimes = file_exists(APPPATH.'config/mimes.php')
-				? include(APPPATH.'config/mimes.php')
-				: array();
+			$_mimes = array();
 
-			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+			foreach (unserialize(APPPATHS) as $APPPATH)
 			{
-				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
+				if (file_exists($APPPATH.'config/mimes.php'))
+				{
+					$_mimes = array_merge($_mimes, include($APPPATH.'config/mimes.php'));
+				}
+
+				if (file_exists($APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
+				{
+					$_mimes = array_merge($_mimes, include($APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
+				}
 			}
 		}
 

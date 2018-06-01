@@ -299,6 +299,15 @@ switch (ENVIRONMENT)
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 
 /*
+ * -----------------------------------------------------------------------------
+ *  Optionally add another APPPATH to your application, useful when
+ *  creating a package, and wanting to expand with new controllers/models/etc...
+ *  Except core classes, everything else can be added to this path
+ * -----------------------------------------------------------------------------
+ */
+	//$APPPATHS = array();
+
+/*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------
