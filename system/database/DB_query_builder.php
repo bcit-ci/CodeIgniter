@@ -2286,8 +2286,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected function _delete($table)
 	{
-		return 'DELETE FROM '.$table.$this->_compile_wh('qb_where')
-			.($this->qb_limit !== FALSE ? ' LIMIT '.$this->qb_limit : '');
+		$join = "";
+                $handle_table_mysql = "";
+                if($this->platform() === 'mysqli'){
+                        $join = count($this->qb_join) !== 0 ? " " . implode(" ", $this->qb_join) . " " : " ";
+                        $handle_table_mysql = $table;
+                }
+
+                return 'DELETE '.$handle_table_mysql.'  FROM '.$table.$join.$this->_compile_wh('qb_where')
+                        . ($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
 	// --------------------------------------------------------------------
