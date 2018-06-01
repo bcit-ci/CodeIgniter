@@ -319,6 +319,36 @@ class CI_Pagination {
 	 */
 	protected $CI;
 
+    /**
+     * Jump tag open
+     *
+     * @var	string
+     */
+    protected $jump_tag_open = '';
+
+    /**
+     * Jump tag close
+     *
+     * @var	string
+     */
+    protected $jump_tag_close = '';
+
+    /**
+     * Jump link
+     *
+     * @var	string
+     */
+    protected $jump_link = 'Jump &nbsp;';
+
+    /**
+     * Use page jump flag
+     *
+     * Whether to use actual page numbers instead of an offset
+     *
+     * @var	bool
+     */
+    protected $use_page_jump = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -650,6 +680,10 @@ class CI_Pagination {
 				.$this->last_link.'</a>'.$this->last_tag_close;
 		}
 
+		// Render the "Jump" link
+		if($this->use_page_jump !== FALSE){
+		    $output .= $this->jump_tag_open.$this->jump_link.'To<input type="number" style="width: 60px;border:2px solid" id="jump" value="" min="1"><a href="'.$base_url.'" onclick="this.href=this.href + document.getElementById(\'jump\').value">GO</a><input type="number" id="max-page" style="display: none" value="'.$num_pages.'">'.$this->jump_tag_close;
+		}
 		// Kill double slashes. Note: Sometimes we can end up with a double slash
 		// in the penultimate link so we'll kill all double slashes.
 		$output = preg_replace('#([^:"])//+#', '\\1/', $output);
