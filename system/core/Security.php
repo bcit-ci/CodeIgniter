@@ -238,6 +238,7 @@ class CI_Security {
 		if (config_item('csrf_regenerate'))
 		{
 			// Nothing should last forever
+			setcookie($this->_csrf_cookie_name);
 			unset($_COOKIE[$this->_csrf_cookie_name]);
 			$this->_csrf_hash = NULL;
 		}
