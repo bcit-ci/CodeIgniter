@@ -85,7 +85,7 @@ The following functions are available:
 
 		echo humanize('my-dog-spot', '-'); // Prints 'My Dog Spot'
 
-.. php:function:: is_countable($word)
+.. php:function:: word_is_countable($word)
 
 	:param	string	$word: Input string
 	:returns:	TRUE if the word is countable or FALSE if not
@@ -93,4 +93,7 @@ The following functions are available:
 
 	Checks if the given word has a plural version. Example::
 
-		is_countable('equipment'); // Returns FALSE
+		word_is_countable('equipment'); // Returns FALSE
+
+	.. note:: This function used to be called ``is_countable()`` in
+		in previous CodeIgniter versions.
