@@ -63,7 +63,7 @@ if ( ! function_exists('singular'))
 	{
 		$result = strval($str);
 
-		if ( ! is_countable($result))
+		if ( ! word_is_countable($result))
 		{
 			return $result;
 		}
@@ -128,7 +128,7 @@ if ( ! function_exists('plural'))
 	{
 		$result = strval($str);
 
-		if ( ! is_countable($result))
+		if ( ! word_is_countable($result))
 		{
 			return $result;
 		}
@@ -226,7 +226,7 @@ if ( ! function_exists('humanize'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('is_countable'))
+if ( ! function_exists('word_is_countable'))
 {
 	/**
 	 * Checks if the given word has a plural version.
@@ -234,7 +234,7 @@ if ( ! function_exists('is_countable'))
 	 * @param	string	$word	Word to check
 	 * @return	bool
 	 */
-	function is_countable($word)
+	function word_is_countable($word)
 	{
 		return ! in_array(
 			strtolower($word),
