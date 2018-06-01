@@ -200,7 +200,7 @@ if ( ! function_exists('img'))
 				}
 				else
 				{
-					$img .= ' src="'.get_instance()->config->slash_item('base_url').$v.'"';
+					$img .= ' src="'.get_instance()->config->base_url($v).'"';
 				}
 			}
 			else
@@ -292,7 +292,7 @@ if ( ! function_exists('link_tag'))
 					}
 					else
 					{
-						$link .= 'href="'.$CI->config->slash_item('base_url').$v.'" ';
+						$link .= 'href="'.$CI->config->base_url($v).'" ';
 					}
 				}
 				else
@@ -313,7 +313,7 @@ if ( ! function_exists('link_tag'))
 			}
 			else
 			{
-				$link .= 'href="'.$CI->config->slash_item('base_url').$href.'" ';
+				$link .= 'href="'.$CI->config->base_url($href).'" ';
 			}
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
