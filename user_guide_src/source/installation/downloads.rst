@@ -37,7 +37,7 @@ Downloading CodeIgniter
 GitHub
 ******
 
-`Git <http://git-scm.com/about>`_ is a distributed version control system.
+`Git <https://git-scm.com/about>`_ is a distributed version control system.
 
 Public Git access is available at `GitHub <https://github.com/bcit-ci/CodeIgniter>`_.
 Please note that while every effort is made to keep this code base

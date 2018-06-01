@@ -19,7 +19,7 @@ without any parameters.  It should load up and tell you which version you have
 installed.
 
 Note: If you're not on Python 2.7, then you must upgrade. E.g. Install 2.7.2
-from http://python.org/download/releases/2.7.2/
+from https://python.org/download/releases/2.7.2/
 
 Installation
 ============

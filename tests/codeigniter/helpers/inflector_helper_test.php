@@ -30,7 +30,7 @@ class Inflector_helper_test extends CI_TestCase {
 		$strs = array(
 			'telly'      => 'tellies',
 			'smelly'     => 'smellies',
-			'abjectness' => 'abjectnesses', // ref : http://en.wiktionary.org/wiki/abjectnesses
+			'abjectness' => 'abjectnesses', // ref : https://en.wiktionary.org/wiki/abjectnesses
 			'smell'      => 'smells',
 			'witch'      => 'witches',
 			'equipment'  => 'equipment'
