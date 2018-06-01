@@ -127,6 +127,9 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
+   -  :doc:`Asset Helper <helpers/asset_helper>` changes include:
+
+      - Added function :php:func:`asset_version()` for appending version identifiers to assets
 
 Version 3.1.9
 =============
