@@ -194,7 +194,7 @@ You should change it to::
 	form_upload('name', $extra);
 
 Step 10: Remove usage of previously deprecated functionalities
-=============================================================
+==============================================================
 
 The following is a list of functionalities deprecated in previous
 CodeIgniter versions that have been removed in 3.2.0:
