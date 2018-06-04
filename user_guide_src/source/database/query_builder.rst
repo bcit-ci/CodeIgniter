@@ -734,6 +734,18 @@ associative array of values.
 
 .. note:: All values are escaped automatically producing safer queries.
 
+**$this->db->insert_id()**
+
+Returns the id of record after a succesful insert. Example::
+
+	$data = array(
+        'name' => 'My Name',
+        'date' => 'My date'
+	);
+
+	$this->db->insert('mytable', $data);
+	$last_inserted = $this->db->insert_id();
+
 *************
 Updating Data
 *************
