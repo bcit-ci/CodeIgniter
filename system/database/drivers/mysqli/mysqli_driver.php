@@ -296,7 +296,12 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return $this->conn_id->query($this->_prep_query($sql));
+		$result = $this->conn_id->query($this->_prep_query($sql));
+		while (mysqli_more_results($this->conn_id))
+            	{
+                    mysqli_next_result($this->conn_id);
+		}
+		return $result;
 	}
 
 	// --------------------------------------------------------------------
