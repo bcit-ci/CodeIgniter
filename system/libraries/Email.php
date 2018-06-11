@@ -1017,7 +1017,7 @@ class CI_Email {
 			$domain = defined('INTL_IDNA_VARIANT_UTS46')
 				? idn_to_ascii($matches[2], 0, INTL_IDNA_VARIANT_UTS46)
 				: idn_to_ascii($matches[2]);
-			//If idn_to_ascii() fails, treat it like it doesn't exists
+
 			if ($domain !== FALSE)
 			{
 				$email = $account.'@'.$domain;
@@ -1832,7 +1832,7 @@ class CI_Email {
 			$domain = defined('INTL_IDNA_VARIANT_UTS46')
 				? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46)
 				: idn_to_ascii($domain);
-			//If idn_to_ascii() fails, treat it like it doesn't exists
+
 			if ($domain !== FALSE)
 			{
 				$email = $account.'@'.$domain;
