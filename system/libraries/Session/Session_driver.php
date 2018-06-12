@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -107,6 +107,23 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 		{
 			$this->_success = 0;
 			$this->_failure = -1;
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * PHP 5.x validate ID
+	 *
+	 * Enforces session.use_strict_mode on PHP 5.x (7+ does it by itself)
+	 *
+	 * @return	void
+	 */
+	public function php5_validate_id()
+	{
+		if (PHP_VERSION_ID < 70000 && isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateId($_COOKIE[$this->_config['cookie_name']]))
+		{
+			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
 	}
 

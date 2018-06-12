@@ -44,7 +44,7 @@ class Like_test extends CI_TestCase {
 							->result_array();
 
 		// Check the result
-		$this->assertEquals(3, count($jobs));
+		$this->assertCount(3, $jobs);
 		$this->assertEquals('Developer', $jobs[0]['name']);
 		$this->assertEquals('Politician', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -62,7 +62,7 @@ class Like_test extends CI_TestCase {
 							->result_array();
 
 		// Check the result
-		$this->assertEquals(3, count($jobs));
+		$this->assertCount(3, $jobs);
 		$this->assertEquals('Politician', $jobs[0]['name']);
 		$this->assertEquals('Accountant', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -81,7 +81,7 @@ class Like_test extends CI_TestCase {
 							->result_array();
 
 		// Check the result
-		$this->assertEquals(3, count($jobs));
+		$this->assertCount(3, $jobs);
 		$this->assertEquals('Politician', $jobs[0]['name']);
 		$this->assertEquals('Accountant', $jobs[1]['name']);
 		$this->assertEquals('Musician', $jobs[2]['name']);
@@ -99,8 +99,31 @@ class Like_test extends CI_TestCase {
 		$spaces = $this->db->like('value', '   ')->get('misc')->result_array();
 		$tabs = $this->db->like('value', "\t")->get('misc')->result_array();
 
-		$this->assertEquals(1, count($spaces));
-		$this->assertEquals(1, count($tabs));
+		$this->assertCount(1, $spaces);
+		$this->assertCount(1, $tabs);
 	}
 
+	/**
+	 * GitHub issue #5462
+	 *
+	 * @see ./mocks/schema/skeleton.php
+	 *
+	 * @dataProvider like_set_side_provider
+	 */
+	public function test_like_set_side($str, $side, $expected_name)
+	{
+		$actual = $this->db->like('name', $str, $side)->get('job')->result_array();
+		$this->assertCount(1, $actual);
+		$this->assertEquals($expected_name, $actual[0]['name']);
+	}
+
+	public function like_set_side_provider()
+	{
+		return array(
+			array('Developer', 'none', 'Developer'),
+			array('tician', 'before', 'Politician'),
+			array('Accou', 'after', 'Accountant'),
+			array('usicia', 'both', 'Musician'),
+		);
+	}
 }
