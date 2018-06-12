@@ -14,6 +14,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
+   -  Updated :doc:`Email Library <libraries/email>` and :doc:`Form Validation Library <libraries/form_validation>` to discard the results of failed ``idn_to_ascii()`` calls while validating e-mail addresses.
 
 Bug fixes for 3.1.9
 -------------------
