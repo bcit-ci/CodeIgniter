@@ -1020,7 +1020,7 @@ class CI_Email {
 
 			if ($domain !== FALSE)
 			{
-				$email = $account.'@'.$domain;
+				$email = $matches[1].'@'.$domain;
 			}
 		}
 
