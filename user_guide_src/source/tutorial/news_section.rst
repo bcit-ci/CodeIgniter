@@ -172,7 +172,7 @@ add some code to the controller and create a new view. Go back to the
 
 	public function view($slug = NULL)
 	{
-		$data['news_item'] = $this->news_model->get_news($slug);
+		$data['news_item'] = $this->news_model->get_news(urldecode($slug));
 
 		if (empty($data['news_item']))
 		{
