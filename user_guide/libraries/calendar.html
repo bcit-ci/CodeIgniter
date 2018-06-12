@@ -1,0 +1,972 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Calendaring Class &mdash; CodeIgniter 3.1.9 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/ci-icon.ico"/>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/citheme.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="CodeIgniter 3.1.9 documentation" href="../index.html"/>
+        <link rel="up" title="Libraries" href="index.html"/>
+        <link rel="next" title="Shopping Cart Class" href="cart.html"/>
+        <link rel="prev" title="Caching Driver" href="caching.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div id="nav">
+  <div id="nav_inner">
+    
+    
+    
+      <div id="pulldown-menu" class="ciNav">
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer’s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    
+      
+  </div>
+</div>
+<div id="nav2">
+  <a href="#" id="openToc">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAARgAA/+4ADkFkb2JlAGTAAAAAAf/bAIQABAMDAwMDBAMDBAYEAwQGBwUEBAUHCAYGBwYGCAoICQkJCQgKCgwMDAwMCgwMDQ0MDBERERERFBQUFBQUFBQUFAEEBQUIBwgPCgoPFA4ODhQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAKwCaAwERAAIRAQMRAf/EAHsAAQAABwEBAAAAAAAAAAAAAAABAwQFBgcIAgkBAQAAAAAAAAAAAAAAAAAAAAAQAAEDAwICBwYEAgsAAAAAAAIBAwQAEQUSBiEHkROTVNQWGDFBUVIUCHEiMtOUFWGBobHRQlMkZIRVEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDSC+ygkOOaUoKigUCgUCgUCgUCgUCgUCgUCgkuGguIP9FBMFb0Hqg7We+3jlmIqqYFf4ub+/QYlnOR/LqIBKGFUbf8qWv971BytQXXE7Y3Lnm3HsFhp2TaZJAdchRXpIgSpdEJWxJEW3xoKV7F5OMy7JkQn2o7D6w33XGjEAkoiqrJEqIiOIiKuhePCgqp22dyYyS3CyWHnQ5joG61HkRnmnTbaFSMhExRVQRRVJU9iUHjE7ez+fJ0MFipmUNhBV8YUd2SoIV9KkjQla9ltegttBdPLW4/qocL+UTfrMiHW4+P9M71shuyrqaHTcxsl7jegpsji8nh5ZwMvDfgTm0RTjSmjYdFCS6KoOIipdFunCgmNYTMv457MMY6U7iI6oMieDDhRm1VbIhuoOkbqtuK0Hpzb+eZcYZexUxt6UyUqK2cd0SdjtgrhOgijcgERUlJOCIl6CpgbP3blRI8XgMjNARAyKNDfeRBdFDBVUAXgQrqH4pxoJTu2NysY97LP4ac1io5q1InHFeGO24LnVKJuKOkSQ/yKir+rh7aCLG1dzypZQI2FnvTgccYOM3FeN0XWERXAUEFVQgQkUktdLpegm+Td3/Xli/L+S/mYNJIOF9G/wBeLKrZHFb0akG6W1WtQWSg3Dyg5e7V3fipE3O4/wCrktyzYA+ufas2LbZIlmnAT2kvuoN1wft95augilglX/tzP3qCu9O3LL/wV/i5v79BvmTADq14UGu91467Z6U9y0HzH/ncj/U/sT/CgynZG7I2NezpZGUjIycJkYkZSG+uQ81pbBNKLxJfjwoMqZ3/ALYHl35AJ7/cuwHcu5k7r1Q5pHetBjquqVVJWGxj9Zrtcl/Ggy3dHMvauR3HFZj5nHNxSyW5JISYDMoIwx8tFIGHZhPNaykGapr6rUAiicEoMG21lMRj8buPAz8xhJrr7uOeiPTCyAwXUaGR1mgozbTusOsFLEiJ7fbQa/h7gcjy2H3V6xppwDNtUSxCJIqp7valBuWVzJ22xuCROXNNZiJkMtms0DbjUkAZjzoDrTMd9dDRI44ZC2YsrYdKWP2WDT2S3N9dNdlRYrGMYc06IURXSYb0igrpWS485xVNS6nF4rwslkoMwnbpgZLB7bmt5uMweAhDEl4B5uSLzzqTnnyVpW2jaJHRMSIjdDiiotvy3DOE5rYTEbkl5yFn28k7JyG4c7AU2HtLH1uKfaiMPI40CdYbpNtmLdwTSn5rewLNld+7TLdeal4WarWBkbVKBjgdElMJJwAAY5fl4kB3b1fp4XvagsGS3FjJfLzDNtS8aeXx7LzT7TyzByQE5PccRGRC0ZRUDRV6y62vbjagzLmJzS2vuPK43JY6aP1TW6Jz+RIWyFtyC06y3EkiiinAo7YCqfq1AqqnGgsOH3lhZO8d1pmcpB8j5XIm9OYlBJSQ/FSS4427DKO0RC8AlcEMhFdViRR1WDWR5t3WXVuL1d106kG9vdeye2g60+1FDyW0shIcXVpyroXt8I8dfd+NB1vioAdWnD3UF1+gD4UFc6CEKpagxXN43rwJLUHz7yX2c8zokt9uHlsPIhA4aRnnHJTLptIS6CNsY7iASpxUUMkReGpfbQW0vtN5pitvrsN28rwtBD0nc0+/Yft5XhaB6TuaXfsP28rwtA9J3NPv2H7eV4Wgek7mn37D9vK8LQPSdzT79h+3leFoHpO5pd+w/byvC0D0nc0u/Yft5XhaB6TuaXfsP28rwtA9J3NLv2H7eV4Wgek7ml37D9vK8LQPSdzS79h+3leFoHpO5p9+w/byvC0E9r7Reazy2HIYVPxkS/CUHVn26cosxyv2g7h89LYmZSXOenvLEQ1YaQ222RATcQCP8rSGqqA8S02W2pQ6FhMoAIlqCtsnwoCpdKClejI4i3Sgtb+GBxVuNBSFt1pV/RQefLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8uM/JQPLjPyUDy4z8lA8utJ/koJ7WCbBU/LQXOPAFq1koK8B0pag90CggtBBf6qB0UDooHRQOigdFA6KB0UDooHRQOigdFA6KB0UDooI0EaBQf//Z" title="Toggle Table of Contents" alt="Toggle Table of Contents" />
+  </a>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> CodeIgniter</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/welcome.html">Welcome to CodeIgniter</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/downloads.html">Downloading CodeIgniter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/index.html">Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/upgrading.html">Upgrading From a Previous Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">CodeIgniter Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/at_a_glance.html">CodeIgniter at a Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/features.html">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/appflow.html">Application Flow Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/mvc.html">Model-View-Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/goals.html">Architectural Goals</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/static_pages.html">Static pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/news_section.html">News section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/create_news_items.html">Create news items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/conclusion.html">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing to CodeIgniter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html">Writing CodeIgniter Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCO.html">Developer’s Certificate of Origin 1.1</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../general/urls.html">CodeIgniter URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/controllers.html">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/reserved_names.html">Reserved Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/views.html">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/libraries.html">Using CodeIgniter Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_libraries.html">Creating Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/drivers.html">Using CodeIgniter Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/creating_drivers.html">Creating Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/core_classes.html">Creating Core System Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/ancillary_classes.html">Creating Ancillary Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/hooks.html">Hooks - Extending the Framework Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/autoloader.html">Auto-loading Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/common_functions.html">Common Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/compatibility_functions.html">Compatibility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/routing.html">URI Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/profiling.html">Profiling Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/cli.html">Running via the CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/managing_apps.html">Managing your Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/environments.html">Handling Multiple Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/alternative_php.html">Alternate PHP Syntax for View Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/security.html">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general/styleguide.html">PHP Style Guide</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">Benchmarking Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching Driver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Calendaring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cart.html">Shopping Cart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Config Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Email Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encrypt.html">Encrypt Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encryption.html">Encryption Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_uploading.html">File Uploading Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="form_validation.html">Form Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftp.html">FTP Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image_lib.html">Image Manipulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Input Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="javascript.html">Javascript Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="language.html">Language Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">Loader Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html">Migrations Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Output Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">Template Parser Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sessions.html">Session Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">HTML Table Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trackback.html">Trackback Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="typography.html">Typography Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_testing.html">Unit Testing Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_agent.html">User Agent Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmlrpc.html">XML-RPC and XML-RPC Server Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip.html">Zip Encoding Class</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../database/examples.html">Quick Start: Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/configuration.html">Database Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/connecting.html">Connecting to a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/queries.html">Running Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/results.html">Generating Query Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/helpers.html">Query Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/query_builder.html">Query Builder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/transactions.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/metadata.html">Getting MetaData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/call_function.html">Custom Function Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/caching.html">Query Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/forge.html">Database Manipulation with Database Forge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/utilities.html">Database Utilities Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../database/db_driver_reference.html">Database Driver Reference</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helpers/index.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/array_helper.html">Array Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/captcha_helper.html">CAPTCHA Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/cookie_helper.html">Cookie Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/date_helper.html">Date Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/directory_helper.html">Directory Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/download_helper.html">Download Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/email_helper.html">Email Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/file_helper.html">File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/form_helper.html">Form Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/html_helper.html">HTML Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/inflector_helper.html">Inflector Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/language_helper.html">Language Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/number_helper.html">Number Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/path_helper.html">Path Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/security_helper.html">Security Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/smiley_helper.html">Smiley Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/string_helper.html">String Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/text_helper.html">Text Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/typography_helper.html">Typography Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/url_helper.html">URL Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/xml_helper.html">XML Helper</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">CodeIgniter</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="index.html">Libraries</a> &raquo;</li>
+      
+    <li>Calendaring Class</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+    <div style="float:right;margin-left:5px;" id="closeMe">
+      <img title="Classic Layout" alt="classic layout" src="data:image/gif;base64,R0lGODlhFAAUAJEAAAAAADMzM////wAAACH5BAUUAAIALAAAAAAUABQAAAImlI+py+0PU5gRBRDM3DxbWoXis42X13USOLauUIqnlsaH/eY6UwAAOw==" />
+    </div>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="calendaring-class">
+<h1>Calendaring Class<a class="headerlink" href="#calendaring-class" title="Permalink to this headline">¶</a></h1>
+<p>The Calendar class enables you to dynamically create calendars. Your
+calendars can be formatted through the use of a calendar template,
+allowing 100% control over every aspect of its design. In addition, you
+can pass data to your calendar cells.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#using-the-calendaring-class" id="id1">Using the Calendaring Class</a><ul>
+<li><a class="reference internal" href="#initializing-the-class" id="id2">Initializing the Class</a></li>
+<li><a class="reference internal" href="#displaying-a-calendar" id="id3">Displaying a Calendar</a></li>
+<li><a class="reference internal" href="#passing-data-to-your-calendar-cells" id="id4">Passing Data to your Calendar Cells</a></li>
+<li><a class="reference internal" href="#setting-display-preferences" id="id5">Setting Display Preferences</a></li>
+<li><a class="reference internal" href="#showing-next-previous-month-links" id="id6">Showing Next/Previous Month Links</a></li>
+<li><a class="reference internal" href="#creating-a-calendar-template" id="id7">Creating a Calendar Template</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-reference" id="id8">Class Reference</a></li>
+</ul>
+</div>
+<div class="custom-index container"></div><div class="section" id="using-the-calendaring-class">
+<h2><a class="toc-backref" href="#id1">Using the Calendaring Class</a><a class="headerlink" href="#using-the-calendaring-class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-the-class">
+<h3><a class="toc-backref" href="#id2">Initializing the Class</a><a class="headerlink" href="#initializing-the-class" title="Permalink to this headline">¶</a></h3>
+<p>Like most other classes in CodeIgniter, the Calendar class is
+initialized in your controller using the $this-&gt;load-&gt;library function:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once loaded, the Calendar object will be available using:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="displaying-a-calendar">
+<h3><a class="toc-backref" href="#id3">Displaying a Calendar</a><a class="headerlink" href="#displaying-a-calendar" title="Permalink to this headline">¶</a></h3>
+<p>Here is a very simple example showing how you can display a calendar:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The above code will generate a calendar for the current month/year based
+on your server time. To show a calendar for a specific month and year
+you will pass this information to the calendar generating function:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="mi">2006</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The above code will generate a calendar showing the month of June in
+2006. The first parameter specifies the year, the second parameter
+specifies the month.</p>
+</div>
+<div class="section" id="passing-data-to-your-calendar-cells">
+<h3><a class="toc-backref" href="#id4">Passing Data to your Calendar Cells</a><a class="headerlink" href="#passing-data-to-your-calendar-cells" title="Permalink to this headline">¶</a></h3>
+<p>To add data to your calendar cells involves creating an associative
+array in which the keys correspond to the days you wish to populate and
+the array value contains the data. The array is passed to the third
+parameter of the calendar generating function. Consider this example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">);</span>
+
+<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="mi">3</span>  <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/news/article/2006/06/03/&#39;</span><span class="p">,</span>
+        <span class="mi">7</span>  <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/news/article/2006/06/07/&#39;</span><span class="p">,</span>
+        <span class="mi">13</span> <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/news/article/2006/06/13/&#39;</span><span class="p">,</span>
+        <span class="mi">26</span> <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/news/article/2006/06/26/&#39;</span>
+<span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="mi">2006</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Using the above example, day numbers 3, 7, 13, and 26 will become links
+pointing to the URLs you’ve provided.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default it is assumed that your array will contain links.
+In the section that explains the calendar template below you’ll see how
+you can customize how data passed to your cells is handled so you can
+pass different types of information.</p>
+</div>
+</div>
+<div class="section" id="setting-display-preferences">
+<h3><a class="toc-backref" href="#id5">Setting Display Preferences</a><a class="headerlink" href="#setting-display-preferences" title="Permalink to this headline">¶</a></h3>
+<p>There are seven preferences you can set to control various aspects of
+the calendar. Preferences are set by passing an array of preferences in
+the second parameter of the loading function. Here is an example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$prefs</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;start_day&#39;</span>    <span class="o">=&gt;</span> <span class="s1">&#39;saturday&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;month_type&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;day_type&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;short&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">,</span> <span class="nv">$prefs</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The above code would start the calendar on saturday, use the “long”
+month heading, and the “short” day names. More information regarding
+preferences below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="11%" />
+<col width="29%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Preference</th>
+<th class="head">Default</th>
+<th class="head">Options</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>template</strong></td>
+<td>None</td>
+<td>None</td>
+<td><dl class="first last docutils">
+<dt>A string or array containing your calendar template.</dt>
+<dd>See the template section below.</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>local_time</strong></td>
+<td>time()</td>
+<td>None</td>
+<td>A Unix timestamp corresponding to the current time.</td>
+</tr>
+<tr class="row-even"><td><strong>start_day</strong></td>
+<td>sunday</td>
+<td>Any week day (sunday, monday, tuesday, etc.)</td>
+<td>Sets the day of the week the calendar should start on.</td>
+</tr>
+<tr class="row-odd"><td><strong>month_type</strong></td>
+<td>long</td>
+<td>long, short</td>
+<td><dl class="first last docutils">
+<dt>Determines what version of the month name to use in the header.</dt>
+<dd>long = January, short = Jan.</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td><strong>day_type</strong></td>
+<td>abr</td>
+<td>long, short, abr</td>
+<td><dl class="first last docutils">
+<dt>Determines what version of the weekday names to use in</dt>
+<dd>the column headers. long = Sunday, short = Sun, abr = Su.</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>show_next_prev</strong></td>
+<td>FALSE</td>
+<td>TRUE/FALSE (boolean)</td>
+<td><dl class="first last docutils">
+<dt>Determines whether to display links allowing you to toggle</dt>
+<dd>to next/previous months. See information on this feature below.</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td><strong>next_prev_url</strong></td>
+<td>controller/method</td>
+<td>A URL</td>
+<td>Sets the basepath used in the next/previous calendar links.</td>
+</tr>
+<tr class="row-odd"><td><strong>show_other_days</strong></td>
+<td>FALSE</td>
+<td>TRUE/FALSE (boolean)</td>
+<td><dl class="first last docutils">
+<dt>Determines whether to display days of other months that share the</dt>
+<dd>first or last week of the calendar month.</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="showing-next-previous-month-links">
+<h3><a class="toc-backref" href="#id6">Showing Next/Previous Month Links</a><a class="headerlink" href="#showing-next-previous-month-links" title="Permalink to this headline">¶</a></h3>
+<p>To allow your calendar to dynamically increment/decrement via the
+next/previous links requires that you set up your calendar code similar
+to this example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$prefs</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;show_next_prev&#39;</span>  <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+        <span class="s1">&#39;next_prev_url&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;http://example.com/index.php/calendar/show/&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">,</span> <span class="nv">$prefs</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="o">-&gt;</span><span class="na">segment</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="o">-&gt;</span><span class="na">segment</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>You’ll notice a few things about the above example:</p>
+<ul class="simple">
+<li>You must set the “show_next_prev” to TRUE.</li>
+<li>You must supply the URL to the controller containing your calendar in
+the “next_prev_url” preference. If you don’t, it will be set to the current
+<em>controller/method</em>.</li>
+<li>You must supply the “year” and “month” to the calendar generating
+function via the URI segments where they appear (Note: The calendar
+class automatically adds the year/month to the base URL you
+provide.).</li>
+</ul>
+</div>
+<div class="section" id="creating-a-calendar-template">
+<h3><a class="toc-backref" href="#id7">Creating a Calendar Template</a><a class="headerlink" href="#creating-a-calendar-template" title="Permalink to this headline">¶</a></h3>
+<p>By creating a calendar template you have 100% control over the design of
+your calendar. Using the string method, each component of your calendar
+will be placed within a pair of pseudo-variables as shown here:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$prefs</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span>
+
+<span class="s1">        {table_open}&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;{/table_open}</span>
+
+<span class="s1">        {heading_row_start}&lt;tr&gt;{/heading_row_start}</span>
+
+<span class="s1">        {heading_previous_cell}&lt;th&gt;&lt;a href=&quot;{previous_url}&quot;&gt;&amp;lt;&amp;lt;&lt;/a&gt;&lt;/th&gt;{/heading_previous_cell}</span>
+<span class="s1">        {heading_title_cell}&lt;th colspan=&quot;{colspan}&quot;&gt;{heading}&lt;/th&gt;{/heading_title_cell}</span>
+<span class="s1">        {heading_next_cell}&lt;th&gt;&lt;a href=&quot;{next_url}&quot;&gt;&amp;gt;&amp;gt;&lt;/a&gt;&lt;/th&gt;{/heading_next_cell}</span>
+
+<span class="s1">        {heading_row_end}&lt;/tr&gt;{/heading_row_end}</span>
+
+<span class="s1">        {week_row_start}&lt;tr&gt;{/week_row_start}</span>
+<span class="s1">        {week_day_cell}&lt;td&gt;{week_day}&lt;/td&gt;{/week_day_cell}</span>
+<span class="s1">        {week_row_end}&lt;/tr&gt;{/week_row_end}</span>
+
+<span class="s1">        {cal_row_start}&lt;tr&gt;{/cal_row_start}</span>
+<span class="s1">        {cal_cell_start}&lt;td&gt;{/cal_cell_start}</span>
+<span class="s1">        {cal_cell_start_today}&lt;td&gt;{/cal_cell_start_today}</span>
+<span class="s1">        {cal_cell_start_other}&lt;td class=&quot;other-month&quot;&gt;{/cal_cell_start_other}</span>
+
+<span class="s1">        {cal_cell_content}&lt;a href=&quot;{content}&quot;&gt;{day}&lt;/a&gt;{/cal_cell_content}</span>
+<span class="s1">        {cal_cell_content_today}&lt;div class=&quot;highlight&quot;&gt;&lt;a href=&quot;{content}&quot;&gt;{day}&lt;/a&gt;&lt;/div&gt;{/cal_cell_content_today}</span>
+
+<span class="s1">        {cal_cell_no_content}{day}{/cal_cell_no_content}</span>
+<span class="s1">        {cal_cell_no_content_today}&lt;div class=&quot;highlight&quot;&gt;{day}&lt;/div&gt;{/cal_cell_no_content_today}</span>
+
+<span class="s1">        {cal_cell_blank}&amp;nbsp;{/cal_cell_blank}</span>
+
+<span class="s1">        {cal_cell_other}{day}{/cal_cel_other}</span>
+
+<span class="s1">        {cal_cell_end}&lt;/td&gt;{/cal_cell_end}</span>
+<span class="s1">        {cal_cell_end_today}&lt;/td&gt;{/cal_cell_end_today}</span>
+<span class="s1">        {cal_cell_end_other}&lt;/td&gt;{/cal_cell_end_other}</span>
+<span class="s1">        {cal_row_end}&lt;/tr&gt;{/cal_row_end}</span>
+
+<span class="s1">        {table_close}&lt;/table&gt;{/table_close}</span>
+<span class="s1">&#39;</span><span class="p">;</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">,</span> <span class="nv">$prefs</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Using the array method, you will pass <cite>key =&gt; value</cite> pairs. You can pass as
+many or as few values as you’d like. Omitted keys will use the default values
+inherited in the calendar class.</p>
+<p>Example:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nv">$prefs</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;table_open&#39;</span>           <span class="o">=&gt;</span> <span class="s1">&#39;&lt;table class=&quot;calendar&quot;&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cal_cell_start&#39;</span>       <span class="o">=&gt;</span> <span class="s1">&#39;&lt;td class=&quot;day&quot;&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cal_cell_start_today&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&lt;td class=&quot;today&quot;&gt;&#39;</span>
+<span class="p">);</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">load</span><span class="o">-&gt;</span><span class="na">library</span><span class="p">(</span><span class="s1">&#39;calendar&#39;</span><span class="p">,</span> <span class="nv">$prefs</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-reference">
+<h2><a class="toc-backref" href="#id8">Class Reference</a><a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="CI_Calendar">
+<em class="property">class </em><code class="descname">CI_Calendar</code><a class="headerlink" href="#CI_Calendar" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="CI_Calendar::initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><span class="optional">[</span><em>$config = array()</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::initialize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$config</strong> (<em>array</em>) – Configuration parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CI_Calendar instance (method chaining)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">CI_Calendar</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the Calendaring preferences. Accepts an associative array as input, containing display preferences.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::generate">
+<code class="descname">generate</code><span class="sig-paren">(</span><span class="optional">[</span><em>$year = ''</em><span class="optional">[</span>, <em>$month = ''</em><span class="optional">[</span>, <em>$data = array()</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::generate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$year</strong> (<em>int</em>) – Year</li>
+<li><strong>$month</strong> (<em>int</em>) – Month</li>
+<li><strong>$data</strong> (<em>array</em>) – Data to be shown in the calendar cells</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">HTML-formatted calendar</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generate the calendar.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::get_month_name">
+<code class="descname">get_month_name</code><span class="sig-paren">(</span><em>$month</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::get_month_name" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$month</strong> (<em>int</em>) – Month</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Month name</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generates a textual month name based on the numeric month provided.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::get_day_names">
+<code class="descname">get_day_names</code><span class="sig-paren">(</span><em>$day_type = ''</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::get_day_names" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$day_type</strong> (<em>string</em>) – ‘long’, ‘short’, or ‘abr’</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array of day names</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns an array of day names (Sunday, Monday, etc.) based on the type
+provided. Options: long, short, abr. If no <code class="docutils literal"><span class="pre">$day_type</span></code> is provided (or
+if an invalid type is provided) this method will return the “abbreviated”
+style.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::adjust_date">
+<code class="descname">adjust_date</code><span class="sig-paren">(</span><em>$month</em>, <em>$year</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::adjust_date" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$month</strong> (<em>int</em>) – Month</li>
+<li><strong>$year</strong> (<em>int</em>) – Year</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An associative array containing month and year</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method makes sure that you have a valid month/year. For example, if
+you submit 13 as the month, the year will increment and the month will
+become January:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">adjust_date</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">2014</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>outputs:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">Array</span>
+<span class="p">(</span>
+        <span class="p">[</span><span class="nx">month</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="s1">&#39;01&#39;</span>
+        <span class="p">[</span><span class="nx">year</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="s1">&#39;2015&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::get_total_days">
+<code class="descname">get_total_days</code><span class="sig-paren">(</span><em>$month</em>, <em>$year</em><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::get_total_days" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>$month</strong> (<em>int</em>) – Month</li>
+<li><strong>$year</strong> (<em>int</em>) – Year</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Count of days in the specified month</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Total days in a given month:</p>
+<div class="highlight-ci"><div class="highlight"><pre><span></span><span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">calendar</span><span class="o">-&gt;</span><span class="na">get_total_days</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2012</span><span class="p">);</span>
+<span class="c1">// 29</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is an alias for <a class="reference internal" href="../helpers/date_helper.html"><span class="doc">Date Helper</span></a> function <a class="reference internal" href="../helpers/date_helper.html#days_in_month" title="days_in_month"><code class="xref php php-func docutils literal"><span class="pre">days_in_month()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::default_template">
+<code class="descname">default_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::default_template" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An array of template values</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+<p>Sets the default template. This method is used when you have not created
+your own template.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="CI_Calendar::parse_template">
+<code class="descname">parse_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CI_Calendar::parse_template" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CI_Calendar instance (method chaining)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">CI_Calendar</td>
+</tr>
+</tbody>
+</table>
+<p>Harvests the data within the template <code class="docutils literal"><span class="pre">{pseudo-variables}</span></code> used to
+display the calendar.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cart.html" class="btn btn-neutral float-right" title="Shopping Cart Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="caching.html" class="btn btn-neutral" title="Caching Driver"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014 - 2018, British Columbia Institute of Technology.
+      Last updated on Jun 12, 2018.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.1.9',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
