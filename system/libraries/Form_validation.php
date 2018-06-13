@@ -221,7 +221,7 @@ class CI_Form_validation {
 		if (($is_array = (bool) preg_match_all('/\[(.*?)\]/', $field, $matches)) === TRUE)
 		{
 			sscanf($field, '%[^[][', $indexes[0]);
-			$indexes = array_merge($indexes, $matches[1][$i]);
+			$indexes = array_merge($indexes, $matches[1]);
 		}
 
 		// Build our master array
