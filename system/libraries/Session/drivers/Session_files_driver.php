@@ -148,6 +148,8 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			.$name // we'll use the session cookie name as a prefix to avoid collisions
 			.($this->_config['match_ip'] ? md5($_SERVER['REMOTE_ADDR']) : '');
 
+		$this->php5_validate_id();
+
 		return $this->_success;
 	}
 
@@ -387,6 +389,22 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 		closedir($directory);
 
 		return $this->_success;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Validate ID
+	 *
+	 * Checks whether a session ID record exists server-side,
+	 * to enforce session.use_strict_mode.
+	 *
+	 * @param	string	$id
+	 * @return	bool
+	 */
+	public function validateId($id)
+	{
+		return is_file($this->_file_path.$id);
 	}
 
 	// --------------------------------------------------------------------

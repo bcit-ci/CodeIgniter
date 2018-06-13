@@ -2,18 +2,25 @@
 Change Log
 ##########
 
+Version 3.1.10
+==============
+
+
+
 Version 3.1.9
 =============
 
-Release Date: Not Released
+Release Date: Jun 12, 2018
 
 - **Security**
 
    -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+   -  Fixed a possible session fixation vulnerability where the :doc:`Session Library <libraries/sessions>` enabled ``session.use_strict_mode`` but it didn't actually do anything (thanks to Aamer Shah, Prasanna Kumar).
 
 -  General Changes
 
    -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
+   -  Updated :doc:`Email Library <libraries/email>` and :doc:`Form Validation Library <libraries/form_validation>` to discard the results of failed ``idn_to_ascii()`` calls while validating e-mail addresses.
 
 Bug fixes for 3.1.9
 -------------------

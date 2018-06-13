@@ -153,6 +153,8 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			return $this->_success;
 		}
 
+		$this->php5_validate_id();
+
 		return $this->_fail();
 	}
 
@@ -308,6 +310,22 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		// Not necessary, Redis takes care of that.
 		return $this->_success;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Validate ID
+	 *
+	 * Checks whether a session ID record exists server-side,
+	 * to enforce session.use_strict_mode.
+	 *
+	 * @param	string	$id
+	 * @return	bool
+	 */
+	public function validateId($id)
+	{
+		return (bool) $this->_redis->exists($this->_key_prefix.$id);
 	}
 
 	// ------------------------------------------------------------------------
