@@ -5,7 +5,10 @@ Change Log
 Version 3.1.10
 ==============
 
+Bug fixes for 3.1.10
+--------------------
 
+-  Fixed a bug (#5526) - :doc:`Session Library <libraries/sessions>` had a syntax error in its 'memcached' driver.
 
 Version 3.1.9
 =============
