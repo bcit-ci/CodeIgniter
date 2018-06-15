@@ -2,7 +2,6 @@
 Change Log
 ##########
 
-<<<<<<< HEAD
 Version 3.2.0
 =============
 
@@ -127,12 +126,14 @@ Release Date: Not Released
       - Added 'img_alt' option with a default value of 'captcha'.
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
-=======
+
 Version 3.1.10
 ==============
 
->>>>>>> 3.1-stable
+Bug fixes for 3.1.10
+--------------------
 
+-  Fixed a bug (#5526) - :doc:`Session Library <libraries/sessions>` had a syntax error in its 'memcached' driver.
 
 Version 3.1.9
 =============
