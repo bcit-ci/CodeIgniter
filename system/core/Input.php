@@ -637,9 +637,93 @@ class CI_Input {
 			? strtoupper($this->server('REQUEST_METHOD'))
 			: strtolower($this->server('REQUEST_METHOD'));
 	}
+	
+	// ------------------------------------------------------------------------
+	
+	/**
+	 * Returns whether this is a GET request
+	 * 
+	 * @return bool
+	 */
+	public function is_get()
+	{
+		return $this->method(TRUE) === 'GET';
+	}
 
 	// ------------------------------------------------------------------------
 
+	/**
+	 * Returns whether this is an OPTIONS request
+	 * 
+	 * @return bool
+	 */
+	public function is_options()
+	{
+		return $this->method(TRUE) === 'OPTIONS';
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Returns whether this is a HEAD request
+	 * 
+	 * @return bool
+	 */
+	public function is_head()
+	{
+		return $this->method(TRUE) === 'HEAD';
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Returns whether this is a POST request
+	 * 
+	 * @return bool
+	 */
+	public function is_post()
+	{
+		return $this->method(TRUE) === 'POST';
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Returns whether this is a DELETE request
+	 * 
+	 * @return bool
+	 */
+	public function is_delete()
+	{
+		return $this->method(TRUE) === 'DELETE';
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Returns whether this is a PUT request
+	 * 
+	 * @return bool
+	 */
+	public function is_put()
+	{
+		return $this->method(TRUE) === 'PUT';
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * Returns whether this is a PATCH request
+	 * 
+	 * @return bool
+	 */
+	public function is_patch()
+	{
+		return $this->method(TRUE) === 'PATCH';
+	}
+
+	// ------------------------------------------------------------------------
+	
 	/**
 	 * Magic __get()
 	 *
