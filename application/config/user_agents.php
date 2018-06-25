@@ -88,7 +88,8 @@ $browsers = array(
 	'IBrowse'		=> 'IBrowse',
 	'Maxthon'		=> 'Maxthon',
 	'Ubuntu'		=> 'Ubuntu Web Browser',
-	'Vivaldi'		=> 'Vivaldi'
+	'Vivaldi'		=> 'Vivaldi',
+	'MALGJS'		=> 'LG OEM Windows Devices'
 );
 
 $mobiles = array(
