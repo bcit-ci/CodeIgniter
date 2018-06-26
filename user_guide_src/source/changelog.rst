@@ -2,24 +2,35 @@
 Change Log
 ##########
 
+Version 3.1.10
+==============
+
+Bug fixes for 3.1.10
+--------------------
+
+-  Fixed a bug (#5526) - :doc:`Session Library <libraries/sessions>` had a syntax error in its 'memcached' driver.
+
 Version 3.1.9
 =============
 
-Release Date: Not Released
+Release Date: Jun 12, 2018
 
 - **Security**
 
    -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+   -  Fixed a possible session fixation vulnerability where the :doc:`Session Library <libraries/sessions>` enabled ``session.use_strict_mode`` but it didn't actually do anything (thanks to Aamer Shah, Prasanna Kumar).
 
 -  General Changes
 
    -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
+   -  Updated :doc:`Email Library <libraries/email>` and :doc:`Form Validation Library <libraries/form_validation>` to discard the results of failed ``idn_to_ascii()`` calls while validating e-mail addresses.
 
 Bug fixes for 3.1.9
 -------------------
 
 -  Fixed a regression (#5448) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) didn't apply *dbprefix* or identifier escaping.
 -  Fixed a regression (#5462) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) produced incorrect SQL syntax when used with ``'before'`` as the third parameter.
+-  Fixed a bug (#5516) - :doc:`HTML Helper <helpers/html_helper>` functions :php:func:`img()`, :php:func:`link_tag()` would output results with double slashes if a prefix slash was included in their path inputs.
 
 Version 3.1.8
 =============
