@@ -258,10 +258,9 @@ class CI_Router {
 
 		if ($this->translate_uri_dashes === TRUE)
 		{
-			$segments[0] = str_replace('-', '_', $segments[0]);
-			if (isset($segments[1]))
+			foreach($segments as &$each_segment)
 			{
-				$segments[1] = str_replace('-', '_', $segments[1]);
+				$each_segment = str_replace('-', '_', $each_segment);
 			}
 		}
 
