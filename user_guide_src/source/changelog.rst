@@ -31,6 +31,7 @@ Release Date: Not Released
       - Removed previously deprecated method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
       - Changed the ``set_cookie()`` method's default expiry time to 0 (expires when browser is closed).
       - Changed the ``set_cookie()`` method to delete the cookie if a negative expiry time is passed to it.
+      - Allowed usage of nested array keys in ``get_post()``, ``post_get()`` methods.
 
 -  Libraries
 
