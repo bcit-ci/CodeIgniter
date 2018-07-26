@@ -724,7 +724,7 @@ abstract class CI_DB_forge {
 				'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
 				'length'		=> '',
 				'unsigned'		=> '',
-				'null'			=> '',
+				'null'			=> NULL,
 				'unique'		=> '',
 				'default'		=> '',
 				'auto_increment'	=> '',
