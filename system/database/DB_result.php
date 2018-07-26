@@ -72,6 +72,21 @@ class CI_DB_result {
 	public $result_array			= array();
 
 	/**
+	 * Dropdown Result Array, use @form_dropdown
+	 *
+	 * @var	array[]
+	 */
+	public $dropdown_result_array		= array();
+
+	/**
+	 * Dropdown Result Array, use @form_dropdown
+	 * Value use json instead of single value, easier to get all data in selected row, no need to requery
+	 *
+	 * @var	array[]
+	 */
+	public $dropdown_json_result_array	= array();
+
+	/**
 	 * Result Object
 	 *
 	 * @var	object[]
@@ -84,7 +99,7 @@ class CI_DB_result {
 	 * @var	object[]
 	 */
 	public $custom_result_object		= array();
-
+	
 	/**
 	 * Current Row index
 	 *
@@ -141,6 +156,14 @@ class CI_DB_result {
 		{
 			return $this->num_rows = count($this->result_object);
 		}
+		elseif (count($this->dropdown_result_array) > 0)
+		{
+			return $this->num_rows = count($this->dropdown_result_array);
+		}
+		elseif (count($this->dropdown_json_result_array) > 0)
+		{
+			return $this->num_rows = count($this->dropdown_json_result_array);
+		}
 
 		return $this->num_rows = count($this->result_array());
 	}
@@ -150,10 +173,12 @@ class CI_DB_result {
 	/**
 	 * Query result. Acts as a wrapper function for the following functions.
 	 *
-	 * @param	string	$type	'object', 'array' or a custom class name
+	 * @param	string	$type		'object', 'array', 'dropdown', 'dropdown_json' or a custom class name
+	 * @param	string	$valuefield	field name using as value in the dropdown
+	 * @param	string	$labelfield	field name using as label in the dropdown
 	 * @return	array
 	 */
-	public function result($type = 'object')
+	public function result($type = 'object', $valuefield = '', $labelfield = '')
 	{
 		if ($type === 'array')
 		{
@@ -162,6 +187,14 @@ class CI_DB_result {
 		elseif ($type === 'object')
 		{
 			return $this->result_object();
+		}
+		elseif ($type === 'dropdown' && $valuefield != '' && $labelfield != '')
+		{
+			return $this->result_dropdown($valuefield, $labelfield);
+		}
+		elseif ($type === 'dropdown_json' && $labelfield != '')
+		{
+			return $this->result_dropdown_json($labelfield);
 		}
 
 		return $this->custom_result_object($type);
@@ -308,12 +341,117 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Query result. "dropdown" version.
+	 * 
+	 * @param	string	$valuefield	field name using as value in the dropdown
+	 * @param	string	$labelfield	field name using as label in the dropdown
+	 * @return	array
+	 */
+	public function result_dropdown($valuefield, $labelfield)
+	{
+		if (count($this->dropdown_result_array) > 0)
+		{
+			return $this->dropdown_result_array;
+		}
+
+		// In the event that query caching is on, the result_id variable
+		// will not be a valid resource so we'll simply return an empty
+		// array.
+		if ( ! $this->result_id OR $this->num_rows === 0)
+		{
+			return array();
+		}
+
+		if (($c = count($this->result_object)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$currow		 	                        	= (array) $this->result_object[$i];
+				$this->dropdown_result_array[$currow[$valuefield]] 	= $currow[$labelfield];
+			}
+
+			return $this->dropdown_result_array;
+		}
+		elseif (($c = count($this->result_array)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->dropdown_result_array[$this->result_array[$i][$valuefield]] = $this->result_array[$i][$labelfield];
+			}
+
+			return $this->dropdown_result_array;
+		}
+
+		is_null($this->row_data) OR $this->data_seek(0);
+		while ($row = $this->_fetch_assoc())
+		{
+			$this->dropdown_result_array[$row[$valuefield]] = $row[$labelfield];
+		}
+
+		return $this->dropdown_result_array;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Query result. "dropdown_json" version.
+	 * 
+	 * @param	string	$labelfield	field name using as label in the dropdown
+	 * @return	array
+	 */
+	public function result_dropdown_json($labelfield)
+	{
+		if (count($this->dropdown_json_result_array) > 0)
+		{
+			return $this->dropdown_json_result_array;
+		}
+
+		// In the event that query caching is on, the result_id variable
+		// will not be a valid resource so we'll simply return an empty
+		// array.
+		if ( ! $this->result_id OR $this->num_rows === 0)
+		{
+			return array();
+		}
+
+		if (($c = count($this->result_object)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$currow		 	                       			= (array) $this->result_object[$i];
+				$this->dropdown_json_result_array[htmlentities(json_encode($currow))] 	= $currow[$labelfield];
+			}
+
+			return $this->dropdown_json_result_array;
+		}
+		elseif (($c = count($this->result_array)) > 0)
+		{
+			for ($i = 0; $i < $c; $i++)
+			{
+				$this->dropdown_json_result_array[htmlentities(json_encode($this->result_array[$i]))] = $this->result_array[$i][$labelfield];
+			}
+
+			return $this->dropdown_json_result_array;
+		}
+
+		is_null($this->row_data) OR $this->data_seek(0);
+		while ($row = $this->_fetch_assoc())
+		{
+			$this->dropdown_json_result_array[htmlentities(json_encode($row))] = $row[$labelfield];
+		}
+
+		return $this->dropdown_json_result_array;
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
 	 * Row
 	 *
 	 * A wrapper method.
 	 *
 	 * @param	mixed	$n
-	 * @param	string	$type	'object' or 'array'
+	 * @param	string	$type	'object' or 'array' or 'dropdown' or 'dropdown_json'
 	 * @return	mixed
 	 */
 	public function row($n = 0, $type = 'object')
@@ -334,6 +472,8 @@ class CI_DB_result {
 
 		if ($type === 'object') return $this->row_object($n);
 		elseif ($type === 'array') return $this->row_array($n);
+		elseif ($type === 'dropdown') return $this->row_dropdown_array($n);
+		elseif ($type === 'dropdown_json') return $this->row_dropdown_json_array($n);
 
 		return $this->custom_row_object($n, $type);
 	}
@@ -447,6 +587,55 @@ class CI_DB_result {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Returns a single result row - array version (dropdown)
+	 *
+	 * @param	int	$n
+	 * @return	array
+	 */
+	public function row_dropdown_array($n = 0)
+	{
+		$result = $this->dropdown_result_array();
+		if (count($result) === 0)
+		{
+			return NULL;
+		}
+
+		if ($n !== $this->current_row && isset($result[$n]))
+		{
+			$this->current_row = $n;
+		}
+
+		return $result[$this->current_row];
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Returns a single result row - array version (dropdown_json)
+	 *
+	 * @param	int	$n
+	 * @return	array
+	 */
+	public function row_dropdown_json_array($n = 0)
+	{
+		$result = $this->dropdown_json_result_array();
+		if (count($result) === 0)
+		{
+			return NULL;
+		}
+
+		if ($n !== $this->current_row && isset($result[$n]))
+		{
+			$this->current_row = $n;
+		}
+
+		return $result[$this->current_row];
+	}
+
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Returns the "first" row
 	 *
 	 * @param	string	$type
@@ -521,10 +710,12 @@ class CI_DB_result {
 	/**
 	 * Returns an unbuffered row and move pointer to next row
 	 *
-	 * @param	string	$type	'array', 'object' or a custom class name
+	 * @param	string	$type	'array', 'object', 'dropdown', 'dropdown_json' or a custom class name
+	 * @param	string	$valuefield	field name using as value in the dropdown
+	 * @param	string	$labelfield	field name using as label in the dropdown
 	 * @return	mixed
 	 */
-	public function unbuffered_row($type = 'object')
+	public function unbuffered_row($type = 'object', $valuefield = '', $labelfield = '')
 	{
 		if ($type === 'array')
 		{
@@ -533,6 +724,16 @@ class CI_DB_result {
 		elseif ($type === 'object')
 		{
 			return $this->_fetch_object();
+		}
+		elseif ($type === 'dropdown' && $valuefield != '' && $labelfield != '')
+		{
+			$currow = $this->_fetch_object();
+			return array($currow[$valuefield] => $currow[$labefield]);
+		}
+		elseif ($type === 'dropdown_json' && $labelfield != '')
+		{
+			$currow = $this->_fetch_object();
+			return array(htmlentities(json_encode($currow)) => $currow[$labefield]);
 		}
 
 		return $this->_fetch_object($type);
