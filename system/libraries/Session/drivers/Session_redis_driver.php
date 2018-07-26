@@ -355,18 +355,25 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			if (($ttl = $this->_redis->ttl($lock_key)) > 0)
 			{
-				sleep(1);
+				$sleep_random = (rand(1,5)) * 100000;
+       			usleep($sleep_random);
 				continue;
 			}
 
-			$result = ($ttl === -2)
-				? $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300))
-				: $this->_redis->setex($lock_key, 300, time());
+			if ($ttl === -2) {
+				// if key doesn't exists, try to set it with a ttl of 300s
+				$result = $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300));
+				// not set because already set? wait and retry
+				// see: https://redis.io/commands/setnx#design-pattern-locking-with-codesetnxcode
+				if (!$result) {
+					$sleep_random = (rand(1,5)) * 100000;
+					usleep($sleep_random);
+					continue;
+				}
 
-			if ( ! $result)
-			{
-				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
-				return FALSE;
+			}
+			else {
+				$result = $this->_redis->setex($lock_key, 300, time());
 			}
 
 			$this->_lock_key = $lock_key;
