@@ -150,6 +150,22 @@ class CI_Lang {
 
 		if ($found !== TRUE)
 		{
+		    // If defined languague is not available, look for english version
+		    foreach (get_instance()->load->get_package_paths(TRUE) as $package_path)
+		    {
+			$package_path .= 'language/english/'.$langfile;
+			if ($basepath !== $package_path && file_exists($package_path))
+			{
+			    log_message('error', 'Could not find the language "' . $idiom . '" but is available on "' . $package_path . '"');
+			    include($package_path);
+			    $found = TRUE;
+			    break;
+			}
+		    }
+		}
+
+		if ($found !== TRUE)
+		{
 			show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 		}
 
