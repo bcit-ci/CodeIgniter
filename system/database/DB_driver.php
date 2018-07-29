@@ -1341,7 +1341,7 @@ abstract class CI_DB_driver {
 			return $item;
 		}
 		// Avoid breaking functions and literal values inside queries
-		elseif (ctype_digit($item) OR $item[0] === "'" OR ($this->_escape_char !== '"' && $item[0] === '"') OR strpos($item, '(') !== FALSE)
+		elseif (ctype_digit($item) OR $item[0] === "'" OR ($this->_escape_char !== '"' && $item[0] === '"') OR $item[0] === (is_array($this->_escape_char)?implode($this->_escape_char):$this->_escape_char) OR strpos($item, '(') !== FALSE)
 		{
 			return $item;
 		}
@@ -1777,7 +1777,7 @@ abstract class CI_DB_driver {
 		//
 		// Added exception for single quotes as well, we don't want to alter
 		// literal strings. -- Narf
-		if (strcspn($item, "()'") !== strlen($item))
+		if (strcspn($item, "()'".(is_array($this->_escape_char)?implode($this->_escape_char):$this->_escape_char)) !== strlen($item))
 		{
 			return $item;
 		}
