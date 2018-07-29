@@ -128,8 +128,8 @@ class CI_DB_cubrid_driver extends CI_DB {
 
 		$func = ($persistent !== TRUE) ? 'cubrid_connect' : 'cubrid_pconnect';
 		return ($this->username !== '')
-			? $func($this->hostname, $this->port, $this->database, $this->username, $this->password)
-			: $func($this->hostname, $this->port, $this->database);
+			? $func($this->hostname, $this->port, trim($this->database,(is_array($this->_escape_char)?implode($this->_escape_char):$this->_escape_char)), $this->username, $this->password)
+			: $func($this->hostname, $this->port, trim($this->database,(is_array($this->_escape_char)?implode($this->_escape_char):$this->_escape_char)));
 	}
 
 	// --------------------------------------------------------------------
