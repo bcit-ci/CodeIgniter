@@ -121,7 +121,7 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	public function php5_validate_id()
 	{
-		if (PHP_VERSION_ID < 70000 && isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateId($_COOKIE[$this->_config['cookie_name']]))
+		if (isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateSessionId($_COOKIE[$this->_config['cookie_name']]))
 		{
 			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
