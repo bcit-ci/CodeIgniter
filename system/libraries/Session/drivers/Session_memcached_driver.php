@@ -303,7 +303,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 * @param	string	$id
 	 * @return	bool
 	 */
-	public function validateId($id)
+	public function validateSessionId($id)
 	{
 		$this->_memcached->get($this->_key_prefix.$id);
 		return ($this->_memcached->getResultCode() === Memcached::RES_SUCCESS);
