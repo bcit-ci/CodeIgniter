@@ -90,7 +90,7 @@ key security so you may want to think carefully before using it for
 anything that requires high security, like storing credit card numbers.
 
 Your encryption key **must** be as long as the encyption algorithm in use
-allows. For AES-128, that's 128 bits or 16 bytes (charcters) long.
+allows. For AES-128, that's 128 bits or 16 bytes (characters) long.
 You will find a table below that shows the supported key lengths of
 different ciphers.
 
