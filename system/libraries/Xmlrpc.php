@@ -1213,7 +1213,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		{
 			echo '<pre>';
 
-			if (count($this->xh[$pname]['headers'] > 0))
+			if (count($this->xh[$pname]['headers']) > 0)
 			{
 				echo "---HEADERS---\n";
 				foreach ($this->xh[$pname]['headers'] as $header)

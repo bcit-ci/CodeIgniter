@@ -12,6 +12,7 @@ Bug fixes for 3.1.10
 -  Fixed a bug (#5542) - :doc:`Database Forge <database/forge>` method ``modify_column()`` always made fields ``NOT NULL`` when attempting to modify their nullable property under PostgreSQL.
 -  Fixed a bug (#5561) - :doc:`Database Library <database/index>` didn't allow SSL connection configuration with only the 'ssl_verify' option when using the 'mysqli' driver.
 -  Fixed a bug (#5545) - :doc:`Session Library <libraries/sessions>` crashed due to a caching-related error with the 'files' driver.
+-  Fixed a bug (#5571) - :doc:`XML-RPC Library <libraries/xmlrpc>` had a typo that triggered an ``E_WARNING`` message on PHP 7.2.
 
 Version 3.1.9
 =============
