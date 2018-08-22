@@ -10,6 +10,7 @@ Bug fixes for 3.1.10
 
 -  Fixed a bug (#5526) - :doc:`Session Library <libraries/sessions>` had a syntax error in its 'memcached' driver.
 -  Fixed a bug (#5542) - :doc:`Database Forge <database/forge>` method ``modify_column()`` always made fields ``NOT NULL`` when attempting to modify their nullable property under PostgreSQL.
+-  Fixed a bug (#5561) - :doc:`Database Library <database/index>` didn't allow SSL connection configuration with only the 'ssl_verify' option when using the 'mysqli' driver.
 
 Version 3.1.9
 =============
