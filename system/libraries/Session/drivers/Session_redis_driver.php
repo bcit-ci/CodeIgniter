@@ -323,7 +323,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 * @param	string	$id
 	 * @return	bool
 	 */
-	public function validateId($id)
+	public function validateSessionId($id)
 	{
 		return (bool) $this->_redis->exists($this->_key_prefix.$id);
 	}
