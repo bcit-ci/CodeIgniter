@@ -5,6 +5,10 @@ Change Log
 Version 3.1.10
 ==============
 
+-  General Changes
+
+   -  Added 'ssl_verify' support to the 'pdo/mysql' :doc:`Database <database/index> driver.
+
 Bug fixes for 3.1.10
 --------------------
 
