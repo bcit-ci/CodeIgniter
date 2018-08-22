@@ -198,13 +198,14 @@ class CI_Form_validation {
 		// No fields or no rules? Nothing to do...
 		if ( ! is_string($field) OR $field === '' OR empty($rules))
 		{
-			return $this;
+			throw new RuntimeException('Form_validation: set_rules() called with an empty $rules parameter');
 		}
 		elseif ( ! is_array($rules))
 		{
 			// BC: Convert pipe-separated rules string to an array
 			if ( ! is_string($rules))
 			{
+				throw new InvalidArgumentException('Form_validation: set_rules() expect $rules to be string or array; '.gettype($rules).' given');
 				return $this;
 			}
 
