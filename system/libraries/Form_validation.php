@@ -206,7 +206,6 @@ class CI_Form_validation {
 			if ( ! is_string($rules))
 			{
 				throw new InvalidArgumentException('Form_validation: set_rules() expect $rules to be string or array; '.gettype($rules).' given');
-				return $this;
 			}
 
 			$rules = preg_split('/\|(?![^\[]*\])/', $rules);
