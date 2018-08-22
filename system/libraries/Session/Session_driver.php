@@ -115,7 +115,7 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	/**
 	 * PHP 5.x validate ID
 	 *
-	 * Enforces session.use_strict_mode on PHP 5.x (7+ does it by itself)
+	 * Enforces session.use_strict_mode
 	 *
 	 * @return	void
 	 */
