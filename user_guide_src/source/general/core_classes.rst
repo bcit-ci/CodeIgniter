@@ -83,6 +83,7 @@ application/core/MY_Input.php, and declare your class with::
 			public function __construct()
 			{
 				parent::__construct();
+				// Your own constructor code
 			}
 		}
 
@@ -97,12 +98,6 @@ your new class in your application controller's constructors.
 ::
 
 	class Welcome extends MY_Controller {
-
-		public function __construct()
-		{
-			parent::__construct();
-			// Your own constructor code
-		}
 
 		public function index()
 		{

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -498,6 +498,7 @@ if ( ! function_exists('set_status_header'))
 			$stati = array(
 				100	=> 'Continue',
 				101	=> 'Switching Protocols',
+				103	=> 'Early Hints',
 
 				200	=> 'OK',
 				201	=> 'Created',
@@ -506,6 +507,7 @@ if ( ! function_exists('set_status_header'))
 				204	=> 'No Content',
 				205	=> 'Reset Content',
 				206	=> 'Partial Content',
+				207	=> 'Multi-Status',
 
 				300	=> 'Multiple Choices',
 				301	=> 'Moved Permanently',
@@ -514,6 +516,7 @@ if ( ! function_exists('set_status_header'))
 				304	=> 'Not Modified',
 				305	=> 'Use Proxy',
 				307	=> 'Temporary Redirect',
+				308	=> 'Permanent Redirect',
 
 				400	=> 'Bad Request',
 				401	=> 'Unauthorized',
@@ -533,11 +536,13 @@ if ( ! function_exists('set_status_header'))
 				415	=> 'Unsupported Media Type',
 				416	=> 'Requested Range Not Satisfiable',
 				417	=> 'Expectation Failed',
+				421	=> 'Misdirected Request',
 				422	=> 'Unprocessable Entity',
 				426	=> 'Upgrade Required',
 				428	=> 'Precondition Required',
 				429	=> 'Too Many Requests',
 				431	=> 'Request Header Fields Too Large',
+				451	=> 'Unavailable For Legal Reasons',
 
 				500	=> 'Internal Server Error',
 				501	=> 'Not Implemented',
@@ -624,7 +629,7 @@ if ( ! function_exists('_error_handler'))
 
 		// If the error is fatal, the execution of the script should be stopped because
 		// errors can't be recovered from. Halting the script conforms with PHP's
-		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
+		// default error handling. See https://secure.php.net/manual/en/errorfunc.constants.php
 		if ($is_error)
 		{
 			exit(1); // EXIT_ERROR

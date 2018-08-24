@@ -5,7 +5,7 @@ Encryption Library
 .. important:: DO NOT use this or any other *encryption* library for
 	user password storage! Passwords must be *hashed* instead, and you
 	should do that via PHP's own `Password Hashing extension
-	<http://php.net/password>`_.
+	<https://secure.php.net/password>`_.
 
 The Encryption Library provides two-way data encryption. To do so in
 a cryptographically secure way, it utilizes PHP extensions that are
@@ -13,8 +13,8 @@ unfortunately not always available on all systems.
 You must meet one of the following dependencies in order to use this
 library:
 
-- `OpenSSL <http://php.net/openssl>`_
-- `MCrypt <http://php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
+- `OpenSSL <https://secure.php.net/openssl>`_
+- `MCrypt <https://secure.php.net/mcrypt>`_ (and `MCRYPT_DEV_URANDOM` availability)
 
 If neither of the above dependencies is met, we simply cannot offer
 you a good enough implementation to meet the high standards required
@@ -63,7 +63,7 @@ encryption and authentication is a bad practice.
 Because of that, two separate keys are derived from your already configured
 *encryption_key*: one for encryption and one for authentication. This is
 done via a technique called `HMAC-based Key Derivation Function
-<http://en.wikipedia.org/wiki/HKDF>`_ (HKDF).
+<https://en.wikipedia.org/wiki/HKDF>`_ (HKDF).
 
 Setting your encryption_key
 ===========================
@@ -90,7 +90,7 @@ key security so you may want to think carefully before using it for
 anything that requires high security, like storing credit card numbers.
 
 Your encryption key **must** be as long as the encyption algorithm in use
-allows. For AES-128, that's 128 bits or 16 bytes (charcters) long.
+allows. For AES-128, that's 128 bits or 16 bytes (characters) long.
 You will find a table below that shows the supported key lengths of
 different ciphers.
 
@@ -171,7 +171,7 @@ RC4 / ARCFour            rc4                40-2048 / 5-256              Stream
 .. note:: Even though CAST5 supports key lengths lower than 128 bits
 	(16 bytes), in fact they will just be zero-padded to the
 	maximum length, as specified in `RFC 2144
-	<http://tools.ietf.org/rfc/rfc2144.txt>`_.
+	<https://tools.ietf.org/rfc/rfc2144.txt>`_.
 
 .. note:: Blowfish supports key lengths as small as 32 bits (4 bytes), but
 	our tests have shown that only lengths of 128 bits (16 bytes) or
@@ -482,7 +482,7 @@ The reason for not including other popular algorithms, such as
 MD5 or SHA1 is that they are no longer considered secure enough
 and as such, we don't want to encourage their usage.
 If you absolutely need to use them, it is easy to do so via PHP's
-native `hash_hmac() <http://php.net/manual/en/function.hash-hmac.php>`_ function.
+native `hash_hmac() <https://secure.php.net/manual/en/function.hash-hmac.php>`_ function.
 
 Stronger algorithms of course will be added in the future as they
 appear and become widely available.

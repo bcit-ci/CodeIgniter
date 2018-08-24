@@ -31,15 +31,15 @@ class Array_helper_test extends CI_TestCase {
 		$this->assertEquals('my string', random_element('my string'));
 
 		// Test sending an array
-		$this->assertEquals(TRUE, in_array(random_element($this->my_array), $this->my_array));
+		$this->assertContains(random_element($this->my_array), $this->my_array);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public function test_elements()
 	{
-		$this->assertEquals(TRUE, is_array(elements('test', $this->my_array)));
-		$this->assertEquals(TRUE, is_array(elements('foo', $this->my_array)));
+		$this->assertInternalType('array', elements('test', $this->my_array));
+		$this->assertInternalType('array', elements('foo', $this->my_array));
 	}
 
 }

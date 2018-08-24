@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category	Compatibility
  * @author		Andrey Andreev
  * @link		https://codeigniter.com/user_guide/
- * @link		http://php.net/password
+ * @link		https://secure.php.net/password
  */
 
 // ------------------------------------------------------------------------
@@ -67,7 +67,7 @@ if ( ! function_exists('password_get_info'))
 	/**
 	 * password_get_info()
 	 *
-	 * @link	http://php.net/password_get_info
+	 * @link	https://secure.php.net/password_get_info
 	 * @param	string	$hash
 	 * @return	array
 	 */
@@ -86,7 +86,7 @@ if ( ! function_exists('password_hash'))
 	/**
 	 * password_hash()
 	 *
-	 * @link	http://php.net/password_hash
+	 * @link	https://secure.php.net/password_hash
 	 * @param	string	$password
 	 * @param	int	$algo
 	 * @param	array	$options
@@ -194,7 +194,7 @@ if ( ! function_exists('password_needs_rehash'))
 	/**
 	 * password_needs_rehash()
 	 *
-	 * @link	http://php.net/password_needs_rehash
+	 * @link	https://secure.php.net/password_needs_rehash
 	 * @param	string	$hash
 	 * @param	int	$algo
 	 * @param	array	$options
@@ -228,7 +228,7 @@ if ( ! function_exists('password_verify'))
 	/**
 	 * password_verify()
 	 *
-	 * @link	http://php.net/password_verify
+	 * @link	https://secure.php.net/password_verify
 	 * @param	string	$password
 	 * @param	string	$hash
 	 * @return	bool

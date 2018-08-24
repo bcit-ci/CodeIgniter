@@ -24,7 +24,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function __construct($name = null, array $data = [], $dataName = '')
+	public function __construct($name = null, array $data = array(), $dataName = '')
 	{
 		parent::__construct($name, $data, $dataName);
 		$this->ci_instance = new stdClass();
@@ -377,10 +377,8 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		{
 			return call_user_func_array($this->{$method},$args);
 		}
-		else
-		{
-			return parent::__call($method, $args);
-		}
+
+		return parent::__call($method, $args);
 	}
 
 }

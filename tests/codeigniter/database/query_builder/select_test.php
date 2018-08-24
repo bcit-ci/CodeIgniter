@@ -28,8 +28,8 @@ class Select_test extends CI_TestCase {
 
 		// Check rows item
 		$this->assertArrayHasKey('name',$jobs_name[0]);
-		$this->assertFalse(array_key_exists('id', $jobs_name[0]));
-		$this->assertFalse(array_key_exists('description', $jobs_name[0]));
+		$this->assertArrayNotHasKey('id', $jobs_name[0]);
+		$this->assertArrayNotHasKey('description', $jobs_name[0]);
 	}
 
 	// ------------------------------------------------------------------------

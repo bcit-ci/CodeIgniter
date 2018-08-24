@@ -9,6 +9,9 @@ upgrading from.
 	:titlesonly:
 
 	Upgrading from 3.1.3+ to 3.2.x <upgrade_320>
+	Upgrading from 3.1.9 to 3.1.10 <upgrade_3110>
+	Upgrading from 3.1.8 to 3.1.9 <upgrade_319>
+	Upgrading from 3.1.7 to 3.1.8 <upgrade_318>
 	Upgrading from 3.1.6 to 3.1.7 <upgrade_317>
 	Upgrading from 3.1.5 to 3.1.6 <upgrade_316>
 	Upgrading from 3.1.4 to 3.1.5 <upgrade_315>

@@ -24,7 +24,7 @@ class Truncate_test extends CI_TestCase {
 	{
 		// Check initial record
 		$jobs = $this->db->get('job')->result_array();
-		$this->assertEquals(4, count($jobs));
+		$this->assertCount(4, $jobs);
 
 		// Do the empty
 		$this->db->truncate('job');
@@ -43,7 +43,7 @@ class Truncate_test extends CI_TestCase {
 	{
 		// Check initial record
 		$users = $this->db->get('user')->result_array();
-		$this->assertEquals(4, count($users));
+		$this->assertCount(4, $users);
 
 		// Do the empty
 		$this->db->from('user')->truncate();

@@ -135,7 +135,7 @@ Class Reference
 
 			$this->encrypt->set_cipher(MCRYPT_BLOWFISH);
 
-		Please visit php.net for a list of `available ciphers <http://php.net/mcrypt>`_.
+		Please visit php.net for a list of `available ciphers <https://secure.php.net/mcrypt>`_.
 
 		If you'd like to manually test whether your server supports MCrypt you
 		can use::
@@ -153,7 +153,7 @@ Class Reference
 
 			$this->encrypt->set_mode(MCRYPT_MODE_CFB);
 
-		Please visit php.net for a list of `available modes <http://php.net/mcrypt>`_.
+		Please visit php.net for a list of `available modes <https://secure.php.net/mcrypt>`_.
 
 	.. php:method:: encode_from_legacy($string[, $legacy_mode = MCRYPT_MODE_ECB[, $key = '']])
 

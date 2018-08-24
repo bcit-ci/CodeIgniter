@@ -233,7 +233,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        unless you have no other option as that would cause a security risk.
 **mod_mime_fix**             TRUE              TRUE/FALSE (boolean)    If set to TRUE, multiple filename extensions will be suffixed with an
                                                                        underscore in order to avoid triggering `Apache mod_mime
-                                                                       <http://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
+                                                                       <https://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
                                                                        DO NOT turn off this option if your upload directory is public, as this
                                                                        is a security risk.
 ============================ ================= ======================= ======================================================================
@@ -344,7 +344,7 @@ Class Reference
 		full_path        Absolute server path, including the file name
 		raw_name         File name, without the extension
 		orig_name        Original file name. This is only useful if you use the encrypted name option.
-		client_name      File name as supplied by the client user agent, prior to any file name preparation or incrementing
+		client_name      File name supplied by the client user agent, but possibly sanitized
 		file_ext         Filename extension, period included
 		file_size        File size in kilobytes
 		is_image         Whether the file is an image or not. 1 = image. 0 = not.

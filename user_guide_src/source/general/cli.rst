@@ -13,7 +13,7 @@ What is the CLI?
 
 The command-line interface is a text-based method of interacting with
 computers. For more information, check the `Wikipedia
-article <http://en.wikipedia.org/wiki/Command-line_interface>`_.
+article <https://en.wikipedia.org/wiki/Command-line_interface>`_.
 
 Why run via the command-line?
 =============================
@@ -65,8 +65,8 @@ If you did it right, you should see *Hello World!* printed.
 
 	$ php index.php tools message "John Smith"
 
-Here we are passing it a argument in the same way that URL parameters
-work. "John Smith" is passed as a argument and output is::
+Here we are passing it an argument in the same way that URL parameters
+work. "John Smith" is passed as an argument and the output is::
 
 	Hello John Smith!
 

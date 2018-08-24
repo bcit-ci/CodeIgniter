@@ -20,8 +20,8 @@ class Input_test extends CI_TestCase {
 
 	public function test_get_not_exists()
 	{
-		$this->assertTrue($this->input->get() === array());
-		$this->assertTrue($this->input->get('foo') === NULL);
+		$this->assertSame(array(), $this->input->get());
+		$this->assertNull($this->input->get('foo'));
 	}
 
 	// --------------------------------------------------------------------
@@ -51,8 +51,8 @@ class Input_test extends CI_TestCase {
 
 	public function test_post_not_exists()
 	{
-		$this->assertTrue($this->input->post() === array());
-		$this->assertTrue($this->input->post('foo') === NULL);
+		$this->assertSame(array(), $this->input->post());
+		$this->assertNull($this->input->post('foo'));
 	}
 
 	// --------------------------------------------------------------------
@@ -90,12 +90,46 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_post_get_array_notation()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_POST['foo']['bar'] = 'baz';
+		$barArray = array('bar' => 'baz');
+
+		$this->assertEquals('baz', $this->input->get_post('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->get_post('foo[]'));
+		$this->assertNull($this->input->get_post('foo[baz]'));
+
+		$this->assertEquals('baz', $this->input->post_get('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->post_get('foo[]'));
+		$this->assertNull($this->input->post_get('foo[baz]'));
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_get_post()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_GET['foo'] = 'bar';
 
 		$this->assertEquals('bar', $this->input->get_post('foo'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_get_post_array_notation()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['foo']['bar'] = 'baz';
+		$barArray = array('bar' => 'baz');
+
+		$this->assertEquals('baz', $this->input->get_post('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->get_post('foo[]'));
+		$this->assertNull($this->input->get_post('foo[baz]'));
+
+		$this->assertEquals('baz', $this->input->post_get('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->post_get('foo[]'));
+		$this->assertNull($this->input->post_get('foo[baz]'));
 	}
 
 	// --------------------------------------------------------------------

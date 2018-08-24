@@ -25,7 +25,7 @@ class Empty_test extends CI_TestCase {
 		// Check initial record
 		$jobs = $this->db->get('job')->result_array();
 
-		$this->assertEquals(4, count($jobs));
+		$this->assertCount(4, $jobs);
 
 		// Do the empty
 		$this->db->empty_table('job');

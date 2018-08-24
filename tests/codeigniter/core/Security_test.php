@@ -253,7 +253,7 @@ class Security_test extends CI_TestCase {
 		// Perform hash
 		$this->security->xss_hash();
 
-		$this->assertTrue(preg_match('#^[0-9a-f]{32}$#iS', $this->security->xss_hash) === 1);
+		$this->assertRegExp('#^[0-9a-f]{32}$#iS', $this->security->xss_hash);
 	}
 
 	// --------------------------------------------------------------------
@@ -306,7 +306,7 @@ class Security_test extends CI_TestCase {
 		$imgtags = array(
 			'<img src="smiley.gif" alt="Smiley face" height="42" width="42">',
 			'<img alt="Smiley face" height="42" width="42" src="smiley.gif">',
-			'<img src="http://www.w3schools.com/images/w3schools_green.jpg">',
+			'<img src="https://www.w3schools.com/images/w3schools_green.jpg">',
 			'<img src="/img/sunset.gif" height="100%" width="100%">',
 			'<img src="mdn-logo-sm.png" alt="MD Logo" srcset="mdn-logo-HD.png 2x, mdn-logo-small.png 15w, mdn-banner-HD.png 100w 2x" />',
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
@@ -318,7 +318,7 @@ class Security_test extends CI_TestCase {
 		$urls = array(
 			'smiley.gif',
 			'smiley.gif',
-			'http://www.w3schools.com/images/w3schools_green.jpg',
+			'https://www.w3schools.com/images/w3schools_green.jpg',
 			'/img/sunset.gif',
 			'mdn-logo-sm.png',
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',

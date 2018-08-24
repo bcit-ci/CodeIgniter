@@ -92,7 +92,7 @@ Internationalization
 The Language class in CodeIgniter is meant to provide an easy and lightweight
 way to support multiplelanguages in your application. It is not meant to be a
 full implementation of what is commonly called `internationalization and localization
-<http://en.wikipedia.org/wiki/Internationalization_and_localization>`_.
+<https://en.wikipedia.org/wiki/Internationalization_and_localization>`_.
 
 We use the term "idiom" to refer to a language using its common name,
 rather than using any of the international standards, such as "en", "en-US",
