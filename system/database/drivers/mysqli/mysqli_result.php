@@ -138,6 +138,7 @@ class CI_DB_mysqli_result extends CI_DB_result {
 		static $map;
 		isset($map) OR $map = array(
 			MYSQLI_TYPE_DECIMAL     => 'decimal',
+			MYSQLI_TYPE_NEWDECIMAL  => 'decimal',
 			MYSQLI_TYPE_BIT         => 'bit',
 			MYSQLI_TYPE_TINY        => 'tinyint',
 			MYSQLI_TYPE_SHORT       => 'smallint',
