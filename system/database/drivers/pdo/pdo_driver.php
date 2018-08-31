@@ -261,7 +261,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	public function insert_id($name = NULL)
 	{
-		return $this->conn_id->lastInsertId($name);
+		return (int)$this->conn_id->lastInsertId($name);
 	}
 
 	// --------------------------------------------------------------------
