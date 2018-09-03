@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
@@ -176,6 +176,8 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 		}
+
+		$this->php5_validate_id();
 
 		return $this->_fail();
 	}
@@ -332,6 +334,22 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		// Not necessary, Redis takes care of that.
 		return $this->_success;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Validate ID
+	 *
+	 * Checks whether a session ID record exists server-side,
+	 * to enforce session.use_strict_mode.
+	 *
+	 * @param	string	$id
+	 * @return	bool
+	 */
+	public function validateId($id)
+	{
+		return (bool) $this->_redis->exists($this->_key_prefix.$id);
 	}
 
 	// ------------------------------------------------------------------------

@@ -545,8 +545,8 @@ Following numerous vulnerability reports, the :doc:`Encrypt Library <../librarie
 been deprecated and a new, :doc:`Encryption Library <../libraries/encryption>` is added to take
 its place.
 
-The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ (and /dev/urandom
-availability) or PHP 5.3.3 and the `OpenSSL extension <http://php.net/openssl>`_.
+The new library requires either the `MCrypt extension <https://secure.php.net/mcrypt>`_ (and /dev/urandom
+availability) or PHP 5.3.3 and the `OpenSSL extension <https://secure.php.net/openssl>`_.
 While this might be rather inconvenient, it is a requirement that allows us to have properly
 implemented cryptographic functions.
 
@@ -670,7 +670,7 @@ Date helper standard_date()
 ===========================
 
 :doc:`Date Helper <../helpers/date_helper>` function ``standard_date()`` is being deprecated due
-to the availability of native PHP `constants <http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
+to the availability of native PHP `constants <https://secure.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
 its usage:

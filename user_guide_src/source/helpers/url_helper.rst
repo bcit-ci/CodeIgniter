@@ -204,7 +204,7 @@ The following functions are available:
 		| echo anchor_popup('news/local/123', 'Click Me!', array());
 
 	.. note:: The **window_name** is not really an attribute, but an argument to
-		the JavaScript `window.open() <http://www.w3schools.com/jsref/met_win_open.asp>`
+		the JavaScript `window.open() <https://www.w3schools.com/jsref/met_win_open.asp>`
 		method, which accepts either a window name or a window target.
 
 	.. note:: Any other attribute than the listed above will be parsed as an

@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Zip Compression Class
  *
  * This class is based on a library I found at Zend:
- * http://www.zend.com/codex.php?id=696&single=1
+ * https://www.zend.com/codex.php?id=696&single=1
  *
  * The original library is a little rough around the edges so I
  * refactored it and added several additional methods -- Rick Ellis

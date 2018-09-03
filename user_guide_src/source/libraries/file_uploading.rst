@@ -233,7 +233,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        unless you have no other option as that would cause a security risk.
 **mod_mime_fix**             TRUE              TRUE/FALSE (boolean)    If set to TRUE, multiple filename extensions will be suffixed with an
                                                                        underscore in order to avoid triggering `Apache mod_mime
-                                                                       <http://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
+                                                                       <https://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
                                                                        DO NOT turn off this option if your upload directory is public, as this
                                                                        is a security risk.
 ============================ ================= ======================= ======================================================================

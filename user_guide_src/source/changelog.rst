@@ -31,6 +31,7 @@ Release Date: Not Released
       - Removed previously deprecated method ``is_cli_request()`` (use :php:func:`is_cli()` instead).
       - Changed the ``set_cookie()`` method's default expiry time to 0 (expires when browser is closed).
       - Changed the ``set_cookie()`` method to delete the cookie if a negative expiry time is passed to it.
+      - Allowed usage of nested array keys in ``get_post()``, ``post_get()`` methods.
 
 -  Libraries
 
@@ -127,25 +128,35 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
+Version 3.1.10
+==============
+
+Bug fixes for 3.1.10
+--------------------
+
+-  Fixed a bug (#5526) - :doc:`Session Library <libraries/sessions>` had a syntax error in its 'memcached' driver.
 
 Version 3.1.9
 =============
 
-Release Date: Not Released
+Release Date: Jun 12, 2018
 
 - **Security**
 
    -  Updated :doc:`URL Helper <helpers/url_helper>` function :php:func:`auto_link()` to add ``rel="noopener"`` to generated links in order to prevent tab hijacking.
+   -  Fixed a possible session fixation vulnerability where the :doc:`Session Library <libraries/sessions>` enabled ``session.use_strict_mode`` but it didn't actually do anything (thanks to Aamer Shah, Prasanna Kumar).
 
 -  General Changes
 
    -  Updated :doc:`Query Builder <database/query_builder>` method ``limit()`` to allow ``0`` values.
+   -  Updated :doc:`Email Library <libraries/email>` and :doc:`Form Validation Library <libraries/form_validation>` to discard the results of failed ``idn_to_ascii()`` calls while validating e-mail addresses.
 
 Bug fixes for 3.1.9
 -------------------
 
 -  Fixed a regression (#5448) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) didn't apply *dbprefix* or identifier escaping.
 -  Fixed a regression (#5462) - :doc:`Query Builder <database/query_builder>` methods ``like()``, ``or_like()`` (and siblings) produced incorrect SQL syntax when used with ``'before'`` as the third parameter.
+-  Fixed a bug (#5516) - :doc:`HTML Helper <helpers/html_helper>` functions :php:func:`img()`, :php:func:`link_tag()` would output results with double slashes if a prefix slash was included in their path inputs.
 
 Version 3.1.8
 =============
@@ -427,7 +438,7 @@ Bug fixes for 3.1.0
 -  Fixed a bug (#4562) - :doc:`Cache Library <libraries/caching>` didn't check if ``Memcached::quit()`` is available before calling it.
 -  Fixed a bug (#4563) - :doc:`Input Library <libraries/input>` method ``request_headers()`` ignores ``$xss_clean`` parameter value after first call.
 -  Fixed a bug (#4605) - :doc:`Config Library <libraries/config>` method ``site_url()`` stripped trailing slashes from relative URIs passed to it.
--  Fixed a bug (#4613) - :doc:`Email Library <libraries/config>` failed to send multiple emails via SMTP due to "already authenticated" errors when keep-alive is enabled.
+-  Fixed a bug (#4613) - :doc:`Email Library <libraries/email>` failed to send multiple emails via SMTP due to "already authenticated" errors when keep-alive is enabled.
 -  Fixed a bug (#4633) - :doc:`Form Validation Library <libraries/form_validation>` ignored multiple "callback" rules for empty, non-required fields.
 -  Fixed a bug (#4637) - :doc:`Database <database/index>` method ``error()`` returned ``FALSE`` with the 'oci8' driver if there was no error.
 -  Fixed a bug (#4647) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` doesn't take into account ``GROUP BY`` clauses while deciding whether to do a subquery or not.
@@ -701,7 +712,7 @@ Release Date: March 30, 2015
 
 -  License
 
-   -  CodeIgniter has been relicensed with the `MIT License <http://opensource.org/licenses/MIT>`_, eliminating its old proprietary licensing.
+   -  CodeIgniter has been relicensed with the `MIT License <https://opensource.org/licenses/MIT>`_, eliminating its old proprietary licensing.
 
 -  General Changes
 
@@ -759,7 +770,7 @@ Release Date: March 30, 2015
       - Added an optional third parameter to :php:func:`timespan()` that constrains the number of time units displayed.
       - Added an optional parameter to :php:func:`timezone_menu()` that allows more attributes to be added to the generated select tag.
       - Added function :php:func:`date_range()` that generates a list of dates between a specified period.
-      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
+      - Deprecated ``standard_date()``, which now just uses the native ``date()`` with `DateTime constants <https://secure.php.net/manual/en/class.datetime.php#datetime.constants.types>`_.
       - Changed :php:func:`now()` to work with all timezone strings supported by PHP.
       - Changed :php:func:`days_in_month()` to use the native ``cal_days_in_month()`` PHP function, if available.
 
@@ -784,7 +795,7 @@ Release Date: March 30, 2015
    -  :doc:`Inflector Helper <helpers/inflector_helper>` changes include:
 
       - Changed :php:func:`humanize()` to allow passing an input separator as its second parameter.
-      - Changed :php:func:`humanize()` and :php:func:`underscore()` to utilize `mbstring <http://php.net/mbstring>`_, if available.
+      - Changed :php:func:`humanize()` and :php:func:`underscore()` to utilize `mbstring <https://secure.php.net/mbstring>`_, if available.
       - Changed :php:func:`plural()` and :php:func:`singular()` to avoid double pluralization and support more words.
 
    -  :doc:`Download Helper <helpers/download_helper>` changes include:
@@ -835,7 +846,7 @@ Release Date: March 30, 2015
    -  :doc:`Text Helper <helpers/text_helper>` changes include:
 
       - Changed the default tag for use in :php:func:`highlight_phrase()` to ``<mark>`` (formerly ``<strong>``).
-      - Changed :php:func:`character_limiter()`, :php:func:`word_wrap()` and :php:func:`ellipsize()` to utilize `mbstring <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_, if available.
+      - Changed :php:func:`character_limiter()`, :php:func:`word_wrap()` and :php:func:`ellipsize()` to utilize `mbstring <https://secure.php.net/mbstring>`_ or `iconv <https://secure.php.net/iconv>`_, if available.
 
    -  :doc:`Directory Helper <helpers/directory_helper>` :php:func:`directory_map()` will now append ``DIRECTORY_SEPARATOR`` to directory names in the returned array.
    -  :doc:`Array Helper <helpers/array_helper>` :php:func:`element()` and :php:func:`elements()` now return NULL instead of FALSE when the required elements don't exist.
@@ -1152,7 +1163,7 @@ Release Date: March 30, 2015
       -  Changed private methods to protected so that MY_URI can override them.
       -  Renamed internal method ``_parse_cli_args()`` to ``_parse_argv()``.
       -  Renamed internal method ``_detect_uri()`` to ``_parse_request_uri()``.
-      -  Changed ``_parse_request_uri()`` to accept absolute URIs for compatibility with HTTP/1.1 as per `RFC2616 <http://www.ietf.org/rfc/rfc2616.txt>`.
+      -  Changed ``_parse_request_uri()`` to accept absolute URIs for compatibility with HTTP/1.1 as per `RFC2616 <https://www.ietf.org/rfc/rfc2616.txt>`.
       -  Added protected method ``_parse_query_string()`` to URI paths in the the **QUERY_STRING** value, like ``_parse_request_uri()`` does.
       -  Changed URI string detection logic to always default to **REQUEST_URI** unless configured otherwise or under CLI.
       -  Removed methods ``_remove_url_suffix()``, ``_explode_segments()`` and moved their logic into ``_set_uri_string()``.
@@ -1247,7 +1258,7 @@ Release Date: March 30, 2015
 
    -  UTF-8 Library changes include:
 
-      -  ``UTF8_ENABLED`` now requires only one of `Multibyte String <http://php.net/mbstring>`_ or `iconv <http://php.net/iconv>`_ to be available instead of both.
+      -  ``UTF8_ENABLED`` now requires only one of `Multibyte String <https://secure.php.net/mbstring>`_ or `iconv <https://secure.php.net/iconv>`_ to be available instead of both.
       -  Changed method ``clean_string()`` to utilize ``mb_convert_encoding()`` if it is available.
       -  Renamed method ``_is_ascii()`` to ``is_ascii()`` and made it public.
 
@@ -1259,9 +1270,9 @@ Release Date: March 30, 2015
 
    -  Added :doc:`compatibility layers <general/compatibility_functions>` for:
 
-      - `Multibyte String <http://php.net/mbstring>`_ (limited support).
-      - `Hash <http://php.net/hash>`_ (``hash_equals()``, ``hash_pbkdf2()``).
-      - `Password Hashing <http://php.net/password>`_.
+      - `Multibyte String <https://secure.php.net/mbstring>`_ (limited support).
+      - `Hash <https://secure.php.net/hash>`_ (``hash_equals()``, ``hash_pbkdf2()``).
+      - `Password Hashing <https://secure.php.net/password>`_.
       - `Standard Functions ``array_column()``, ``array_replace()``, ``array_replace_recursive()``, ``hex2bin()``, ``quoted_printable_encode()``.
 
    -  Removed ``CI_CORE`` boolean constant from *CodeIgniter.php* (no longer Reactor and Core versions).
@@ -1641,7 +1652,7 @@ Release Date: November 14, 2011
 
 -  Database
 
-   -  Added a `CUBRID <http://www.cubrid.org/>`_ driver to the :doc:`Database
+   -  Added a `CUBRID <https://www.cubrid.org/>`_ driver to the :doc:`Database
       Driver <database/index>`. Thanks to the CUBRID team for
       supplying this patch.
    -  Added a PDO driver to the :doc:`Database Driver <database/index>`.

@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -212,9 +212,8 @@ class CI_Input {
 	 */
 	public function post_get($index, $xss_clean = FALSE)
 	{
-		return isset($_POST[$index])
-			? $this->post($index, $xss_clean)
-			: $this->get($index, $xss_clean);
+		$output = $this->post($index, $xss_clean);
+		return isset($output) ? $output : $this->get($index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
@@ -228,9 +227,8 @@ class CI_Input {
 	 */
 	public function get_post($index, $xss_clean = FALSE)
 	{
-		return isset($_GET[$index])
-			? $this->get($index, $xss_clean)
-			: $this->post($index, $xss_clean);
+		$output = $this->get($index, $xss_clean);
+		return isset($output) ? $output : $this->post($index, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------

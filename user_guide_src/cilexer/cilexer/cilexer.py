@@ -26,9 +26,9 @@
 # THE SOFTWARE.
 #
 # Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
-# Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+# Copyright (c) 2014 - 2016, British Columbia Institute of Technology (https://bcit.ca/)
 #
-# http://opensource.org/licenses/MIT	MIT License
+# https://opensource.org/licenses/MIT	MIT License
 
 import re
 import copy

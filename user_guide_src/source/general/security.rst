@@ -130,7 +130,7 @@ with that. Please read below.
    Also, DON'T invent your own algorithms.
 
    Only use strong password hashing algorithms like BCrypt, which is used
-   in PHP's own `Password Hashing <http://php.net/password>`_ functions.
+   in PHP's own `Password Hashing <https://secure.php.net/password>`_ functions.
 
    Please use them, even if you're not running PHP 5.5+, CodeIgniter
    provides them for you.
