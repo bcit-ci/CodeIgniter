@@ -18,6 +18,7 @@ Bug fixes for 3.1.10
 -  Fixed a bug (#5545) - :doc:`Session Library <libraries/sessions>` crashed due to a caching-related error with the 'files' driver.
 -  Fixed a bug (#5571) - :doc:`XML-RPC Library <libraries/xmlrpc>` had a typo that triggered an ``E_WARNING`` message on PHP 7.2.
 -  Fixed a bug (#5587) - :doc:`Database Forge <database/forge>` method ``create_table()`` generated an ``E_WARNING`` message.
+-  Fixed a bug (#5590) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_base64** didn't have a default error message.
 
 Version 3.1.9
 =============
