@@ -663,7 +663,7 @@ class CI_FTP {
 		$CI =& get_instance();
 		$CI->lang->load('ftp');
 		$extra_message = ($file) ? " ($file)" : "";		
-		show_error($CI->lang->line($line).$file);
+		show_error($CI->lang->line($line).$extra_message);
 	}
 
 }
