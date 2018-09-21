@@ -309,7 +309,7 @@ class CI_FTP {
 
 		if ( ! file_exists($locpath))
 		{
-			$this->_error('ftp_no_source_file');
+			$this->_error('ftp_no_source_file', $locpath);
 			return FALSE;
 		}
 
@@ -655,13 +655,15 @@ class CI_FTP {
 	 * Display error message
 	 *
 	 * @param	string	$line
+	 * @param	string	$file
 	 * @return	void
 	 */
-	protected function _error($line)
+	protected function _error($line, $file = false)
 	{
 		$CI =& get_instance();
 		$CI->lang->load('ftp');
-		show_error($CI->lang->line($line));
+		$extra_message = ($file) ? " ($file)" : "";		
+		show_error($CI->lang->line($line).$file);
 	}
 
 }
