@@ -894,18 +894,23 @@ abstract class CI_DB_driver {
 	 */
 	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
+		if (! $this->trans_enabled or $this->_trans_depth === 0) 
 		{
-			return FALSE;
-		}
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		elseif ($this->_trans_depth > 1 OR $this->_trans_rollback())
-		{
-			$this->_trans_depth--;
-			return TRUE;
+			return false;
 		}
 
-		return FALSE;
+		if ($this->_trans_depth > 1) 
+		{
+			// When transactions are nested we only begin/commit/rollback the outermost ones
+			$this->_trans_depth--;
+			return false;
+		}
+		
+		// reset the transaction depth before rolling back in case an exception is triggered during the rollback
+		$this->_trans_depth = 0;
+		$this->_trans_rollback();
+
+		return true;
 	}
 
 	// --------------------------------------------------------------------
