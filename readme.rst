@@ -3,7 +3,7 @@ What is CodeIgniter
 ###################
 
 CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
+who build websites using PHP. Its goal is to enable you to develop projects
 much faster than you could if you were writing code from scratch, by providing
 a rich set of libraries for commonly needed tasks, as well as a simple
 interface and logical structure to access these libraries. CodeIgniter lets
@@ -15,7 +15,7 @@ Release Information
 *******************
 
 This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
+latest stable release, please visit the `CodeIgniter Downloads
 <https://codeigniter.com/download>`_ page.
 
 **************************
@@ -63,7 +63,7 @@ Report security issues to our `Security Panel <mailto:security@codeigniter.com>`
 or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
 
 ***************
-Acknowledgement
+Acknowledgment
 ***************
 
 The CodeIgniter team would like to thank EllisLab, all the
