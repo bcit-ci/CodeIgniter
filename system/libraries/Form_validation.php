@@ -1541,7 +1541,7 @@ class CI_Form_validation {
 	/**
 	 * Date in Past
 	 *
-	 * Tests that a date is in the past
+	 * Tests that a date is valid and in the past or today
 	 *
 	 * @param	string
 	 * @return	bool
@@ -1552,6 +1552,33 @@ class CI_Form_validation {
 			$dateParsed = date($str);
 
 			if (strtotime($str) < time() || date('Y-m-d') == date('Y-m-d',strtotime($str)))
+				return true;
+			else
+				return false;
+		}
+		catch (Exception $ex) {
+			return false;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Date in Future
+	 *
+	 * Tests that a date is valid and in the future or today
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function date_is_future($str)
+	{
+		try {
+			$dateParsed = date($str);
+
+			if (strtotime($str) > time() || date('Y-m-d') == date('Y-m-d',strtotime($str)))
 				return true;
 			else
 				return false;
