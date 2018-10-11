@@ -1522,6 +1522,48 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Valid Date
+	 *
+	 * Tests for a valid date
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function valid_date($str)
+	{
+		try {$dateParsed = date($str);}
+		catch (Exception $ex) {return false;}
+		return true;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Date in Past
+	 *
+	 * Tests that a date is in the past
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function date_is_past($str)
+	{
+		try {
+			$dateParsed = date($str);
+
+			if (strtotime($str) < time() || date('Y-m-d') == date('Y-m-d',strtotime($str)))
+				return true;
+			else
+				return false;
+		}
+		catch (Exception $ex) {
+			return false;
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Prep URL
 	 *
 	 * @param	string
