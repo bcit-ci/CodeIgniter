@@ -1008,8 +1008,8 @@ Rule                      Parameter  Description                                
 **valid_mac**             No         Returns FALSE if the supplied MAC address is not valid.
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 **valid_date**            No         Returns FALSE if the supplied string does not parse to a valid date.
-**date_is_past**          No         Returns FALSE if the supplied string does not parse to a valid date and is in the future.
-**date_is_future**        No         Returns FALSE if the supplied string does not parse to a valid date and is in the past.
+**date_is_past**          No         Returns FALSE if the supplied string does not parse to a valid date or is in the future.
+**date_is_future**        No         Returns FALSE if the supplied string does not parse to a valid date or is in the past.
 ========================= ========== ============================================================================================= =======================
 
 .. note:: These rules can also be called as discrete methods. For
