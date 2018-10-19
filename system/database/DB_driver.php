@@ -1131,11 +1131,12 @@ abstract class CI_DB_driver {
 	 * position is the primary key
 	 *
 	 * @param	string	$table	Table name
+	 * @param	bool	$refresh_cache	Refresh data cache
 	 * @return	string
 	 */
-	public function primary($table)
+	public function primary($table, $refresh_cache = FALSE)
 	{
-		$fields = $this->list_fields($table);
+		$fields = $this->list_fields($table, $refresh_cache);
 		return is_array($fields) ? current($fields) : FALSE;
 	}
 
@@ -1174,12 +1175,13 @@ abstract class CI_DB_driver {
 	 * Returns an array of table names
 	 *
 	 * @param	string	$constrain_by_prefix = FALSE
+	 * @param	bool	$refresh_cache	Refresh data cache
 	 * @return	array
 	 */
-	public function list_tables($constrain_by_prefix = FALSE)
+	public function list_tables($constrain_by_prefix = FALSE, $refresh_cache = FALSE)
 	{
 		// Is there a cached result?
-		if (isset($this->data_cache['table_names']))
+		if ($refresh_cache === FALSE && isset($this->data_cache['table_names']))
 		{
 			return $this->data_cache['table_names'];
 		}
@@ -1229,11 +1231,12 @@ abstract class CI_DB_driver {
 	 * Determine if a particular table exists
 	 *
 	 * @param	string	$table_name
+	 * @param	bool	$refresh_cache	Refresh data cache
 	 * @return	bool
 	 */
-	public function table_exists($table_name)
+	public function table_exists($table_name, $refresh_cache = FALSE)
 	{
-		return in_array($this->protect_identifiers($table_name, TRUE, FALSE, FALSE), $this->list_tables());
+		return in_array($this->protect_identifiers($table_name, TRUE, FALSE, FALSE), $this->list_tables(FALSE, $refresh_cache));
 	}
 
 	// --------------------------------------------------------------------
@@ -1242,12 +1245,13 @@ abstract class CI_DB_driver {
 	 * Fetch Field Names
 	 *
 	 * @param	string	$table	Table name
+	 * @param	bool	$refresh_cache	Refresh data cache
 	 * @return	array
 	 */
-	public function list_fields($table)
+	public function list_fields($table, $refresh_cache = FALSE)
 	{
 		// Is there a cached result?
-		if (isset($this->data_cache['field_names'][$table]))
+		if ($refresh_cache === FALSE && isset($this->data_cache['field_names'][$table]))
 		{
 			return $this->data_cache['field_names'][$table];
 		}
@@ -1293,11 +1297,12 @@ abstract class CI_DB_driver {
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	bool	$refresh_cache	Refresh data cache
 	 * @return	bool
 	 */
-	public function field_exists($field_name, $table_name)
+	public function field_exists($field_name, $table_name, $refresh_cache = FALSE)
 	{
-		return in_array($field_name, $this->list_fields($table_name));
+		return in_array($field_name, $this->list_fields($table_name, $refresh_cache));
 	}
 
 	// --------------------------------------------------------------------
