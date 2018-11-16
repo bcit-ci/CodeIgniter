@@ -20,6 +20,7 @@ Bug fixes for 3.1.10
 -  Fixed a bug (#5587) - :doc:`Database Forge <database/forge>` method ``create_table()`` generated an ``E_WARNING`` message.
 -  Fixed a bug (#5590) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_base64** didn't have a default error message.
 -  Fixed a bug (#5624) - :doc:`Database Library <database/index>` methods ``list_fields()``, ``field_exists()`` returned incorrect results after tables are modified.
+-  Fixed a bug (#5627) - :doc:`Database <database/index>` driver 'mysqli' triggered an ``E_WARNING`` message if there's no ``'port'`` specified in the database configuration.
 
 Version 3.1.9
 =============
