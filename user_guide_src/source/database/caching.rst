@@ -153,6 +153,17 @@ delete those particular cache files you will use::
 If you do not use any parameters the current URI will be used when
 determining what should be cleared.
 
+$this->db->cache_clear()
+==========================
+
+Deletes the cache files associated with a particular sql query. This is useful if you need to clear caching after you update your database.
+
+The caching system saves your cache files to folders that correspond to the URI of the page you are viewing. For example, if you are using same query for multiple pages, the same cache file will be generated under multiple folders. To delete those particular cache files you will use::
+
+	$this->db->cache_clear("SELECT * FROM mytable");
+
+If you do not use any parameters it will not clear anything.
+
 $this->db->cache_delete_all()
 ===============================
 

@@ -1604,6 +1604,21 @@ abstract class CI_DB_driver {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Delete the cache files associated with a particular sql
+	 *
+	 * @param	string	$sql = ''
+	 * @return	bool
+	 */
+	public function cache_clear($sql = '')
+	{
+		return $this->_cache_init()
+			? $this->CACHE->clear($sql)
+			: FALSE;
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Delete All cache files

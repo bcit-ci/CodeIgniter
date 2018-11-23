@@ -206,6 +206,32 @@ class CI_DB_Cache {
 		delete_files($dir_path, TRUE);
 	}
 
+	/**
+	 * Deletes the cache files completely by sql query
+	 *
+	 * @param	string	$sql
+	 * @return	void
+	 */
+	public function clear($sql)
+	{
+		$cache_filename=md5($sql);
+		$this->CI->load->helper('directory');
+		$directory_map = directory_map($this->db->cachedir);
+		
+		//Nesting for 2 levels
+		foreach ($directory_map as $directory_Key => $directory_array)
+		{
+			if(!empty($directory_array) && $directory_Key!='index.html')
+			foreach ($directory_array as $filename)
+			{
+				if($filename==$cache_filename)
+				{
+					unlink($this->db->cachedir.$directory_Key."/".$filename);
+				}
+			}
+		}
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
