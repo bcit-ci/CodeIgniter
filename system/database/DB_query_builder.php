@@ -924,152 +924,175 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * LIKE
-	 *
-	 * Generates a %LIKE% portion of the query.
-	 * Separates multiple calls with 'AND'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function like($field, $match = '', $side = 'both', $escape = NULL)
-	{
-		return $this->_like($field, $match, 'AND ', $side, '', $escape);
-	}
+     * LIKE
+     *
+     * Generates a %LIKE% portion of the query.
+     * Separates multiple calls with 'AND'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @param	string	$clause
+     * @return	CI_DB_query_builder
+     */
+    public function like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    {
+        return $this->_like($field, $match, 'AND ', $side, '', $escape, $clause);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * NOT LIKE
-	 *
-	 * Generates a NOT LIKE portion of the query.
-	 * Separates multiple calls with 'AND'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function not_like($field, $match = '', $side = 'both', $escape = NULL)
-	{
-		return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape);
-	}
+    /**
+     * NOT LIKE
+     *
+     * Generates a NOT LIKE portion of the query.
+     * Separates multiple calls with 'AND'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @param	string	$clause
+     * @return	CI_DB_query_builder
+     */
+    public function not_like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    {
+        return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape, $clause);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * OR LIKE
-	 *
-	 * Generates a %LIKE% portion of the query.
-	 * Separates multiple calls with 'OR'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function or_like($field, $match = '', $side = 'both', $escape = NULL)
-	{
-		return $this->_like($field, $match, 'OR ', $side, '', $escape);
-	}
+    /**
+     * OR LIKE
+     *
+     * Generates a %LIKE% portion of the query.
+     * Separates multiple calls with 'OR'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @param	string	$clause
+     * @return	CI_DB_query_builder
+     */
+    public function or_like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    {
+        return $this->_like($field, $match, 'OR ', $side, '', $escape, $clause);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * OR NOT LIKE
-	 *
-	 * Generates a NOT LIKE portion of the query.
-	 * Separates multiple calls with 'OR'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	public function or_not_like($field, $match = '', $side = 'both', $escape = NULL)
-	{
-		return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape);
-	}
+    /**
+     * OR NOT LIKE
+     *
+     * Generates a NOT LIKE portion of the query.
+     * Separates multiple calls with 'OR'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @param	string	$clause
+     * @return	CI_DB_query_builder
+     */
+    public function or_not_like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    {
+        return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape, $clause);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Internal LIKE
-	 *
-	 * @used-by	like()
-	 * @used-by	or_like()
-	 * @used-by	not_like()
-	 * @used-by	or_not_like()
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$type
-	 * @param	string	$side
-	 * @param	string	$not
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
-	protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '', $escape = NULL)
-	{
-		if ( ! is_array($field))
-		{
-			$field = array($field => $match);
-		}
+    /**
+     * Internal LIKE
+     *
+     * @used-by	like()
+     * @used-by	or_like()
+     * @used-by	not_like()
+     * @used-by	or_not_like()
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$type
+     * @param	string	$side
+     * @param	string	$not
+     * @param	bool	$escape
+     * @param	string	$clause
+     * @return	CI_DB_query_builder
+     */
+    protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '', $escape = NULL, $clause = 'where')
+    {
+        if ( ! is_array($field))
+        {
+            $field = array($field => $match);
+        }
 
-		is_bool($escape) OR $escape = $this->_protect_identifiers;
-		// lowercase $side in case somebody writes e.g. 'BEFORE' instead of 'before' (doh)
-		$side = strtolower($side);
+        is_bool($escape) OR $escape = $this->_protect_identifiers;
+        // lowercase $side in case somebody writes e.g. 'BEFORE' instead of 'before' (doh)
+        $side = strtolower($side);
 
-		foreach ($field as $k => $v)
-		{
-			$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
-				? $this->_group_get_type('') : $this->_group_get_type($type);
+        foreach ($field as $k => $v)
+        {
+            if ($escape === TRUE)
+            {
+                $v = $this->escape_like_str($v);
+            }
 
-			if ($escape === TRUE)
-			{
-				$v = $this->escape_like_str($v);
-			}
+            switch ($side)
+            {
+                case 'none':
+                    $v = "'{$v}'";
+                    break;
+                case 'before':
+                    $v = "'%{$v}'";
+                    break;
+                case 'after':
+                    $v = "'{$v}%'";
+                    break;
+                case 'both':
+                default:
+                    $v = "'%{$v}%'";
+                    break;
+            }
 
-			switch ($side)
-			{
-				case 'none':
-					$v = "'{$v}'";
-					break;
-				case 'before':
-					$v = "'%{$v}'";
-					break;
-				case 'after':
-					$v = "'{$v}%'";
-					break;
-				case 'both':
-				default:
-					$v = "'%{$v}%'";
-					break;
-			}
+            // some platforms require an escape sequence definition for LIKE wildcards
+            if ($escape === TRUE && $this->_like_escape_str !== '')
+            {
+                $v .= sprintf($this->_like_escape_str, $this->_like_escape_chr);
+            }
 
-			// some platforms require an escape sequence definition for LIKE wildcards
-			if ($escape === TRUE && $this->_like_escape_str !== '')
-			{
-				$v .= sprintf($this->_like_escape_str, $this->_like_escape_chr);
-			}
+            switch ($clause)
+            {
+                case 'having':
+                    $prefix = (count($this->qb_having) === 0 && count($this->qb_cache_having) === 0)
+                    ? $this->_group_get_type('') : $this->_group_get_type($type);
 
-			$qb_where = array('condition' => "{$prefix} {$k} {$not} LIKE {$v}", 'value' => NULL, 'escape' => $escape);
-			$this->qb_where[] = $qb_where;
-			if ($this->qb_caching === TRUE)
-			{
-				$this->qb_cache_where[] = $qb_where;
-				$this->qb_cache_exists[] = 'where';
-			}
-		}
+                    $qb_having = array('condition' => "{$prefix} {$k} {$not} LIKE {$v}", 'value' => NULL, 'escape' => $escape);
+                    $this->qb_having[] = $qb_having;
+                    if ($this->qb_caching === TRUE)
+                    {
+                        $this->qb_cache_having[] = $qb_having;
+                        $this->qb_cache_exists[] = 'having';
+                    }
+                    break;
+                case 'where':
+                default:
+                    $prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0)
+                    ? $this->_group_get_type('') : $this->_group_get_type($type);
 
-		return $this;
-	}
+                    $qb_where = array('condition' => "{$prefix} {$k} {$not} LIKE {$v}", 'value' => NULL, 'escape' => $escape);
+                    $this->qb_where[] = $qb_where;
+                    if ($this->qb_caching === TRUE)
+                    {
+                        $this->qb_cache_where[] = $qb_where;
+                        $this->qb_cache_exists[] = 'where';
+                    }
+                    break;
+            }
+        }
+
+        return $this;
+    }
 
 	// --------------------------------------------------------------------
 
