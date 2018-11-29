@@ -97,9 +97,8 @@ class CI_Session {
 		}
 		else
 		{
-			$session_save_handler = ini_get('session.save_handler');
-			log_message('debug', 'Session: "sess_driver" is empty; using value from php.ini "'.$session_save_handler.'".');
-			$this->_driver = $session_save_handler;
+			log_message('debug', 'Session: "sess_driver" is empty; using "session.save_handler" value from php.ini.');
+			$this->_driver = ini_get('session.save_handler');
 		}
 
 		$class = $this->_ci_load_classes($this->_driver);
