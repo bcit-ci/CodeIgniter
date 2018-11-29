@@ -95,6 +95,12 @@ class CI_Session {
 			log_message('debug', 'Session: "sess_driver" is empty; using BC fallback to "sess_use_database".');
 			$this->_driver = 'database';
 		}
+		else
+		{
+			$session_save_handler = ini_get('session.save_handler');
+			log_message('debug', 'Session: "sess_driver" is empty; using value from php.ini "'.$session_save_handler.'".');
+			$this->_driver = $session_save_handler;
+		}
 
 		$class = $this->_ci_load_classes($this->_driver);
 
