@@ -219,7 +219,7 @@ if ( ! function_exists('increment_string'))
 	 *
 	 * @param	string	required
 	 * @param	string	What should the duplicate number be appended with
-	 * @param	string	Which number should be used for the first dupe increment
+	 * @param	int     Which number should be used for the first dupe increment
 	 * @return	string
 	 */
 	function increment_string($str, $separator = '_', $first = 1)

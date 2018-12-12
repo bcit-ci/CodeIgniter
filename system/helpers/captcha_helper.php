@@ -58,7 +58,7 @@ if ( ! function_exists('create_captcha'))
 	 * @param	string	$img_path	Path to create the image in (deprecated)
 	 * @param	string	$img_url	URL to the CAPTCHA image folder (deprecated)
 	 * @param	string	$font_path	Server path to font (deprecated)
-	 * @return	string
+	 * @return	bool|array
 	 */
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 	{

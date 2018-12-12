@@ -101,6 +101,7 @@ class CI_Input {
 	 * Determines whether to globally enable the XSS processing
 	 * and whether to allow the $_GET array.
 	 *
+     * @param CI_Security
 	 * @return	void
 	 */
 	public function __construct(CI_Security &$security)
@@ -520,6 +521,7 @@ class CI_Input {
 	/**
 	 * Fetch User Agent string
 	 *
+     * @param   bool        Whether to apply XSS filtering
 	 * @return	string|null	User Agent string or NULL if it doesn't exist
 	 */
 	public function user_agent($xss_clean = FALSE)

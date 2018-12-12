@@ -157,7 +157,7 @@ class CI_DB_pdo_ibm_driver extends CI_DB_pdo_driver {
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
 	 * @param	string	$table
-	 * @return	array
+	 * @return	string
 	 */
 	protected function _list_columns($table = '')
 	{

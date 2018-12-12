@@ -130,7 +130,7 @@ class CI_Cache_file extends CI_Driver {
 	 *
 	 * @param	string	$id	Cache ID
 	 * @param	int	$offset	Step/value to add
-	 * @return	New value on success, FALSE on failure
+	 * @return	mixed New value on success, FALSE on failure
 	 */
 	public function increment($id, $offset = 1)
 	{
@@ -158,7 +158,7 @@ class CI_Cache_file extends CI_Driver {
 	 *
 	 * @param	string	$id	Cache ID
 	 * @param	int	$offset	Step/value to reduce by
-	 * @return	New value on success, FALSE on failure
+	 * @return	mixed New value on success, FALSE on failure
 	 */
 	public function decrement($id, $offset = 1)
 	{

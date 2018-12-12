@@ -150,7 +150,7 @@ class CI_Profiler {
 	 * and "_end" respectively).  It then compiles the execution times for
 	 * all points and returns it as an array
 	 *
-	 * @return	array
+	 * @return	string
 	 */
 	protected function _compile_benchmarks()
 	{

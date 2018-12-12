@@ -516,7 +516,7 @@ class CI_Xmlrpc {
 	/**
 	 * Returns Remote Server Response
 	 *
-	 * @return	string
+	 * @return	array
 	 */
 	public function display_response()
 	{
@@ -1854,6 +1854,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 						$rs .= '<'.$typ.'>'.$val.'</'.$typ.">\n";
 						break;
 				}
+				break;
 			default:
 				break;
 		}

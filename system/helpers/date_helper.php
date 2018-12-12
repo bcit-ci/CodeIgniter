@@ -461,7 +461,7 @@ if ( ! function_exists('nice_date'))
 	 * @param	string	Date format to return (same as php date function)
 	 * @return	string
 	 */
-	function nice_date($bad_date = '', $format = FALSE)
+	function nice_date($bad_date = '', $format = '')
 	{
 		if (empty($bad_date))
 		{

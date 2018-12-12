@@ -229,10 +229,10 @@ abstract class CI_DB_utility {
 	/**
 	 * Generate CSV from a query result object
 	 *
-	 * @param	object	$query		Query result object
-	 * @param	string	$delim		Delimiter (default: ,)
-	 * @param	string	$newline	Newline character (default: \n)
-	 * @param	string	$enclosure	Enclosure (default: ")
+	 * @param	CI_DB_result	$query		Query result object
+	 * @param	string	        $delim		Delimiter (default: ,)
+	 * @param	string	        $newline	Newline character (default: \n)
+	 * @param	string	        $enclosure	Enclosure (default: ")
 	 * @return	string
 	 */
 	public function csv_from_result(CI_DB_result $query, $delim = ',', $newline = "\n", $enclosure = '"')
@@ -265,8 +265,8 @@ abstract class CI_DB_utility {
 	/**
 	 * Generate XML data from a query result object
 	 *
-	 * @param	object	$query	Query result object
-	 * @param	array	$params	Any preferences
+	 * @param	CI_DB_result	$query	Query result object
+	 * @param	array	        $params	Any preferences
 	 * @return	string
 	 */
 	public function xml_from_result(CI_DB_result $query, $params = array())

@@ -167,6 +167,7 @@ class CI_Security {
 	/**
 	 * Class constructor
 	 *
+     * @param   string
 	 * @return	void
 	 */
 	public function __construct($charset)

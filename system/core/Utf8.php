@@ -55,6 +55,7 @@ class CI_Utf8 {
 	 *
 	 * Determines if UTF-8 support is to be enabled.
 	 *
+     * @param   string $charset
 	 * @return	void
 	 */
 	public function __construct($charset)

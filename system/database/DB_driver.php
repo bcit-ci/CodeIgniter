@@ -1306,7 +1306,7 @@ abstract class CI_DB_driver {
 	 * Returns an object with field data
 	 *
 	 * @param	string	$table	the table name
-	 * @return	array
+	 * @return	bool|array
 	 */
 	public function field_data($table)
 	{

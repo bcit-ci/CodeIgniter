@@ -40,13 +40,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Initialize the database
  *
- * @category	Database
- * @author	EllisLab Dev Team
- * @link	https://codeigniter.com/user_guide/database/
+ * @category    Database
+ * @author    EllisLab Dev Team
+ * @link    https://codeigniter.com/user_guide/database/
  *
- * @param 	string|string[]	$params
- * @param 	bool		$query_builder_override
- *				Determines if query builder should be used or not
+ * @param    string|string[] $params
+ * @param    bool $query_builder_override
+ *                Determines if query builder should be used or not
+ *
+ * @return mixed
  */
 function &DB($params = '', $query_builder_override = NULL)
 {

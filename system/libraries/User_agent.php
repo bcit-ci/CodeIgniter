@@ -247,7 +247,7 @@ class CI_User_agent {
 	/**
 	 * Compile the User Agent Data
 	 *
-	 * @return	bool
+	 * @return	void
 	 */
 	protected function _compile_data()
 	{

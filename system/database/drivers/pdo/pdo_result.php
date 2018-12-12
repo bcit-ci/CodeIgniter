@@ -96,7 +96,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @return	bool
+	 * @return	array
 	 */
 	public function list_fields()
 	{

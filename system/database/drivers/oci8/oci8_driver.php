@@ -270,7 +270,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Execute the query
 	 *
 	 * @param	string	$sql	an SQL query
-	 * @return	resource
+	 * @return	bool
 	 */
 	protected function _execute($sql)
 	{

@@ -94,6 +94,7 @@ class CI_URI {
 	/**
 	 * Class constructor
 	 *
+     * @param CI_Config $config
 	 * @return	void
 	 */
 	public function __construct(CI_Config $config)

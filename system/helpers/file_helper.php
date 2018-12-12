@@ -254,7 +254,7 @@ if ( ! function_exists('get_file_info'))
 	 *
 	 * @param	string	path to file
 	 * @param	mixed	array or comma separated string of information returned
-	 * @return	array
+	 * @return	bool|array
 	 */
 	function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
 	{

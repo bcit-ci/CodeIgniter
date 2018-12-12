@@ -840,11 +840,11 @@ class CI_Encryption {
 	 * HKDF
 	 *
 	 * @link	https://tools.ietf.org/rfc/rfc5869.txt
-	 * @param	$key	Input key
-	 * @param	$digest	A SHA-2 hashing algorithm
-	 * @param	$salt	Optional salt
-	 * @param	$length	Output length (defaults to the selected digest size)
-	 * @param	$info	Optional context/application-specific info
+	 * @param	$key	string  Input key
+	 * @param	$digest	string  A SHA-2 hashing algorithm
+	 * @param	$salt	string  Optional salt
+	 * @param	$length	int     length (defaults to the selected digest size)
+	 * @param	$info	string  Optional context/application-specific info
 	 * @return	string	A pseudo-random key
 	 */
 	public function hkdf($key, $digest = 'sha512', $salt = NULL, $length = NULL, $info = '')

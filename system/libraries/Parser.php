@@ -185,7 +185,7 @@ class CI_Parser {
 	 * @param	string
 	 * @param	string
 	 * @param	string
-	 * @return	string
+	 * @return	array
 	 */
 	protected function _parse_single($key, $val, $string)
 	{
@@ -202,7 +202,7 @@ class CI_Parser {
 	 * @param	string
 	 * @param	array
 	 * @param	string
-	 * @return	string
+	 * @return	array
 	 */
 	protected function _parse_pair($variable, $data, $string)
 	{

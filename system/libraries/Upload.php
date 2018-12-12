@@ -1144,6 +1144,7 @@ class CI_Upload {
 	 * Set an error message
 	 *
 	 * @param	string	$msg
+     * @param   string  $log_level
 	 * @return	CI_Upload
 	 */
 	public function set_error($msg, $log_level = 'error')
