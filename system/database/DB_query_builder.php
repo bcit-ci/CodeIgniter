@@ -933,12 +933,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
      * @param	string	$match
      * @param	string	$side
      * @param	bool	$escape
-     * @param	string	$clause
      * @return	CI_DB_query_builder
      */
-    public function like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    public function like($field, $match = '', $side = 'both', $escape = NULL)
     {
-        return $this->_like($field, $match, 'AND ', $side, '', $escape, $clause);
+        return $this->_like($field, $match, 'AND ', $side, '', $escape);
     }
 
     // --------------------------------------------------------------------
@@ -953,12 +952,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
      * @param	string	$match
      * @param	string	$side
      * @param	bool	$escape
-     * @param	string	$clause
      * @return	CI_DB_query_builder
      */
-    public function not_like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    public function not_like($field, $match = '', $side = 'both', $escape = NULL)
     {
-        return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape, $clause);
+        return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape);
     }
 
     // --------------------------------------------------------------------
@@ -973,12 +971,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
      * @param	string	$match
      * @param	string	$side
      * @param	bool	$escape
-     * @param	string	$clause
      * @return	CI_DB_query_builder
      */
-    public function or_like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    public function or_like($field, $match = '', $side = 'both', $escape = NULL)
     {
-        return $this->_like($field, $match, 'OR ', $side, '', $escape, $clause);
+        return $this->_like($field, $match, 'OR ', $side, '', $escape);
     }
 
     // --------------------------------------------------------------------
@@ -993,15 +990,90 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
      * @param	string	$match
      * @param	string	$side
      * @param	bool	$escape
-     * @param	string	$clause
      * @return	CI_DB_query_builder
      */
-    public function or_not_like($field, $match = '', $side = 'both', $escape = NULL, $clause = 'where')
+    public function or_not_like($field, $match = '', $side = 'both', $escape = NULL)
     {
-        return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape, $clause);
+        return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+     * LIKE with HAVING clause
+     *
+     * Generates a %LIKE% portion of the query.
+     * Separates multiple calls with 'AND'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @return	CI_DB_query_builder
+     */
+    public function having_like($field, $match = '', $side = 'both', $escape = NULL)
+    {
+        return $this->_like($field, $match, 'AND ', $side, '', $escape, 'having');
     }
 
     // --------------------------------------------------------------------
+
+    /**
+     * NOT LIKE with HAVING clause
+     *
+     * Generates a NOT LIKE portion of the query.
+     * Separates multiple calls with 'AND'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @return	CI_DB_query_builder
+     */
+    public function not_having_like($field, $match = '', $side = 'both', $escape = NULL)
+    {
+        return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape, 'having');
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * OR LIKE with HAVING clause
+     *
+     * Generates a %LIKE% portion of the query.
+     * Separates multiple calls with 'OR'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @return	CI_DB_query_builder
+     */
+    public function or_having_like($field, $match = '', $side = 'both', $escape = NULL)
+    {
+        return $this->_like($field, $match, 'OR ', $side, '', $escape, 'having');
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * OR NOT LIKE with HAVING clause
+     *
+     * Generates a NOT LIKE portion of the query.
+     * Separates multiple calls with 'OR'.
+     *
+     * @param	mixed	$field
+     * @param	string	$match
+     * @param	string	$side
+     * @param	bool	$escape
+     * @return	CI_DB_query_builder
+     */
+    public function or_not_having_like($field, $match = '', $side = 'both', $escape = NULL)
+    {
+        return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape, 'having');
+	}
+
+	// --------------------------------------------------------------------
 
     /**
      * Internal LIKE
@@ -1010,6 +1082,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
      * @used-by	or_like()
      * @used-by	not_like()
      * @used-by	or_not_like()
+	 * @used-by	having_like()
+     * @used-by	or_having_like()
+     * @used-by	not_having_like()
+     * @used-by	or_not_having_like()
      *
      * @param	mixed	$field
      * @param	string	$match
