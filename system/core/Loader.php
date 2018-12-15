@@ -526,10 +526,10 @@ class CI_Loader {
 	 */
 	public function vars($vars, $val = '')
 	{
-		$vars = is_string($vars)
-			? array($vars => $val)
-			: $this->_ci_prepare_view_vars($vars);
-
+		if(is_string($vars)){
+			$vars = array($vars => $val);
+		}
+		$vars = $this->_ci_prepare_view_vars($vars);
 		foreach ($vars as $key => $val)
 		{
 			$this->_ci_cached_vars[$key] = $val;
