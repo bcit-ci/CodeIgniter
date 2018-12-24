@@ -587,7 +587,7 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] === FALSE)
 				{
-					isset($data[$field]) && $data[$field] = $row['postdata'];
+					isset($data[$field]) && $data[$field] = is_array($row['postdata']) ? NULL : $row['postdata'];
 				}
 				else
 				{
