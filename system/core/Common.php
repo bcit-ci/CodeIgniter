@@ -260,6 +260,12 @@ if ( ! function_exists('get_config'))
 				exit(3); // EXIT_CONFIG
 			}
 
+            // Do we have a local.php configuration file?
+            if (file_exists($file_path = APPPATH.'config/local.php'))
+            {
+                require($file_path);
+            }
+
 			// Does the $config array exist in the file?
 			if ( ! isset($config) OR ! is_array($config))
 			{
