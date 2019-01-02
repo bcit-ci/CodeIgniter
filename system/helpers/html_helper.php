@@ -370,7 +370,7 @@ if ( ! function_exists('meta'))
 			{
 				if ($meta['type'] === 'equiv')
 				{
-					$meta['type'] === 'http-equiv';
+					$meta['type'] = 'http-equiv';
 				}
 				elseif ( ! in_array($meta['type'], $allowed_types, TRUE))
 				{
