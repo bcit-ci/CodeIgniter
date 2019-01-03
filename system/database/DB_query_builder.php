@@ -874,11 +874,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
 
-		if ($key === NULL OR $values === NULL)
-		{
-			return $this;
-		}
-
 		if ( ! is_array($values))
 		{
 			$values = array($values);
