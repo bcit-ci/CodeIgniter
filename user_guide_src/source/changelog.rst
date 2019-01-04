@@ -23,6 +23,7 @@ Bug fixes for 3.1.10
 -  Fixed a bug (#5627) - :doc:`Database <database/index>` driver 'mysqli' triggered an ``E_WARNING`` message if there's no ``'port'`` specified in the database configuration.
 -  Fixed a bug (#5651) - :doc:`Database Caching <database/caching>` could try to delete non-existent cache files due to a race condition.
 -  Fixed a bug (#5652) - :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()` didn't comply with CSS standards.
+-  Fixed a bug (#5605) - :doc:`Form Validation Library <libraries/form_validation>` didn't nullify array inputs that are expected to be strings.
 
 Version 3.1.9
 =============
