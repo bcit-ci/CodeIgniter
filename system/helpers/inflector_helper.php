@@ -275,6 +275,17 @@ if ( ! function_exists('word_is_countable'))
 	}
 }
 
+// --------------------------------------------------------------------
+
+if ( ! function_exists('is_countable'))
+{
+	function is_countable($word)
+	{
+		trigger_error('is_countable() is a native PHP function since version 7.3.0; use word_is_countable() instead', E_USER_WARNING);
+		return word_is_countable($word);
+	}
+}
+
 // ------------------------------------------------------------------------
 
 if ( ! function_exists('ordinal_format'))

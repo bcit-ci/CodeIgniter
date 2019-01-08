@@ -136,7 +136,7 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 			if (isset($field[$i]['null']))
 			{
 				$sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
-					.($field[$i]['null'] === TRUE ? ' DROP NOT NULL' : ' SET NOT NULL');
+					.(trim($field[$i]['null']) === $this->_null ? ' DROP NOT NULL' : ' SET NOT NULL');
 			}
 
 			if ( ! empty($field[$i]['new_name']))

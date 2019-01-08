@@ -353,7 +353,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 * @param	string	$id
 	 * @return	bool
 	 */
-	public function validateId($id)
+	public function validateSessionId($id)
 	{
 		// Prevent previous QB calls from messing with our queries
 		$this->_db->reset_query();

@@ -167,6 +167,11 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 			empty($this->encrypt['ssl_capath']) OR $ssl[PDO::MYSQL_ATTR_SSL_CAPATH] = $this->encrypt['ssl_capath'];
 			empty($this->encrypt['ssl_cipher']) OR $ssl[PDO::MYSQL_ATTR_SSL_CIPHER] = $this->encrypt['ssl_cipher'];
 
+			if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT') && isset($this->encrypt['ssl_verify']))
+			{
+				$ssl[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $this->encrypt['ssl_verify'];
+			}
+
 			// DO NOT use array_merge() here!
 			// It re-indexes numeric keys and the PDO_MYSQL_ATTR_SSL_* constants are integers.
 			empty($ssl) OR $this->options += $ssl;

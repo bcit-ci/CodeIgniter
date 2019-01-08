@@ -115,13 +115,13 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	/**
 	 * PHP 5.x validate ID
 	 *
-	 * Enforces session.use_strict_mode on PHP 5.x (7+ does it by itself)
+	 * Enforces session.use_strict_mode
 	 *
 	 * @return	void
 	 */
 	public function php5_validate_id()
 	{
-		if (PHP_VERSION_ID < 70000 && isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateId($_COOKIE[$this->_config['cookie_name']]))
+		if (isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateSessionId($_COOKIE[$this->_config['cookie_name']]))
 		{
 			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
