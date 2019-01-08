@@ -83,6 +83,8 @@ if ( ! function_exists('create_captcha'))
 			)
 		);
 
+		$now = microtime(TRUE);
+
 		foreach ($defaults as $key => $val)
 		{
 			if ( ! is_array($data) && empty($$key))
@@ -110,8 +112,6 @@ if ( ! function_exists('create_captcha'))
 			/**
 			 * Remove old images
 			 */
-			$now = microtime(TRUE);
-
 			$current_dir = @opendir($img_path);
 			while ($filename = @readdir($current_dir))
 			{
