@@ -1,0 +1,47 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ @fugazyrappersoutlook Sign out
+0
+0 0 fugazyrappersoutlook/https-github.com-fugazyrappersoutlook-CodeIgniter-commit-f4a4bd8fac188ebc9cda822ffc811c218fd92b45-
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights  Settings
+Quick setup — if you’ve done this kind of thing before
+or	
+HTTPS
+SSH
+
+git@github.com:fugazyrappersoutlook/https-github.com-fugazyrappersoutlook-CodeIgniter-commit-f4a4bd8fac188ebc9cda822ffc811c218fd92b45-.git
+Get started by creating a new file or uploading an existing file. We recommend every repository include a README, LICENSE, and .gitignore.
+
+…or create a new repository on the command line
+echo "# https-github.com-fugazyrappersoutlook-CodeIgniter-commit-f4a4bd8fac188ebc9cda822ffc811c218fd92b45-" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:fugazyrappersoutlook/https-github.com-fugazyrappersoutlook-CodeIgniter-commit-f4a4bd8fac188ebc9cda822ffc811c218fd92b45-.git
+git push -u origin master
+…or push an existing repository from the command line
+git remote add origin git@github.com:fugazyrappersoutlook/https-github.com-fugazyrappersoutlook-CodeIgniter-commit-f4a4bd8fac188ebc9cda822ffc811c218fd92b45-.git
+git push -u origin master
+…or import code from another repository
+You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
+
+ ProTip! Use the URL for this page when adding GitHub as a remote.
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.
