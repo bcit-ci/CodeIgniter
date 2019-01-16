@@ -128,12 +128,22 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
+Version 3.1.11
+==============
+
+Release Date: Not Released
+
+
+
 Version 3.1.10
 ==============
 
+Release Date: Jan 16, 2019
+
 -  General Changes
 
-   -  Added 'ssl_verify' support to the 'pdo/mysql' :doc:`Database <database/index> driver.
+   -  Added 'ssl_verify' support to the 'pdo/mysql' :doc:`Database <database/index>` driver.
+   -  Renamed :doc:`Inflector Helper <helpers/inflector_helper>` function ``is_countable()`` to :php:func:`word_is_countable()` due to the former colliding with one introduced in PHP 7.3.0.
 
 Bug fixes for 3.1.10
 --------------------
@@ -390,7 +400,7 @@ Release Date: Oct 22, 2016
 -  General Changes
 
    -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
-   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` :php:func:`is_countable()` with more words.
+   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` ``is_countable()`` with more words.
    -  Updated :doc:`common function <general/common_functions>` :php:func:`set_status_header()` with new status codes from IETF RFCs
       `2817 <https://tools.ietf.org/html/rfc2817>`_ (426)
       and `6585 <https://tools.ietf.org/html/rfc6585>`_ (428, 429, 431, 511).
