@@ -257,14 +257,3 @@ so that if you're using the :doc:`Web Page Caching <../general/caching>`
 feature, you'll be left with some old, garbage cache files.
 
 That shouldn't be a problem, but you may want to clear them.
-
-Step 13: Check for calls to is_countable()
-==========================================
-
-
-PHP 7.3 introduces a native `is_countable() <https://secure.php.net/is_countable>`_
-function, which creates a name collision with the ``is_countable()`` function
-we've had in our :doc:`Inflector Helpers <../helpers/inflector_helper>`.
-
-If you've been using the helper function in question, you should now rename
-the calls to it to :php:func:`word_is_countable()`.

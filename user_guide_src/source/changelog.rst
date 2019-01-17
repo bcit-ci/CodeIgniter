@@ -128,13 +128,38 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
+Version 3.1.11
+==============
+
+Release Date: Not Released
+
+
+
 Version 3.1.10
 ==============
+
+Release Date: Jan 16, 2019
+
+-  General Changes
+
+   -  Added 'ssl_verify' support to the 'pdo/mysql' :doc:`Database <database/index>` driver.
+   -  Renamed :doc:`Inflector Helper <helpers/inflector_helper>` function ``is_countable()`` to :php:func:`word_is_countable()` due to the former colliding with one introduced in PHP 7.3.0.
 
 Bug fixes for 3.1.10
 --------------------
 
 -  Fixed a bug (#5526) - :doc:`Session Library <libraries/sessions>` had a syntax error in its 'memcached' driver.
+-  Fixed a bug (#5542) - :doc:`Database Forge <database/forge>` method ``modify_column()`` always made fields ``NOT NULL`` when attempting to modify their nullable property under PostgreSQL.
+-  Fixed a bug (#5561) - :doc:`Database Library <database/index>` didn't allow SSL connection configuration with only the 'ssl_verify' option when using the 'mysqli' driver.
+-  Fixed a bug (#5545) - :doc:`Session Library <libraries/sessions>` crashed due to a caching-related error with the 'files' driver.
+-  Fixed a bug (#5571) - :doc:`XML-RPC Library <libraries/xmlrpc>` had a typo that triggered an ``E_WARNING`` message on PHP 7.2.
+-  Fixed a bug (#5587) - :doc:`Database Forge <database/forge>` method ``create_table()`` generated an ``E_WARNING`` message.
+-  Fixed a bug (#5590) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_base64** didn't have a default error message.
+-  Fixed a bug (#5624) - :doc:`Database Library <database/index>` methods ``list_fields()``, ``field_exists()`` returned incorrect results after tables are modified.
+-  Fixed a bug (#5627) - :doc:`Database <database/index>` driver 'mysqli' triggered an ``E_WARNING`` message if there's no ``'port'`` specified in the database configuration.
+-  Fixed a bug (#5651) - :doc:`Database Caching <database/caching>` could try to delete non-existent cache files due to a race condition.
+-  Fixed a bug (#5652) - :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()` didn't comply with CSS standards.
+-  Fixed a bug (#5605) - :doc:`Form Validation Library <libraries/form_validation>` didn't nullify array inputs that are expected to be strings.
 
 Version 3.1.9
 =============
@@ -375,7 +400,7 @@ Release Date: Oct 22, 2016
 -  General Changes
 
    -  Added ``E_PARSE`` to the list of error levels detected by the shutdown handler.
-   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` :php:func:`is_countable()` with more words.
+   -  Updated :doc:`Inflector Helper <helpers/inflector_helper>` ``is_countable()`` with more words.
    -  Updated :doc:`common function <general/common_functions>` :php:func:`set_status_header()` with new status codes from IETF RFCs
       `2817 <https://tools.ietf.org/html/rfc2817>`_ (426)
       and `6585 <https://tools.ietf.org/html/rfc6585>`_ (428, 429, 431, 511).

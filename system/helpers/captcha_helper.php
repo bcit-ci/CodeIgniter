@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -83,6 +83,8 @@ if ( ! function_exists('create_captcha'))
 			)
 		);
 
+		$now = microtime(TRUE);
+
 		foreach ($defaults as $key => $val)
 		{
 			if ( ! is_array($data) && empty($$key))
@@ -110,8 +112,6 @@ if ( ! function_exists('create_captcha'))
 			/**
 			 * Remove old images
 			 */
-			$now = microtime(TRUE);
-
 			$current_dir = @opendir($img_path);
 			while ($filename = @readdir($current_dir))
 			{
@@ -352,7 +352,7 @@ if ( ! function_exists('create_captcha'))
 			$img_src = 'data:image/png;base64,'.base64_encode($img_src);
 		}
 
-		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'; height: '.$img_height .'; border: 0;" alt="'.$img_alt.'" />';
+		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -142,7 +142,7 @@ abstract class CI_DB_driver {
 	 *
 	 * @var	int
 	 */
-	public $port			= '';
+	public $port			= NULL;
 
 	/**
 	 * Persistent connection flag
@@ -1246,19 +1246,13 @@ abstract class CI_DB_driver {
 	 */
 	public function list_fields($table)
 	{
-		// Is there a cached result?
-		if (isset($this->data_cache['field_names'][$table]))
-		{
-			return $this->data_cache['field_names'][$table];
-		}
-
 		if (FALSE === ($sql = $this->_list_columns($table)))
 		{
 			return ($this->db_debug) ? $this->display_error('db_unsupported_function') : FALSE;
 		}
 
 		$query = $this->query($sql);
-		$this->data_cache['field_names'][$table] = array();
+		$fields = array();
 
 		foreach ($query->result_array() as $row)
 		{
@@ -1280,10 +1274,10 @@ abstract class CI_DB_driver {
 				}
 			}
 
-			$this->data_cache['field_names'][$table][] = $row[$key];
+			$fields[] = $row[$key];
 		}
 
-		return $this->data_cache['field_names'][$table];
+		return $fields;
 	}
 
 	// --------------------------------------------------------------------
