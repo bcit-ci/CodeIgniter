@@ -117,6 +117,7 @@ class CI_Log {
 	 * @var	string
 	 */
 	protected $_c_file;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -130,7 +131,9 @@ class CI_Log {
 
 		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
-		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
+		$this->_log_path = ($config['log_path'] !== '')
+			? rtrim($config['log_path'], '/\\').DIRECTORY_SEPARATOR : APPPATH.'logs'.DIRECTORY_SEPARATOR;
+
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 
@@ -173,6 +176,7 @@ class CI_Log {
 	{
 		$this->_c_file = $file;
 	}
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -300,9 +304,6 @@ class CI_Log {
 	{
 		if (self::$func_overload)
 		{
-			// mb_substr($str, $start, null, '8bit') returns an empty
-			// string on PHP 5.3
-			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
 			return mb_substr($str, $start, $length, '8bit');
 		}
 
