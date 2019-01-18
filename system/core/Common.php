@@ -453,9 +453,10 @@ if ( ! function_exists('log_message'))
 	 *
 	 * @param	string	the error level: 'error', 'debug' or 'info'
 	 * @param	string	the error message
+	 * @param (string) optional the file name
 	 * @return	void
 	 */
-	function log_message($level, $message)
+	function log_message($level, $message, $file = '')
 	{
 		static $_log;
 
@@ -464,7 +465,7 @@ if ( ! function_exists('log_message'))
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
 		}
-
+		(isset($file)) ? $_log[0]->setCustumFile($file): null;
 		$_log[0]->write_log($level, $message);
 	}
 }
