@@ -111,6 +111,12 @@ class CI_Log {
 	 */
 	protected static $func_overload;
 
+	/**
+	 * Custum file name
+	 *
+	 * @var	string
+	 */
+	protected $_c_file;
 	// --------------------------------------------------------------------
 
 	/**
@@ -124,9 +130,7 @@ class CI_Log {
 
 		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
-		$this->_log_path = ($config['log_path'] !== '')
-			? rtrim($config['log_path'], '/\\').DIRECTORY_SEPARATOR : APPPATH.'logs'.DIRECTORY_SEPARATOR;
-
+		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 
@@ -158,6 +162,17 @@ class CI_Log {
 		}
 	}
 
+	/**
+	 * Set the custum file
+	 *
+	 * @param	string	$file name of file
+	 *
+	 * @return	void
+	 */
+	public function setCustumFile($file)
+	{
+		$this->_c_file = $file;
+	}
 	// --------------------------------------------------------------------
 
 	/**
@@ -184,7 +199,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
+		$filepath = (isset($this->_c_file)) ? $this->_log_path.'log-'.$this->_c_file.'.'.$this->_file_ext : $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
 		$message = '';
 
 		if ( ! file_exists($filepath))
@@ -285,6 +300,9 @@ class CI_Log {
 	{
 		if (self::$func_overload)
 		{
+			// mb_substr($str, $start, null, '8bit') returns an empty
+			// string on PHP 5.3
+			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
 			return mb_substr($str, $start, $length, '8bit');
 		}
 
