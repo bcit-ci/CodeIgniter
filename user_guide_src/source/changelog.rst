@@ -8,6 +8,10 @@ Version 3.1.11
 Release Date: Not Released
 
 
+Bug fixes for 3.1.11
+====================
+
+-  Fixed a bug (#5681) - :doc:`Database Forge <database/forge>` method ``modify_column()`` produced erroneous SQL for ``DEFAULT`` attribute changes under PostgreSQL, Firebird.
 
 Version 3.1.10
 ==============
