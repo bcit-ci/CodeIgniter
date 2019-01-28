@@ -228,6 +228,17 @@ $config['log_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| Error Logging FILENAME
+|--------------------------------------------------------------------------
+|
+| Leave this BLANK unless you would like to set something other than the default
+| 'log-'.date('Y-m-d') filename. No DIRECTORY_SEPARATOR(s) or file extension
+|
+*/
+$config['log_file'] = '';
+
+/*
+|--------------------------------------------------------------------------
 | Log File Extension
 |--------------------------------------------------------------------------
 |
