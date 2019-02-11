@@ -107,6 +107,14 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		$this->_memcached = new Memcached();
 		$this->_memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE); // required for touch() usage
+		$memcached_options = config_item('sess_memcached_options');
+		if (is_array($memcached_options))
+		{
+			foreach ($memcached_options as $key => $value)
+			{
+				$this->_memcached->setOption($key, $value);
+			}
+		}
 		$server_list = array();
 		foreach ($this->_memcached->getServerList() as $server)
 		{
