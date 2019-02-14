@@ -874,9 +874,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
 
-		if ($key === NULL)
+		if (empty($key) OR ! is_string($key))
 		{
-			return $this;
+			throw new InvalidArgumentException(sprintf('%s() expects $key to be a non-empty string', debug_backtrace(0, 2)[1]['function']));
+		}
+
+		if (empty($values))
+		{
+			throw new InvalidArgumentException(sprintf('%s() expects $values to be a non-empty array', debug_backtrace(0, 2)[1]['function']));
 		}
 
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
