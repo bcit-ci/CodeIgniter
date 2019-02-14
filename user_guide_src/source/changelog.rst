@@ -87,6 +87,7 @@ Release Date: Not Released
    -  :doc:`Query Builder <database/query_builder>`:
 
       - Added methods ``having_in()``, ``or_having_in()``, ``not_having_in()``, ``or_not_having_in()``.
+      - Updated methods ``where_in()``, ``or_where_in()``, ``not_where_in()``, ``or_not_where_in()`` to reject non-array inputs for the second parameter.
       - Updated method ``join()`` to allow accepting ``NATURAL`` clauses in its third parameter.
       - Updated logic to allow dots in alias names.
 
