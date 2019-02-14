@@ -1281,7 +1281,7 @@ Class Reference
 		Generates the WHERE portion of the query.
                 Separates multiple calls with 'OR'.
 
-	.. php:method:: or_where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: or_where_in([$key[, array $values[, $escape = NULL]]])
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
@@ -1292,7 +1292,7 @@ Class Reference
 		Generates a WHERE field IN('item', 'item') SQL query,
                 joined with 'OR' if appropriate.
 
-	.. php:method:: or_where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: or_where_not_in([$key[, array $values[, $escape = NULL]]])
 
 		:param	string	$key: The field to search
 		:param	array	$values: The values searched on
@@ -1303,7 +1303,7 @@ Class Reference
 		Generates a WHERE field NOT IN('item', 'item') SQL query,
                 joined with 'OR' if appropriate.
 
-	.. php:method:: where_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: where_in([$key[, array $values[, $escape = NULL]]])
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
@@ -1314,7 +1314,7 @@ Class Reference
 		Generates a WHERE field IN('item', 'item') SQL query,
                 joined with 'AND' if appropriate.
 
-	.. php:method:: where_not_in([$key = NULL[, $values = NULL[, $escape = NULL]]])
+	.. php:method:: where_not_in([$key[, array $values[, $escape = NULL]]])
 
 		:param	string	$key: Name of field to examine
 		:param	array	$values: Array of target values
@@ -1423,6 +1423,50 @@ Class Reference
 		:rtype:	CI_DB_query_builder
 
 		Adds a HAVING clause to a query, separating multiple calls with OR.
+
+	.. php:method:: or_having_in([$key[, array $values[, $escape = NULL]]])
+
+		:param	string	$key: The field to search
+		:param	array	$values: The values searched on
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a HAVING field IN('item', 'item') SQL query,
+                joined with 'OR' if appropriate.
+
+	.. php:method:: or_having_not_in([$key[, array $values[, $escape = NULL]]])
+
+		:param	string	$key: The field to search
+		:param	array	$values: The values searched on
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a HAVING field NOT IN('item', 'item') SQL query,
+                joined with 'OR' if appropriate.
+
+	.. php:method:: having_in([$key[, array $values[, $escape = NULL]]])
+
+		:param	string	$key: Name of field to examine
+		:param	array	$values: Array of target values
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a HAVING field IN('item', 'item') SQL query,
+                joined with 'AND' if appropriate.
+
+	.. php:method:: having_not_in([$key[, array $values[, $escape = NULL]]])
+
+		:param	string	$key: Name of field to examine
+		:param	array	$values: Array of target values
+		:param	bool	$escape: Whether to escape values and identifiers
+		:returns:	DB_query_builder instance
+		:rtype:	object
+
+		Generates a HAVING field NOT IN('item', 'item') SQL query,
+                joined with 'AND' if appropriate.
 
 	.. php:method:: group_by($by[, $escape = NULL])
 
