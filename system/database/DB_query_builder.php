@@ -1482,8 +1482,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->limit($limit, $offset);
 		}
-
-		$result = $this->unbuffered_query($this->_compile_select());
+		// Only allow MySQLi to use the Unbuffered
+		$result = ($this->dbdriver==="mysqli") ? $this->unbuffered_query($this->_compile_select()) : $this->query($this->_compile_select());
 		$this->_reset_select();
 		return $result;
 	}
