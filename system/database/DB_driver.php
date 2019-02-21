@@ -569,14 +569,12 @@ abstract class CI_DB_driver {
 	 * @param	string	$sql
 	 * @param	array	$binds = FALSE		An array of binding data
 	 * @param	bool	$return_object = NULL
-	 * @param	bool	$_is_unbuffered = FALSE		Set the query execution as buffered or unbuffered
+	 * @param	bool	$is_unbuffered = FALSE		Set the query execution as buffered or unbuffered
 	 * @return	mixed
 	 */
-	public function query($sql, $binds = FALSE, $return_object = NULL, $_is_unbuffered=FALSE)
+	public function query($sql, $binds = FALSE, $return_object = NULL, $is_unbuffered=FALSE)
 	{	
 		// Set Buffered or Unbuffered to access it in simple query
-		$this->_is_unbuffered = $_is_unbuffered;
-
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
@@ -620,7 +618,7 @@ abstract class CI_DB_driver {
 		$time_start = microtime(TRUE);
 
 		// Run the Query
-		if (FALSE === ($this->result_id = $this->simple_query($sql)))
+		if (FALSE === ($this->result_id = $this->simple_query($sql, $is_unbuffered)))
 		{
 			if ($this->save_queries === TRUE)
 			{
@@ -735,7 +733,7 @@ abstract class CI_DB_driver {
 	
 	public function unbuffered_query($sql, $binds = FALSE, $return_object = NULL)
 	{		
-		return $this->query($sql, $binds = FALSE, $return_object = NULL, $_is_unbuffered=TRUE);
+		return $this->query($sql, $binds = FALSE, $return_object = NULL, $is_unbuffered=TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -749,10 +747,10 @@ abstract class CI_DB_driver {
 	 * @param	string	the sql query
 	 * @return	mixed
 	 */
-	public function simple_query($sql)
+	public function simple_query($sql, $is_unbuffered=FALSE)
 	{
 		empty($this->conn_id) && $this->initialize();
-		return $this->_is_unbuffered ? $this->_execute_unbuffered($sql) : $this->_execute($sql);
+		return $is_unbuffered ? $this->_execute_unbuffered($sql) : $this->_execute($sql);
 	}
 
 	// --------------------------------------------------------------------
