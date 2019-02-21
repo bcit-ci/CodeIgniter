@@ -569,10 +569,14 @@ abstract class CI_DB_driver {
 	 * @param	string	$sql
 	 * @param	array	$binds = FALSE		An array of binding data
 	 * @param	bool	$return_object = NULL
+	 * @param	bool	$_is_unbuffered = FALSE		Set the query execution as buffered or unbuffered
 	 * @return	mixed
 	 */
-	public function query($sql, $binds = FALSE, $return_object = NULL)
-	{
+	public function query($sql, $binds = FALSE, $return_object = NULL, $_is_unbuffered=FALSE)
+	{	
+		// Set Buffered or Unbuffered to access it in simple query
+		$this->_is_unbuffered = $_is_unbuffered;
+
 		if ($sql === '')
 		{
 			log_message('error', 'Invalid query: '.$sql);
@@ -715,6 +719,28 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Execute the query and return the cursor object
+	 *
+	 * Accepts an SQL string as input and returns a result object upon
+	 * successful execution of a "read" type query. Returns boolean TRUE
+	 * upon successful execution of a "write" type query. Returns boolean
+	 * FALSE upon failure, and if the $db_debug variable is set to TRUE
+	 * will raise an error.
+	 *
+	 * @param	string	$sql
+	 * @param	array	$binds = FALSE		An array of binding data
+	 * @param	bool	$return_object = NULL
+	 * @return	mixed
+	 */
+	
+	public function unbuffered_query($sql, $binds = FALSE, $return_object = NULL)
+	{		
+		return $this->query($sql, $binds = FALSE, $return_object = NULL, $_is_unbuffered=TRUE);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Simple Query
 	 * This is a simplified version of the query() function. Internally
 	 * we only use it when running transaction commands since they do
@@ -726,7 +752,7 @@ abstract class CI_DB_driver {
 	public function simple_query($sql)
 	{
 		empty($this->conn_id) && $this->initialize();
-		return $this->_execute($sql);
+		return $this->_is_unbuffered ? $this->_execute_unbuffered($sql) : $this->_execute($sql);
 	}
 
 	// --------------------------------------------------------------------

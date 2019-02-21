@@ -302,6 +302,21 @@ class CI_DB_mysqli_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
+	
+
+	/**
+	 * Execute the query and return the cursor
+	 *
+	 * @param	string	$sql	an SQL query
+	 * @return	mixed
+	 */
+	protected function _execute_unbuffered($sql)
+	{
+		return $this->conn_id->query($this->_prep_query($sql),MYSQLI_USE_RESULT);
+	}
+
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Prep the query

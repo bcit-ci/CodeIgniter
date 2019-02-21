@@ -1460,6 +1460,38 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get cursor instead of records to fetch larger dataset
+	 *
+	 * Compiles the select statement based on the other functions called
+	 * and runs the query
+	 *
+	 * @param	string	the table
+	 * @param	string	the limit clause
+	 * @param	string	the offset clause
+	 * @return	CI_DB_result
+	 */
+	public function unbuffered_get($table = '', $limit = NULL, $offset = NULL)
+	{
+		if ($table !== '')
+		{
+			$this->_track_aliases($table);
+			$this->from($table);
+		}
+
+		if ( ! empty($limit))
+		{
+			$this->limit($limit, $offset);
+		}
+
+		$result = $this->unbuffered_query($this->_compile_select());
+		$this->_reset_select();
+		return $result;
+	}
+
+	// --------------------------------------------------------------------
+
+
+	/**
 	 * "Count All Results" query
 	 *
 	 * Generates a platform-specific query string that counts all records
