@@ -13,6 +13,7 @@ Bug fixes for 3.1.11
 
 -  Fixed a bug (#5681) - :doc:`Database Forge <database/forge>` method ``modify_column()`` produced erroneous SQL for ``DEFAULT`` attribute changes under PostgreSQL, Firebird.
 -  Fixed a bug (#5692) - :doc:`Database Forge <database/forge>` didn't handle column nullability with the 'oci8', 'pdo/oci' drivers.
+-  Fixed a bug (#5701) - :doc:`Database <database/index>` driver 'pdo/pgsql' produced incorrect DSNs when constructing from a configuration array.
 
 Version 3.1.10
 ==============
