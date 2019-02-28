@@ -305,6 +305,12 @@ if ( ! function_exists('form_textarea'))
 			'cols' => '40',
 			'rows' => '10'
 		);
+		if (isset($extra['cols'])) {
+			unset($defaults['cols']);
+		}
+		if (isset($extra['rows'])) {
+			unset($defaults['rows']);
+		}
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -315,7 +321,7 @@ if ( ! function_exists('form_textarea'))
 			$val = $data['value'];
 			unset($data['value']); // textareas don't use the value attribute
 		}
-
+		
 		return '<textarea '._parse_form_attributes($data, $defaults)._attributes_to_string($extra).'>'
 			.html_escape($val)
 			."</textarea>\n";
