@@ -389,8 +389,9 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 			if ( ! $result)
 			{
-				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
-				return FALSE;
+				// Sleep for 0.1s to wait for lock releases.
+				usleep(100000);
+				continue;
 			}
 
 			$this->_lock_key = $lock_key;
