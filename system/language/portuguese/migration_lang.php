@@ -32,54 +32,16 @@
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @since	Version 3.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('Não é permitido acesso direto de script');
 
-$lang['cal_su'] = 'Su';
-$lang['cal_mo'] = 'Mo';
-$lang['cal_tu'] = 'Tu';
-$lang['cal_we'] = 'We';
-$lang['cal_th'] = 'Th';
-$lang['cal_fr'] = 'Fr';
-$lang['cal_sa'] = 'Sa';
-$lang['cal_sun'] = 'Sun';
-$lang['cal_mon'] = 'Mon';
-$lang['cal_tue'] = 'Tue';
-$lang['cal_wed'] = 'Wed';
-$lang['cal_thu'] = 'Thu';
-$lang['cal_fri'] = 'Fri';
-$lang['cal_sat'] = 'Sat';
-$lang['cal_sunday'] = 'Sunday';
-$lang['cal_monday'] = 'Monday';
-$lang['cal_tuesday'] = 'Tuesday';
-$lang['cal_wednesday'] = 'Wednesday';
-$lang['cal_thursday'] = 'Thursday';
-$lang['cal_friday'] = 'Friday';
-$lang['cal_saturday'] = 'Saturday';
-$lang['cal_jan'] = 'Jan';
-$lang['cal_feb'] = 'Feb';
-$lang['cal_mar'] = 'Mar';
-$lang['cal_apr'] = 'Apr';
-$lang['cal_may'] = 'May';
-$lang['cal_jun'] = 'Jun';
-$lang['cal_jul'] = 'Jul';
-$lang['cal_aug'] = 'Aug';
-$lang['cal_sep'] = 'Sep';
-$lang['cal_oct'] = 'Oct';
-$lang['cal_nov'] = 'Nov';
-$lang['cal_dec'] = 'Dec';
-$lang['cal_january'] = 'January';
-$lang['cal_february'] = 'February';
-$lang['cal_march'] = 'March';
-$lang['cal_april'] = 'April';
-$lang['cal_mayl'] = 'May';
-$lang['cal_june'] = 'June';
-$lang['cal_july'] = 'July';
-$lang['cal_august'] = 'August';
-$lang['cal_september'] = 'September';
-$lang['cal_october'] = 'October';
-$lang['cal_november'] = 'November';
-$lang['cal_december'] = 'December';
-
+$lang['migration_none_found'] = 'Não foram encontradas migrações.';
+$lang['migration_not_found'] = 'Não foram encontradas migrações com a versão número: %s.';
+$lang['migration_sequence_gap'] = 'Existe um gap na sequência de migração próximo da versão número: %s.';
+$lang['migration_multiple_version'] = 'Existem múltiplas migrações com o mesmo número de versão: %s.';
+$lang['migration_class_doesnt_exist'] = 'A classe de migração "%s" não pode ser encontrada.';
+$lang['migration_missing_up_method'] = 'A classe de migração "%s" está faltando um método "up".';
+$lang['migration_missing_down_method'] = 'A classe de migração "%s" está faltando um método "down".';
+$lang['migration_invalid_filename'] = 'Migração "%s" tem um filename inválido.';
