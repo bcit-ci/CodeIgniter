@@ -381,7 +381,7 @@ The following functions are available:
 
 				<fieldset>
 					<legend>Address Information</legend>
-						<p>form content here</p>
+						<p>fieldset content here</p>
 				</fieldset>
 		*/
 
@@ -402,7 +402,7 @@ The following functions are available:
 
 			<fieldset id="address_info" class="address_info">
 				<legend>Address Information</legend>
-				<p>form content here</p>
+				<p>fieldset content here</p>
 			</fieldset>
 		*/
 
