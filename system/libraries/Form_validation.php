@@ -1314,6 +1314,51 @@ class CI_Form_validation {
 
 		return (bool) filter_var($mac, FILTER_VALIDATE_MAC);
 	}
+        
+        // --------------------------------------------------------------------
+        
+        /**
+	 * Valid Date. If at first validation is true it ends.
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function valid_date($str, $val)
+	{
+                if (strpos($val, ',') === FALSE)
+		{
+                        if($val !== "week"){
+                                return DateTime::createFromFormat($val, $str)
+                                        ? (DateTime::createFromFormat($val, $str)->format($val) === $str)
+                                        : FALSE;
+                        }
+                        
+                        // I could not find another way to validate a week other than this
+                        else
+                        {
+                                try
+                                {
+                                        $week= new DateTime($str);
+                                        return substr_replace($week->format("Y-W"), "W", 5, 0) === $str
+                                                ? TRUE
+                                                : FALSE;
+                                } 
+                                catch (Exception $ex) 
+                                {
+                                        return FALSE;
+                               }
+                        }
+		}
+
+		foreach (explode(',', $val) as $format)
+		{
+			if(DateTime::createFromFormat($format, $str) && DateTime::createFromFormat($format, $str)->format($format) === $str){
+                            return TRUE;
+                        }
+		}
+                
+                return FALSE;
+	}
 
 	// --------------------------------------------------------------------
 
