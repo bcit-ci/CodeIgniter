@@ -1327,7 +1327,8 @@ class CI_Form_validation {
 	{
                 if (strpos($val, ',') === FALSE)
 		{
-                        if($val !== "week"){
+                        if($val !== "week")
+                        {
                                 return DateTime::createFromFormat($val, $str)
                                         ? (DateTime::createFromFormat($val, $str)->format($val) === $str)
                                         : FALSE;
@@ -1346,14 +1347,15 @@ class CI_Form_validation {
                                 catch (Exception $ex) 
                                 {
                                         return FALSE;
-                               }
+                                }
                         }
 		}
 
 		foreach (explode(',', $val) as $format)
 		{
-			if(DateTime::createFromFormat($format, $str) && DateTime::createFromFormat($format, $str)->format($format) === $str){
-                            return TRUE;
+			if(DateTime::createFromFormat($format, $str) && DateTime::createFromFormat($format, $str)->format($format) === $str)
+                        {
+                                return TRUE;
                         }
 		}
                 
