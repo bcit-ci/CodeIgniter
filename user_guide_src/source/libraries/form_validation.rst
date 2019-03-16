@@ -1006,6 +1006,7 @@ Rule                      Parameter  Description                                
 **valid_ip**              Yes        Returns FALSE if the supplied IP address is not valid.
                                      Accepts an optional parameter of 'ipv4' or 'ipv6' to specify an IP format.
 **valid_mac**             No         Returns FALSE if the supplied MAC address is not valid.
+**valid_date**            Yes        Returns FALSE if the DATE is not in the requested format.                                     valid_date[Y-m-d,d/m/Y]
 **valid_base64**          No         Returns FALSE if the supplied string contains anything other than valid Base64 characters.
 ========================= ========== ============================================================================================= =======================
 
