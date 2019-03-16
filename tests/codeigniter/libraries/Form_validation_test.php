@@ -312,6 +312,21 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ag:"));
 		$this->assertFalse($this->form_validation->valid_mac('0123456789ab'));
 	}
+        
+        public function test_rule_valid_date()
+	{
+		$this->assertTrue($this->form_validation->valid_date("Y-m-d,d/m/Y", "28/06/1995"));
+		$this->assertTrue($this->form_validation->valid_date("Y-m-d,d/m/Y", "1995-06-28"));
+		$this->assertTrue($this->form_validation->valid_date("week", "1995-W26"));
+                $this->assertTrue($this->form_validation->valid_date("Y-m", "1995-06"));
+                $this->assertTrue($this->form_validation->valid_date("Y-m-d h:i A", "1995-06-28 01:00 PM"));
+
+		$this->assertFalse($this->form_validation->valid_date("Y-m-d,d/m/Y", "28/06/95"));
+		$this->assertFalse($this->form_validation->valid_date("Y-m-d,d/m/Y", "1995-02-31"));
+		$this->assertFalse($this->form_validation->valid_date("week", "95-W26"));
+		$this->assertFalse($this->form_validation->valid_date("Y-m-d H:i", "1995-06-28 13:0a"));
+		$this->assertFalse($this->form_validation->valid_date("Y-m-d h:i A", "1995-06-28 01:00 pm"));
+	}
 
 	public function test_rule_valid_base64()
 	{
