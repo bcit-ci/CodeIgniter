@@ -45,7 +45,7 @@ and tedious to implement.
 Form Validation Tutorial
 ************************
 
-What follows is a "hands on" tutorial for implementing CodeIgniters Form
+What follows is a "hands on" tutorial for implementing CodeIgniter's Form
 Validation.
 
 In order to implement form validation you'll need three things:
