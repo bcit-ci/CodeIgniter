@@ -1476,7 +1476,7 @@ abstract class CI_DB_driver {
 	 */
 	protected function _has_operator($str)
 	{
-		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sEXISTS|\sBETWEEN|\s NOT BETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
+		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sEXISTS|\sBETWEEN|\sNOT BETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
 	}
 
 	// --------------------------------------------------------------------
