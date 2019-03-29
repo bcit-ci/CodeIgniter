@@ -110,6 +110,14 @@ class CI_Router {
 	 * @var	bool
 	 */
 	public $enable_query_strings = FALSE;
+	
+	/**
+	 *
+	 * Parameters of the requested controller method 
+	 *
+	 * @var	array
+	 */
+	public $params;
 
 	// --------------------------------------------------------------------
 
@@ -469,4 +477,119 @@ class CI_Router {
 			$this->directory .= str_replace('.', '', trim($dir, '/')).'/';
 		}
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Return true if a controller is found to handle the request 
+	 *
+	 * @return	bool
+	 */
+	public function controller_exists(){
+		// Fail-safe default : assume that no controller can handle the request
+		$controller_exists = FALSE;
+		if ( ! empty($this->class) AND file_exists(APPPATH.'controllers/'.$this->directory.$this->class.'.php'))
+			{
+				require_once(APPPATH.'controllers/'.$this->directory.$this->class.'.php');
+				//
+				if (class_exists($this->class, FALSE) AND $this->method[0] !== '_' AND ! method_exists('CI_Controller', $this->method))
+				{
+					$controller_exists = TRUE;
+				}
+				elseif (method_exists($this->class, '_remap'))
+				{
+					$CFG =& load_class('Config', 'core');
+					$URI =& load_class('URI', 'core', $CFG);
+					$this->params = array($this->method, array_slice($URI->rsegments, 2));
+					$this->method = '_remap';
+				}
+				elseif (method_exists($this->class, $this->method))
+				{
+					$controller_exists = TRUE;
+				}
+				/**
+				 * DO NOT CHANGE THIS, NOTHING ELSE WORKS!
+				 *
+				 * - method_exists() returns true for non-public methods, which passes the previous elseif
+				 * - is_callable() returns false for PHP 4-style constructors, even if there's a __construct()
+				 * - method_exists($class, '__construct') won't work because CI_Controller::__construct() is inherited
+				 * - People will only complain if this doesn't work, even though it is documented that it shouldn't.
+				 *
+				 * ReflectionMethod::isConstructor() is the ONLY reliable check,
+				 * knowing which method will be executed as a constructor.
+				 */
+				elseif (is_callable(array($this->class, $this->method)))
+				{
+					$reflection = new ReflectionMethod($this->class, $this->method);
+					if ( $reflection->isPublic() AND ! $reflection->isConstructor())
+					{
+						$controller_exists = TRUE;
+					}
+				}
+			}
+		return $controller_exists;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Handle custom 404 Controller
+	 *
+	 * Check whether a custom 404 controller can be found :
+	 * If a custom 404 controller is defined, then the requested class and method are redefined.
+	 *
+	 * @return	bool	True if a custom 404 controller has been found
+	 */
+	public function handle_404_override(){
+		$overriden_404 = FALSE;
+		if ( ! empty($this->routes['404_override']))
+		{
+			if (sscanf($this->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2)
+			{
+				$error_method = 'index';
+			}
+
+			$error_class = ucfirst($error_class);
+
+			if ( ! class_exists($error_class, FALSE))
+			{
+				if (file_exists(APPPATH.'controllers/'.$this->directory.$error_class.'.php'))
+				{
+					require_once(APPPATH.'controllers/'.$this->directory.$error_class.'.php');
+					$overriden_404 = class_exists($error_class, FALSE);
+				}
+				// Were we in a directory? If so, check for a global override
+				elseif ( ! empty($this->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php'))
+				{
+					require_once(APPPATH.'controllers/'.$error_class.'.php');
+					$overriden_404 = class_exists($error_class, FALSE);
+					if ($overriden_404 === FALSE)
+					{
+						$this->directory = '';
+					}
+				}
+			}
+			else
+			{
+				$overriden_404 = TRUE;
+			}
+		}
+		
+		if ($overriden_404)
+		{
+			$this->class = $error_class;
+			$this->method = $error_method;
+
+			$CFG =& load_class('Config', 'core');
+			$URI =& load_class('URI', 'core', $CFG);
+			
+			$URI->rsegments = array(
+				1 => $this->class,
+				2 => $this->method
+			);
+		}
+		
+		return $overriden_404;
+	}
+	
 }
