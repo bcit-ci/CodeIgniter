@@ -1281,7 +1281,7 @@ class CI_Form_validation {
 	/**
 	 * Validate IP Address
 	 *
-	 * @param	string
+	 * @param       string
 	 * @param	string	'ipv4' or 'ipv6' to validate a specific IP format
 	 * @return	bool
 	 */
@@ -1318,19 +1318,23 @@ class CI_Form_validation {
         // --------------------------------------------------------------------
         
         /**
-	 * Valid Date. If at first validation is true it ends.
+	 * Valid Date. Choose the HTML5 standard and the format for your region. The important thing is that the date is valid, no matter the region.
 	 *
 	 * @param	string
+         * @param	string  $formats can be one or more formats from any region of the world
 	 * @return	bool
 	 */
-	public function valid_date($str, $val)
+	public function valid_date($value, $formats)
 	{
-                if (strpos($val, ',') === FALSE)
+                // Make sure you only have one format
+                if (strpos($formats, ',') === FALSE)
 		{
-                        if($val !== "week")
+                        // Make sure the format is not week
+                        if($formats !== "week")
                         {
-                                return DateTime::createFromFormat($val, $str)
-                                        ? (DateTime::createFromFormat($val, $str)->format($val) === $str)
+                                // In addition to validating the date, compare the date formatted with the value of the form to avoid the example 2019-01-32
+                                return DateTime::createFromFormat($formats, $value)
+                                        ? (DateTime::createFromFormat($formats, $value)->format($formats) === $value)
                                         : FALSE;
                         }
                         
@@ -1339,8 +1343,10 @@ class CI_Form_validation {
                         {
                                 try
                                 {
-                                        $week= new DateTime($str);
-                                        return substr_replace($week->format("Y-W"), "W", 5, 0) === $str
+                                        // The correct format for the week is 1995-W26. HTML5 standard format for week
+                                        // After validation, I enter the W in the formatted date to check with the value of the form
+                                        $week= new DateTime($value);
+                                        return substr_replace($week->format("Y-W"), "W", 5, 0) === $value
                                                 ? TRUE
                                                 : FALSE;
                                 } 
@@ -1350,10 +1356,11 @@ class CI_Form_validation {
                                 }
                         }
 		}
-
-		foreach (explode(',', $val) as $format)
+                
+                // If you have more than one format, check all of them with the value of the form until you validate.
+		foreach (explode(',', $formats) as $format)
 		{
-			if(DateTime::createFromFormat($format, $str) && DateTime::createFromFormat($format, $str)->format($format) === $str)
+			if(DateTime::createFromFormat($format, $value) && DateTime::createFromFormat($format, $value)->format($format) === $value)
                         {
                                 return TRUE;
                         }
