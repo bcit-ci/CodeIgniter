@@ -48,6 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Cache_redis extends CI_Driver
 {
+
+	const DEFAULT_TTL = 60;
 	/**
 	 * Default config
 	 *
@@ -68,13 +70,6 @@ class CI_Cache_redis extends CI_Driver
 	 * @var	Redis
 	 */
 	protected $_redis;
-
-	/**
-	 * An internal cache for storing keys of serialized values.
-	 *
-	 * @var	array
-	 */
-	protected $_serialized = array();
 
 	// ------------------------------------------------------------------------
 
@@ -130,15 +125,12 @@ class CI_Cache_redis extends CI_Driver
 			{
 				log_message('error', 'Cache: Redis authentication failed.');
 			}
+			$obj_redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
 		}
 		catch (RedisException $e)
 		{
 			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
 		}
-
-		// Initialize the index of serialized values.
-		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
-		empty($serialized) OR $this->_serialized = array_flip($serialized);
 	}
 
 	// ------------------------------------------------------------------------
@@ -151,14 +143,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function get($key)
 	{
-		$value = $this->_redis->get($key);
-
-		if ($value !== FALSE && isset($this->_serialized[$key]))
-		{
-			return unserialize($value);
-		}
-
-		return $value;
+		return $this->_redis->get($key);
 	}
 
 	// ------------------------------------------------------------------------
@@ -172,24 +157,8 @@ class CI_Cache_redis extends CI_Driver
 	 * @param	bool	$raw	Whether to store the raw value (unused)
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
-	public function save($id, $data, $ttl = 60, $raw = FALSE)
+	public function save($id, $data, $ttl = self::DEFAULT_TTL, $raw = FALSE)
 	{
-		if (is_array($data) OR is_object($data))
-		{
-			if ( ! $this->_redis->sIsMember('_ci_redis_serialized', $id) && ! $this->_redis->sAdd('_ci_redis_serialized', $id))
-			{
-				return FALSE;
-			}
-
-			isset($this->_serialized[$id]) OR $this->_serialized[$id] = TRUE;
-			$data = serialize($data);
-		}
-		elseif (isset($this->_serialized[$id]))
-		{
-			$this->_serialized[$id] = NULL;
-			$this->_redis->sRemove('_ci_redis_serialized', $id);
-		}
-
 		return $this->_redis->set($id, $data, $ttl);
 	}
 
@@ -203,18 +172,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if ($this->_redis->delete($key) !== 1)
-		{
-			return FALSE;
-		}
-
-		if (isset($this->_serialized[$key]))
-		{
-			$this->_serialized[$key] = NULL;
-			$this->_redis->sRemove('_ci_redis_serialized', $key);
-		}
-
-		return TRUE;
+		return $this->_redis->delete($key) === 1;
 	}
 
 	// ------------------------------------------------------------------------
@@ -228,7 +186,15 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return $this->_redis->incr($id, $offset);
+		$oldValue = (int) $this->-redis->get($id);
+
+		$ttl = $this->_redis->ttl($id);
+		if ($ttl < 0) {
+			$ttl = self::DEFAULT_TTL;
+		}
+
+		return $this->_redis->set($id, $oldValue += $offset, $ttl);
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -242,7 +208,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return $this->_redis->decr($id, $offset);
+		return $this->increment($id, -$offset);
 	}
 
 	// ------------------------------------------------------------------------
