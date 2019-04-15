@@ -125,7 +125,7 @@ class CI_Cache_redis extends CI_Driver
 			{
 				log_message('error', 'Cache: Redis authentication failed.');
 			}
-			$obj_redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+			this->_redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
 		}
 		catch (RedisException $e)
 		{
