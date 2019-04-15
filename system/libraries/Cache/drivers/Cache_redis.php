@@ -193,7 +193,7 @@ class CI_Cache_redis extends CI_Driver
 			$ttl = self::DEFAULT_TTL;
 		}
 
-		return $this->_redis->set($id, $oldValue += $offset, $ttl);
+		return $this->_redis->set($id, $oldValue + $offset, $ttl);
 
 	}
 
