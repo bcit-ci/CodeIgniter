@@ -186,7 +186,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function increment($id, $offset = 1)
 	{
-		$oldValue = (int) $this->-redis->get($id);
+		$oldValue = (int) $this->_redis->get($id);
 
 		$ttl = $this->_redis->ttl($id);
 		if ($ttl < 0) {
