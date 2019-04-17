@@ -469,3 +469,19 @@ $config['time_reference'] = 'local';
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/* 
+|--------------------------------------------------------------------------
+| Cache view vars
+|--------------------------------------------------------------------------
+|
+| Variable caching allows for view variables to be passed down from one view to another
+| This means that the variables set in one view are passed into the next call to the same view loading
+| This option allows you to disable variable caching in views, meaning each view load will NOT inherit variables belonging to the previous load
+| Enable/disable view variable caching. 
+|
+| Defaults to TRUE.
+|
+| Accepted values are TRUE or FALSE
+*/
+$config['cache_view_vars'] = FALSE;
