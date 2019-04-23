@@ -117,7 +117,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		{
 			$this->_memcached = NULL;
 			log_message('error', 'Session: Invalid Memcached save path format: '.$this->_config['save_path']);
-			return $this->_fail();
+			return $this->_failure;
 		}
 
 		foreach ($matches as $match)
@@ -142,7 +142,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		if (empty($server_list))
 		{
 			log_message('error', 'Session: Memcached server pool is empty.');
-			return $this->_fail();
+			return $this->_failure;
 		}
 
 		$this->php5_validate_id();
@@ -172,7 +172,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			return $session_data;
 		}
 
-		return $this->_fail();
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -190,14 +190,14 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	{
 		if ( ! isset($this->_memcached, $this->_lock_key))
 		{
-			return $this->_fail();
+			return $this->_failure;
 		}
 		// Was the ID regenerated?
 		elseif ($session_id !== $this->_session_id)
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
-				return $this->_fail();
+				return $this->_failure;
 			}
 
 			$this->_fingerprint = md5('');
@@ -215,7 +215,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 				return $this->_success;
 			}
 
-			return $this->_fail();
+			return $this->_failure;
 		}
 		elseif (
 			$this->_memcached->touch($key, $this->_config['expiration'])
@@ -225,7 +225,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			return $this->_success;
 		}
 
-		return $this->_fail();
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -244,14 +244,14 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			$this->_release_lock();
 			if ( ! $this->_memcached->quit())
 			{
-				return $this->_fail();
+				return $this->_failure;
 			}
 
 			$this->_memcached = NULL;
 			return $this->_success;
 		}
 
-		return $this->_fail();
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -273,7 +273,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 			return $this->_success;
 		}
 
-		return $this->_fail();
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
