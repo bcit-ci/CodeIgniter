@@ -253,7 +253,7 @@ class CI_Log {
 	 */
 	protected function _format_line($level, $date, $message)
 	{
-		return $level.' - '.$date.' --> '.$message. PHP_EOL;
+		return $level.' - '.$date.' --> '.$message.PHP_EOL;
 	}
 
 	// --------------------------------------------------------------------
