@@ -1,0 +1,498 @@
+.block {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.line-height {
+    line-height: 0;
+}
+
+.clear-right {
+    clear: right;
+}
+
+.clear-left {
+    clear: left;
+}
+
+.center-relative {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-absolute {
+    left: 50%;
+}
+
+.center-text, 
+.center {
+    text-align: center;
+}
+
+.text-left, 
+.left {
+    text-align: left;
+}
+
+.text-right, 
+.right {
+    text-align: right;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.relative {
+    position: relative;
+}
+
+.margin-0 {
+    margin: 0 !important;
+    line-height: 0;
+}
+
+.top-0 {
+    margin-top: 0 !important;
+}
+
+.top-5 {
+    margin-top: 5px !important;	
+}
+
+.top-10 {
+    margin-top: 10px;	
+}
+
+.top-15 {
+    margin-top: 15px;	
+}
+
+.top-20 {
+    margin-top: 20px;
+}
+
+.top-25 {
+    margin-top: 25px;	
+}
+
+.top-30 {
+    margin-top: 30px;	
+}
+
+.top-50 {
+    margin-top: 50px;	
+}
+
+.top-60 {
+    margin-top: 60px;	
+}
+
+.top-70 {
+    margin-top: 70px;	
+}
+
+.top-75 {
+    margin-top: 75px;	
+}
+
+.top-80 {
+    margin-top: 80px;
+}
+
+.top-100 {
+    margin-top: 100px;	
+}
+
+.top-105 {
+    margin-top: 105px;	
+}
+
+.top-120 {
+    margin-top: 120px;
+}
+
+.top-150 {
+    margin-top: 150px;	
+}
+
+.top-200 {
+    margin-top: 200px;	
+}
+
+.bottom-0 {
+    margin-bottom: 0 !important;
+}
+
+.bottom-10 {
+    margin-bottom: 10px !important;
+}
+
+.bottom-20 {
+    margin-bottom: 20px !important;
+}
+
+.bottom-25 {
+    margin-bottom: 25px !important;
+}
+
+.bottom-30 {
+    margin-bottom: 30px !important;
+}
+
+.bottom-50 {
+    margin-bottom: 50px !important;
+}
+
+.bottom-100 {
+    margin-bottom: 100px !important;
+}
+
+.bottom-150 {
+    margin-bottom: 150px !important;
+}
+
+.bottom-200 {
+    margin-bottom: 200px !important;
+}
+
+.post-password-form {
+    text-align: center;
+}
+
+.post-password-form input[type="submit"] {
+    color: #ffffff;
+    margin-top: 30px;
+    border-radius: 50px;
+    padding: 15px 30px;
+    background-color: #000000;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid #000000;
+    transition: all .3s ease;
+}
+
+.post-password-form input[type="submit"]:hover {
+    background-color: #fff;
+    color: #000000;
+}
+
+.post-password-form input[name="post_password"] {    
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 300;
+    border: 0;
+    border-bottom: 1px solid;
+    height: 28px;
+}
+
+.post-password-form label {
+    font-size: 16px;
+    margin-top: 22px;
+    font-weight: 400;
+    display: block;
+}
+
+blockquote {
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 50px;
+    font-size: 21px;
+    line-height: 34px;
+    position: relative;
+    color: #000;
+    margin-top: 95px;
+}
+
+blockquote cite {
+    margin-top: 20px;
+    display: block;
+    font-weight: 400;
+}
+
+blockquote:before {
+    content: "";
+    background-image: url("../images/quotes_image.png");
+    background-size: 50px;
+    width: 50px;
+    height: 50px;
+    display: block;
+    background-repeat: no-repeat;
+    margin-bottom: 15px;
+    position: absolute;
+    top: -50px;
+}
+
+iframe {
+    width: 100%;
+}
+
+.sticky {
+    border-top: 5px solid;
+    border-bottom: 5px solid;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 38px;
+    line-height: 38px;    
+}
+
+h2 {
+    font-size: 34px;    
+    line-height: 34px;    
+}
+
+h3 {
+    font-size: 32px;  
+    line-height: 32px;    
+}
+
+h4 {
+    font-size: 30px;    
+}
+
+h5 {
+    font-size: 28px;   
+}
+
+h6 {
+    font-size: 26px;    
+}
+
+em {
+    font-style: italic;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+table, 
+th, 
+td {
+    border:1px solid black;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+sub {
+    vertical-align: sub;
+    font-size: smaller;
+}
+
+.single-content ol {
+    display: block;
+    list-style-type: decimal;
+    margin: 0 0 14px 17px;
+}
+
+.single-content ul {
+    display: block;
+    list-style-type: disc;
+    margin: 0 0 14px 17px;
+}
+
+/* WP DEFAULT CLASSES */
+
+.alignnone {
+    margin: 5px 0px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float:right;
+    margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 20px 0px;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.wp-caption {
+    max-width: 100%;
+}
+
+.wp-caption.alignnone {
+    margin: 20px 0px;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 0;
+    text-align: left;
+}
+
+.wp-caption.alignright {
+    margin: 5px 0 20px 20px;
+    text-align: right;
+}
+
+.wp-caption img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.wp-caption .wp-caption-text {
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+    font-style: italic;
+    text-align: center;
+}
+
+.wp-caption .wp-caption-text a {
+    font-weight: 700;
+}
+
+.gallery-caption {
+    font-size: 100%;
+}
+
+.bypostauthor {
+    font-size: 100%;
+}
+
+.alignwide {
+    margin-left: -10%;
+    margin-right: -10%;
+    width: 120%;
+}
+
+.alignfull {
+    margin-left: calc( -100vw / 2 + 100% / 2);
+    margin-right: calc( -100vw / 2 + 100% / 2);
+    width: 100vw;
+    max-width: none;
+}
+
+@media screen and (max-width: 1020px) { 
+    
+    .alignfull, 
+    .alignwide {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+}
+
+@media only screen and ( min-width: 1020px ) {    
+    
+    .single-post .alignfull {
+        margin-left: 0;
+        margin-right: 0;
+        width: calc(820px + (100vw - 1170px)/2);
+    }
+
+    .single-post .alignwide {
+        margin-left: 0;
+        margin-right: 0;
+        width: 770px;
+    }
+}
+
+.site-wrapper .alignfull img {
+    width: 100%;
+}
+
+/* Text meant only for screen readers. */
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+.screen-reader-text:focus {
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    clip: auto !important;
+    color: #21759b;
+    display: block;
+    font-size: 14px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000; /* Above WP toolbar. */
+}

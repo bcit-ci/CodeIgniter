@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/base/editing/Typing.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/base/editing/</a> Typing.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.5% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>29/40</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">63.16% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>12/19</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.5% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>29/40</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">91×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import $ from 'jquery';
+import dom from '../core/dom';
+import range from '../core/range';
+import Bullet from '../editing/Bullet';
+&nbsp;
+/**
+ * @class editing.Typing
+ *
+ * Typing
+ *
+ */
+export default class Typing {
+  constructor() {
+    // a Bullet instance to toggle lists off
+    this.bullet = new Bullet();
+  }
+&nbsp;
+  /**
+   * insert tab
+   *
+   * @param {WrappedRange} rng
+   * @param {Number} tabsize
+   */
+  insertTab(rng, tabsize) {
+    const tab = dom.createText(new Array(tabsize + 1).join(dom.NBSP_CHAR));
+    rng = rng.deleteContents();
+    rng.insertNode(tab, true);
+&nbsp;
+    rng = range.create(tab, tabsize);
+    rng.select();
+  }
+&nbsp;
+  /**
+   * insert paragraph
+   */
+  insertParagraph(editable) {
+    let rng = range.create(editable);
+&nbsp;
+    // deleteContents on range.
+    rng = rng.deleteContents();
+&nbsp;
+    // Wrap range if it needs to be wrapped by paragraph
+    rng = rng.wrapBodyInlineWithPara();
+&nbsp;
+    // finding paragraph
+    const splitRoot = dom.ancestor(rng.sc, dom.isPara);
+&nbsp;
+    let nextPara;
+    // on paragraph: split paragraph
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (splitRoot) {
+      // if it is an empty line with li
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (dom.isEmpty(splitRoot) &amp;&amp; dom.isLi(splitRoot)) {
+        // toogle UL/OL and escape
+<span class="cstat-no" title="statement not covered" >        this.bullet.toggleList(splitRoot.parentNode.nodeName);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      // if it is an empty line with para on blockquote
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (dom.isEmpty(splitRoot) &amp;&amp; dom.isPara(splitRoot) &amp;&amp; dom.isBlockquote(splitRoot.parentNode)) {
+        // escape blockquote
+<span class="cstat-no" title="statement not covered" >        dom.insertAfter(splitRoot, splitRoot.parentNode);</span>
+<span class="cstat-no" title="statement not covered" >        nextPara = splitRoot;</span>
+      // if new line has content (not a line break)
+      } else {
+        nextPara = dom.splitTree(splitRoot, rng.getStartPoint());
+&nbsp;
+        let emptyAnchors = dom.listDescendant(splitRoot, dom.isEmptyAnchor);
+        emptyAnchors = emptyAnchors.concat(dom.listDescendant(nextPara, dom.isEmptyAnchor));
+&nbsp;
+        $.each(emptyAnchors, <span class="fstat-no" title="function not covered" >(idx, anchor)</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >          dom.remove(anchor);</span>
+        });
+&nbsp;
+        // replace empty heading, pre or custom-made styleTag with P tag
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ((dom.isHeading(nextPara) || dom.isPre(nextPara) || dom.isCustomStyleTag(nextPara)) &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >dom.isEmpty(nextPara))</span> {
+<span class="cstat-no" title="statement not covered" >          nextPara = dom.replace(nextPara, 'p');</span>
+        }
+      }
+    // no paragraph: insert empty paragraph
+    } else {
+<span class="cstat-no" title="statement not covered" >      const next = rng.sc.childNodes[rng.so];</span>
+<span class="cstat-no" title="statement not covered" >      nextPara = $(dom.emptyPara)[0];</span>
+<span class="cstat-no" title="statement not covered" >      if (next) {</span>
+<span class="cstat-no" title="statement not covered" >        rng.sc.insertBefore(nextPara, next);</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        rng.sc.appendChild(nextPara);</span>
+      }
+    }
+&nbsp;
+    range.create(nextPara, 0).normalize().select().scrollIntoView(editable);
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 30 2018 20:23:35 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<div id="wp-container">
+  <div id="pretop"></div>
+  <div id="top"></div>
+  <div class="sameposition" id="same1"></div>
+  <div class="sameposition" id="same2"></div>
+  <div class="nearsame" id="near1"></div>
+  <div class="nearsame" id="near2"></div>
+  <div id="bottom">
+    <div id="inner1" class="inner"></div>
+    <div id="inner2" class="inner"></div>
+    <div id="inner3" class="inner"></div>
+    <div id="inner4" class="inner"></div>
+  </div>
+  <div id="postbottom"></div>
+</div>
+
+<style type="text/css">
+body {
+  height:3000px;
+  margin:0;
+  padding:0;
+}
+
+#wp-container {
+  position:absolute;
+  top:0;
+  height:3000px;
+  width:9000px;
+}
+
+#wp-container div {
+  position:absolute;
+  height:50px;
+  width:50px;
+  background:red;
+}
+
+#pretop {
+  top:-100px;
+  left:-100px
+}
+
+#top {
+  top:0;
+  left:0;
+}
+
+.sameposition {
+  top:1000px;
+  left:1000px
+}
+
+#near1 {
+  top:1999px;
+  left:1999px
+}
+
+#near2 {
+  top:2000px;
+  left:2000px
+}
+
+#bottom {
+  top:2950px;
+  left:2950px;
+  overflow:hidden;
+}
+
+#wp-container .inner {
+  position:static;
+  width:100%;
+  height:100px;
+  background:blue;
+}
+
+#postbottom {
+  top:3100px;
+  left:3100px;
+}
+</style>

@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for test/unit/base/core/dom.spec.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">test/unit/base/core/</a> dom.spec.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>215/215</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>65/65</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>213/213</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * dom.spec.js
+ * (c) 2013~ Alan Hong
+ * summernote may be freely distributed under the MIT license./
+ */
+import chai from 'chai';
+import chaidom from '../../../chaidom';
+import $ from 'jquery';
+import dom from '../../../../src/js/base/core/dom';
+import func from '../../../../src/js/base/core/func';
+&nbsp;
+let expect = chai.expect;
+chai.use(chaidom);
+&nbsp;
+describe('base:core.dom', () =&gt; {
+  describe('ancestor', () =&gt; {
+    let $cont, $b, txtB;
+    before(() =&gt; {
+      // basic case
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      txtB = $b[0].firstChild;
+    });
+&nbsp;
+    it('should find ancestor B', () =&gt; {
+      expect(dom.ancestor(txtB, dom.isB)).to.deep.equal($b[0]);
+    });
+&nbsp;
+    it('should find ancestor DIV', () =&gt; {
+      expect(dom.ancestor(txtB, dom.isDiv)).to.deep.equal($cont[0]);
+    });
+&nbsp;
+    it('should return null when finding ancestor U does not exist', () =&gt; {
+      expect(dom.ancestor(txtB, dom.isU)).to.be.null;
+    });
+&nbsp;
+    it('should return null when finding paragraph ancestor outsider note-editable', () =&gt; {
+      expect(dom.ancestor(txtB, dom.isLi)).to.be.null;
+    });
+  });
+&nbsp;
+  describe('listAncestor', () =&gt; {
+    let $cont, $b, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;i&gt;&lt;s&gt;&lt;u&gt;&lt;b&gt;b&lt;/b&gt;&lt;/u&gt;&lt;/s&gt;&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return [$b, $u, $s, $i] from b to i', () =&gt; {
+      let result = dom.listAncestor($b[0], (node) =&gt; { return node === $i[0]; });
+      expect(result).to.deep.equal([$b[0], $u[0], $s[0], $i[0]]);
+    });
+&nbsp;
+    it('should return [$u, $s] from u to s', () =&gt; {
+      let result = dom.listAncestor($u[0], (node) =&gt; { return node === $s[0]; });
+      expect(result).to.deep.equal([$u[0], $s[0]]);
+    });
+  });
+&nbsp;
+  describe('listDescendant', () =&gt; {
+    let $cont, $b, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;&lt;/b&gt;&lt;u&gt;&lt;/u&gt;&lt;s&gt;&lt;/s&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return an array of descendant elements', () =&gt; {
+      expect(dom.listDescendant($cont[0])).to.deep.equal([$b[0], $u[0], $s[0], $i[0]]);
+    });
+&nbsp;
+    it('should filter an array of descendant elements', () =&gt; {
+      let result = dom.listDescendant($cont[0], (node) =&gt; {
+        return node.nodeName === 'B' || node.nodeName === 'S';
+      });
+      expect(result).to.deep.equal([$b[0], $s[0]]);
+    });
+  });
+&nbsp;
+  describe('commonAncestor', () =&gt; {
+    let $cont, $span, $div, $b, $u, $s;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;div&gt;&lt;span&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;/span&gt;&lt;span&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;');
+      $span = $cont.find('span');
+      $div = $cont.find('div');
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+    });
+&nbsp;
+    it('should return a common element in ancestors', () =&gt; {
+      expect(dom.commonAncestor($b[0], $u[0])).to.deep.equal($span[0]);
+    });
+&nbsp;
+    it('should return a common element in ancestors even if they have same nodeName', () =&gt; {
+      expect(dom.commonAncestor($b[0], $s[0])).to.deep.equal($div[0]);
+    });
+  });
+&nbsp;
+  describe('listNext', () =&gt; {
+    let $cont, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/div&gt;'); // busi
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return an array of next sibling elements including itself', () =&gt; {
+      expect(dom.listNext($u[0])).to.deep.equal([$u[0], $s[0], $i[0]]);
+    });
+&nbsp;
+    it('should return itself if there are no next sibling', () =&gt; {
+      expect(dom.listNext($i[0])).to.deep.equal([$i[0]]);
+    });
+&nbsp;
+    it('should return an array of next sibling elements before predicate is true', () =&gt; {
+      expect(dom.listNext($s[0], func.eq($i[0]))).to.deep.equal([$s[0]]);
+    });
+  });
+&nbsp;
+  describe('listPrev', () =&gt; {
+    let $cont, $b, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return an array of previous sibling elements including itself', () =&gt; {
+      expect(dom.listPrev($s[0])).to.deep.equal([$s[0], $u[0], $b[0]]);
+    });
+&nbsp;
+    it('should return itself if there are no previous sibling', () =&gt; {
+      expect(dom.listPrev($b[0])).to.deep.equal([$b[0]]);
+    });
+&nbsp;
+    it('should return an array of previous sibling elements before predicate is true', () =&gt; {
+      expect(dom.listPrev($i[0], func.eq($s[0]))).to.deep.equal([$i[0]]);
+    });
+  });
+&nbsp;
+  describe('position', () =&gt; {
+    let $cont, $b, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return the position of element', () =&gt; {
+      expect(dom.position($b[0])).to.be.equal(0);
+      expect(dom.position($u[0])).to.be.equal(1);
+      expect(dom.position($s[0])).to.be.equal(2);
+      expect(dom.position($i[0])).to.be.equal(3);
+    });
+&nbsp;
+    it('should return position 0 for text node in b', () =&gt; {
+      expect(dom.position($b[0].firstChild)).to.be.equal(0);
+    });
+  });
+&nbsp;
+  describe('makeOffsetPath', () =&gt; {
+    let $cont, $b, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return empty array if two elements are same', () =&gt; {
+      expect(dom.makeOffsetPath($cont[0], $cont[0])).to.deep.equal([]);
+    });
+&nbsp;
+    it('should return offset path array between two elements #1', () =&gt; {
+      expect(dom.makeOffsetPath($cont[0], $b[0])).to.deep.equal([0]);
+      expect(dom.makeOffsetPath($cont[0], $b[0].firstChild)).to.deep.equal([0, 0]);
+    });
+&nbsp;
+    it('should return offset path array between two elements #2', () =&gt; {
+      expect(dom.makeOffsetPath($cont[0], $u[0])).to.deep.equal([1]);
+      expect(dom.makeOffsetPath($cont[0], $u[0].firstChild)).to.deep.equal([1, 0]);
+    });
+&nbsp;
+    it('should return offset path array between two elements #3', () =&gt; {
+      expect(dom.makeOffsetPath($cont[0], $s[0])).to.deep.equal([2]);
+      expect(dom.makeOffsetPath($cont[0], $s[0].firstChild)).to.deep.equal([2, 0]);
+    });
+&nbsp;
+    it('should return offset path array between two elements #2', () =&gt; {
+      expect(dom.makeOffsetPath($cont[0], $i[0])).to.deep.equal([3]);
+      expect(dom.makeOffsetPath($cont[0], $i[0].firstChild)).to.deep.equal([3, 0]);
+    });
+  });
+&nbsp;
+  describe('fromOffsetPath', () =&gt; {
+    let $cont, $b, $u, $s, $i;
+    before(() =&gt; {
+      $cont = $('&lt;div class="note-editable"&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/div&gt;'); // busi
+      $b = $cont.find('b');
+      $u = $cont.find('u');
+      $s = $cont.find('s');
+      $i = $cont.find('i');
+    });
+&nbsp;
+    it('should return the element by offsetPath', () =&gt; {
+      let cont = $cont[0];
+      $.each([$b[0], $u[0], $s[0], $i[0]], (idx, node) =&gt; {
+        expect(dom.fromOffsetPath(cont, dom.makeOffsetPath(cont, node))).to.deep.equal(node);
+        let child = node.firstChild;
+        expect(dom.fromOffsetPath(cont, dom.makeOffsetPath(cont, child))).to.deep.equal(child);
+      });
+    });
+  });
+&nbsp;
+  describe('splitTree', () =&gt; {
+    let $para;
+    beforeEach(() =&gt; {
+      let $busi = $('&lt;div class="note-editable"&gt;&lt;p&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/p&gt;&lt;/div&gt;'); // busi
+      $para = $busi.clone().find('p');
+    });
+&nbsp;
+    describe('element pivot case', () =&gt; {
+      it('should be split by u tag with offset 0', () =&gt; {
+        let $u = $para.find('u');
+        dom.splitTree($para[0], { node: $u[0], offset: 0 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by u tag with offset 1', () =&gt; {
+        let $u = $para.find('u');
+        dom.splitTree($para[0], { node: $u[0], offset: 1 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by b tag with offset 0 (left edge case)', () =&gt; {
+        let $b = $para.find('b');
+        dom.splitTree($para[0], { node: $b[0], offset: 0 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;&lt;br&gt;&lt;/b&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by i tag with offset 1 (right edge case)', () =&gt; {
+        let $i = $para.find('i');
+        dom.splitTree($para[0], { node: $i[0], offset: 1 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;i&gt;&lt;br&gt;&lt;/i&gt;');
+      });
+&nbsp;
+      it('should discard first split if empty and isDiscardEmptySplits=true', () =&gt; {
+        var $u = $para.find('u');
+        dom.splitTree($para[0], { node: $u[0], offset: 0 }, { isDiscardEmptySplits: true });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should discard second split if empty and isDiscardEmptySplits=true', () =&gt; {
+        var $u = $para.find('u');
+        dom.splitTree($para[0], { node: $u[0], offset: 1 }, { isDiscardEmptySplits: true });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+    });
+&nbsp;
+    describe('textNode case', () =&gt; {
+      it('should be split by s tag with offset 3 (middle case)', () =&gt; {
+        let $s = $para.find('s');
+        dom.splitTree($para[0], { node: $s[0].firstChild, offset: 3 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;str&lt;/s&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;s&gt;ike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by s tag with offset 0 (left edge case)', () =&gt; {
+        let $s = $para.find('s');
+        dom.splitTree($para[0], { node: $s[0].firstChild, offset: 0 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;&lt;br&gt;&lt;/s&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by s tag with offset 6 (right edge case)', () =&gt; {
+        let $s = $para.find('s');
+        dom.splitTree($para[0], { node: $s[0].firstChild, offset: 6 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;');
+        expect($para.next().html()).to.equalsIgnoreCase('&lt;s&gt;&lt;br&gt;&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by s tag with offset 3 (2 depth case)', () =&gt; {
+        let $s = $para.find('s');
+        dom.splitTree($s[0], { node: $s[0].firstChild, offset: 3 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;str&lt;/s&gt;&lt;s&gt;ike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by s tag with offset 3 (1 depth and textNode case)', () =&gt; {
+        let $s = $para.find('s');
+        dom.splitTree($s[0].firstChild, { node: $s[0].firstChild, offset: 3 });
+&nbsp;
+        expect($para.html()).to.equalsIgnoreCase('&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;strike&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;');
+      });
+&nbsp;
+      it('should be split by span tag with offset 2 (1 depth and element case)', () =&gt; {
+        let $cont = $('&lt;div class="note-editable"&gt;&lt;p&gt;&lt;span&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;'); // busi
+        let $span = $cont.find('span');
+        dom.splitTree($span[0], { node: $span[0], offset: 2 });
+&nbsp;
+        expect($cont.html()).to.equalsIgnoreCase('&lt;p&gt;&lt;span&gt;&lt;b&gt;b&lt;/b&gt;&lt;u&gt;u&lt;/u&gt;&lt;/span&gt;&lt;span&gt;&lt;s&gt;s&lt;/s&gt;&lt;i&gt;i&lt;/i&gt;&lt;/span&gt;&lt;/p&gt;');
+      });
+    });
+  });
+&nbsp;
+  describe('splitPoint', () =&gt; {
+    it('should return rightNode and container for empty paragraph with inline', () =&gt; {
+      let $editable = $('&lt;div class="note-editable"&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;/div&gt;');
+      let $para = $editable.clone().find('p');
+      let $br = $para.find('br');
+&nbsp;
+      let result = dom.splitPoint({ node: $para[0], offset: 0 }, true);
+      expect(result).to.deep.equal({ rightNode: $br[0], container: $para[0] });
+    });
+  });
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:14:15 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

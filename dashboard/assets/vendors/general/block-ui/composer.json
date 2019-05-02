@@ -1,0 +1,35 @@
+{
+    "name": "components/jquery-blockui",
+    "description": "Simulate synchronous ajax by blocking - not locking - the UI. This plugin lets you block user interaction with the page or with a specific element on the page. Also great at displaying modal dialogs.",
+    "keywords": [
+        "block",
+        "overlay",
+        "dialog",
+        "modal"
+    ],
+    "license": ["MIT", "GPL"],
+    "type": "component",
+    "homepage": "http://jquery.malsup.com/block/",
+    "authors": [
+        {
+            "name": "M. Alsup",
+            "homepage": "http://jquery.malsup.com"
+        }
+    ],
+    "require": {
+        "robloach/component-installer": "*",
+        "components/jquery": ">=1.7"
+    },
+    "extra": {
+        "component": {
+            "scripts": [
+                "jquery.blockUI.js"
+            ],
+            "shim": {
+                "deps": [
+                    "jquery"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>toastr</id>
+        <version>1.0.2</version>
+        <title>toastr</title>
+        <authors>John Papa,Hans Fjällemark</authors>
+        <owners>John Papa,Hans Fjällemark</owners>
+        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+        <projectUrl>https://github.com/CodeSeven/toastr</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>3 Easy Steps:
+
+1) Link to toastr.css  and toastr-responsive.css 
+2) Link to toastr.js 
+3) Use toastr to display a toast for info, success, warning or error
+
+// Display an info toast with no title
+toastr.info('Are you the 6 fingered man?')
+
+*** For other API calls, see the demo</description>
+        <summary>toastr is a Javascript library for Gnome / Growl type non-blocking notifications. jQuery is required. The goal is to create a simple core library that can be customized and extended.</summary>
+        <releaseNotes>Minor updates for long unbroken string going outside toast and new feature to keep the toast around after hover-off for an extended timeout. 
+
+Set extendedTimeOut and timeOut to 0 to avoid toastr from fading away.</releaseNotes>
+        <copyright>Copyright © 2012 Hans Fjällemark &amp; John Papa.</copyright>
+        <language>en-US</language>
+        <tags>toastr, toast, notification, dialog, jquery</tags>
+        <dependencies>
+            <dependency id="jQuery" version="1.7.2" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="content\content\toastr-responsive.css" target="content\content\toastr-responsive.css" />
+        <file src="content\content\toastr.css" target="content\content\toastr.css" />
+        <file src="content\scripts\toastr.js" target="content\scripts\toastr.js" />
+    </files>
+</package>

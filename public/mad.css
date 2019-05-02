@@ -1,0 +1,12 @@
+.header-logo img {
+    width: 180px;
+    height: auto;
+}
+
+.footer-logo img {
+    height: auto;
+}
+
+#home {
+    background-image: url(images/banner.jpg);
+}

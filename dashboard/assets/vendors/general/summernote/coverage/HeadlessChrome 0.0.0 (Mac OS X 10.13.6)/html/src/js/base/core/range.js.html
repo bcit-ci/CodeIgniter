@@ -1,0 +1,2459 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/base/core/range.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/base/core/</a> range.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">74.68% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>236/316</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.44% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>125/180</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.67% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>39/45</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">74.68% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>236/316</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">694×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">135×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">213×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">159×</span>
+<span class="cline-any cline-yes">198×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">101×</span>
+<span class="cline-any cline-yes">101×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">159×</span>
+<span class="cline-any cline-yes">159×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">159×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">134×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132×</span>
+<span class="cline-any cline-yes">132×</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59×</span>
+<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">152×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3470×</span>
+<span class="cline-any cline-yes">76×</span>
+<span class="cline-any cline-yes">76×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">231×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">692×</span>
+<span class="cline-any cline-yes">206×</span>
+<span class="cline-any cline-yes">486×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">428×</span>
+<span class="cline-any cline-yes">428×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">292×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">428×</span>
+<span class="cline-any cline-yes">428×</span>
+<span class="cline-any cline-yes">428×</span>
+<span class="cline-any cline-yes">428×</span>
+<span class="cline-any cline-yes">207×</span>
+<span class="cline-any cline-yes">221×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import $ from 'jquery';
+import env from './env';
+import func from './func';
+import lists from './lists';
+import dom from './dom';
+&nbsp;
+/**
+ * return boundaryPoint from TextRange, inspired by Andy Na's HuskyRange.js
+ *
+ * @param {TextRange} textRange
+ * @param {Boolean} isStart
+ * @return {BoundaryPoint}
+ *
+ * @see http://msdn.microsoft.com/en-us/library/ie/ms535872(v=vs.85).aspx
+ */
+<span class="fstat-no" title="function not covered" >function textRangeToPoint(textRange, isStart)</span> {
+<span class="cstat-no" title="statement not covered" >  let container = textRange.parentElement();</span>
+<span class="cstat-no" title="statement not covered" >  let offset;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const tester = document.body.createTextRange();</span>
+<span class="cstat-no" title="statement not covered" >  let prevContainer;</span>
+<span class="cstat-no" title="statement not covered" >  const childNodes = lists.from(container.childNodes);</span>
+<span class="cstat-no" title="statement not covered" >  for (offset = 0; offset &lt; childNodes.length; offset++) {</span>
+<span class="cstat-no" title="statement not covered" >    if (dom.isText(childNodes[offset])) {</span>
+<span class="cstat-no" title="statement not covered" >      continue;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    tester.moveToElementText(childNodes[offset]);</span>
+<span class="cstat-no" title="statement not covered" >    if (tester.compareEndPoints('StartToStart', textRange) &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >      break;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    prevContainer = childNodes[offset];</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (offset !== 0 &amp;&amp; dom.isText(childNodes[offset - 1])) {</span>
+<span class="cstat-no" title="statement not covered" >    const textRangeStart = document.body.createTextRange();</span>
+<span class="cstat-no" title="statement not covered" >    let curTextNode = null;</span>
+<span class="cstat-no" title="statement not covered" >    textRangeStart.moveToElementText(prevContainer || container);</span>
+<span class="cstat-no" title="statement not covered" >    textRangeStart.collapse(!prevContainer);</span>
+<span class="cstat-no" title="statement not covered" >    curTextNode = prevContainer ? prevContainer.nextSibling : container.firstChild;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const pointTester = textRange.duplicate();</span>
+<span class="cstat-no" title="statement not covered" >    pointTester.setEndPoint('StartToStart', textRangeStart);</span>
+<span class="cstat-no" title="statement not covered" >    let textCount = pointTester.text.replace(/[\r\n]/g, '').length;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    while (textCount &gt; curTextNode.nodeValue.length &amp;&amp; curTextNode.nextSibling) {</span>
+<span class="cstat-no" title="statement not covered" >      textCount -= curTextNode.nodeValue.length;</span>
+<span class="cstat-no" title="statement not covered" >      curTextNode = curTextNode.nextSibling;</span>
+    }
+&nbsp;
+    // [workaround] enforce IE to re-reference curTextNode, hack
+<span class="cstat-no" title="statement not covered" >    const dummy = curTextNode.nodeValue; </span>// eslint-disable-line
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (isStart &amp;&amp; curTextNode.nextSibling &amp;&amp; dom.isText(curTextNode.nextSibling) &amp;&amp;</span>
+      textCount === curTextNode.nodeValue.length) {
+<span class="cstat-no" title="statement not covered" >      textCount -= curTextNode.nodeValue.length;</span>
+<span class="cstat-no" title="statement not covered" >      curTextNode = curTextNode.nextSibling;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    container = curTextNode;</span>
+<span class="cstat-no" title="statement not covered" >    offset = textCount;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    cont: container,
+    offset: offset
+  };
+}
+&nbsp;
+/**
+ * return TextRange from boundary point (inspired by google closure-library)
+ * @param {BoundaryPoint} point
+ * @return {TextRange}
+ */
+<span class="fstat-no" title="function not covered" >function pointToTextRange(point)</span> {
+<span class="cstat-no" title="statement not covered" >  const textRangeInfo = <span class="fstat-no" title="function not covered" >function(container, offset)</span> {</span>
+<span class="cstat-no" title="statement not covered" >    let node, isCollapseToStart;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (dom.isText(container)) {</span>
+<span class="cstat-no" title="statement not covered" >      const prevTextNodes = dom.listPrev(container, func.not(dom.isText));</span>
+<span class="cstat-no" title="statement not covered" >      const prevContainer = lists.last(prevTextNodes).previousSibling;</span>
+<span class="cstat-no" title="statement not covered" >      node = prevContainer || container.parentNode;</span>
+<span class="cstat-no" title="statement not covered" >      offset += lists.sum(lists.tail(prevTextNodes), dom.nodeLength);</span>
+<span class="cstat-no" title="statement not covered" >      isCollapseToStart = !prevContainer;</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      node = container.childNodes[offset] || container;</span>
+<span class="cstat-no" title="statement not covered" >      if (dom.isText(node)) {</span>
+<span class="cstat-no" title="statement not covered" >        return textRangeInfo(node, 0);</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      offset = 0;</span>
+<span class="cstat-no" title="statement not covered" >      isCollapseToStart = false;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      node: node,
+      collapseToStart: isCollapseToStart,
+      offset: offset
+    };
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const textRange = document.body.createTextRange();</span>
+<span class="cstat-no" title="statement not covered" >  const info = textRangeInfo(point.node, point.offset);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  textRange.moveToElementText(info.node);</span>
+<span class="cstat-no" title="statement not covered" >  textRange.collapse(info.collapseToStart);</span>
+<span class="cstat-no" title="statement not covered" >  textRange.moveStart('character', info.offset);</span>
+<span class="cstat-no" title="statement not covered" >  return textRange;</span>
+}
+&nbsp;
+/**
+   * Wrapped Range
+   *
+   * @constructor
+   * @param {Node} sc - start container
+   * @param {Number} so - start offset
+   * @param {Node} ec - end container
+   * @param {Number} eo - end offset
+   */
+class WrappedRange {
+  constructor(sc, so, ec, eo) {
+    this.sc = sc;
+    this.so = so;
+    this.ec = ec;
+    this.eo = eo;
+&nbsp;
+    // isOnEditable: judge whether range is on editable or not
+    this.isOnEditable = this.makeIsOn(dom.isEditable);
+    // isOnList: judge whether range is on list node or not
+    this.isOnList = this.makeIsOn(dom.isList);
+    // isOnAnchor: judge whether range is on anchor node or not
+    this.isOnAnchor = this.makeIsOn(dom.isAnchor);
+    // isOnCell: judge whether range is on cell node or not
+    this.isOnCell = this.makeIsOn(dom.isCell);
+    // isOnData: judge whether range is on data node or not
+    this.isOnData = this.makeIsOn(dom.isData);
+  }
+&nbsp;
+  // nativeRange: get nativeRange from sc, so, ec, eo
+  nativeRange() {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (env.isW3CRangeSupport) {
+      const w3cRange = document.createRange();
+      w3cRange.setStart(this.sc, this.so);
+      w3cRange.setEnd(this.ec, this.eo);
+&nbsp;
+      return w3cRange;
+    } else {
+<span class="cstat-no" title="statement not covered" >      const textRange = pointToTextRange({</span>
+        node: this.sc,
+        offset: this.so
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      textRange.setEndPoint('EndToEnd', pointToTextRange({</span>
+        node: this.ec,
+        offset: this.eo
+      }));
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return textRange;</span>
+    }
+  }
+&nbsp;
+  getPoints() {
+    return {
+      sc: this.sc,
+      so: this.so,
+      ec: this.ec,
+      eo: this.eo
+    };
+  }
+&nbsp;
+  getStartPoint() {
+    return {
+      node: this.sc,
+      offset: this.so
+    };
+  }
+&nbsp;
+  getEndPoint() {
+    return {
+      node: this.ec,
+      offset: this.eo
+    };
+  }
+&nbsp;
+  /**
+   * select update visible range
+   */
+  select() {
+    const nativeRng = this.nativeRange();
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (env.isW3CRangeSupport) {
+      const selection = document.getSelection();
+      if (selection.rangeCount &gt; 0) {
+        selection.removeAllRanges();
+      }
+      selection.addRange(nativeRng);
+    } else {
+<span class="cstat-no" title="statement not covered" >      nativeRng.select();</span>
+    }
+&nbsp;
+    return this;
+  }
+&nbsp;
+  /**
+   * Moves the scrollbar to start container(sc) of current range
+   *
+   * @return {WrappedRange}
+   */
+  scrollIntoView(container) {
+    const height = $(container).height();
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (container.scrollTop + height &lt; this.sc.offsetTop) {
+<span class="cstat-no" title="statement not covered" >      container.scrollTop += Math.abs(container.scrollTop + height - this.sc.offsetTop);</span>
+    }
+&nbsp;
+    return this;
+  }
+&nbsp;
+  /**
+   * @return {WrappedRange}
+   */
+  normalize() {
+    /**
+     * @param {BoundaryPoint} point
+     * @param {Boolean} isLeftToRight
+     * @return {BoundaryPoint}
+     */
+    const getVisiblePoint = function(point, isLeftToRight) {
+      if ((dom.isVisiblePoint(point) &amp;&amp; !dom.isEdgePoint(point)) ||
+          (dom.isVisiblePoint(point) &amp;&amp; dom.isRightEdgePoint(point) &amp;&amp; !isLeftToRight) ||
+          (dom.isVisiblePoint(point) &amp;&amp; dom.isLeftEdgePoint(point) &amp;&amp; isLeftToRight) ||
+          (dom.isVisiblePoint(point) &amp;&amp; dom.isBlock(point.node) &amp;&amp; dom.isEmpty(point.node))) {
+        return point;
+      }
+&nbsp;
+      // point on block's edge
+      const block = dom.ancestor(point.node, dom.isBlock);
+      if (((dom.isLeftEdgePointOf(point, block) || dom.isVoid(dom.prevPoint(point).node)) &amp;&amp; !isLeftToRight) ||
+          ((dom.isRightEdgePointOf(point, block) || dom.isVoid(dom.nextPoint(point).node)) &amp;&amp; isLeftToRight)) {
+        // returns point already on visible point
+        if (dom.isVisiblePoint(point)) {
+          return point;
+        }
+        // reverse direction
+        isLeftToRight = !isLeftToRight;
+      }
+&nbsp;
+      const nextPoint = isLeftToRight ? dom.nextPointUntil(dom.nextPoint(point), dom.isVisiblePoint)
+        : dom.prevPointUntil(dom.prevPoint(point), dom.isVisiblePoint);
+      return nextPoint || <span class="branch-1 cbranch-no" title="branch not covered" >point;</span>
+    };
+&nbsp;
+    const endPoint = getVisiblePoint(this.getEndPoint(), false);
+    const startPoint = this.isCollapsed() ? endPoint : getVisiblePoint(this.getStartPoint(), true);
+&nbsp;
+    return new WrappedRange(
+      startPoint.node,
+      startPoint.offset,
+      endPoint.node,
+      endPoint.offset
+    );
+  }
+&nbsp;
+  /**
+   * returns matched nodes on range
+   *
+   * @param {Function} [pred] - predicate function
+   * @param {Object} [options]
+   * @param {Boolean} [options.includeAncestor]
+   * @param {Boolean} [options.fullyContains]
+   * @return {Node[]}
+   */
+  nodes(pred, options) {
+    pred = pred || func.ok;
+&nbsp;
+    const includeAncestor = options &amp;&amp; options.includeAncestor;
+    const fullyContains = options &amp;&amp; options.fullyContains;
+&nbsp;
+    // TODO compare points and sort
+    const startPoint = this.getStartPoint();
+    const endPoint = this.getEndPoint();
+&nbsp;
+    const nodes = [];
+    const leftEdgeNodes = [];
+&nbsp;
+    dom.walkPoint(startPoint, endPoint, function(point) {
+      if (dom.isEditable(point.node)) {
+        return;
+      }
+&nbsp;
+      let node;
+      if (fullyContains) {
+        if (dom.isLeftEdgePoint(point)) {
+          leftEdgeNodes.push(point.node);
+        }
+        if (dom.isRightEdgePoint(point) &amp;&amp; lists.contains(leftEdgeNodes, point.node)) {
+          node = point.node;
+        }
+      } else if (includeAncestor) {
+        node = dom.ancestor(point.node, pred);
+      } else {
+        node = point.node;
+      }
+&nbsp;
+      if (node &amp;&amp; pred(node)) {
+        nodes.push(node);
+      }
+    }, true);
+&nbsp;
+    return lists.unique(nodes);
+  }
+&nbsp;
+  /**
+   * returns commonAncestor of range
+   * @return {Element} - commonAncestor
+   */
+  commonAncestor() {
+    return dom.commonAncestor(this.sc, this.ec);
+  }
+&nbsp;
+  /**
+   * returns expanded range by pred
+   *
+   * @param {Function} pred - predicate function
+   * @return {WrappedRange}
+   */
+  expand(pred) {
+    const startAncestor = dom.ancestor(this.sc, pred);
+    const endAncestor = dom.ancestor(this.ec, pred);
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!startAncestor &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!endAncestor)</span> {
+<span class="cstat-no" title="statement not covered" >      return new WrappedRange(this.sc, this.so, this.ec, this.eo);</span>
+    }
+&nbsp;
+    const boundaryPoints = this.getPoints();
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (startAncestor) {
+      boundaryPoints.sc = startAncestor;
+      boundaryPoints.so = 0;
+    }
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (endAncestor) {
+      boundaryPoints.ec = endAncestor;
+      boundaryPoints.eo = dom.nodeLength(endAncestor);
+    }
+&nbsp;
+    return new WrappedRange(
+      boundaryPoints.sc,
+      boundaryPoints.so,
+      boundaryPoints.ec,
+      boundaryPoints.eo
+    );
+  }
+&nbsp;
+  /**
+   * @param {Boolean} isCollapseToStart
+   * @return {WrappedRange}
+   */
+  collapse(isCollapseToStart) {
+    if (isCollapseToStart) {
+      return new WrappedRange(this.sc, this.so, this.sc, this.so);
+    } else {
+      return new WrappedRange(this.ec, this.eo, this.ec, this.eo);
+    }
+  }
+&nbsp;
+  /**
+   * splitText on range
+   */
+  splitText() {
+    const isSameContainer = this.sc === this.ec;
+    const boundaryPoints = this.getPoints();
+&nbsp;
+    if (dom.isText(this.ec) &amp;&amp; !dom.isEdgePoint(this.getEndPoint())) {
+      this.ec.splitText(this.eo);
+    }
+&nbsp;
+    if (dom.isText(this.sc) &amp;&amp; !dom.isEdgePoint(this.getStartPoint())) {
+      boundaryPoints.sc = this.sc.splitText(this.so);
+      boundaryPoints.so = 0;
+&nbsp;
+      if (isSameContainer) {
+        boundaryPoints.ec = boundaryPoints.sc;
+        boundaryPoints.eo = this.eo - this.so;
+      }
+    }
+&nbsp;
+    return new WrappedRange(
+      boundaryPoints.sc,
+      boundaryPoints.so,
+      boundaryPoints.ec,
+      boundaryPoints.eo
+    );
+  }
+&nbsp;
+  /**
+   * delete contents on range
+   * @return {WrappedRange}
+   */
+  deleteContents() {
+    if (this.isCollapsed()) {
+      return this;
+    }
+&nbsp;
+    const rng = this.splitText();
+    const nodes = rng.nodes(null, {
+      fullyContains: true
+    });
+&nbsp;
+    // find new cursor point
+    const point = dom.prevPointUntil(rng.getStartPoint(), function(point) {
+      return !lists.contains(nodes, point.node);
+    });
+&nbsp;
+    const emptyParents = [];
+    $.each(nodes, function(idx, node) {
+      // find empty parents
+      const parent = node.parentNode;
+      if (point.node !== parent &amp;&amp; dom.nodeLength(parent) === 1) {
+        emptyParents.push(parent);
+      }
+      dom.remove(node, false);
+    });
+&nbsp;
+    // remove empty parents
+    $.each(emptyParents, function(idx, node) {
+      dom.remove(node, false);
+    });
+&nbsp;
+    return new WrappedRange(
+      point.node,
+      point.offset,
+      point.node,
+      point.offset
+    ).normalize();
+  }
+&nbsp;
+  /**
+   * makeIsOn: return isOn(pred) function
+   */
+  makeIsOn(pred) {
+    return function() {
+      const ancestor = dom.ancestor(this.sc, pred);
+      return !!ancestor &amp;&amp; (ancestor === dom.ancestor(this.ec, pred));
+    };
+  }
+&nbsp;
+  /**
+   * @param {Function} pred
+   * @return {Boolean}
+   */
+<span class="fstat-no" title="function not covered" >  isLeftEdgeOf(pred)</span> {
+<span class="cstat-no" title="statement not covered" >    if (!dom.isLeftEdgePoint(this.getStartPoint())) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const node = dom.ancestor(this.sc, pred);</span>
+<span class="cstat-no" title="statement not covered" >    return node &amp;&amp; dom.isLeftEdgeOf(this.sc, node);</span>
+  }
+&nbsp;
+  /**
+   * returns whether range was collapsed or not
+   */
+  isCollapsed() {
+    return this.sc === this.ec &amp;&amp; this.so === this.eo;
+  }
+&nbsp;
+  /**
+   * wrap inline nodes which children of body with paragraph
+   *
+   * @return {WrappedRange}
+   */
+  wrapBodyInlineWithPara() {
+    if (dom.isBodyContainer(this.sc) &amp;&amp; dom.isEmpty(this.sc)) {
+      this.sc.innerHTML = dom.emptyPara;
+      return new WrappedRange(this.sc.firstChild, 0, this.sc.firstChild, 0);
+    }
+&nbsp;
+    /**
+     * [workaround] firefox often create range on not visible point. so normalize here.
+     *  - firefox: |&lt;p&gt;text&lt;/p&gt;|
+     *  - chrome: &lt;p&gt;|text|&lt;/p&gt;
+     */
+    const rng = this.normalize();
+    if (dom.isParaInline(this.sc) || dom.isPara(this.sc)) {
+      return rng;
+    }
+&nbsp;
+    // find inline top ancestor
+    let topAncestor;
+    if (dom.isInline(rng.sc)) {
+      const ancestors = dom.listAncestor(rng.sc, func.not(dom.isInline));
+      topAncestor = lists.last(ancestors);
+      if (!dom.isInline(topAncestor)) {
+        topAncestor = ancestors[ancestors.length - 2] || <span class="branch-1 cbranch-no" title="branch not covered" >rng.sc.childNodes[rng.so];</span>
+      }
+    } else {
+      topAncestor = rng.sc.childNodes[rng.so &gt; 0 ? rng.so - 1 : <span class="branch-1 cbranch-no" title="branch not covered" >0]</span>;
+    }
+&nbsp;
+    // siblings not in paragraph
+    let inlineSiblings = dom.listPrev(topAncestor, dom.isParaInline).reverse();
+    inlineSiblings = inlineSiblings.concat(dom.listNext(topAncestor.nextSibling, dom.isParaInline));
+&nbsp;
+    // wrap with paragraph
+    if (inlineSiblings.length) {
+      const para = dom.wrap(lists.head(inlineSiblings), 'p');
+      dom.appendChildNodes(para, lists.tail(inlineSiblings));
+    }
+&nbsp;
+    return this.normalize();
+  }
+&nbsp;
+  /**
+   * insert node at current cursor
+   *
+   * @param {Node} node
+   * @return {Node}
+   */
+  insertNode(node) {
+    const rng = this.wrapBodyInlineWithPara().deleteContents();
+    const info = dom.splitPoint(rng.getStartPoint(), dom.isInline(node));
+&nbsp;
+    if (info.rightNode) {
+      info.rightNode.parentNode.insertBefore(node, info.rightNode);
+    } else {
+      info.container.appendChild(node);
+    }
+&nbsp;
+    return node;
+  }
+&nbsp;
+  /**
+   * insert html at current cursor
+   */
+  pasteHTML(markup) {
+    const contentsContainer = $('&lt;div&gt;&lt;/div&gt;').html(markup)[0];
+    let childNodes = lists.from(contentsContainer.childNodes);
+    const rng = this.wrapBodyInlineWithPara().deleteContents();
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (rng.so &gt; 0) {
+      childNodes = childNodes.reverse();
+    }
+    childNodes = childNodes.map(function(childNode) {
+      return rng.insertNode(childNode);
+    });
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (rng.so &gt; 0) {
+      childNodes = childNodes.reverse();
+    }
+    return childNodes;
+  }
+&nbsp;
+  /**
+   * returns text in range
+   *
+   * @return {String}
+   */
+  toString() {
+    const nativeRng = this.nativeRange();
+    return env.isW3CRangeSupport ? nativeRng.toString() : <span class="branch-1 cbranch-no" title="branch not covered" >nativeRng.text;</span>
+  }
+&nbsp;
+  /**
+   * returns range for word before cursor
+   *
+   * @param {Boolean} [findAfter] - find after cursor, default: false
+   * @return {WrappedRange}
+   */
+  getWordRange(findAfter) {
+    let endPoint = this.getEndPoint();
+&nbsp;
+    if (!dom.isCharPoint(endPoint)) {
+      return this;
+    }
+&nbsp;
+    const startPoint = dom.prevPointUntil(endPoint, function(point) {
+      return !dom.isCharPoint(point);
+    });
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (findAfter) {
+<span class="cstat-no" title="statement not covered" >      endPoint = dom.nextPointUntil(endPoint, <span class="fstat-no" title="function not covered" >function(point)</span> {</span>
+<span class="cstat-no" title="statement not covered" >        return !dom.isCharPoint(point);</span>
+      });
+    }
+&nbsp;
+    return new WrappedRange(
+      startPoint.node,
+      startPoint.offset,
+      endPoint.node,
+      endPoint.offset
+    );
+  }
+&nbsp;
+  /**
+   * create offsetPath bookmark
+   *
+   * @param {Node} editable
+   */
+  bookmark(editable) {
+    return {
+      s: {
+        path: dom.makeOffsetPath(editable, this.sc),
+        offset: this.so
+      },
+      e: {
+        path: dom.makeOffsetPath(editable, this.ec),
+        offset: this.eo
+      }
+    };
+  }
+&nbsp;
+  /**
+   * create offsetPath bookmark base on paragraph
+   *
+   * @param {Node[]} paras
+   */
+  paraBookmark(paras) {
+    return {
+      s: {
+        path: lists.tail(dom.makeOffsetPath(lists.head(paras), this.sc)),
+        offset: this.so
+      },
+      e: {
+        path: lists.tail(dom.makeOffsetPath(lists.last(paras), this.ec)),
+        offset: this.eo
+      }
+    };
+  }
+&nbsp;
+  /**
+   * getClientRects
+   * @return {Rect[]}
+   */
+<span class="fstat-no" title="function not covered" >  getClientRects() {</span>
+<span class="cstat-no" title="statement not covered" >    const nativeRng = this.nativeRange();</span>
+<span class="cstat-no" title="statement not covered" >    return nativeRng.getClientRects();</span>
+  }
+}
+&nbsp;
+/**
+ * Data structure
+ *  * BoundaryPoint: a point of dom tree
+ *  * BoundaryPoints: two boundaryPoints corresponding to the start and the end of the Range
+ *
+ * See to http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html#Level-2-Range-Position
+ */
+export default {
+  /**
+   * create Range Object From arguments or Browser Selection
+   *
+   * @param {Node} sc - start container
+   * @param {Number} so - start offset
+   * @param {Node} ec - end container
+   * @param {Number} eo - end offset
+   * @return {WrappedRange}
+   */
+  create: function(sc, so, ec, eo) {
+    if (arguments.length === 4) {
+      return new WrappedRange(sc, so, ec, eo);
+    } else if (arguments.length === 2) { // collapsed
+      ec = sc;
+      eo = so;
+      return new WrappedRange(sc, so, ec, eo);
+    } else {
+      let wrappedRange = this.createFromSelection();
+      if (!wrappedRange &amp;&amp; arguments.length === 1) {
+        wrappedRange = this.createFromNode(arguments[0]);
+        return wrappedRange.collapse(dom.emptyPara === arguments[0].innerHTML);
+      }
+      return wrappedRange;
+    }
+  },
+&nbsp;
+  createFromSelection: function() {
+    let sc, so, ec, eo;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (env.isW3CRangeSupport) {
+      const selection = document.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        return null;
+      } else if (dom.isBody(selection.anchorNode)) {
+        // Firefox: returns entire body as range on initialization.
+        // We won't never need it.
+        return null;
+      }
+&nbsp;
+      const nativeRng = selection.getRangeAt(0);
+      sc = nativeRng.startContainer;
+      so = nativeRng.startOffset;
+      ec = nativeRng.endContainer;
+      eo = nativeRng.endOffset;
+    } else { // IE8: TextRange
+<span class="cstat-no" title="statement not covered" >      const textRange = document.selection.createRange();</span>
+<span class="cstat-no" title="statement not covered" >      const textRangeEnd = textRange.duplicate();</span>
+<span class="cstat-no" title="statement not covered" >      textRangeEnd.collapse(false);</span>
+<span class="cstat-no" title="statement not covered" >      const textRangeStart = textRange;</span>
+<span class="cstat-no" title="statement not covered" >      textRangeStart.collapse(true);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      let startPoint = textRangeToPoint(textRangeStart, true);</span>
+<span class="cstat-no" title="statement not covered" >      let endPoint = textRangeToPoint(textRangeEnd, false);</span>
+&nbsp;
+      // same visible point case: range was collapsed.
+<span class="cstat-no" title="statement not covered" >      if (dom.isText(startPoint.node) &amp;&amp; dom.isLeftEdgePoint(startPoint) &amp;&amp;</span>
+          dom.isTextNode(endPoint.node) &amp;&amp; dom.isRightEdgePoint(endPoint) &amp;&amp;
+          endPoint.node.nextSibling === startPoint.node) {
+<span class="cstat-no" title="statement not covered" >        startPoint = endPoint;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      sc = startPoint.cont;</span>
+<span class="cstat-no" title="statement not covered" >      so = startPoint.offset;</span>
+<span class="cstat-no" title="statement not covered" >      ec = endPoint.cont;</span>
+<span class="cstat-no" title="statement not covered" >      eo = endPoint.offset;</span>
+    }
+&nbsp;
+    return new WrappedRange(sc, so, ec, eo);
+  },
+&nbsp;
+  /**
+   * @method
+   *
+   * create WrappedRange from node
+   *
+   * @param {Node} node
+   * @return {WrappedRange}
+   */
+  createFromNode: function(node) {
+    let sc = node;
+    let so = 0;
+    let ec = node;
+    let eo = dom.nodeLength(ec);
+&nbsp;
+    // browsers can't target a picture or void node
+    if (dom.isVoid(sc)) {
+      so = dom.listPrev(sc).length - 1;
+      sc = sc.parentNode;
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (dom.isBR(ec)) {
+<span class="cstat-no" title="statement not covered" >      eo = dom.listPrev(ec).length - 1;</span>
+<span class="cstat-no" title="statement not covered" >      ec = ec.parentNode;</span>
+    } else if (dom.isVoid(ec)) {
+      eo = dom.listPrev(ec).length;
+      ec = ec.parentNode;
+    }
+&nbsp;
+    return this.create(sc, so, ec, eo);
+  },
+&nbsp;
+  /**
+   * create WrappedRange from node after position
+   *
+   * @param {Node} node
+   * @return {WrappedRange}
+   */
+  createFromNodeBefore: function(node) {
+    return this.createFromNode(node).collapse(true);
+  },
+&nbsp;
+  /**
+   * create WrappedRange from node after position
+   *
+   * @param {Node} node
+   * @return {WrappedRange}
+   */
+  createFromNodeAfter: function(node) {
+    return this.createFromNode(node).collapse();
+  },
+&nbsp;
+  /**
+   * @method
+   *
+   * create WrappedRange from bookmark
+   *
+   * @param {Node} editable
+   * @param {Object} bookmark
+   * @return {WrappedRange}
+   */
+  createFromBookmark: function(editable, bookmark) {
+    const sc = dom.fromOffsetPath(editable, bookmark.s.path);
+    const so = bookmark.s.offset;
+    const ec = dom.fromOffsetPath(editable, bookmark.e.path);
+    const eo = bookmark.e.offset;
+    return new WrappedRange(sc, so, ec, eo);
+  },
+&nbsp;
+  /**
+   * @method
+   *
+   * create WrappedRange from paraBookmark
+   *
+   * @param {Object} bookmark
+   * @param {Node[]} paras
+   * @return {WrappedRange}
+   */
+  createFromParaBookmark: function(bookmark, paras) {
+    const so = bookmark.s.offset;
+    const eo = bookmark.e.offset;
+    const sc = dom.fromOffsetPath(lists.head(paras), bookmark.s.path);
+    const ec = dom.fromOffsetPath(lists.last(paras), bookmark.e.path);
+&nbsp;
+    return new WrappedRange(sc, so, ec, eo);
+  }
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:15:48 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

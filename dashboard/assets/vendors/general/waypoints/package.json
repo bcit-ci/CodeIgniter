@@ -1,0 +1,34 @@
+{
+  "name": "waypoints",
+  "version": "4.0.1",
+  "author": "Caleb Troughton <caleb@imakewebthings.com> (http://imakewebthings.com)",
+  "description": "Easily execute a function when you scroll to an element",
+  "scripts": {
+    "build": "gulp build",
+    "start": "gulp",
+    "test": "testem ci",
+    "tdd": "testem",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imakewebthings/waypoints.git"
+  },
+  "keywords": [
+    "scroll"
+  ],
+  "devDependencies": {
+    "eslint": "^0.6.2",
+    "gulp": "^3.6.2",
+    "gulp-concat": "^2.2.0",
+    "gulp-eslint": "^0.1.7",
+    "gulp-footer": "^1.0.5",
+    "gulp-header": "^1.0.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-tap": "^0.1.1",
+    "gulp-uglify": "^0.3.1",
+    "merge-stream": "^0.1.1",
+    "testem": "0.6.24"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Fully Customisable",
+    "subtitle": "Over 60 options. Easy for novice users and even more powerful for advanced developers.",
+    "image": "feature-options.png"
+  },
+  {
+    "title": "Touch and Drag Support",
+    "subtitle": "Designed specially to boost mobile browsing experience. Mouse drag works great on desktop too!",
+    "image": "feature-drag.png"
+  },
+  {
+    "title": "Fully Responsive",
+    "subtitle": "Almost all options are responsive and include very intuitive breakpoints settings.",
+    "image": "feature-responsive.png"
+  },
+  {
+    "title": "Modern Browsers",
+    "subtitle": "Owl uses hardware acceleration with CSS3 Translate3d transitions. Its fast and works like a charm! ",
+    "image": "feature-modern.png"
+  },
+  {
+    "title": "Zombie Browsers",
+    "subtitle": "CSS2 fallback supported for older browser.",
+    "image": "feature-zombie.png"
+  }
+  ,
+  {
+    "title": "Modules and Plugins",
+    "subtitle": "Owl Carousel supports plugin modular structure. Therefore, you can detach plugins that you won't use on your project or create new ones that fit your needs",
+    "image": "feature-module.png"
+  }
+]

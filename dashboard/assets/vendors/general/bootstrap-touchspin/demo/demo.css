@@ -1,0 +1,172 @@
+body {
+  font-family: Arial, Ubuntu, Helvetica, sans-serif;
+  color: #333;
+  padding-top: 20px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: Arial, Ubuntu, Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+hr {
+  border-color: #ccc;
+}
+
+a,
+a:hover {
+  color: #d64513;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-family: "Century Gothic", Arial, Ubuntu, Helvetica, sans-serif;
+  font-size: 28px;
+}
+
+h1 small {
+  font-size: 22px;
+}
+
+h2 {
+  font-family: "Century Gothic", Arial, Ubuntu, Helvetica, sans-serif;
+  font-size: 26px;
+  margin: 30px 0 20px;
+}
+
+h2 small {
+  font-size: 18px;
+}
+
+h3 {
+  margin-top: 25px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h3 small {
+  font-size: 16px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h4 small {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h5 small {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 14px;
+}
+
+h6 small {
+  font-size: 10px;
+}
+
+.dl-horizontal dt {
+  width: 200px;
+}
+
+.dl-horizontal dd {
+  margin-left: 220px;
+}
+
+small {
+  font-size: 12px;
+}
+
+.panel {
+  border-radius: 10px;
+  background: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.panel-heading {
+  border-bottom: 1px solid #ddd;
+  color: #4d4d4d;
+  font-size: 14px;
+  margin: 0;
+}
+
+.panel-heading a {
+  color: #4d4d4d;
+}
+
+.panel-body {
+  border-top: 1px solid #fff;
+}
+
+.abstract {
+  min-height: 60px;
+}
+
+.btn-info {
+  border: none;
+  background: #d64513;
+  color: #fff;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled] {
+  background: #a5360f;
+}
+
+/* woodpaul on board */
+.hero-unit {
+  text-align: center;
+  margin: 0 0 50px;
+}
+
+.hero-unit h1 {
+  font-size: 48px;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
+}
+
+.hero-unit h1 small {
+  display: block;
+}
+
+.hero-unit .btn {
+  margin: 0;
+}
+
+hr {
+  background-color: transparent;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+}
+
+.controls-row {
+  margin: 0 0 10px;
+}
+
+/* table */
+.table thead th {
+  font-family: "Century Gothic", Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: normal;
+  background-color: #bc451b;
+  color: #fff;
+  vertical-align: middle !important;
+}
+
+code {
+  padding: 1px 4px;
+}
+

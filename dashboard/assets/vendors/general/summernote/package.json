@@ -1,0 +1,93 @@
+{
+  "name": "summernote",
+  "description": "Super simple WYSIWYG editor",
+  "version": "0.8.11",
+  "license": "MIT",
+  "keywords": [
+    "editor",
+    "WYSIWYG"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/summernote/summernote.git"
+  },
+  "author": {
+    "name": "hackerwins",
+    "email": "<susukang98@gmail.com>"
+  },
+  "main": "dist/summernote.js",
+  "scripts": {
+    "build": "grunt build",
+    "coveralls": "grunt coveralls:travis",
+    "dist": "grunt dist",
+    "start": "grunt server",
+    "lint": "eslint --fix src/js plugin lang test Gruntfile.js",
+    "download:selenium": "if [ ! -e test/libs/selenium-server-standalone.jar ]; then wget http://selenium-release.storage.googleapis.com/3.6/selenium-server-standalone-3.6.0.jar -O test/libs/selenium-server-standalone.jar; fi",
+    "test": "karma start karma.conf.js --single-run",
+    "test:e2e": "npm run download:selenium && concurrently --kill-others 'node test/e2e/static-server.js' 'nightwatch --config test/nightwatch.conf.js'",
+    "test:e2e-saucelabs": "npm run dist && npm run download:selenium && nightwatch --config test/nightwatch.conf.js --env ie9,ie10,ie11,chrome,firefox",
+    "test:travis": "grunt test-travis --verbose",
+    "test:saucelabs": "grunt saucelabs-test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint && npm run test"
+    }
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "bootstrap": "^4.1.3",
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
+    "chromedriver": "^2.43.1",
+    "concurrently": "^4.0.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "fontforge": "^0.0.4",
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.3.1",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-compress": "^1.4.3",
+    "grunt-contrib-connect": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "~4.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-coveralls": "^2.0.0",
+    "grunt-eslint": "^21.0.0",
+    "grunt-exec": "^3.0.0",
+    "grunt-karma": "^3.0.0",
+    "grunt-recess": "^1.0.1",
+    "grunt-saucelabs": "^9.0.0",
+    "grunt-webfont": "^1.7.2",
+    "husky": "^1.1.2",
+    "jquery": "^3.3.1",
+    "karma": "^3.1.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-opera-launcher": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-sauce-launcher": "^1.2.0",
+    "karma-typescript": "^3.0.13",
+    "karma-typescript-es6-transform": "^1.0.4",
+    "load-grunt-tasks": "^4.0.0",
+    "mocha": "^5.2.0",
+    "nightwatch": "^0.9.21",
+    "phantomjs-prebuilt": "^2.1.16",
+    "popper.js": "^1.14.4",
+    "rollup": "^0.66.6",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-typescript": "^1.0.0",
+    "serve-static": "^1.13.2",
+    "typescript": "^3.1.4"
+  }
+}

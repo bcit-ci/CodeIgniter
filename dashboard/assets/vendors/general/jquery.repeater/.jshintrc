@@ -1,0 +1,15 @@
+{
+	// http://www.jshint.com/docs/options/
+	"curly": true,
+	"immed": true,
+	"latedef": true,
+	"unused": true,
+	"trailing": true,
+	"boss": true,
+	"loopfunc": true,
+	"node": true,
+	"browser": true,
+	"jquery": true,
+	"newcap": false,
+	"predef": ["React"]
+}

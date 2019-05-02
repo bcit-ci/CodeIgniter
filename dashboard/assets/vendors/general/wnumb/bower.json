@@ -1,0 +1,25 @@
+{
+  "name": "wnumb",
+  "main": "wNumb.js",
+  "version": "1.1.0",
+  "homepage": "https://refreshless.com/wnumb/",
+  "description": "wNumb - JavaScript Number & Money formatting",
+  "keywords": [
+    "javascript",
+    "js",
+    "number",
+    "money",
+    "formatting"
+  ],
+  "authors": [
+    "Leon Gersen"
+  ],
+  "license": "WTFPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "framework": "jasmine",
+  "launch_in_dev": [
+    "PhantomJS"
+  ],
+  "launch_in_ci": [
+    "PhantomJS"
+  ],
+  "src_files": [
+    "bower_components/jquery/dist/jquery.js",
+    "bower_components/jasmine-jquery/lib/jasmine-jquery.js",
+    "bower_components/zepto/zepto.js",
+
+    "src/waypoint.js",
+    "src/context.js",
+    "src/group.js",
+    "src/debug.js",
+    "src/adapters/*.js",
+    "src/shortcuts/*.js",
+
+    "test/settings.js",
+    "test/*-spec.js"
+  ]
+}

@@ -1,0 +1,214 @@
+---
+title: Responsive Demo
+subTitle: Responsive
+nav: demos
+description: How to use responsive options
+sort: 2
+
+tags:
+- demo
+- core
+---
+
+<div class="owl-carousel owl-theme">
+	<div class="item"><h4>1</h4></div>
+	<div class="item"><h4>2</h4></div>
+	<div class="item"><h4>3</h4></div>
+	<div class="item"><h4>4</h4></div>
+	<div class="item"><h4>5</h4></div>
+	<div class="item"><h4>6</h4></div>
+	<div class="item"><h4>7</h4></div>
+	<div class="item"><h4>8</h4></div>
+	<div class="item"><h4>9</h4></div>
+	<div class="item"><h4>10</h4></div>
+	<div class="item"><h4>11</h4></div>
+	<div class="item"><h4>12</h4></div>
+</div>
+
+{{#markdown }}
+### Overview
+
+> Responsive option can be used for setting breakpoints and additional options within. Try changing your browser width to see what happens with Items and Navigations.
+
+
+#### About responsive option
+
+Setting of the responsive is very simple. Structure of responsive option:
+
+```
+responsive : {
+
+	// breakpoint from 0 up
+	0 : {
+		option1 : value,
+		option2 : value,
+		...
+	},
+
+	// breakpoint from 480 up
+	480 : {
+		option1 : value,
+		option2 : value,
+		...
+	},
+
+	// breakpoint from 768 up
+	768 : {
+		option1 : value,
+		option2 : value,
+		...
+	}
+}
+
+```
+
+### Key facts:
+
+* Each breakpoint key can be a Number value (like in example) or a string: '480'.
+* Owl has an in-built sort option but  it’s best to set from the smallest screens to the widest.
+* Responsive options **always** overwrite top level settings.
+* As default, the responsive option is set to true so carousel always tries to fit the wrapper (even if media queries are not support IE7/IE8 etc).
+* If you have non flexible layout then set `responsive:false`.
+
+
+### Live Example
+```
+$('.owl-carousel').owlCarousel({
+	loop:true,
+	margin:10,
+	responsiveClass:true,
+
+	responsive:{
+		0:{
+			items:1,
+			nav:true
+		},
+		600:{
+			items:3,
+			nav:false
+		},
+		1000:{
+			items:5,
+			nav:true,
+			loop:false
+		}
+	}
+})
+```
+
+----
+
+### Responsive related options:
+
+
+#### responsiveClass
+
+Optional helper class. Add 'owl-reponsive-' + 'breakpoint' class to main element.
+
+
+#### responsiveBaseElement
+
+As default all responsive breakpoints are corresponding with `window` width. This option gives you an opportunity to change it to your own class/id like `responsiveBaseElement:".myCustomWrapper"`
+
+#### responsiveRefreshRate
+
+What this does is wait 200ms after you changed the browser width and performs refresh actions (calculating widths/ cloning items etc.) Default refresh rate is 200ms. I think this rate is optimal but you can change it if it’s to slow for you.
+
+As not every option is able to use responsive abilities, here’s a full list of responsive options.
+
+<div class="row">
+<div class="large-6 columns">
+
+
+#### List of responsive options
+
+* items
+* loop
+* center
+* mouseDrag
+* touchDrag
+* pullDrag
+* freeDrag
+* margin
+* stagePadding
+* merge
+* mergeFit
+* autoWidth
+* autoHeight
+* nav
+* navRewind
+* slideBy
+* dots
+* dotsEach
+* autoplay
+* autoplayTimeout
+* smartSpeed
+* fluidSpeed
+* autoplaySpeed
+* navSpeed
+* dotsSpeed
+* dragEndSpeed
+* responsiveRefreshRate
+* animateOut
+* animateIn
+* fallbackEasing
+* callbacks
+* info
+* and all events
+{{/markdown }}
+
+</div>
+<div class="large-6 columns">
+
+{{#markdown }}
+#### List of responsive only on load
+
+* startPosition
+* URLhashListener
+* navText
+* dotsData
+* lazyLoad
+* lazyContent
+* autoplayHoverPause
+* responsiveBaseElement
+* responsiveClass
+* video
+* videoHeight
+* videoWidth
+* nestedItemSelector
+* itemElement
+* stageElement
+* navContainer
+* dotsContainer
+* and all classes options
+{{/markdown }}
+</div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+	$('.owl-carousel').owlCarousel({
+		loop:true,
+		margin:10,
+		responsiveClass:true,
+
+		responsive:{
+			0:{
+				items:1,
+				nav:true
+			},
+			600:{
+				items:3,
+				nav:false
+			},
+			1000:{
+				items:5,
+				nav:true,
+				loop:false,
+				margin:20
+			}
+		}
+	})
+})
+</script>

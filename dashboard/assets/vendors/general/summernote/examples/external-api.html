@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>summernote - external-api</title>
+    <!-- include jquery -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+    <!-- include libs stylesheets -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.5/umd/popper.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.js"></script>
+
+    <!-- include summernote -->
+    <link rel="stylesheet" href="../dist/summernote-bs4.css">
+    <script type="text/javascript" src="../dist/summernote-bs4.js"></script>
+    <style>
+      .container {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        top: 10%;
+        bottom: 10%;
+      }
+
+      .custom-toolbar {
+        padding: 5px;
+      }
+  
+      h1 {
+        text-align: center;
+      }
+    </style>
+
+    <script type="text/javascript">
+      var $summernote;
+      $(document).ready(function () {
+        $summernote = $('.summernote');
+      
+        // init summernote
+        $summernote.summernote({
+          height: 300,
+          toolbar: false
+        });
+      
+        $("button").popover({
+          trigger: 'hover'
+        });
+      });
+      
+      function command() {
+        $summernote.summernote(arguments[0], arguments[1]);
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>External API Sample</h1>
+      <div class="custom-toolbar">
+        <div class="btn-group" role="group" aria-label="...">
+          <button type="button" class="btn btn-default" data-container="body" data-trigger="hover" data-placement="left" data-content="Sample Content" title="Sample Button" onclick="command('justifyLeft')">Left </button>
+          <button type="button" class="btn btn-default" onclick="command('justifyCenter')">Middle</button>
+          <button type="button" class="btn btn-default" onclick="command('justifyRight')">Right</button>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="...">
+          <button type="button" class="btn btn-default" data-container="body" data-trigger="hover" data-placement="bottom" data-content="Apply bold style to selected text" title="Bold (CTRL+B)" onclick="command('bold')"><i class="fa fa-bold"></i> Bold </button>
+          <button type="button" class="btn btn-default" title="Italic (CTRL+I)" onclick="command('italic')"><i class="fa fa-italic"></i> Italic </button>
+          <button type="button" class="btn btn-default" title="Underline (CTRL+U)" onclick="command('underline')"><i class="fa fa-underline"></i> Underline </button>
+          <button type="button" class="btn btn-default" title="Remove Font Style (CTRL+\)" onclick="command('removeFormat')" style="color:red;"><i class="fa fa-eraser"></i> Remove Format </button>
+        </div>
+      </div>
+      <div class="summernote">Hello World</div>
+    </div>
+  </body>
+</html>

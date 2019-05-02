@@ -1,0 +1,40 @@
+{
+  "licenses": [
+    {
+      "url": "https://github.com/twitter/typeahead.js/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "docs": "https://github.com/twitter/typeahead.js",
+  "demo": "http://twitter.github.com/typeahead.js/examples",
+  "name": "typeahead.js",
+  "title": "typeahead.js",
+  "author": {
+    "name": "Twitter, Inc.",
+    "url": "https://twitter.com/twitteross"
+  },
+  "description": "fast and fully-featured autocomplete library",
+  "keywords": [
+    "typeahead",
+    "autocomplete"
+  ],
+  "homepage": "http://twitter.github.com/typeahead.js",
+  "bugs": "https://github.com/twitter/typeahead.js/issues",
+  "maintainers": [
+    {
+      "name": "Jake Harding",
+      "url": "https://twitter.com/JakeHarding"
+    },
+    {
+      "name": "Tim Trueman",
+      "url": "https://twitter.com/timtrueman"
+    },
+    {
+      "name": "Veljko Skarich",
+      "url": "https://twitter.com/vskarich"
+    }
+  ],
+  "version": "0.11.1"
+}

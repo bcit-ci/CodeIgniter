@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/base/module/ImageDialog.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/base/module/</a> ImageDialog.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">37.68% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>26/69</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.11% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">37.68% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>26/69</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import $ from 'jquery';
+import env from '../core/env';
+import key from '../core/key';
+&nbsp;
+export default class ImageDialog {
+  constructor(context) {
+    this.context = context;
+    this.ui = $.summernote.ui;
+    this.$body = $(document.body);
+    this.$editor = context.layoutInfo.editor;
+    this.options = context.options;
+    this.lang = this.options.langInfo;
+  }
+&nbsp;
+  initialize() {
+    const $container = this.options.dialogsInBody ? <span class="branch-0 cbranch-no" title="branch not covered" >this.$body </span>: this.$editor;
+&nbsp;
+    let imageLimitation = '';
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.options.maximumImageFileSize) {
+<span class="cstat-no" title="statement not covered" >      const unit = Math.floor(Math.log(this.options.maximumImageFileSize) / Math.log(1024));</span>
+<span class="cstat-no" title="statement not covered" >      const readableSize = (this.options.maximumImageFileSize / Math.pow(1024, unit)).toFixed(2) * 1 +</span>
+                         ' ' + ' KMGTP'[unit] + 'B';
+<span class="cstat-no" title="statement not covered" >      imageLimitation = `&lt;small&gt;${this.lang.image.maximumFileSize + ' : ' + readableSize}&lt;/small&gt;`;</span>
+    }
+&nbsp;
+    const body = [
+      '&lt;div class="form-group note-form-group note-group-select-from-files"&gt;',
+      '&lt;label class="note-form-label"&gt;' + this.lang.image.selectFromFiles + '&lt;/label&gt;',
+      '&lt;input class="note-image-input note-form-control note-input" ',
+      ' type="file" name="files" accept="image/*" multiple="multiple" /&gt;',
+      imageLimitation,
+      '&lt;/div&gt;',
+      '&lt;div class="form-group note-group-image-url" style="overflow:auto;"&gt;',
+      '&lt;label class="note-form-label"&gt;' + this.lang.image.url + '&lt;/label&gt;',
+      '&lt;input class="note-image-url form-control note-form-control note-input ',
+      ' col-md-12" type="text" /&gt;',
+      '&lt;/div&gt;'
+    ].join('');
+    const buttonClass = 'btn btn-primary note-btn note-btn-primary note-image-btn';
+    const footer = `&lt;input type="button" href="#" class="${buttonClass}" value="${this.lang.image.insert}" disabled&gt;`;
+&nbsp;
+    this.$dialog = this.ui.dialog({
+      title: this.lang.image.insert,
+      fade: this.options.dialogsFade,
+      body: body,
+      footer: footer
+    }).render().appendTo($container);
+  }
+&nbsp;
+  destroy() {
+    this.ui.hideDialog(this.$dialog);
+    this.$dialog.remove();
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  bindEnterKey($input, $btn)</span> {
+<span class="cstat-no" title="statement not covered" >    $input.on('keypress', <span class="fstat-no" title="function not covered" >(event)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (event.keyCode === key.code.ENTER) {</span>
+<span class="cstat-no" title="statement not covered" >        event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >        $btn.trigger('click');</span>
+      }
+    });
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  show() {</span>
+<span class="cstat-no" title="statement not covered" >    this.context.invoke('editor.saveRange');</span>
+<span class="cstat-no" title="statement not covered" >    this.showImageDialog().then(<span class="fstat-no" title="function not covered" >(data)</span> =&gt; {</span>
+      // [workaround] hide dialog before restore range for IE range focus
+<span class="cstat-no" title="statement not covered" >      this.ui.hideDialog(this.$dialog);</span>
+<span class="cstat-no" title="statement not covered" >      this.context.invoke('editor.restoreRange');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (typeof data === 'string') { // image url</span>
+        // If onImageLinkInsert set,
+<span class="cstat-no" title="statement not covered" >        if (this.options.callbacks.onImageLinkInsert) {</span>
+<span class="cstat-no" title="statement not covered" >          this.context.triggerEvent('image.link.insert', data);</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >          this.context.invoke('editor.insertImage', data);</span>
+        }
+      } else { // array of files
+        // If onImageUpload set,
+<span class="cstat-no" title="statement not covered" >        if (this.options.callbacks.onImageUpload) {</span>
+<span class="cstat-no" title="statement not covered" >          this.context.triggerEvent('image.upload', data);</span>
+        } else {
+          // else insert Image as dataURL
+<span class="cstat-no" title="statement not covered" >          this.context.invoke('editor.insertImagesAsDataURL', data);</span>
+        }
+      }
+    }).fail(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.context.invoke('editor.restoreRange');</span>
+    });
+  }
+&nbsp;
+  /**
+   * show image dialog
+   *
+   * @param {jQuery} $dialog
+   * @return {Promise}
+   */
+<span class="fstat-no" title="function not covered" >  showImageDialog() {</span>
+<span class="cstat-no" title="statement not covered" >    return $.Deferred(<span class="fstat-no" title="function not covered" >(deferred)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      const $imageInput = this.$dialog.find('.note-image-input');</span>
+<span class="cstat-no" title="statement not covered" >      const $imageUrl = this.$dialog.find('.note-image-url');</span>
+<span class="cstat-no" title="statement not covered" >      const $imageBtn = this.$dialog.find('.note-image-btn');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.ui.onDialogShown(this.$dialog, <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        this.context.triggerEvent('dialog.shown');</span>
+&nbsp;
+        // Cloning imageInput to clear element.
+<span class="cstat-no" title="statement not covered" >        $imageInput.replaceWith($imageInput.clone().on('change', <span class="fstat-no" title="function not covered" >(event)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          deferred.resolve(event.target.files || event.target.value);</span>
+        }).val(''));
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        $imageBtn.click(<span class="fstat-no" title="function not covered" >(event)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          event.preventDefault();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          deferred.resolve($imageUrl.val());</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        $imageUrl.on('keyup paste', <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          const url = $imageUrl.val();</span>
+<span class="cstat-no" title="statement not covered" >          this.ui.toggleBtn($imageBtn, url);</span>
+        }).val('');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!env.isSupportTouch) {</span>
+<span class="cstat-no" title="statement not covered" >          $imageUrl.trigger('focus');</span>
+        }
+<span class="cstat-no" title="statement not covered" >        this.bindEnterKey($imageUrl, $imageBtn);</span>
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.ui.onDialogHidden(this.$dialog, <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        $imageInput.off('change');</span>
+<span class="cstat-no" title="statement not covered" >        $imageUrl.off('keyup paste keypress');</span>
+<span class="cstat-no" title="statement not covered" >        $imageBtn.off('click');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (deferred.state() === 'pending') {</span>
+<span class="cstat-no" title="statement not covered" >          deferred.reject();</span>
+        }
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.ui.showDialog(this.$dialog);</span>
+    });
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:14:15 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

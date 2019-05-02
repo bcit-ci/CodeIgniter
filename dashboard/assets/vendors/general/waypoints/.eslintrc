@@ -1,0 +1,25 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+
+  "rules": {
+    "brace-style": [1, "stroustrup"],
+    "consistent-this": [1, "self"],
+    "eqeqeq": [1, "smart"],
+    "func-style": [1, "declaration"],
+    "no-else-return": 1,
+    "no-extra-parens": 1,
+    "no-floating-decimal": 1,
+    "no-nested-ternary": 1,
+    "no-lonely-if": 1,
+    "quotes": [1, "single", "avoid-escape"],
+    "radix": 1,
+    "semi": [1, "never"],
+    "space-after-keywords": [1, "always"],
+    "space-in-brackets": [1, "never"],
+    "space-unary-word-ops": 1,
+    "wrap-iife": 1
+  }
+}

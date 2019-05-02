@@ -1,0 +1,39 @@
+.note-dropdown {
+  position: relative;
+
+}
+
+.note-dropdown-menu {
+  display: none;
+  min-width: 100px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index : @zindex-dropdown;
+  float: left;
+  text-align:left;
+  background: @dropdown-color-bg;
+  border: 1px solid @dropdown-color-border;
+  padding: 5px;
+  background-clip: padding-box;
+  .box-shadow(0 1px 1px rgba(0,0,0,.06));
+}
+
+.note-btn-group.open .note-dropdown-menu {
+  display: block;
+}
+
+.note-dropdown-item {
+  display: block;
+
+  &:hover {
+    background-color: @btn-default-hover-bg;
+  }
+}
+
+a.note-dropdown-item,
+a.note-dropdown-item:hover {
+  margin: 2px 0;
+  color: #000;
+  text-decoration: none;
+}

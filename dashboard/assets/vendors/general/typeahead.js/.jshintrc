@@ -1,0 +1,16 @@
+{
+  "curly": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "regexp": true,
+  "trailing": true,
+
+  "boss": true,
+  "eqnull": true,
+  "expr": true,
+  "validthis": true,
+  
+  "browser": true,
+  "jquery": true
+}

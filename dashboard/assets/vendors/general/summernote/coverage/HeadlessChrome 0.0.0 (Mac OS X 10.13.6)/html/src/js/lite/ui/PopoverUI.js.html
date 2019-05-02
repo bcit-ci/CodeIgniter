@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/lite/ui/PopoverUI.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/lite/ui/</a> PopoverUI.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">2% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>1/50</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">2% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/50</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >class PopoverUI {</span></span>
+<span class="fstat-no" title="function not covered" >  constructor($node, options)</span> {
+<span class="cstat-no" title="statement not covered" >    this.$node = $node;</span>
+<span class="cstat-no" title="statement not covered" >    this.options = $.extend({}, {</span>
+      title: '',
+      content: '',
+      target: options.container,
+      trigger: 'hover focus',
+      placement: 'bottom'
+    }, options);
+&nbsp;
+    // create popover node
+<span class="cstat-no" title="statement not covered" >    this.$popover = $([</span>
+      '&lt;div class="note-popover in"&gt;',
+      ' &lt;div class="note-popover-arrow" /&gt;',
+      ' &lt;div class="note-popover-content" /&gt;',
+      '&lt;/div&gt;'
+    ].join(''));
+&nbsp;
+    // define event
+<span class="cstat-no" title="statement not covered" >    if (this.options.trigger !== 'manual') {</span>
+<span class="cstat-no" title="statement not covered" >      const showCallback = this.show.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >      const hideCallback = this.hide.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >      const toggleCallback = this.toggle.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >      this.options.trigger.split(' ').forEach(<span class="fstat-no" title="function not covered" >function(eventName)</span> {</span>
+<span class="cstat-no" title="statement not covered" >        if (eventName === 'hover') {</span>
+<span class="cstat-no" title="statement not covered" >          $node.off('mouseenter').on('mouseenter', showCallback);</span>
+<span class="cstat-no" title="statement not covered" >          $node.off('mouseleave').on('mouseleave', hideCallback);</span>
+        } else <span class="cstat-no" title="statement not covered" >if (eventName === 'click') {</span>
+<span class="cstat-no" title="statement not covered" >          $node.on('click', toggleCallback);</span>
+        } else <span class="cstat-no" title="statement not covered" >if (eventName === 'focus') {</span>
+<span class="cstat-no" title="statement not covered" >          $node.on('focus', showCallback);</span>
+<span class="cstat-no" title="statement not covered" >          $node.on('blur', hideCallback);</span>
+        }
+      });
+    }
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  show() {</span></span>
+<span class="cstat-no" title="statement not covered" >    const $node = this.$node;</span>
+<span class="cstat-no" title="statement not covered" >    const offset = $node.offset();</span>
+<span class="cstat-no" title="statement not covered" >    const $popover = this.$popover;</span>
+<span class="cstat-no" title="statement not covered" >    const content = this.options.content || $node.data('content');</span>
+<span class="cstat-no" title="statement not covered" >    const placement = $node.data('placement') || this.options.placement;</span>
+<span class="cstat-no" title="statement not covered" >    const dist = 6;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    $popover.addClass(placement);</span>
+<span class="cstat-no" title="statement not covered" >    $popover.addClass('in');</span>
+<span class="cstat-no" title="statement not covered" >    $popover.find('.note-popover-content').html(content);</span>
+<span class="cstat-no" title="statement not covered" >    $popover.appendTo(this.options.target);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const nodeWidth = $node.outerWidth();</span>
+<span class="cstat-no" title="statement not covered" >    const nodeHeight = $node.outerHeight();</span>
+<span class="cstat-no" title="statement not covered" >    const popoverWidth = $popover.outerWidth();</span>
+<span class="cstat-no" title="statement not covered" >    const popoverHeight = $popover.outerHeight();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (placement === 'bottom') {</span>
+<span class="cstat-no" title="statement not covered" >      $popover.css({</span>
+        top: offset.top + nodeHeight + dist,
+        left: offset.left + (nodeWidth / 2 - popoverWidth / 2)
+      });
+    } else <span class="cstat-no" title="statement not covered" >if (placement === 'top') {</span>
+<span class="cstat-no" title="statement not covered" >      $popover.css({</span>
+        top: offset.top - popoverHeight - dist,
+        left: offset.left + (nodeWidth / 2 - popoverWidth / 2)
+      });
+    } else <span class="cstat-no" title="statement not covered" >if (placement === 'left') {</span>
+<span class="cstat-no" title="statement not covered" >      $popover.css({</span>
+        top: offset.top + (nodeHeight / 2 - popoverHeight / 2),
+        left: offset.left - popoverWidth - dist
+      });
+    } else <span class="cstat-no" title="statement not covered" >if (placement === 'right') {</span>
+<span class="cstat-no" title="statement not covered" >      $popover.css({</span>
+        top: offset.top + (nodeHeight / 2 - popoverHeight / 2),
+        left: offset.left + nodeWidth + dist
+      });
+    }
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  hide() {</span></span>
+<span class="cstat-no" title="statement not covered" >    this.$popover.removeClass('in');</span>
+<span class="cstat-no" title="statement not covered" >    this.$popover.remove();</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  toggle() {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (this.$popover.hasClass('in')) {</span>
+<span class="cstat-no" title="statement not covered" >      this.hide();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.show();</span>
+    }
+  }
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export default PopoverUI;</span>
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:15:48 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

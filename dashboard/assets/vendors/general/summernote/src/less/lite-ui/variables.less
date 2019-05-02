@@ -1,0 +1,81 @@
+
+@gray-base:   #000;
+@gray-darker: lighten(@gray-base, 13.5%); // #222
+@gray-dark:   lighten(@gray-base, 20%);   // #333
+@gray:        lighten(@gray-base, 33.5%); // #555
+@gray-light:  lighten(@gray-base, 46.7%); // #777
+@gray-lighter:lighten(@gray-base, 93.5%); // #eee
+
+@font-size: 14px;
+@font-size-large: ceil((@font-size * 1.25));
+@font-size-small: ceil((@font-size * 0.85));
+
+@line-height: 1.4;
+@line-height-computed: floor((@line-height * @font-size));
+
+@padding-base-vertical: 5px;
+@padding-base-horizontal: 10px;
+
+@border-radius-base: 1px;
+@btn-border-radius-base: @border-radius-base;
+
+@icon-font-path: "../fonts/";
+@icon-font-name: "summernote";
+@icon-font-svg-id: "summernote";
+
+@btn-font-weight: normal;
+@btn-default-color : #333;
+@btn-default-bg: #fff;
+@btn-default-border: #fff;
+@btn-default-hover-bg: #ebebeb;
+@btn-default-active-bg: #f0f0f0;
+
+@input-bg: #fff;
+@input-bg-disabled: @gray-lighter;
+@input-color: @gray;
+@input-border: #ccc;
+
+@input-border-focus: #66afe9;
+@input-color-placeholder: #999;
+
+@cursor-disabled: not-allowed;
+
+@zindex-dropdown:          1000;
+@zindex-popover:1060;
+@zindex-tooltip:1070;
+@zindex-modal-background:  1040;
+@zindex-modal:  1050;
+
+@dropdown-color-bg: #fff;
+@dropdown-color-border: #e2e2e2;
+
+@tooltip-max-width:200px;
+@tooltip-color:    #fff;
+@tooltip-bg:       #000;
+@tooltip-opacity:  .9;
+@tooltip-arrow-width:         5px;
+@tooltip-arrow-color:         @tooltip-bg;
+
+@popover-bg:    #ffffff;
+@popover-color: #000;
+@popover-max-width:        276px;
+@popover-border-color:     rgba(0,0,0,.2);
+@popover-fallback-border-color:       #ccc;
+@popover-title-bg:         darken(@popover-bg, 3%);
+@popover-arrow-width:      10px;
+@popover-arrow-color:      @popover-bg;
+@popover-arrow-outer-width:(@popover-arrow-width + 1);
+@popover-arrow-outer-color:fadein(@popover-border-color, 5%);
+@popover-arrow-outer-fallback-color:  darken(@popover-fallback-border-color, 20%);
+
+
+@modal-inner-padding: 15px;
+@modal-title-padding: 15px;
+@modal-title-line-height: @line-height;
+@modal-content-bg: #fff;
+@modal-content-border-color: rgba(0,0,0,.2);
+@modal-content-fallback-border-color: #999;
+@modal-backdrop-bg: #000;
+@modal-backdrop-opacity: .5;
+@modal-header-border-color: #e5e5e5;
+@modal-footer-border-color: @modal-header-border-color;

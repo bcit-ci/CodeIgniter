@@ -1,0 +1,86 @@
+[
+  {
+    "name":     "refreshClass",
+    "type":     "String",
+    "Default":  "owl-refresh",
+    "desc":     "Class during refresh."
+  },
+  {
+    "name":     "loadingClass",
+    "type":     "String",
+    "Default":  "owl-loading",
+    "desc":     "Class during load."
+  },
+  {
+    "name":     "loadedClass",
+    "type":     "String",
+    "Default":  "owl-loaded",
+    "desc":     "Class after load."
+  },
+  {
+    "name":     "rtlClass",
+    "type":     "String",
+    "Default":  "owl-rtl",
+    "desc":     "Class for right to left mode."
+  },
+  {
+    "name":     "dragClass",
+    "type":     "String",
+    "Default":  "owl-drag",
+    "desc":     "Class for mouse drag mode."
+  },
+  {
+    "name":     "grabClass",
+    "type":     "String",
+    "Default":  "owl-grab",
+    "desc":     "Class during mouse drag."
+  },
+  {
+    "name":     "stageClass",
+    "type":     "String",
+    "Default":  "owl-stage",
+    "desc":     "Stage class."
+  },
+  {
+    "name":     "stageOuterClass",
+    "type":     "String",
+    "Default":  "owl-stage-outer",
+    "desc":     "Stage outer class."
+  },
+  {
+    "name":     "navContainerClass",
+    "type":     "String",
+    "Default":  "owl-nav",
+    "desc":     "Navigation container class."
+  },
+  {
+    "name":     "navClass",
+    "type":     "Array",
+    "Default":  "['owl-prev','owl-next']",
+    "desc":     "Navigation buttons classes."
+  },
+  {
+    "name":     "dotClass",
+    "type":     "String",
+    "Default":  "owl-dot",
+    "desc":     "Dot Class."
+  },
+  {
+    "name":     "dotsClass",
+    "type":     "String",
+    "Default":  "owl-dots",
+    "desc":     "Dots container class."
+  },
+  {
+    "name":     "autoHeightClass",
+    "type":     "String",
+    "Default":  "owl-height",
+    "desc":     "Auto height class."
+  },
+  {
+    "name":     "responsiveClass",
+    "type":     "String|Boolean",
+    "Default":  "false",
+    "desc":     "Optional helper class. Add '<responsiveClass>-<breakpoint>' class to main element. Can be used to stylize content on given breakpoint."
+  }
+]

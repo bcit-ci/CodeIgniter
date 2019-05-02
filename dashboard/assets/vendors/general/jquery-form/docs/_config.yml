@@ -1,0 +1,21 @@
+name: jQuery Form
+title: jQuery Form Plugin
+description: The jQuery Form Plugin allows you to easily and unobtrusively upgrade HTML forms to use AJAX
+theme: jekyll-theme-tactile
+url: https://jquery-form.github.io
+baseurl: /form
+permalink: pretty
+timezone: America/New_York
+
+repository: jquery-form/form
+
+# Dependencies
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "default"
+
+exclude:
+  - .gitignore

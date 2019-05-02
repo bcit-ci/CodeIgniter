@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>summernote</title>
+  <!-- include jquery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+  <!-- include libraries BS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.5/umd/popper.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.js"></script>
+
+  <!-- include summernote -->
+  <link rel="stylesheet" href="../dist/summernote-bs4.css">
+  <script type="text/javascript" src="../dist/summernote-bs4.js"></script>
+  <script type="text/javascript" src="../lang/summernote-ko-KR.js"></script>
+
+  <link rel="stylesheet" href="example.css">
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var self = this;
+
+      // load github's emoji list
+      $.ajax({
+        url: 'https://api.github.com/emojis'
+      }).then(function (data) {
+        var emojis = Object.keys(data);
+        var emojiUrls = data;
+
+        $('.summernote').summernote({
+          height: 300,
+          hintDirection: 'top',
+          hint: [{
+            search: function (keyword, callback) {
+              callback($.grep(emojis, function (item) {
+                return item.indexOf(keyword)  === 0;
+              }));
+            },
+            match: /\B:([\-+\w]+)$/,
+            template: function (item) {
+              var content = emojiUrls[item];
+              return '<img src="' + content + '" width="20" /> :' + item + ':';
+            },
+            content: function (item) {
+              var url = emojiUrls[item];
+              if (url) {
+                return $('<img />').attr('src', url).css('width', 20)[0];
+              }
+              return '';
+            }
+          }]
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <h1>Summernote with Hint Emoji</h1>
+  <p>This example uses GitHub emojis.</p>
+  <textarea class="summernote">Type text start with ":". For example, :smile or :+1:.</textarea>
+</div>
+</body>
+</html>

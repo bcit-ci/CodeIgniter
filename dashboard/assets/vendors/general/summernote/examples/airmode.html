@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Summernote airmode</title>
+
+  <!-- include jquery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+  <!-- include libs stylesheets -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.5/umd/popper.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.js"></script>
+
+  <!-- include summernote -->
+  <link rel="stylesheet" href="../dist/summernote-bs4.css">
+  <script type="text/javascript" src="../dist/summernote-bs4.js"></script>
+
+  <link rel="stylesheet" href="example.css">
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.summernote').summernote({
+        tabsize: 2,
+        airMode: true
+      });
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <h1>Summernote in Airmode</h1>
+  <p><a href="https://summernote.org/examples/#air-mode">https://summernote.org/examples/#air-mode</a></p>
+  <div class="summernote">
+    <p>In <a href="http://en.wikipedia.org/wiki/Computer_science" title="Computer science">computer science</a>, <b>functional programming</b> is a <a href="http://en.wikipedia.org/wiki/Programming_paradigm" title="Programming paradigm">programming paradigm</a>, a style of building the structure and elements of computer programs, that treats <a href="http://en.wikipedia.org/wiki/Computation" title="Computation">computation</a> as the evaluation of <a href="http://en.wikipedia.org/wiki/Function_(mathematics)" title="Function (mathematics)">mathematical functions</a> and avoids <a href="http://en.wikipedia.org/wiki/Program_state" title="Program state" class="mw-redirect">state</a> and <a href="http://en.wikipedia.org/wiki/Immutable_object" title="Immutable object">mutable</a> data. Functional programming emphasizes <a href="http://en.wikipedia.org/wiki/Function_(computer_science)" title="Function (computer science)" class="mw-redirect">functions</a> that produce results that depend only on their inputs and not on the program state—i.e. <a href="http://en.wikipedia.org/wiki/Pure_function" title="Pure function">pure</a> <a href="http://en.wikipedia.org/wiki/Function_(mathematics)" title="Function (mathematics)">mathematical functions</a>. It is a <a href="http://en.wikipedia.org/wiki/Declarative_programming" title="Declarative programming">declarative programming</a> paradigm, which means programming is done with <a href="http://en.wikipedia.org/wiki/Expression_(computer_science)" title="Expression (computer science)">expressions</a>. In functional code, the output value of a function depends only on the arguments that are input to the function, so calling a function <i>f</i> twice with the same value for an argument <i>x</i> will produce the same result <i>f(x)</i> both times. Eliminating <a href="http://en.wikipedia.org/wiki/Side_effect_(computer_science)" title="Side effect (computer science)">side effects</a>, i.e. changes in state that do not depend on the function inputs, can make it much easier to understand and predict the behavior of a program, which is one of the key motivations for the development of functional programming.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+/**
+ * Bootstrap-Markdown.less
+ *
+ * @author Taufan Aditya @taufanaditya
+ * @copyright 2013-2016 Taufan Aditya
+ */
+
+.md-editor {
+  display: block;
+  border: 1px solid @table-border-color;
+
+  > .md-header, .md-footer {
+    display: block;
+    padding: 6px 4px;
+    background: @panel-default-heading-bg;
+  }
+
+  > .md-header {
+    margin: 0;
+  }
+
+  > .md-preview {
+    background: @panel-bg;
+    border-top: 1px dashed @table-border-color;
+    border-bottom: 1px dashed @table-border-color;
+    min-height: 10px;
+    overflow: auto;
+  }
+
+  > textarea {
+    font-family: @font-family-monospace;
+    font-size: @font-size-base;
+    outline: 0;
+    outline: thin dotted  \9; /* IE6-9 */
+    margin: 0;
+    display: block;
+    padding: 0;
+    width: 100%;
+    border: 0;
+    border-top: 1px dashed @table-border-color;
+    border-bottom: 1px dashed @table-border-color;
+    border-radius: 0;
+    box-shadow: none;
+    background: @input-bg-disabled;
+    &:focus {
+      box-shadow: none;
+      background: @input-bg;
+    }
+  }
+
+  // Hover state
+  @color: @input-border-focus;
+  @color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
+  &.active {
+    border-color: @color;
+    outline: 0;
+    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+  }
+
+  .md-controls {
+    float: right;
+    padding: 3px;
+
+    .md-control {
+      right: 5px;
+      color: #bebebe;
+      padding: 3px 3px 3px 10px;
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  // fullscreen mode styles
+  &.md-fullscreen-mode {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    padding: 60px 30px 15px;
+    background: #fff !important;
+    border: 0 !important;
+
+    .md-footer {
+      display: none;
+    }
+
+    .md-input,
+    .md-preview {
+      margin: 0 auto !important;
+      height: 100% !important;
+      font-size: 20px !important;
+      padding: 20px !important;
+      color: #999;
+      line-height: 1.6em !important;
+      resize: none !important;
+      box-shadow: none !important;
+      background: #fff !important;
+      border: 0 !important;
+    }
+
+    .md-preview {
+      color: #333;
+      overflow: auto;
+    }
+
+    .md-input {
+      &:hover,
+      &:focus {
+        color: #333;
+        background: #fff !important;
+      }
+    }
+
+    .md-header {
+      background: none;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 20px;
+    }
+
+    .btn-group {
+      float: none;
+    }
+
+    .btn {
+      border: 0;
+      background: none;
+      color: #b3b3b3;
+
+      &:hover,
+      &:focus,
+      &.active,
+      &:active {
+        box-shadow: none;
+        color: #333;
+      }
+    }
+
+    .md-fullscreen-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      text-align: right;
+      z-index: 1002;
+      display: block;
+      a {
+        color: #b3b3b3;
+        clear: right;
+        margin: 10px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+
+        &:hover {
+          color: #333;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .md-editor {
+      height: 100% !important;
+      position: relative;
+    }
+  }
+
+  .md-fullscreen-controls {
+    display: none;
+  }
+}
+
+.md-nooverflow {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;    
+}

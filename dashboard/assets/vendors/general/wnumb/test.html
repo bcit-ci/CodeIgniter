@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+	<head>
+		<link href="http://code.jquery.com/qunit/qunit-1.12.0.css" rel="stylesheet">
+		<script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+		<script src="wNumb.js"></script>
+	</head>
+
+	<div id="qunit"></div>
+
+	<script>
+
+		test( "Testing mark, thousand, decimals", function(){
+
+			var Tester = wNumb({
+				mark: '_',
+				thousand: '?',
+				decimals: 3
+			});
+
+			equal ( Tester.to ( 9129 ), '9?129_000' );
+			equal ( Tester.from ( '9?129_000' ), 9129 );
+
+			equal ( Tester.to ( 100000000000.99999999 ), '100?000?000?001_000' );
+			equal ( Tester.from ( '100?000?000?001_000' ), 100000000000.99999999 );
+
+			equal ( Tester.to ( 7 ), '7_000' );
+			equal ( Tester.from ( '7_000' ), 7 );
+
+			equal ( Tester.to ( 'q' ), false );
+
+			equal ( Tester.to ( 8000.001 ), '8?000_001' );
+			equal ( Tester.from ( '8?000_001' ), 8000.001 );
+
+			equal ( Tester.to ( -700 ), '-700_000' );
+			equal ( Tester.from ( '-700_000' ), -700.000 );
+
+			equal ( Tester.to ( -79900.0405 ), '-79?900_041' );
+			equal ( Tester.from ( '-79?900_041' ), -79900.041 );
+		});
+
+		test( "Testing 0 decimals", function(){
+
+			var Tester = wNumb({
+				decimals: 0
+			});
+
+			equal ( Tester.to ( -50.999845 ), '-51' );
+			equal ( Tester.to ( -0.0000001 ), '0' );
+		});
+
+		test( "Testing rounding", function(){
+
+			var Tester = wNumb({
+				decimals: 2
+			});
+
+			equal ( Tester.to ( 8.905 ), '8.91' );
+			equal ( Tester.to ( 8.9049999 ), '8.90' );
+			equal ( Tester.to ( 8.9045 ), '8.90' );
+			equal ( Tester.to ( 8.9044 ), '8.90' );
+			equal ( Tester.to ( 8.9 ), '8.90' );
+			equal ( Tester.to ( 1.275 ), '1.28' );
+			equal ( Tester.to ( 1.27499 ), '1.27' );
+		});
+
+		test( "Testing mark and thousand with longer strings", function(){
+
+			var Tester = wNumb({
+				mark: '/**',
+				thousand: '-+A',
+				decimals: 2
+			});
+
+			equal ( Tester.to ( 450 ), '450/**00' );
+			equal ( Tester.from ( '450/**00' ), 450.00 );
+
+			equal ( Tester.to ( 80000 ), '80-+A000/**00' );
+			equal ( Tester.from ( '80-+A000/**00' ), 80000 );
+
+		});
+
+		test( "Testing prefix and suffix", function(){
+
+			var Tester = wNumb({
+				prefix: '$',
+				suffix: ' p.p.',
+				decimals: 5
+			});
+
+			equal ( Tester.to ( 230.089044 ), '$230.08904 p.p.' );
+			equal ( Tester.from ( '$230.08904 p.p.' ), 230.08904 );
+
+			equal ( Tester.to ( 1 ), '$1.00000 p.p.' );
+			equal ( Tester.from ( '$1.00000 p.p.' ), 1.00000 );
+
+			equal ( Tester.to ( 16.5 ), '$16.50000 p.p.' );
+
+			equal ( Tester.from ( '$1500' ), 1500 );
+			equal ( Tester.from ( '1500' ), 1500 );
+			equal ( Tester.from ( '1500 p.p.' ), 1500 );
+			equal ( Tester.from ( '1500 ' ), 1500 );
+			equal ( Tester.from ( '  1500 ' ), 1500 );
+			equal ( Tester.from ( ' 1.50.0 ' ), false );
+
+			var Tester2 = wNumb({
+				postfix: ' postfix!',
+				decimals: 1
+			});
+
+			equal ( Tester2.to ( 1 ), '1.0 postfix!' );
+		});
+
+		test( "Testing prefix and with negativeBefore", function(){
+
+			var Tester = wNumb({
+				prefix: '$',
+				negativeBefore: '[NEGATIVE] '
+			});
+
+			equal ( Tester.to ( 260 ), '$260' );
+			equal ( Tester.from ( '$260' ), 260 );
+
+			equal ( Tester.to ( -260 ), '[NEGATIVE] $260' );
+			equal ( Tester.from ( '[NEGATIVE] $260' ), -260 );
+
+		});
+
+		test( "Testing prefix and with negative", function(){
+
+			var Tester = wNumb({
+				prefix: 'Price: '
+			});
+
+			equal ( Tester.to ( 380.6 ), 'Price: 380.6' );
+			equal ( Tester.from ( 'Price: 380.6' ), 380.6 );
+
+			equal ( Tester.to ( -9506 ), 'Price: -9506' );
+			equal ( Tester.from ( 'Price: -9506' ), -9506 );
+
+		});
+
+		test( "Testing encoder, decoder", function(){
+
+			var Tester = wNumb({
+				thousand: '.',
+				encoder: function( a ){
+					return a * 1E7;
+				},
+				decoder: function( a ){
+					return a / 1E7;
+				}
+			});
+
+			equal ( Tester.to ( 10 ), '100.000.000' );
+			equal ( Tester.from ( '100.000.000' ), 10 );
+
+			equal ( Tester.to ( -9506 ), '-95.060.000.000' );
+			equal ( Tester.from ( '-95.060.000.000' ), -9506 );
+
+		});
+
+		test( "Testing edit, undo", function(){
+
+			var Tester = wNumb({
+				edit: function( value, originalValue ){
+					if ( originalValue > 100000 ) {
+						return value + 'm';
+					} else if ( originalValue > 1000 ) {
+						return value + 'k';
+					} else {
+						return value;
+					}
+				},
+				undo: function( value ){
+					return value;
+				}
+			});
+
+			equal ( Tester.to ( 15000 ), '15000k' );
+			equal ( Tester.from ( '15000k' ), 15000 );
+
+			equal ( Tester.to ( 180 ), '180' );
+			equal ( Tester.from ( '180' ), 180 );
+
+			equal ( Tester.to ( 1058009 ), '1058009m' );
+		});
+
+	</script>

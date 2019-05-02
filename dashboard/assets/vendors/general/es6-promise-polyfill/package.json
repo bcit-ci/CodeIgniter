@@ -1,0 +1,27 @@
+{
+  "name": "es6-promise-polyfill",
+  "description": "Polyfill for ES6 Promise",
+  "version": "1.2.0",
+  "author": "Roman Dvornov <rdvornov@gmail.com>",
+  "license": "MIT",
+  "repository": "lahmatiy/es6-promise-polyfill",
+  "bugs": {
+    "url": "https://github.com/lahmatiy/es6-promise-polyfill/issues"
+  },
+  "main": "promise.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "promises-aplus-tests": "*"
+  },
+  "scripts": {
+    "test": "promises-aplus-tests test/test-adapter"
+  },
+  "keywords": [
+    "es6",
+    "es2015",
+    "polyfill",
+    "promise",
+    "promises"
+  ]
+}

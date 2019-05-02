@@ -1,0 +1,1118 @@
+[
+ {
+   "Character": "Latin small f with hook = function = florin",
+   "Entity": "&fnof;",
+   "Decimal": "&#402;",
+   "Hex": "&#x192;",
+   "Rendering in Your Browser": "ƒ",
+   "FIELD6": "ƒ",
+   "FIELD7": "ƒ"
+ },
+ {
+   "Character": "Greek capital letter alpha",
+   "Entity": "&Alpha;",
+   "Decimal": "&#913;",
+   "Hex": "&#x391;",
+   "Rendering in Your Browser": "Α",
+   "FIELD6": "Α",
+   "FIELD7": "Α"
+ },
+ {
+   "Character": "Greek capital letter beta",
+   "Entity": "&Beta;",
+   "Decimal": "&#914;",
+   "Hex": "&#x392;",
+   "Rendering in Your Browser": "Β",
+   "FIELD6": "Β",
+   "FIELD7": "Β"
+ },
+ {
+   "Character": "Greek capital letter gamma",
+   "Entity": "&Gamma;",
+   "Decimal": "&#915;",
+   "Hex": "&#x393;",
+   "Rendering in Your Browser": "Γ",
+   "FIELD6": "Γ",
+   "FIELD7": "Γ"
+ },
+ {
+   "Character": "Greek capital letter delta",
+   "Entity": "&Delta;",
+   "Decimal": "&#916;",
+   "Hex": "&#x394;",
+   "Rendering in Your Browser": "Δ",
+   "FIELD6": "Δ",
+   "FIELD7": "Δ"
+ },
+ {
+   "Character": "Greek capital letter epsilon",
+   "Entity": "&Epsilon;",
+   "Decimal": "&#917;",
+   "Hex": "&#x395;",
+   "Rendering in Your Browser": "Ε",
+   "FIELD6": "Ε",
+   "FIELD7": "Ε"
+ },
+ {
+   "Character": "Greek capital letter zeta",
+   "Entity": "&Zeta;",
+   "Decimal": "&#918;",
+   "Hex": "&#x396;",
+   "Rendering in Your Browser": "Ζ",
+   "FIELD6": "Ζ",
+   "FIELD7": "Ζ"
+ },
+ {
+   "Character": "Greek capital letter eta",
+   "Entity": "&Eta;",
+   "Decimal": "&#919;",
+   "Hex": "&#x397;",
+   "Rendering in Your Browser": "Η",
+   "FIELD6": "Η",
+   "FIELD7": "Η"
+ },
+ {
+   "Character": "Greek capital letter theta",
+   "Entity": "&Theta;",
+   "Decimal": "&#920;",
+   "Hex": "&#x398;",
+   "Rendering in Your Browser": "Θ",
+   "FIELD6": "Θ",
+   "FIELD7": "Θ"
+ },
+ {
+   "Character": "Greek capital letter iota",
+   "Entity": "&Iota;",
+   "Decimal": "&#921;",
+   "Hex": "&#x399;",
+   "Rendering in Your Browser": "Ι",
+   "FIELD6": "Ι",
+   "FIELD7": "Ι"
+ },
+ {
+   "Character": "Greek capital letter kappa",
+   "Entity": "&Kappa;",
+   "Decimal": "&#922;",
+   "Hex": "&#x39A;",
+   "Rendering in Your Browser": "Κ",
+   "FIELD6": "Κ",
+   "FIELD7": "Κ"
+ },
+ {
+   "Character": "Greek capital letter lambda",
+   "Entity": "&Lambda;",
+   "Decimal": "&#923;",
+   "Hex": "&#x39B;",
+   "Rendering in Your Browser": "Λ",
+   "FIELD6": "Λ",
+   "FIELD7": "Λ"
+ },
+ {
+   "Character": "Greek capital letter mu",
+   "Entity": "&Mu;",
+   "Decimal": "&#924;",
+   "Hex": "&#x39C;",
+   "Rendering in Your Browser": "Μ",
+   "FIELD6": "Μ",
+   "FIELD7": "Μ"
+ },
+ {
+   "Character": "Greek capital letter nu",
+   "Entity": "&Nu;",
+   "Decimal": "&#925;",
+   "Hex": "&#x39D;",
+   "Rendering in Your Browser": "Ν",
+   "FIELD6": "Ν",
+   "FIELD7": "Ν"
+ },
+ {
+   "Character": "Greek capital letter xi",
+   "Entity": "&Xi;",
+   "Decimal": "&#926;",
+   "Hex": "&#x39E;",
+   "Rendering in Your Browser": "Ξ",
+   "FIELD6": "Ξ",
+   "FIELD7": "Ξ"
+ },
+ {
+   "Character": "Greek capital letter omicron",
+   "Entity": "&Omicron;",
+   "Decimal": "&#927;",
+   "Hex": "&#x39F;",
+   "Rendering in Your Browser": "Ο",
+   "FIELD6": "Ο",
+   "FIELD7": "Ο"
+ },
+ {
+   "Character": "Greek capital letter pi",
+   "Entity": "&Pi;",
+   "Decimal": "&#928;",
+   "Hex": "&#x3A0;",
+   "Rendering in Your Browser": "Π",
+   "FIELD6": "Π",
+   "FIELD7": "Π"
+ },
+ {
+   "Character": "Greek capital letter rho",
+   "Entity": "&Rho;",
+   "Decimal": "&#929;",
+   "Hex": "&#x3A1;",
+   "Rendering in Your Browser": "Ρ",
+   "FIELD6": "Ρ",
+   "FIELD7": "Ρ"
+ },
+ {
+   "Character": "Greek capital letter sigma",
+   "Entity": "&Sigma;",
+   "Decimal": "&#931;",
+   "Hex": "&#x3A3;",
+   "Rendering in Your Browser": "Σ",
+   "FIELD6": "Σ",
+   "FIELD7": "Σ"
+ },
+ {
+   "Character": "Greek capital letter tau",
+   "Entity": "&Tau;",
+   "Decimal": "&#932;",
+   "Hex": "&#x3A4;",
+   "Rendering in Your Browser": "Τ",
+   "FIELD6": "Τ",
+   "FIELD7": "Τ"
+ },
+ {
+   "Character": "Greek capital letter upsilon",
+   "Entity": "&Upsilon;",
+   "Decimal": "&#933;",
+   "Hex": "&#x3A5;",
+   "Rendering in Your Browser": "Υ",
+   "FIELD6": "Υ",
+   "FIELD7": "Υ"
+ },
+ {
+   "Character": "Greek capital letter phi",
+   "Entity": "&Phi;",
+   "Decimal": "&#934;",
+   "Hex": "&#x3A6;",
+   "Rendering in Your Browser": "Φ",
+   "FIELD6": "Φ",
+   "FIELD7": "Φ"
+ },
+ {
+   "Character": "Greek capital letter chi",
+   "Entity": "&Chi;",
+   "Decimal": "&#935;",
+   "Hex": "&#x3A7;",
+   "Rendering in Your Browser": "Χ",
+   "FIELD6": "Χ",
+   "FIELD7": "Χ"
+ },
+ {
+   "Character": "Greek capital letter psi",
+   "Entity": "&Psi;",
+   "Decimal": "&#936;",
+   "Hex": "&#x3A8;",
+   "Rendering in Your Browser": "Ψ",
+   "FIELD6": "Ψ",
+   "FIELD7": "Ψ"
+ },
+ {
+   "Character": "Greek capital letter omega",
+   "Entity": "&Omega;",
+   "Decimal": "&#937;",
+   "Hex": "&#x3A9;",
+   "Rendering in Your Browser": "Ω",
+   "FIELD6": "Ω",
+   "FIELD7": "Ω"
+ },
+ {
+   "Character": "Greek small letter alpha",
+   "Entity": "&alpha;",
+   "Decimal": "&#945;",
+   "Hex": "&#x3B1;",
+   "Rendering in Your Browser": "α",
+   "FIELD6": "α",
+   "FIELD7": "α"
+ },
+ {
+   "Character": "Greek small letter beta",
+   "Entity": "&beta;",
+   "Decimal": "&#946;",
+   "Hex": "&#x3B2;",
+   "Rendering in Your Browser": "β",
+   "FIELD6": "β",
+   "FIELD7": "β"
+ },
+ {
+   "Character": "Greek small letter gamma",
+   "Entity": "&gamma;",
+   "Decimal": "&#947;",
+   "Hex": "&#x3B3;",
+   "Rendering in Your Browser": "γ",
+   "FIELD6": "γ",
+   "FIELD7": "γ"
+ },
+ {
+   "Character": "Greek small letter delta",
+   "Entity": "&delta;",
+   "Decimal": "&#948;",
+   "Hex": "&#x3B4;",
+   "Rendering in Your Browser": "δ",
+   "FIELD6": "δ",
+   "FIELD7": "δ"
+ },
+ {
+   "Character": "Greek small letter epsilon",
+   "Entity": "&epsilon;",
+   "Decimal": "&#949;",
+   "Hex": "&#x3B5;",
+   "Rendering in Your Browser": "ε",
+   "FIELD6": "ε",
+   "FIELD7": "ε"
+ },
+ {
+   "Character": "Greek small letter zeta",
+   "Entity": "&zeta;",
+   "Decimal": "&#950;",
+   "Hex": "&#x3B6;",
+   "Rendering in Your Browser": "ζ",
+   "FIELD6": "ζ",
+   "FIELD7": "ζ"
+ },
+ {
+   "Character": "Greek small letter eta",
+   "Entity": "&eta;",
+   "Decimal": "&#951;",
+   "Hex": "&#x3B7;",
+   "Rendering in Your Browser": "η",
+   "FIELD6": "η",
+   "FIELD7": "η"
+ },
+ {
+   "Character": "Greek small letter theta",
+   "Entity": "&theta;",
+   "Decimal": "&#952;",
+   "Hex": "&#x3B8;",
+   "Rendering in Your Browser": "θ",
+   "FIELD6": "θ",
+   "FIELD7": "θ"
+ },
+ {
+   "Character": "Greek small letter iota",
+   "Entity": "&iota;",
+   "Decimal": "&#953;",
+   "Hex": "&#x3B9;",
+   "Rendering in Your Browser": "ι",
+   "FIELD6": "ι",
+   "FIELD7": "ι"
+ },
+ {
+   "Character": "Greek small letter kappa",
+   "Entity": "&kappa;",
+   "Decimal": "&#954;",
+   "Hex": "&#x3BA;",
+   "Rendering in Your Browser": "κ",
+   "FIELD6": "κ",
+   "FIELD7": "κ"
+ },
+ {
+   "Character": "Greek small letter lambda",
+   "Entity": "&lambda;",
+   "Decimal": "&#955;",
+   "Hex": "&#x3BB;",
+   "Rendering in Your Browser": "λ",
+   "FIELD6": "λ",
+   "FIELD7": "λ"
+ },
+ {
+   "Character": "Greek small letter mu",
+   "Entity": "&mu;",
+   "Decimal": "&#956;",
+   "Hex": "&#x3BC;",
+   "Rendering in Your Browser": "μ",
+   "FIELD6": "μ",
+   "FIELD7": "μ"
+ },
+ {
+   "Character": "Greek small letter nu",
+   "Entity": "&nu;",
+   "Decimal": "&#957;",
+   "Hex": "&#x3BD;",
+   "Rendering in Your Browser": "ν",
+   "FIELD6": "ν",
+   "FIELD7": "ν"
+ },
+ {
+   "Character": "Greek small letter xi",
+   "Entity": "&xi;",
+   "Decimal": "&#958;",
+   "Hex": "&#x3BE;",
+   "Rendering in Your Browser": "ξ",
+   "FIELD6": "ξ",
+   "FIELD7": "ξ"
+ },
+ {
+   "Character": "Greek small letter omicron",
+   "Entity": "&omicron;",
+   "Decimal": "&#959;",
+   "Hex": "&#x3BF;",
+   "Rendering in Your Browser": "ο",
+   "FIELD6": "ο",
+   "FIELD7": "ο"
+ },
+ {
+   "Character": "Greek small letter pi",
+   "Entity": "&pi;",
+   "Decimal": "&#960;",
+   "Hex": "&#x3C0;",
+   "Rendering in Your Browser": "π",
+   "FIELD6": "π",
+   "FIELD7": "π"
+ },
+ {
+   "Character": "Greek small letter rho",
+   "Entity": "&rho;",
+   "Decimal": "&#961;",
+   "Hex": "&#x3C1;",
+   "Rendering in Your Browser": "ρ",
+   "FIELD6": "ρ",
+   "FIELD7": "ρ"
+ },
+ {
+   "Character": "Greek small letter final sigma",
+   "Entity": "&sigmaf;",
+   "Decimal": "&#962;",
+   "Hex": "&#x3C2;",
+   "Rendering in Your Browser": "ς",
+   "FIELD6": "ς",
+   "FIELD7": "ς"
+ },
+ {
+   "Character": "Greek small letter sigma",
+   "Entity": "&sigma;",
+   "Decimal": "&#963;",
+   "Hex": "&#x3C3;",
+   "Rendering in Your Browser": "σ",
+   "FIELD6": "σ",
+   "FIELD7": "σ"
+ },
+ {
+   "Character": "Greek small letter tau",
+   "Entity": "&tau;",
+   "Decimal": "&#964;",
+   "Hex": "&#x3C4;",
+   "Rendering in Your Browser": "τ",
+   "FIELD6": "τ",
+   "FIELD7": "τ"
+ },
+ {
+   "Character": "Greek small letter upsilon",
+   "Entity": "&upsilon;",
+   "Decimal": "&#965;",
+   "Hex": "&#x3C5;",
+   "Rendering in Your Browser": "υ",
+   "FIELD6": "υ",
+   "FIELD7": "υ"
+ },
+ {
+   "Character": "Greek small letter phi",
+   "Entity": "&phi;",
+   "Decimal": "&#966;",
+   "Hex": "&#x3C6;",
+   "Rendering in Your Browser": "φ",
+   "FIELD6": "φ",
+   "FIELD7": "φ"
+ },
+ {
+   "Character": "Greek small letter chi",
+   "Entity": "&chi;",
+   "Decimal": "&#967;",
+   "Hex": "&#x3C7;",
+   "Rendering in Your Browser": "χ",
+   "FIELD6": "χ",
+   "FIELD7": "χ"
+ },
+ {
+   "Character": "Greek small letter psi",
+   "Entity": "&psi;",
+   "Decimal": "&#968;",
+   "Hex": "&#x3C8;",
+   "Rendering in Your Browser": "ψ",
+   "FIELD6": "ψ",
+   "FIELD7": "ψ"
+ },
+ {
+   "Character": "Greek small letter omega",
+   "Entity": "&omega;",
+   "Decimal": "&#969;",
+   "Hex": "&#x3C9;",
+   "Rendering in Your Browser": "ω",
+   "FIELD6": "ω",
+   "FIELD7": "ω"
+ },
+ {
+   "Character": "Greek small letter theta symbol",
+   "Entity": "&thetasym;",
+   "Decimal": "&#977;",
+   "Hex": "&#x3D1;",
+   "Rendering in Your Browser": "ϑ",
+   "FIELD6": "ϑ",
+   "FIELD7": "ϑ"
+ },
+ {
+   "Character": "Greek upsilon with hook symbol",
+   "Entity": "&upsih;",
+   "Decimal": "&#978;",
+   "Hex": "&#x3D2;",
+   "Rendering in Your Browser": "ϒ",
+   "FIELD6": "ϒ",
+   "FIELD7": "ϒ"
+ },
+ {
+   "Character": "Greek pi symbol",
+   "Entity": "&piv;",
+   "Decimal": "&#982;",
+   "Hex": "&#x3D6;",
+   "Rendering in Your Browser": "ϖ",
+   "FIELD6": "ϖ",
+   "FIELD7": "ϖ"
+ },
+ {
+   "Character": "bullet = black small circle",
+   "Entity": "&bull;",
+   "Decimal": "&#8226;",
+   "Hex": "&#x2022;",
+   "Rendering in Your Browser": "•",
+   "FIELD6": "•",
+   "FIELD7": "•"
+ },
+ {
+   "Character": "horizontal ellipsis = three dot leader",
+   "Entity": "&hellip;",
+   "Decimal": "&#8230;",
+   "Hex": "&#x2026;",
+   "Rendering in Your Browser": "…",
+   "FIELD6": "…",
+   "FIELD7": "…"
+ },
+ {
+   "Character": "prime = minutes = feet",
+   "Entity": "&prime;",
+   "Decimal": "&#8242;",
+   "Hex": "&#x2032;",
+   "Rendering in Your Browser": "′",
+   "FIELD6": "′",
+   "FIELD7": "′"
+ },
+ {
+   "Character": "double prime = seconds = inches",
+   "Entity": "&Prime;",
+   "Decimal": "&#8243;",
+   "Hex": "&#x2033;",
+   "Rendering in Your Browser": "″",
+   "FIELD6": "″",
+   "FIELD7": "″"
+ },
+ {
+   "Character": "overline = spacing overscore",
+   "Entity": "&oline;",
+   "Decimal": "&#8254;",
+   "Hex": "&#x203E;",
+   "Rendering in Your Browser": "‾",
+   "FIELD6": "‾",
+   "FIELD7": "‾"
+ },
+ {
+   "Character": "fraction slash",
+   "Entity": "&frasl;",
+   "Decimal": "&#8260;",
+   "Hex": "&#x2044;",
+   "Rendering in Your Browser": "⁄",
+   "FIELD6": "⁄",
+   "FIELD7": "⁄"
+ },
+ {
+   "Character": "script capital P = power set = Weierstrass p",
+   "Entity": "&weierp;",
+   "Decimal": "&#8472;",
+   "Hex": "&#x2118;",
+   "Rendering in Your Browser": "℘",
+   "FIELD6": "℘",
+   "FIELD7": "℘"
+ },
+ {
+   "Character": "blackletter capital I = imaginary part",
+   "Entity": "&image;",
+   "Decimal": "&#8465;",
+   "Hex": "&#x2111;",
+   "Rendering in Your Browser": "ℑ",
+   "FIELD6": "ℑ",
+   "FIELD7": "ℑ"
+ },
+ {
+   "Character": "blackletter capital R = real part symbol",
+   "Entity": "&real;",
+   "Decimal": "&#8476;",
+   "Hex": "&#x211C;",
+   "Rendering in Your Browser": "ℜ",
+   "FIELD6": "ℜ",
+   "FIELD7": "ℜ"
+ },
+ {
+   "Character": "trade mark sign",
+   "Entity": "&trade;",
+   "Decimal": "&#8482;",
+   "Hex": "&#x2122;",
+   "Rendering in Your Browser": "™",
+   "FIELD6": "™",
+   "FIELD7": "™"
+ },
+ {
+   "Character": "alef symbol = first transfinite cardinal",
+   "Entity": "&alefsym;",
+   "Decimal": "&#8501;",
+   "Hex": "&#x2135;",
+   "Rendering in Your Browser": "ℵ",
+   "FIELD6": "ℵ",
+   "FIELD7": "ℵ"
+ },
+ {
+   "Character": "leftwards arrow",
+   "Entity": "&larr;",
+   "Decimal": "&#8592;",
+   "Hex": "&#x2190;",
+   "Rendering in Your Browser": "←",
+   "FIELD6": "←",
+   "FIELD7": "←"
+ },
+ {
+   "Character": "upwards arrow",
+   "Entity": "&uarr;",
+   "Decimal": "&#8593;",
+   "Hex": "&#x2191;",
+   "Rendering in Your Browser": "↑",
+   "FIELD6": "↑",
+   "FIELD7": "↑"
+ },
+ {
+   "Character": "rightwards arrow",
+   "Entity": "&rarr;",
+   "Decimal": "&#8594;",
+   "Hex": "&#x2192;",
+   "Rendering in Your Browser": "→",
+   "FIELD6": "→",
+   "FIELD7": "→"
+ },
+ {
+   "Character": "downwards arrow",
+   "Entity": "&darr;",
+   "Decimal": "&#8595;",
+   "Hex": "&#x2193;",
+   "Rendering in Your Browser": "↓",
+   "FIELD6": "↓",
+   "FIELD7": "↓"
+ },
+ {
+   "Character": "left right arrow",
+   "Entity": "&harr;",
+   "Decimal": "&#8596;",
+   "Hex": "&#x2194;",
+   "Rendering in Your Browser": "↔",
+   "FIELD6": "↔",
+   "FIELD7": "↔"
+ },
+ {
+   "Character": "downwards arrow with corner leftwards = carriage return",
+   "Entity": "&crarr;",
+   "Decimal": "&#8629;",
+   "Hex": "&#x21B5;",
+   "Rendering in Your Browser": "↵",
+   "FIELD6": "↵",
+   "FIELD7": "↵"
+ },
+ {
+   "Character": "leftwards double arrow",
+   "Entity": "&lArr;",
+   "Decimal": "&#8656;",
+   "Hex": "&#x21D0;",
+   "Rendering in Your Browser": "⇐",
+   "FIELD6": "⇐",
+   "FIELD7": "⇐"
+ },
+ {
+   "Character": "upwards double arrow",
+   "Entity": "&uArr;",
+   "Decimal": "&#8657;",
+   "Hex": "&#x21D1;",
+   "Rendering in Your Browser": "⇑",
+   "FIELD6": "⇑",
+   "FIELD7": "⇑"
+ },
+ {
+   "Character": "rightwards double arrow",
+   "Entity": "&rArr;",
+   "Decimal": "&#8658;",
+   "Hex": "&#x21D2;",
+   "Rendering in Your Browser": "⇒",
+   "FIELD6": "⇒",
+   "FIELD7": "⇒"
+ },
+ {
+   "Character": "downwards double arrow",
+   "Entity": "&dArr;",
+   "Decimal": "&#8659;",
+   "Hex": "&#x21D3;",
+   "Rendering in Your Browser": "⇓",
+   "FIELD6": "⇓",
+   "FIELD7": "⇓"
+ },
+ {
+   "Character": "left right double arrow",
+   "Entity": "&hArr;",
+   "Decimal": "&#8660;",
+   "Hex": "&#x21D4;",
+   "Rendering in Your Browser": "⇔",
+   "FIELD6": "⇔",
+   "FIELD7": "⇔"
+ },
+ {
+   "Character": "for all",
+   "Entity": "&forall;",
+   "Decimal": "&#8704;",
+   "Hex": "&#x2200;",
+   "Rendering in Your Browser": "∀",
+   "FIELD6": "∀",
+   "FIELD7": "∀"
+ },
+ {
+   "Character": "partial differential",
+   "Entity": "&part;",
+   "Decimal": "&#8706;",
+   "Hex": "&#x2202;",
+   "Rendering in Your Browser": "∂",
+   "FIELD6": "∂",
+   "FIELD7": "∂"
+ },
+ {
+   "Character": "there exists",
+   "Entity": "&exist;",
+   "Decimal": "&#8707;",
+   "Hex": "&#x2203;",
+   "Rendering in Your Browser": "∃",
+   "FIELD6": "∃",
+   "FIELD7": "∃"
+ },
+ {
+   "Character": "empty set = null set = diameter",
+   "Entity": "&empty;",
+   "Decimal": "&#8709;",
+   "Hex": "&#x2205;",
+   "Rendering in Your Browser": "∅",
+   "FIELD6": "∅",
+   "FIELD7": "∅"
+ },
+ {
+   "Character": "nabla = backward difference",
+   "Entity": "&nabla;",
+   "Decimal": "&#8711;",
+   "Hex": "&#x2207;",
+   "Rendering in Your Browser": "∇",
+   "FIELD6": "∇",
+   "FIELD7": "∇"
+ },
+ {
+   "Character": "element of",
+   "Entity": "&isin;",
+   "Decimal": "&#8712;",
+   "Hex": "&#x2208;",
+   "Rendering in Your Browser": "∈",
+   "FIELD6": "∈",
+   "FIELD7": "∈"
+ },
+ {
+   "Character": "not an element of",
+   "Entity": "&notin;",
+   "Decimal": "&#8713;",
+   "Hex": "&#x2209;",
+   "Rendering in Your Browser": "∉",
+   "FIELD6": "∉",
+   "FIELD7": "∉"
+ },
+ {
+   "Character": "contains as member",
+   "Entity": "&ni;",
+   "Decimal": "&#8715;",
+   "Hex": "&#x220B;",
+   "Rendering in Your Browser": "∋",
+   "FIELD6": "∋",
+   "FIELD7": "∋"
+ },
+ {
+   "Character": "n-ary product = product sign",
+   "Entity": "&prod;",
+   "Decimal": "&#8719;",
+   "Hex": "&#x220F;",
+   "Rendering in Your Browser": "∏",
+   "FIELD6": "∏",
+   "FIELD7": "∏"
+ },
+ {
+   "Character": "n-ary sumation",
+   "Entity": "&sum;",
+   "Decimal": "&#8721;",
+   "Hex": "&#x2211;",
+   "Rendering in Your Browser": "∑",
+   "FIELD6": "∑",
+   "FIELD7": "∑"
+ },
+ {
+   "Character": "minus sign",
+   "Entity": "&minus;",
+   "Decimal": "&#8722;",
+   "Hex": "&#x2212;",
+   "Rendering in Your Browser": "−",
+   "FIELD6": "−",
+   "FIELD7": "−"
+ },
+ {
+   "Character": "asterisk operator",
+   "Entity": "&lowast;",
+   "Decimal": "&#8727;",
+   "Hex": "&#x2217;",
+   "Rendering in Your Browser": "∗",
+   "FIELD6": "∗",
+   "FIELD7": "∗"
+ },
+ {
+   "Character": "square root = radical sign",
+   "Entity": "&radic;",
+   "Decimal": "&#8730;",
+   "Hex": "&#x221A;",
+   "Rendering in Your Browser": "√",
+   "FIELD6": "√",
+   "FIELD7": "√"
+ },
+ {
+   "Character": "proportional to",
+   "Entity": "&prop;",
+   "Decimal": "&#8733;",
+   "Hex": "&#x221D;",
+   "Rendering in Your Browser": "∝",
+   "FIELD6": "∝",
+   "FIELD7": "∝"
+ },
+ {
+   "Character": "infinity",
+   "Entity": "&infin;",
+   "Decimal": "&#8734;",
+   "Hex": "&#x221E;",
+   "Rendering in Your Browser": "∞",
+   "FIELD6": "∞",
+   "FIELD7": "∞"
+ },
+ {
+   "Character": "angle",
+   "Entity": "&ang;",
+   "Decimal": "&#8736;",
+   "Hex": "&#x2220;",
+   "Rendering in Your Browser": "∠",
+   "FIELD6": "∠",
+   "FIELD7": "∠"
+ },
+ {
+   "Character": "logical and = wedge",
+   "Entity": "&and;",
+   "Decimal": "&#8743;",
+   "Hex": "&#x2227;",
+   "Rendering in Your Browser": "∧",
+   "FIELD6": "∧",
+   "FIELD7": "∧"
+ },
+ {
+   "Character": "logical or = vee",
+   "Entity": "&or;",
+   "Decimal": "&#8744;",
+   "Hex": "&#x2228;",
+   "Rendering in Your Browser": "∨",
+   "FIELD6": "∨",
+   "FIELD7": "∨"
+ },
+ {
+   "Character": "intersection = cap",
+   "Entity": "&cap;",
+   "Decimal": "&#8745;",
+   "Hex": "&#x2229;",
+   "Rendering in Your Browser": "∩",
+   "FIELD6": "∩",
+   "FIELD7": "∩"
+ },
+ {
+   "Character": "union = cup",
+   "Entity": "&cup;",
+   "Decimal": "&#8746;",
+   "Hex": "&#x222A;",
+   "Rendering in Your Browser": "∪",
+   "FIELD6": "∪",
+   "FIELD7": "∪"
+ },
+ {
+   "Character": "integral",
+   "Entity": "&int;",
+   "Decimal": "&#8747;",
+   "Hex": "&#x222B;",
+   "Rendering in Your Browser": "∫",
+   "FIELD6": "∫",
+   "FIELD7": "∫"
+ },
+ {
+   "Character": "therefore",
+   "Entity": "&there4;",
+   "Decimal": "&#8756;",
+   "Hex": "&#x2234;",
+   "Rendering in Your Browser": "∴",
+   "FIELD6": "∴",
+   "FIELD7": "∴"
+ },
+ {
+   "Character": "tilde operator = varies with = similar to",
+   "Entity": "&sim;",
+   "Decimal": "&#8764;",
+   "Hex": "&#x223C;",
+   "Rendering in Your Browser": "∼",
+   "FIELD6": "∼",
+   "FIELD7": "∼"
+ },
+ {
+   "Character": "approximately equal to",
+   "Entity": "&cong;",
+   "Decimal": "&#8773;",
+   "Hex": "&#x2245;",
+   "Rendering in Your Browser": "≅",
+   "FIELD6": "≅",
+   "FIELD7": "≅"
+ },
+ {
+   "Character": "almost equal to = asymptotic to",
+   "Entity": "&asymp;",
+   "Decimal": "&#8776;",
+   "Hex": "&#x2248;",
+   "Rendering in Your Browser": "≈",
+   "FIELD6": "≈",
+   "FIELD7": "≈"
+ },
+ {
+   "Character": "not equal to",
+   "Entity": "&ne;",
+   "Decimal": "&#8800;",
+   "Hex": "&#x2260;",
+   "Rendering in Your Browser": "≠",
+   "FIELD6": "≠",
+   "FIELD7": "≠"
+ },
+ {
+   "Character": "identical to",
+   "Entity": "&equiv;",
+   "Decimal": "&#8801;",
+   "Hex": "&#x2261;",
+   "Rendering in Your Browser": "≡",
+   "FIELD6": "≡",
+   "FIELD7": "≡"
+ },
+ {
+   "Character": "less-than or equal to",
+   "Entity": "&le;",
+   "Decimal": "&#8804;",
+   "Hex": "&#x2264;",
+   "Rendering in Your Browser": "≤",
+   "FIELD6": "≤",
+   "FIELD7": "≤"
+ },
+ {
+   "Character": "greater-than or equal to",
+   "Entity": "&ge;",
+   "Decimal": "&#8805;",
+   "Hex": "&#x2265;",
+   "Rendering in Your Browser": "≥",
+   "FIELD6": "≥",
+   "FIELD7": "≥"
+ },
+ {
+   "Character": "subset of",
+   "Entity": "&sub;",
+   "Decimal": "&#8834;",
+   "Hex": "&#x2282;",
+   "Rendering in Your Browser": "⊂",
+   "FIELD6": "⊂",
+   "FIELD7": "⊂"
+ },
+ {
+   "Character": "superset of",
+   "Entity": "&sup;",
+   "Decimal": "&#8835;",
+   "Hex": "&#x2283;",
+   "Rendering in Your Browser": "⊃",
+   "FIELD6": "⊃",
+   "FIELD7": "⊃"
+ },
+ {
+   "Character": "not a subset of",
+   "Entity": "&nsub;",
+   "Decimal": "&#8836;",
+   "Hex": "&#x2284;",
+   "Rendering in Your Browser": "⊄",
+   "FIELD6": "⊄",
+   "FIELD7": "⊄"
+ },
+ {
+   "Character": "subset of or equal to",
+   "Entity": "&sube;",
+   "Decimal": "&#8838;",
+   "Hex": "&#x2286;",
+   "Rendering in Your Browser": "⊆",
+   "FIELD6": "⊆",
+   "FIELD7": "⊆"
+ },
+ {
+   "Character": "superset of or equal to",
+   "Entity": "&supe;",
+   "Decimal": "&#8839;",
+   "Hex": "&#x2287;",
+   "Rendering in Your Browser": "⊇",
+   "FIELD6": "⊇",
+   "FIELD7": "⊇"
+ },
+ {
+   "Character": "circled plus = direct sum",
+   "Entity": "&oplus;",
+   "Decimal": "&#8853;",
+   "Hex": "&#x2295;",
+   "Rendering in Your Browser": "⊕",
+   "FIELD6": "⊕",
+   "FIELD7": "⊕"
+ },
+ {
+   "Character": "circled times = vector product",
+   "Entity": "&otimes;",
+   "Decimal": "&#8855;",
+   "Hex": "&#x2297;",
+   "Rendering in Your Browser": "⊗",
+   "FIELD6": "⊗",
+   "FIELD7": "⊗"
+ },
+ {
+   "Character": "up tack = orthogonal to = perpendicular",
+   "Entity": "&perp;",
+   "Decimal": "&#8869;",
+   "Hex": "&#x22A5;",
+   "Rendering in Your Browser": "⊥",
+   "FIELD6": "⊥",
+   "FIELD7": "⊥"
+ },
+ {
+   "Character": "dot operator",
+   "Entity": "&sdot;",
+   "Decimal": "&#8901;",
+   "Hex": "&#x22C5;",
+   "Rendering in Your Browser": "⋅",
+   "FIELD6": "⋅",
+   "FIELD7": "⋅"
+ },
+ {
+   "Character": "left ceiling = APL upstile",
+   "Entity": "&lceil;",
+   "Decimal": "&#8968;",
+   "Hex": "&#x2308;",
+   "Rendering in Your Browser": "⌈",
+   "FIELD6": "⌈",
+   "FIELD7": "⌈"
+ },
+ {
+   "Character": "right ceiling",
+   "Entity": "&rceil;",
+   "Decimal": "&#8969;",
+   "Hex": "&#x2309;",
+   "Rendering in Your Browser": "⌉",
+   "FIELD6": "⌉",
+   "FIELD7": "⌉"
+ },
+ {
+   "Character": "left floor = APL downstile",
+   "Entity": "&lfloor;",
+   "Decimal": "&#8970;",
+   "Hex": "&#x230A;",
+   "Rendering in Your Browser": "⌊",
+   "FIELD6": "⌊",
+   "FIELD7": "⌊"
+ },
+ {
+   "Character": "right floor",
+   "Entity": "&rfloor;",
+   "Decimal": "&#8971;",
+   "Hex": "&#x230B;",
+   "Rendering in Your Browser": "⌋",
+   "FIELD6": "⌋",
+   "FIELD7": "⌋"
+ },
+ {
+   "Character": "left-pointing angle bracket = bra",
+   "Entity": "&lang;",
+   "Decimal": "&#9001;",
+   "Hex": "&#x2329;",
+   "Rendering in Your Browser": "⟨",
+   "FIELD6": "〈",
+   "FIELD7": "〈"
+ },
+ {
+   "Character": "right-pointing angle bracket = ket",
+   "Entity": "&rang;",
+   "Decimal": "&#9002;",
+   "Hex": "&#x232A;",
+   "Rendering in Your Browser": "⟩",
+   "FIELD6": "〉",
+   "FIELD7": "〉"
+ },
+ {
+   "Character": "lozenge",
+   "Entity": "&loz;",
+   "Decimal": "&#9674;",
+   "Hex": "&#x25CA;",
+   "Rendering in Your Browser": "◊",
+   "FIELD6": "◊",
+   "FIELD7": "◊"
+ },
+ {
+   "Character": "black spade suit",
+   "Entity": "&spades;",
+   "Decimal": "&#9824;",
+   "Hex": "&#x2660;",
+   "Rendering in Your Browser": "♠",
+   "FIELD6": "♠",
+   "FIELD7": "♠"
+ },
+ {
+   "Character": "black club suit = shamrock",
+   "Entity": "&clubs;",
+   "Decimal": "&#9827;",
+   "Hex": "&#x2663;",
+   "Rendering in Your Browser": "♣",
+   "FIELD6": "♣",
+   "FIELD7": "♣"
+ },
+ {
+   "Character": "black heart suit = valentine",
+   "Entity": "&hearts;",
+   "Decimal": "&#9829;",
+   "Hex": "&#x2665;",
+   "Rendering in Your Browser": "♥",
+   "FIELD6": "♥",
+   "FIELD7": "♥"
+ },
+ {
+   "Character": "black diamond suit",
+   "Entity": "&diams;",
+   "Decimal": "&#9830;",
+   "Hex": "&#x2666;",
+   "Rendering in Your Browser": "♦",
+   "FIELD6": "♦",
+   "FIELD7": "♦"
+ }
+]

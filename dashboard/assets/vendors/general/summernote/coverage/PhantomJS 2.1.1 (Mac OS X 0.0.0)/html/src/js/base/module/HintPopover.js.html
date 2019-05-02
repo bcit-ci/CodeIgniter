@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/base/module/HintPopover.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/base/module/</a> HintPopover.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.36% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>34/129</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.55% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/53</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.36% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>34/129</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">93×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import $ from 'jquery';
+import func from '../core/func';
+import lists from '../core/lists';
+import dom from '../core/dom';
+import range from '../core/range';
+import key from '../core/key';
+&nbsp;
+const POPOVER_DIST = 5;
+&nbsp;
+export default class HintPopover {
+  constructor(context) {
+    this.context = context;
+&nbsp;
+    this.ui = $.summernote.ui;
+    this.$editable = context.layoutInfo.editable;
+    this.options = context.options;
+    this.hint = this.options.hint || [];
+    this.direction = this.options.hintDirection || <span class="branch-1 cbranch-no" title="branch not covered" >'bottom';</span>
+    this.hints = $.isArray(this.hint) ? this.hint : <span class="branch-1 cbranch-no" title="branch not covered" >[this.hint];</span>
+&nbsp;
+    this.events = {
+      'summernote.keyup': <span class="fstat-no" title="function not covered" >(we, e)</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >        if (!e.isDefaultPrevented()) {</span>
+<span class="cstat-no" title="statement not covered" >          this.handleKeyup(e);</span>
+        }
+      },
+      'summernote.keydown': <span class="fstat-no" title="function not covered" >(we, e)</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >        this.handleKeydown(e);</span>
+      },
+      'summernote.disable summernote.dialog.shown': <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        this.hide();</span>
+      }
+    };
+  }
+&nbsp;
+  shouldInitialize() {
+    return this.hints.length &gt; 0;
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  initialize() {</span>
+<span class="cstat-no" title="statement not covered" >    this.lastWordRange = null;</span>
+<span class="cstat-no" title="statement not covered" >    this.$popover = this.ui.popover({</span>
+      className: 'note-hint-popover',
+      hideArrow: true,
+      direction: ''
+    }).render().appendTo(this.options.container);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.$popover.hide();</span>
+<span class="cstat-no" title="statement not covered" >    this.$content = this.$popover.find('.popover-content,.note-popover-content');</span>
+<span class="cstat-no" title="statement not covered" >    this.$content.on('click', '.note-hint-item', <span class="fstat-no" title="function not covered" >(e)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$content.find('.active').removeClass('active');</span>
+<span class="cstat-no" title="statement not covered" >      $(e.currentTarget).addClass('active');</span>
+<span class="cstat-no" title="statement not covered" >      this.replace();</span>
+    });
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  destroy() {</span>
+<span class="cstat-no" title="statement not covered" >    this.$popover.remove();</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  selectItem($item)</span> {
+<span class="cstat-no" title="statement not covered" >    this.$content.find('.active').removeClass('active');</span>
+<span class="cstat-no" title="statement not covered" >    $item.addClass('active');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.$content[0].scrollTop = $item[0].offsetTop - (this.$content.innerHeight() / 2);</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  moveDown() {</span>
+<span class="cstat-no" title="statement not covered" >    const $current = this.$content.find('.note-hint-item.active');</span>
+<span class="cstat-no" title="statement not covered" >    const $next = $current.next();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if ($next.length) {</span>
+<span class="cstat-no" title="statement not covered" >      this.selectItem($next);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      let $nextGroup = $current.parent().next();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (!$nextGroup.length) {</span>
+<span class="cstat-no" title="statement not covered" >        $nextGroup = this.$content.find('.note-hint-group').first();</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.selectItem($nextGroup.find('.note-hint-item').first());</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  moveUp() {</span>
+<span class="cstat-no" title="statement not covered" >    const $current = this.$content.find('.note-hint-item.active');</span>
+<span class="cstat-no" title="statement not covered" >    const $prev = $current.prev();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if ($prev.length) {</span>
+<span class="cstat-no" title="statement not covered" >      this.selectItem($prev);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      let $prevGroup = $current.parent().prev();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (!$prevGroup.length) {</span>
+<span class="cstat-no" title="statement not covered" >        $prevGroup = this.$content.find('.note-hint-group').last();</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.selectItem($prevGroup.find('.note-hint-item').last());</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  replace() {</span>
+<span class="cstat-no" title="statement not covered" >    const $item = this.$content.find('.note-hint-item.active');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if ($item.length) {</span>
+<span class="cstat-no" title="statement not covered" >      const node = this.nodeFromItem($item);</span>
+      // XXX: consider to move codes to editor for recording redo/undo.
+<span class="cstat-no" title="statement not covered" >      this.lastWordRange.insertNode(node);</span>
+<span class="cstat-no" title="statement not covered" >      range.createFromNode(node).collapse().select();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.lastWordRange = null;</span>
+<span class="cstat-no" title="statement not covered" >      this.hide();</span>
+<span class="cstat-no" title="statement not covered" >      this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);</span>
+<span class="cstat-no" title="statement not covered" >      this.context.invoke('editor.focus');</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  nodeFromItem($item)</span> {
+<span class="cstat-no" title="statement not covered" >    const hint = this.hints[$item.data('index')];</span>
+<span class="cstat-no" title="statement not covered" >    const item = $item.data('item');</span>
+<span class="cstat-no" title="statement not covered" >    let node = hint.content ? hint.content(item) : item;</span>
+<span class="cstat-no" title="statement not covered" >    if (typeof node === 'string') {</span>
+<span class="cstat-no" title="statement not covered" >      node = dom.createText(node);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return node;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  createItemTemplates(hintIdx, items)</span> {
+<span class="cstat-no" title="statement not covered" >    const hint = this.hints[hintIdx];</span>
+<span class="cstat-no" title="statement not covered" >    return items.map(<span class="fstat-no" title="function not covered" >(item, idx)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      const $item = $('&lt;div class="note-hint-item"/&gt;');</span>
+<span class="cstat-no" title="statement not covered" >      $item.append(hint.template ? hint.template(item) : item + '');</span>
+<span class="cstat-no" title="statement not covered" >      $item.data({</span>
+        'index': hintIdx,
+        'item': item
+      });
+<span class="cstat-no" title="statement not covered" >      return $item;</span>
+    });
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  handleKeydown(e)</span> {
+<span class="cstat-no" title="statement not covered" >    if (!this.$popover.is(':visible')) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (e.keyCode === key.code.ENTER) {</span>
+<span class="cstat-no" title="statement not covered" >      e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >      this.replace();</span>
+    } else <span class="cstat-no" title="statement not covered" >if (e.keyCode === key.code.UP) {</span>
+<span class="cstat-no" title="statement not covered" >      e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >      this.moveUp();</span>
+    } else <span class="cstat-no" title="statement not covered" >if (e.keyCode === key.code.DOWN) {</span>
+<span class="cstat-no" title="statement not covered" >      e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >      this.moveDown();</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  searchKeyword(index, keyword, callback)</span> {
+<span class="cstat-no" title="statement not covered" >    const hint = this.hints[index];</span>
+<span class="cstat-no" title="statement not covered" >    if (hint &amp;&amp; hint.match.test(keyword) &amp;&amp; hint.search) {</span>
+<span class="cstat-no" title="statement not covered" >      const matches = hint.match.exec(keyword);</span>
+<span class="cstat-no" title="statement not covered" >      hint.search(matches[1], callback);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      callback();</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  createGroup(idx, keyword)</span> {
+<span class="cstat-no" title="statement not covered" >    const $group = $('&lt;div class="note-hint-group note-hint-group-' + idx + '"/&gt;');</span>
+<span class="cstat-no" title="statement not covered" >    this.searchKeyword(idx, keyword, <span class="fstat-no" title="function not covered" >(items)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      items = items || [];</span>
+<span class="cstat-no" title="statement not covered" >      if (items.length) {</span>
+<span class="cstat-no" title="statement not covered" >        $group.html(this.createItemTemplates(idx, items));</span>
+<span class="cstat-no" title="statement not covered" >        this.show();</span>
+      }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return $group;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  handleKeyup(e)</span> {
+<span class="cstat-no" title="statement not covered" >    if (!lists.contains([key.code.ENTER, key.code.UP, key.code.DOWN], e.keyCode)) {</span>
+<span class="cstat-no" title="statement not covered" >      const wordRange = this.context.invoke('editor.createRange').getWordRange();</span>
+<span class="cstat-no" title="statement not covered" >      const keyword = wordRange.toString();</span>
+<span class="cstat-no" title="statement not covered" >      if (this.hints.length &amp;&amp; keyword) {</span>
+<span class="cstat-no" title="statement not covered" >        this.$content.empty();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const bnd = func.rect2bnd(lists.last(wordRange.getClientRects()));</span>
+<span class="cstat-no" title="statement not covered" >        if (bnd) {</span>
+<span class="cstat-no" title="statement not covered" >          this.$popover.hide();</span>
+<span class="cstat-no" title="statement not covered" >          this.lastWordRange = wordRange;</span>
+<span class="cstat-no" title="statement not covered" >          this.hints.forEach(<span class="fstat-no" title="function not covered" >(hint, idx)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (hint.match.test(keyword)) {</span>
+<span class="cstat-no" title="statement not covered" >              this.createGroup(idx, keyword).appendTo(this.$content);</span>
+            }
+          });
+          // select first .note-hint-item
+<span class="cstat-no" title="statement not covered" >          this.$content.find('.note-hint-item:first').addClass('active');</span>
+&nbsp;
+          // set position for popover after group is created
+<span class="cstat-no" title="statement not covered" >          if (this.direction === 'top') {</span>
+<span class="cstat-no" title="statement not covered" >            this.$popover.css({</span>
+              left: bnd.left,
+              top: bnd.top - this.$popover.outerHeight() - POPOVER_DIST
+            });
+          } else {
+<span class="cstat-no" title="statement not covered" >            this.$popover.css({</span>
+              left: bnd.left,
+              top: bnd.top + bnd.height + POPOVER_DIST
+            });
+          }
+        }
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.hide();</span>
+      }
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  show() {</span>
+<span class="cstat-no" title="statement not covered" >    this.$popover.show();</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  hide() {</span>
+<span class="cstat-no" title="statement not covered" >    this.$popover.hide();</span>
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:14:15 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

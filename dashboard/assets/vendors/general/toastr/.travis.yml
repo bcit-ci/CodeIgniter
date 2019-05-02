@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "0.10"
+
+install:
+  - npm install -g gulp karma-cli
+  - npm install
+
+script:
+  - npm test
+
+cache:
+  directories:
+  - node_modules
+
+branches:
+  only:
+    - develop
+    - master 

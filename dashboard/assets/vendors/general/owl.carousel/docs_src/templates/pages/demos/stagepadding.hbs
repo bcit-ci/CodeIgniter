@@ -1,0 +1,102 @@
+---
+title: Stage Padding Demo
+subTitle: stagePadding
+nav: demos
+description: Stage Padding usage demo
+sort: 8
+
+tags: 
+- demo
+- core
+---
+
+<div class="owl-carousel owl-theme">
+	<div class="item"><h4>1</h4></div>
+	<div class="item"><h4>2</h4></div>
+	<div class="item"><h4>3</h4></div>
+	<div class="item"><h4>4</h4></div>
+	<div class="item"><h4>5</h4></div>
+	<div class="item"><h4>6</h4></div>
+	<div class="item"><h4>7</h4></div>
+	<div class="item"><h4>8</h4></div>
+	<div class="item"><h4>9</h4></div>
+	<div class="item"><h4>10</h4></div>
+	<div class="item"><h4>11</h4></div>
+	<div class="item"><h4>12</h4></div>
+</div>
+
+{{#markdown }}
+### Overview
+
+Stage padding option adds left and right padding style (in pixels) onto stage-wrapper.
+
+Option:
+```
+stagePadding: Number
+```
+
+### Setup
+```
+$('.owl-carousel').owlCarousel({
+	stagePadding: 50,
+	loop:true,
+	margin:10,
+	nav:true,
+	responsive:{
+		0:{
+			items:1
+		},
+		600:{
+			items:3
+		},
+		1000:{
+			items:5
+		}
+	}
+})
+```
+### html
+```
+<div class="owl-carousel owl-theme">
+	<div class="item"><h4>1</h4></div>
+	<div class="item"><h4>2</h4></div>
+	<div class="item"><h4>3</h4></div>
+	<div class="item"><h4>4</h4></div>
+	<div class="item"><h4>5</h4></div>
+	<div class="item"><h4>6</h4></div>
+	<div class="item"><h4>7</h4></div>
+	<div class="item"><h4>8</h4></div>
+	<div class="item"><h4>9</h4></div>
+	<div class="item"><h4>10</h4></div>
+	<div class="item"><h4>11</h4></div>
+	<div class="item"><h4>12</h4></div>
+</div>
+```
+
+{{/markdown }} 
+
+<script>
+$(document).ready(function(){
+	var owl = $('.owl-carousel');
+
+	owl.owlCarousel({
+		stagePadding: 50,
+		margin:10,
+		nav:true,
+		loop:true,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+	})
+})
+
+
+</script>

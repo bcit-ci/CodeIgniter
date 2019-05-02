@@ -1,0 +1,68 @@
+{
+  "name": "typeahead.js",
+  "description": "fast and fully-featured autocomplete library",
+  "keywords": [
+    "typeahead",
+    "autocomplete"
+  ],
+  "homepage": "http://twitter.github.com/typeahead.js",
+  "bugs": "https://github.com/twitter/typeahead.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twitter/typeahead.js.git"
+  },
+  "author": {
+    "name": "Twitter, Inc.",
+    "url": "https://twitter.com/twitteross"
+  },
+  "contributors": [
+    {
+      "name": "Jake Harding",
+      "url": "https://twitter.com/JakeHarding"
+    },
+    {
+      "name": "Tim Trueman",
+      "url": "https://twitter.com/timtrueman"
+    },
+    {
+      "name": "Veljko Skarich",
+      "url": "https://twitter.com/vskarich"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "colors": "^0.6.2",
+    "grunt": "~0.4",
+    "grunt-concurrent": "^0.5.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-concat": "~0.1",
+    "grunt-contrib-connect": "~0.1",
+    "grunt-contrib-jshint": "~0.8",
+    "grunt-contrib-uglify": "~0.2.6",
+    "grunt-contrib-watch": "~0.2",
+    "grunt-exec": "~0.4.5",
+    "grunt-sed": "~0.1",
+    "grunt-step": "~0.2.0",
+    "grunt-umd": "^2.3.3",
+    "karma": "^0.12.22",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-coverage": "^0.2.6",
+    "karma-firefox-launcher": "^0.1.3",
+    "karma-jasmine": "^0.1.5",
+    "karma-opera-launcher": "^0.1.0",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-safari-launcher": "^0.1.1",
+    "mocha": "^1.20.1",
+    "semver": "~1.1.3",
+    "underscore": "^1.6.0",
+    "yiewd": "^0.5.0"
+  },
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS"
+  },
+  "version": "0.11.1",
+  "main": "dist/typeahead.bundle.js"
+}

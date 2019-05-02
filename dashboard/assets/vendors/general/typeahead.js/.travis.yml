@@ -1,0 +1,29 @@
+language: node_js
+env: 
+  matrix: 
+  - TEST_SUITE=unit
+  - TEST_SUITE=integration BROWSER='firefox'
+  - TEST_SUITE=integration BROWSER='firefox:3.5'
+  - TEST_SUITE=integration BROWSER='firefox:3.6'
+  - TEST_SUITE=integration BROWSER='safari:5'
+  - TEST_SUITE=integration BROWSER='safari:6'
+  - TEST_SUITE=integration BROWSER='safari:7'
+  - TEST_SUITE=integration BROWSER='internet explorer:8'
+  - TEST_SUITE=integration BROWSER='internet explorer:9'
+  - TEST_SUITE=integration BROWSER='internet explorer:10'
+  - TEST_SUITE=integration BROWSER='internet explorer:11'
+  - TEST_SUITE=integration BROWSER='chrome'
+  global: 
+  - secure: VY4J2ERfrMEin++f4+UDDtTMWLuE3jaYAVchRxfO2c6PQUYgR+SW4SMekz855U/BuptMtiVMR2UUoNGMgOSKIFkIXpPfHhx47G5a541v0WNjXfQ2qzivXAWaXNK3l3C58z4dKxgPWsFY9JtMVCddJd2vQieAILto8D8G09p7bpo=
+  - secure: kehbNCoYUG2gLnhmCH/oKhlJG6LoxgcOPMCtY7KOI4ropG8qlypb+O2b/19+BWeO3aIuMB0JajNh3p2NL0UKgLmUK7EYBA9fQz+vesFReRk0V/KqMTSxHJuseM4aLOWA2Wr9US843VGltfODVvDN5sNrfY7RcoRx2cTK/k1CXa8=
+node_js: 
+- 0.11.13
+before_script: 
+- npm install -g grunt-cli@0.1.13
+- npm install -g node-static@0.7.3
+- npm install -g bower@1.3.8
+- bower install
+- grunt build
+script: test/ci
+addons:
+  sauce_connect: true

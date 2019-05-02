@@ -1,0 +1,375 @@
+body {
+  &.swal2-toast-shown {
+    .swal2-container {
+      background-color: transparent;
+
+      &.swal2-shown {
+        background-color: transparent;
+      }
+
+      &.swal2-top {
+        top: 0;
+        right: auto;
+        bottom: auto;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      &.swal2-top-end,
+      &.swal2-top-right {
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: auto;
+      }
+
+      &.swal2-top-start,
+      &.swal2-top-left {
+        top: 0;
+        right: auto;
+        bottom: auto;
+        left: 0;
+      }
+
+      &.swal2-center-start,
+      &.swal2-center-left {
+        top: 50%;
+        right: auto;
+        bottom: auto;
+        left: 0;
+        transform: translateY(-50%);
+      }
+
+      &.swal2-center {
+        top: 50%;
+        right: auto;
+        bottom: auto;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.swal2-center-end,
+      &.swal2-center-right {
+        top: 50%;
+        right: 0;
+        bottom: auto;
+        left: auto;
+        transform: translateY(-50%);
+      }
+
+      &.swal2-bottom-start,
+      &.swal2-bottom-left {
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 0;
+      }
+
+      &.swal2-bottom {
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      &.swal2-bottom-end,
+      &.swal2-bottom-right {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: auto;
+      }
+    }
+  }
+
+  &.swal2-toast-column {
+    .swal2-toast {
+      flex-direction: column;
+      align-items: stretch;
+
+      .swal2-actions {
+        flex: 1;
+        align-self: stretch;
+        height: 2.2em;
+        margin-top: .3125em;
+      }
+
+      .swal2-loading {
+        justify-content: center;
+      }
+
+      .swal2-input {
+        height: 2em;
+        margin: .3125em auto;
+        font-size: $swal2-toast-input-font-size;
+      }
+
+      .swal2-validation-message {
+        font-size: $swal2-toast-validation-font-size;
+      }
+    }
+  }
+
+}
+
+.swal2-popup {
+  &.swal2-toast {
+    flex-direction: row;
+    align-items: center;
+    width: $swal2-toast-width;
+    padding: $swal2-toast-padding;
+    box-shadow: 0 0 .625em $swal2-box-shadow;
+    overflow-y: hidden;
+
+    .swal2-header {
+      flex-direction: row;
+    }
+
+    .swal2-title {
+      flex-grow: 1;
+      justify-content: flex-start;
+      margin: 0 .6em;
+      font-size: $swal2-toast-title-font-size;
+    }
+
+    .swal2-footer {
+      margin: $swal2-toast-footer-margin;
+      padding: $swal2-toast-footer-margin;
+      font-size: $swal2-toast-footer-font-size;
+    }
+
+    .swal2-close {
+      position: initial;
+      width: $swal2-toast-close-button-width;
+      height: $swal2-toast-close-button-height;
+      line-height: $swal2-toast-close-button-line-height;
+    }
+
+    .swal2-content {
+      justify-content: flex-start;
+      font-size: $swal2-toast-content-font-size;
+    }
+
+    .swal2-icon {
+      width: 2em;
+      min-width: 2em;
+      height: 2em;
+      margin: 0;
+
+      &-text {
+        font-size: 2em;
+        font-weight: bold;
+        line-height: 1em;
+      }
+
+      &.swal2-success {
+
+        .swal2-success-ring {
+          width: 2em;
+          height: 2em;
+        }
+      }
+
+      &.swal2-error {
+
+        [class^='swal2-x-mark-line'] {
+          top: .875em;
+          width: 1.375em;
+
+          &[class$='left'] {
+            left: .3125em;
+          }
+
+          &[class$='right'] {
+            right: .3125em;
+          }
+        }
+      }
+    }
+
+    .swal2-actions {
+      height: auto;
+      margin: 0 .3125em;
+    }
+
+    .swal2-styled {
+      margin: 0 .3125em;
+      padding: .3125em .625em;
+      font-size: $swal2-toast-buttons-font-size;
+
+      &:focus {
+        box-shadow: 0 0 0 .0625em $swal2-white, 0 0 0 .125em $swal2-button-focus-outline;
+      }
+    }
+
+    .swal2-success {
+      border-color: $swal2-success;
+
+      [class^='swal2-success-circular-line'] { // Emulate moving circular line
+        position: absolute;
+        width: 2em;
+        height: 2.8125em;
+        transform: rotate(45deg);
+        border-radius: 50%;
+
+        &[class$='left'] {
+          top: -.25em;
+          left: -.9375em;
+          transform: rotate(-45deg);
+          transform-origin: 2em 2em;
+          border-radius: 4em 0 0 4em;
+        }
+
+        &[class$='right'] {
+          top: -.25em;
+          left: .9375em;
+          transform-origin: 0 2em;
+          border-radius: 0 4em 4em 0;
+        }
+      }
+
+      .swal2-success-ring {
+        width: 2em;
+        height: 2em;
+      }
+
+      .swal2-success-fix {
+        top: 0;
+        left: .4375em;
+        width: .4375em;
+        height: 2.6875em;
+      }
+
+      [class^='swal2-success-line'] {
+        height: .3125em;
+
+        &[class$='tip'] {
+          top: 1.125em;
+          left: .1875em;
+          width: .75em;
+        }
+
+        &[class$='long'] {
+          top: .9375em;
+          right: .1875em;
+          width: 1.375em;
+        }
+      }
+    }
+
+    &.swal2-show {
+      animation: showSweetToast .5s;
+    }
+
+    &.swal2-hide {
+      animation: hideSweetToast .2s forwards;
+    }
+
+    .swal2-animate-success-icon {
+      .swal2-success-line-tip {
+        animation: animate-toast-success-tip .75s;
+      }
+
+      .swal2-success-line-long {
+        animation: animate-toast-success-long .75s;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes showSweetToast {
+  0% {
+    transform: translateY(-.625em) rotateZ(2deg);
+    opacity: 0;
+  }
+
+  33% {
+    transform: translateY(0) rotateZ(-2deg);
+    opacity: .5;
+  }
+
+  66% {
+    transform: translateY(.3125em) rotateZ(2deg);
+    opacity: .7;
+  }
+
+  100% {
+    transform: translateY(0) rotateZ(0);
+    opacity: 1;
+  }
+}
+
+@keyframes hideSweetToast {
+  0% {
+    opacity: 1;
+  }
+
+  33% {
+    opacity: .5;
+  }
+
+  100% {
+    transform: rotateZ(1deg);
+    opacity: 0;
+  }
+}
+
+@keyframes animate-toast-success-tip {
+  0% {
+    top: .5625em;
+    left: .0625em;
+    width: 0;
+  }
+
+  54% {
+    top: .125em;
+    left: .125em;
+    width: 0;
+  }
+
+  70% {
+    top: .625em;
+    left: -.25em;
+    width: 1.625em;
+  }
+
+  84% {
+    top: 1.0625em;
+    left: .75em;
+    width: .5em;
+  }
+
+  100% {
+    top: 1.125em;
+    left: .1875em;
+    width: .75em;
+  }
+}
+
+@keyframes animate-toast-success-long {
+  0% {
+    top: 1.625em;
+    right: 1.375em;
+    width: 0;
+  }
+
+  65% {
+    top: 1.25em;
+    right: .9375em;
+    width: 0;
+  }
+
+  84% {
+    top: .9375em;
+    right: 0;
+    width: 1.125em;
+  }
+
+  100% {
+    top: .9375em;
+    right: .1875em;
+    width: 1.375em;
+  }
+}

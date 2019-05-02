@@ -1,0 +1,62 @@
+---
+title: Contributing
+subTitle: Support
+nav: docs
+description: Owl Carousel Documentation
+
+sort: 1
+
+tags:
+- Support
+---
+
+{{#markdown }}
+## Contributing
+
+
+> This project is hosted by Smashing Boxes but so many awesome contributors have had a big impact on the code. Thanks to all the amazing people who spent hours helping me with the development and teaching me new tricks!
+
+If you are looking to support Owl Carousel with your amazing ideas (or just fix some nasty bugs) then go to [Github]({{ pkg.homepage }}) and fork the project.
+
+### Some tips for contributors
+
+Owl Carousel is built around Grunt, Bower and Assemble frameworks. If you are not familiar with those tools please visit:
+
+* [Node.js](https://nodejs.org/)
+* [Yeoman](http://yeoman.io/)
+* [Grunt](http://gruntjs.com/)
+* [Bower](http://bower.io/)
+* [Assemble](http://assemble.io/)
+
+### Installation dependecies
+
+Open Terminal, go to folder with project and type:
+```
+npm install
+```
+Then install bower components
+```
+bower install
+```
+### Grunt Tasks
+
+The default task runs two other tasks: `dist` and `docs`. Type grunt to run default:
+
+```
+grunt
+```
+
+Now that the whole project is generated, run the last grunt task:
+
+```
+grunt serve
+```
+
+This creates localhost server and opens docs in your default browser. `watch` tasks will look for any changes and will automatically update the project and reload the browser.
+
+Now you are ready to make some cool updates by yourself. Owl project is in `src` folder. Also dont change `src/css/*.css` - all css files are generated from sass.
+
+> Happy Coding
+
+
+{{/markdown }}

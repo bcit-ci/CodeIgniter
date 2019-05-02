@@ -1,0 +1,13 @@
+{
+  "name": "socicon",
+  "version": "3.0.5",
+  "description": "The social icon font",
+  "main": "css/socicon.css",
+  "keywords": [
+    "social",
+    "icons",
+    "retina",
+    "vector"
+  ],
+  "license": "MIT"
+}

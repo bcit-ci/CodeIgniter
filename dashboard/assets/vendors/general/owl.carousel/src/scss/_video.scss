@@ -1,0 +1,53 @@
+$owl-image-path: "" !default;
+
+/*
+ * 	Owl Carousel - Video Plugin
+ */
+
+.owl-carousel{
+	.owl-video-wrapper {
+		position: relative;
+		height: 100%;
+		background: #000;
+	}
+
+	.owl-video-play-icon {
+		position: absolute;
+		height: 80px;
+		width: 80px;
+		left: 50%;
+		top: 50%;
+		margin-left: -40px;
+		margin-top: -40px;
+		background: url("#{$owl-image-path}owl.video.play.png") no-repeat;
+		cursor: pointer;
+		z-index: 1;
+		-webkit-backface-visibility: hidden;
+		transition: transform 100ms ease;
+	}
+
+	.owl-video-play-icon:hover {
+		transform: scale(1.3, 1.3);
+	}
+
+	.owl-video-playing .owl-video-tn,
+	.owl-video-playing .owl-video-play-icon {
+		display: none;
+	}
+
+	.owl-video-tn {
+		opacity: 0;
+		height: 100%;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		transition: opacity 400ms ease;
+	}
+
+	.owl-video-frame {
+		position: relative;
+		z-index: 1;
+		height: 100%;
+		width: 100%;
+	}
+}

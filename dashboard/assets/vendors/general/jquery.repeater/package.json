@@ -1,0 +1,36 @@
+{
+  "name": "jquery.repeater",
+  "version": "1.2.1",
+  "description": "repeatable form input interface",
+  "main": "jquery.repeater.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DubFriend/jquery.repeater"
+  },
+  "keywords": [
+    "input",
+    "repeat",
+    "multiple",
+    "form"
+  ],
+  "author": "Brian Detering <BDeterin@gmail.com> (http://www.briandetering.net/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DubFriend/jquery.repeater/issues"
+  },
+  "homepage": "https://github.com/DubFriend/jquery.repeater",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-qunit": "^1.2.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-preprocess": "^5.1.0"
+  }
+}

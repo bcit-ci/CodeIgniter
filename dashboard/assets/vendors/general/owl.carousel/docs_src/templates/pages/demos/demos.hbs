@@ -1,0 +1,73 @@
+---
+title: Demos
+subTitle: Demos
+nav: demos
+description: A list of Owl Carousel examples.
+note: Please note that this is a beta version only for testing purposes. Enjoy!
+---
+
+{{#markdown }}
+#### Basic demos:
+
+-----
+{{/markdown }}
+
+<div class="demo-list">
+	<div class="row">
+		{{#each tags}}
+			{{#is tag "core"}}
+				{{#withSort pages "data.sort"}}
+					<div class="small-6 medium-4 large-3 columns">
+						<a href="{{basename }}.html" class="demo-block">
+							<h5>{{data.subTitle}} </h5>
+						</a>
+					</div>
+				{{/withSort}}
+			{{/is}}
+		{{/each}}
+	</div>
+</div>
+
+{{#markdown }}
+#### Using built-in plugins
+
+-----
+{{/markdown }}
+
+<div class="demo-list">
+	<div class="row">
+		{{#each tags}}
+			{{#is tag "plugin"}}
+				{{#withSort pages "data.sort"}}
+					<div class="small-6 medium-4 large-3 columns">
+						<a href="{{basename }}.html" class="demo-block">
+							<h5>{{data.subTitle}} </h5>
+						</a>
+					</div>
+				{{/withSort}}
+			{{/is}}
+		{{/each}}
+	</div>
+</div>
+
+{{#markdown }}
+#### Using external libraries
+
+-----
+{{/markdown }}
+
+<div class="demo-list">
+	<div class="row">
+		{{#each tags}}
+			{{#is tag "external"}}
+				{{#withSort pages "data.sort"}}
+					<div class="small-6 medium-4 large-3 columns">
+						<a href="{{basename }}.html" class="demo-block">
+							<h5>{{data.subTitle}} </h5>
+						</a>
+					</div>
+				{{/withSort}}
+			{{/is}}
+		{{/each}}
+	</div>
+</div>

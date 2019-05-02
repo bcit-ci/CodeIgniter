@@ -1,0 +1,1 @@
+"use strict";var KTProfile={init:function(){KTLib.initMiniChart($("#kt_profile_mini_chart_1"),[6,12,9,18,15,9,11,8],KTApp.getStateColor("danger"),2),KTLib.initMiniChart($("#kt_profile_mini_chart_2"),[8,13,10,14,12,10,11,14],KTApp.getStateColor("brand"),2),new KTAvatar("kt_profile_avatar")}};jQuery(document).ready(function(){KTProfile.init()});

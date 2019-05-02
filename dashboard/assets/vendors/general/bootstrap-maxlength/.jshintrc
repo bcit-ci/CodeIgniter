@@ -1,0 +1,28 @@
+{
+  "globals": {
+    "jQuery": true,
+    "module": true,
+    "$": true,
+    "ok":true,
+    "test":true,
+    "document": true
+  },
+  "browser": true,
+  "bitwise": true,
+  "camelcase":true,
+  "curly": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "noempty": true,
+  "nonew": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true,
+  "strict": true,
+  "node": true
+}

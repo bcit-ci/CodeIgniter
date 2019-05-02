@@ -1,0 +1,6 @@
+.DS_Store
+/demo
+/node_modules
+npm-debug.log
+.editorconfig
+gulpfile.babel.js

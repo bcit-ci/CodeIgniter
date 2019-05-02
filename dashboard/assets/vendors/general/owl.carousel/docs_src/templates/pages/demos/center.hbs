@@ -1,0 +1,116 @@
+---
+title: Center Demo
+subTitle: Center
+nav: demos
+description: Center carousel
+sort: 3
+
+tags: 
+- demo
+- core
+---
+{{#markdown }}
+#### Center with loop
+{{/markdown }}
+
+<div class="loop owl-carousel owl-theme">
+	<div class="item"><h4>1</h4></div>
+	<div class="item"><h4>2</h4></div>
+	<div class="item"><h4>3</h4></div>
+	<div class="item"><h4>4</h4></div>
+	<div class="item"><h4>5</h4></div>
+	<div class="item"><h4>6</h4></div>
+	<div class="item"><h4>7</h4></div>
+	<div class="item"><h4>8</h4></div>
+	<div class="item"><h4>9</h4></div>
+	<div class="item"><h4>10</h4></div>
+	<div class="item"><h4>11</h4></div>
+	<div class="item"><h4>12</h4></div>
+</div>
+
+<br>
+{{#markdown }}
+#### Center without loop
+{{/markdown }}
+
+<div class="nonloop owl-carousel">
+	<div class="item"><h4>1</h4></div>
+	<div class="item"><h4>2</h4></div>
+	<div class="item"><h4>3</h4></div>
+	<div class="item"><h4>4</h4></div>
+	<div class="item"><h4>5</h4></div>
+	<div class="item"><h4>6</h4></div>
+	<div class="item"><h4>7</h4></div>
+	<div class="item"><h4>8</h4></div>
+	<div class="item"><h4>9</h4></div>
+	<div class="item"><h4>10</h4></div>
+	<div class="item"><h4>11</h4></div>
+	<div class="item"><h4>12</h4></div>
+</div>
+
+
+{{#markdown }}
+### Overview
+
+> Works well with odd and even items on screen. Keep in mind that dots are not working here like a pagination.
+
+Add center to setup:
+```
+center:true
+```
+
+### Setup
+```
+$('.loop').owlCarousel({
+	center: true,
+	items:2,
+	loop:true,
+	margin:10,
+	responsive:{
+		600:{
+			items:4
+		}
+	}
+});
+
+$('.nonloop').owlCarousel({
+	center: true,
+	items:2,
+	loop:false,
+	margin:10,
+	responsive:{
+		600:{
+			items:4
+		}
+	}
+});
+```
+{{/markdown }}
+<script>
+jQuery(document).ready(function($) {
+
+	$('.loop').owlCarousel({
+		center: true,
+		items:2,
+		loop:true,
+		margin:10,
+		responsive:{
+			600:{
+				items:4
+			}
+		}
+	});
+
+	$('.nonloop').owlCarousel({
+		center: true,
+		items:2,
+		loop:false,
+		margin:10,
+		responsive:{
+			600:{
+				items:4
+			}
+		}
+	});
+});
+</script>

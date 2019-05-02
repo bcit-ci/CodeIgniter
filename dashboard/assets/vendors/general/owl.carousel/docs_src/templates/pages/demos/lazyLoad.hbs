@@ -1,0 +1,93 @@
+---
+title: Lazy Load Demo
+subTitle: Lazy Load
+nav: demos
+description: Lazy Load carousel
+sort: 1
+
+tags:
+- demo
+- plugin
+---
+
+<div class="owl-carousel owl-theme">
+  <img class="owl-lazy" data-src="https://placehold.it/350x250&text=1" data-src-retina="https://placehold.it/350x250&text=1-retina" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x350&text=2" data-src-retina="https://placehold.it/350x250&text=2-retina" alt="">
+  <picture>
+    <source class="owl-lazy" media="(min-width: 650px)" data-srcset="https://placehold.it/350x250&text=3-large">
+    <source class="owl-lazy" media="(min-width: 350px)" data-srcset="https://placehold.it/350x250&text=3-medium">
+    <img class="owl-lazy" data-src="https://placehold.it/350x250&text=3-fallback" alt="">
+  </picture>
+  <img class="owl-lazy" data-src="https://placehold.it/350x250&text=4" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x250&text=5" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x250&text=6" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x250&text=7" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x250&text=8" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x400&text=9" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x400&text=10" alt="">
+  <img class="owl-lazy" data-src="https://placehold.it/350x450&text=11" alt="">
+</div>
+
+
+{{#markdown }}
+### Overview
+
+Add lazyLoad to plugin setup:
+```
+lazyLoad: true
+```
+LazyLoad HTML structure requires `class="owl-lazy"` and `data-src="url_to_img"` or/and `data-src-retina="url_to_highres_img"`.
+If you set above settings not on `<img>` but on other DOM element then Owl will load an image into css inline background style.
+You can even use picture tags with different sources by adding the `owl-lazy` class to the source tag and a data-srcset attribute.
+
+### Setup
+```
+$('.owl-carousel').owlCarousel({
+	items:4,
+	lazyLoad:true,
+	loop:true,
+	margin:10
+});
+```
+
+### Option
+
+If you want to preload images you can also add the option ```lazyLoadEager``` to the settings object, where the value
+indicates how many items to the right (and left, when loop is ```true```) will be pre-loaded.
+
+### HTML:
+
+```
+<div class="owl-carousel owl-theme">
+	<img class="owl-lazy" data-src="https://placehold.it/350x450&text=1" data-src-retina="https://placehold.it/350x250&text=1-retina" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x650&text=2" data-src-retina="https://placehold.it/350x250&text=2-retina" alt="">
+  <picture>
+      <source class="owl-lazy" media="(min-width: 650px)" data-srcset="https://placehold.it/350x250&text=3-large">
+      <source class="owl-lazy" media="(min-width: 350px)" data-srcset="https://placehold.it/350x250&text=3-medium">
+      <img class="owl-lazy" data-src="https://placehold.it/350x250&text=3-fallback" alt="">
+  </picture>
+	<img class="owl-lazy" data-src="https://placehold.it/350x250&text=4" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x250&text=5" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x250&text=6" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x250&text=7" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x250&text=8" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x400&text=9" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x400&text=10" alt="">
+	<img class="owl-lazy" data-src="https://placehold.it/350x450&text=11" alt="">
+</div>
+```
+
+
+{{/markdown }}
+<script>
+jQuery(document).ready(function($) {
+	$('.owl-carousel').owlCarousel({
+		items:1,
+		lazyLoad:true,
+    lazyLoadEager: 1,
+		loop:true,
+		margin:10,
+    autoHeight: true
+	});
+});
+</script>

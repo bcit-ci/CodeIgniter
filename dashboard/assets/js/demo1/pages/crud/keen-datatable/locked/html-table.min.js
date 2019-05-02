@@ -1,0 +1,1 @@
+"use strict";var KTDatatableHtmlTableDemo={init:function(){$(".kt-datatable").KTDatatable({search:{input:$("#generalSearch")},layout:{scroll:!0,height:400},columns:[{field:"Deposit Paid",type:"number",locked:{left:"xl"}},{field:"Order Date",type:"date",format:"YYYY-MM-DD",locked:{left:"xl"}}]})}};jQuery(document).ready(function(){KTDatatableHtmlTableDemo.init()});

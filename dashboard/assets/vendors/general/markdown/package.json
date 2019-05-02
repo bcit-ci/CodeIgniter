@@ -1,0 +1,44 @@
+{
+  "name": "markdown",
+  "version": "0.5.0",
+  "description": "A sensible Markdown parser for javascript",
+  "keywords": [
+    "markdown",
+    "text processing",
+    "ast"
+  ],
+  "maintainers": [
+    "Dominic Baggott <dominic.baggott@gmail.com> (http://evilstreak.co.uk)",
+    "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)"
+  ],
+  "contributors": [
+    "Dominic Baggott <dominic.baggott@gmail.com> (http://evilstreak.co.uk)",
+    "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)"
+  ],
+  "bugs": {
+    "url": "http://github.com/evilstreak/markdown-js/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/evilstreak/markdown-js.git"
+  },
+  "main": "./lib/index.js",
+  "bin": {
+    "md2html": "./bin/md2html.js"
+  },
+  "dependencies": {
+    "nopt": "~2.1.1"
+  },
+  "devDependencies": {
+    "tap": "~0.3.3"
+  },
+  "scripts": {
+    "test": "tap ./test/*.t.js"
+  }
+}

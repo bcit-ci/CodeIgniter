@@ -1,0 +1,104 @@
+.note-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: @zindex-modal;
+  .opacity(1);
+  display: none;
+
+  &.open {
+    display:block;
+  }
+}
+
+
+
+
+.note-modal-content {
+  position: relative;
+  width: auto;
+  margin: 30px 20px;
+  border: 1px solid @modal-content-border-color;
+  background: @modal-content-bg;
+  background-clip: border-box;
+  outline:0;
+}
+
+.note-modal-header {
+  padding: 30px 20px 20px 20px;
+  border: 1px solid #ededef;
+
+  .close {
+    margin-top: -10px;
+  }
+
+}
+
+.note-modal-body {
+  position: relative;
+  padding: 20px 30px;
+}
+
+.note-modal-footer {
+  height: 40px;
+  padding: 10px;
+  text-align: center;
+
+}
+
+.note-modal-footer a {
+  color: #337ab7;
+  text-decoration: none
+}
+
+.note-modal-footer a:hover,
+.note-modal-footer a:focus {
+  color: #23527c;
+  text-decoration: underline
+}
+
+.note-modal-footer .note-btn {
+  float: right
+}
+
+.note-modal-title {
+  font-size: 26px;
+  color: #42515f;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.note-modal-backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: @zindex-modal-background;
+  background: @modal-backdrop-bg;
+  .opacity(0.5);
+  display: none;
+
+  &.open {
+    display: block;
+  }
+}
+
+
+// Scale up the modal
+@media (min-width: 768px) {
+  // Automatically set modal's width for larger viewports
+  .note-modal-content {
+    width: 600px;
+    margin: 30px auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .note-modal-content-large {
+    width: 900px;
+  }
+}

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>toastr</id>
+        <version>1.1.4</version>
+        <title>toastr</title>
+        <authors>John Papa,Hans Fjällemark</authors>
+        <owners>John Papa,Hans Fjällemark</owners>
+        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+        <projectUrl>https://github.com/CodeSeven/toastr</projectUrl>
+        <iconUrl>http://johnpapa.net/wp-content/images/toastr-icon.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>3 Easy Steps:
+
+(1) Link to toastr.css  
+(2) Link to toastr.js 
+(3) Use toastr to display a toast for info, success, warning or error
+
+// Display an info toast with no title
+toastr.info('Are you the 6 fingered man?')
+
+*** For other API calls, see the demo</description>
+        <summary>toastr is a Javascript library for Gnome / Growl type non-blocking notifications. jQuery is required. The goal is to create a simple core library that can be customized and extended.</summary>
+        <releaseNotes>Added AMD support (and backwards compat with non AMD), toastr.clear() method clears 1 or all toasts, optionsOverride API to be able to override options for each toast, added onclick callback option which fires when a user clicks the toast. Also cleaned CSS, merged CSS files into 1 file, and reduced jQuery dependency to v1.6.3
+
+Fix to the toastr.min.js file</releaseNotes>
+        <copyright>Copyright © 2012 Hans Fjällemark &amp; John Papa.</copyright>
+        <language>en-US</language>
+        <tags>toastr, toast, notification, dialog, jquery</tags>
+        <dependencies>
+            <dependency id="jQuery" version="1.6.3" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="content\content\toastr.css" target="content\content\toastr.css" />
+        <file src="content\content\toastr.min.css" target="content\content\toastr.min.css" />
+        <file src="content\scripts\toastr.js" target="content\scripts\toastr.js" />
+        <file src="content\scripts\toastr.min.js" target="content\scripts\toastr.min.js" />
+    </files>
+</package>

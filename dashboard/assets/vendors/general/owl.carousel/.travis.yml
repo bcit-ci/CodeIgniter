@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 'lts/*'
+
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+before_script:
+  - npm install -g bower grunt-cli
+  - bower install
+
+script:
+  - grunt test

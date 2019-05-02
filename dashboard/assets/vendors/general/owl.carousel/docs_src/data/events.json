@@ -1,0 +1,173 @@
+[
+  {
+    "namespace": "Carousel",
+    "events": [
+      {
+        "name": "initialize.owl.carousel",
+        "type": "attachable",
+        "callback": "onInitialize",
+        "desc": "When the plugin initializes."
+      },
+      {
+        "name": "initialized.owl.carousel",
+        "type": "attachable",
+        "callback": "onInitialized",
+        "desc": "When the plugin has initialized."
+      },
+      {
+        "name": "resize.owl.carousel",
+        "type": "attachable",
+        "callback": "onResize",
+        "desc": "When the plugin gets resized."
+      },
+      {
+        "name": "resized.owl.carousel",
+        "type": "attachable",
+        "callback": "onResized",
+        "desc": "When the plugin has resized."
+      },
+      {
+        "name": "refresh.owl.carousel",
+        "type": "attachable, cancelable, triggerable",
+        "callback": "onRefresh",
+        "param": "[event, speed]",
+        "desc": "When the internal state of the plugin needs update."
+      },
+      {
+        "name": "refreshed.owl.carousel",
+        "type": "attachable",
+        "callback": "onRefreshed",
+        "desc": "When the internal state of the plugin has updated."
+      },
+      {
+        "name": "drag.owl.carousel",
+        "type": "attachable",
+        "callback": "onDrag",
+        "desc": "When the dragging of an item is started."
+      },
+      {
+        "name": "dragged.owl.carousel",
+        "type": "attachable",
+        "callback": "onDragged",
+        "desc": "When the dragging of an item has finished."
+      },
+      {
+        "name": "translate.owl.carousel",
+        "type": "attachable",
+        "callback": "onTranslate",
+        "desc": "When the translation of the stage starts."
+      },
+      {
+        "name": "translated.owl.carousel",
+        "type": "attachable",
+        "callback": "onTranslated",
+        "desc": "When the translation of the stage has finished."
+      },
+      {
+        "name": "change.owl.carousel",
+        "type": "attachable",
+        "callback": "onChange",
+        "param": "property",
+        "desc": "When a property is going to change its value."
+      },
+      {
+        "name": "changed.owl.carousel",
+        "type": "attachable",
+        "callback": "onChanged",
+        "param": "property",
+        "desc": "When a property has changed its value."
+      },
+      {
+        "name": "next.owl.carousel",
+        "type": "triggerable",
+        "param": "[speed]",
+        "desc": "Goes to next item."
+      },
+      {
+        "name": "prev.owl.carousel",
+        "type": "triggerable",
+        "param": "[speed]",
+        "desc": "Goes to previous item."
+      },
+      {
+        "name": "to.owl.carousel",
+        "type": "triggerable",
+        "param": "[position, speed]",
+        "desc": "Goes to position."
+      },
+      {
+        "name": "destroy.owl.carousel",
+        "type": "triggerable",
+        "desc": "Destroys carousel."
+      },
+      {
+        "name": "replace.owl.carousel",
+        "type": "triggerable",
+        "param": "data",
+        "desc": "Removes current content and add a new one passed in the parameter."
+      },
+      {
+        "name": "add.owl.carousel",
+        "type": "triggerable",
+        "param": "[data, position]",
+        "desc": "Adds a new item on a given position."
+      },
+      {
+        "name": "remove.owl.carousel",
+        "type": "triggerable",
+        "param": "position",
+        "desc": "Removes an item from a given position."
+      }
+    ]
+  },
+  {
+    "namespace": "Lazy",
+    "events": [
+      {
+        "name": "load.owl.lazy",
+        "type": "attachable",
+        "callback": "onLoadLazy",
+        "desc": "When lazy image loads."
+      },
+      {
+        "name": "loaded.owl.lazy",
+        "type": "attachable",
+        "callback": "onLoadedLazy",
+        "desc": "When lazy image has loaded."
+      }
+    ]
+  },
+  {
+    "namespace": "Autoplay",
+    "events": [
+      {
+        "name": "play.owl.autoplay",
+        "type": "triggerable",
+        "param": "[timeout, speed]",
+        "desc": "Runs autoplay."
+      },
+      {
+        "name": "stop.owl.autoplay",
+        "type": "triggerable",
+        "desc": "Stops autoplay."
+      }
+    ]
+  },
+  {
+    "namespace": "Video",
+    "events": [
+      {
+        "name": "stop.owl.video",
+        "type": "attachable",
+        "callback": "onStopVideo",
+        "desc": "When video has unloaded."
+      },
+      {
+        "name": "play.owl.video",
+        "type": "attachable",
+        "callback": "onPlayVideo",
+        "desc": "When video has loaded."
+      }
+    ]
+  }
+]

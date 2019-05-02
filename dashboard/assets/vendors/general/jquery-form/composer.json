@@ -1,0 +1,29 @@
+{
+  "name": "jquery-form/form",
+  "description": "The jQuery Form Plugin allows you to easily and unobtrusively upgrade HTML forms to use AJAX.",
+  "keywords": [ "jquery", "ajax", "jquery-plugin", "json", "json-form", "html-form", "form", "jquery-form" ],
+  "homepage": "https://github.com/jquery-form/form",
+  "license": "(LGPL-2.1+ OR MIT)",
+  "authors": [
+    { "name": "Kevin Morris" },
+    { "name": "Mike Alsup" }
+  ],
+  "support": {
+    "issues": "https://github.com/jquery-form/form/issues"
+  },
+  "require": {
+    "components/jquery": ">=1.7.2"
+  },
+  "extra": {
+    "component": {
+      "scripts": [
+        "src/jquery.form.js"
+      ],
+      "shim": {
+        "deps": [
+          "jquery"
+        ]
+      }
+    }
+  }
+}

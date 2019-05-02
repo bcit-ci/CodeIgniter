@@ -1,0 +1,16 @@
+*.swp
+.DS_Store
+
+.grunt
+_SpecRunner.html
+test/coverage
+
+dist_temp
+
+node_modules
+npm-debug.log
+
+bower_components
+
+*.iml
+.idea

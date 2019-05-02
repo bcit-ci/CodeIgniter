@@ -1,0 +1,55 @@
+---
+title: Plugin API
+subTitle: Development
+nav: docs
+description: Owl Carousel Documentation
+
+sort: 2
+tags:
+- Development
+---
+
+{{#markdown }}
+## Plugin API
+> Plugin API allows you to extend carousel object constructor and use internal functions and variables. Use callback events to communicate between host and plugin.
+
+
+Plugin scaffolding:
+
+```
+/**
+ * Plugin Name
+ * @since 2.0.0
+ */
+
+;(function ( $, window, document, undefined ) {
+
+	PluginName = function(scope){
+		this.owl = scope;
+		this.owl._options = $.extend({}, PluginName.Defaults, this.owl.options);
+
+		//link callback events with owl carousel here
+	}
+
+	PluginName.Defaults = {
+		optionName: 'value',
+		optionName2: 'value'
+	}
+
+	//methods:
+	PluginName.prototype.method = function(){
+
+	}
+
+	//destroy:
+	AutoHeight.prototype.destroy = function(){
+		//events here
+	};
+
+	$.fn.owlCarousel.Constructor.Plugins['pluginName'] = PluginName;
+
+})( window.Zepto || window.jQuery, window,  document );
+```
+
+{{/markdown }}
+

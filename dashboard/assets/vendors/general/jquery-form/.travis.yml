@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "8"
+script:
+ - grunt test
+cache:
+  bundler: true
+  directories:
+  - "node_modules" # NPM packages
+before_install:
+  - if [[ `npm -v ` != 5* ]]; then npm i -g npm@5; fi

@@ -1,0 +1,55 @@
+.kt-blog-list .kt-blog-list__head {
+  height: 25rem;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5px; }
+  .kt-blog-list .kt-blog-list__head .kt-blog-list__link {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1; }
+    .kt-blog-list .kt-blog-list__head .kt-blog-list__link .kt-blog-list__image {
+      width: 100%;
+      height: 100%;
+      opacity: 0; }
+
+.kt-blog-list .kt-blog-list__body {
+  padding: 2rem 0; }
+  .kt-blog-list .kt-blog-list__body .kt-blog-list__link {
+    font-weight: 500;
+    color: #1cac81;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s; }
+    .kt-blog-list .kt-blog-list__body .kt-blog-list__link .kt-blog-list__title {
+      font-weight: 600;
+      color: #464457;
+      margin-bottom: 1rem;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s; }
+    .kt-blog-list .kt-blog-list__body .kt-blog-list__link:hover, .kt-blog-list .kt-blog-list__body .kt-blog-list__link:focus {
+      color: #0e543f; }
+      .kt-blog-list .kt-blog-list__body .kt-blog-list__link:hover .kt-blog-list__title, .kt-blog-list .kt-blog-list__body .kt-blog-list__link:focus .kt-blog-list__title {
+        color: #0e543f; }
+      .kt-blog-list .kt-blog-list__body .kt-blog-list__link:hover span, .kt-blog-list .kt-blog-list__body .kt-blog-list__link:focus span {
+        text-decoration: underline; }
+  .kt-blog-list .kt-blog-list__body .kt-blog-list__meta {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 1.25rem;
+    color: #918ea7; }
+    .kt-blog-list .kt-blog-list__body .kt-blog-list__meta .kt-blog-list__date {
+      padding: 0.2rem 1rem 0.2rem 0;
+      border-right: 1px solid #e9e9f1; }
+    .kt-blog-list .kt-blog-list__body .kt-blog-list__meta .kt-blog-list__author {
+      padding: 0.2rem 1rem;
+      border-right: 1px solid #e9e9f1; }
+    .kt-blog-list .kt-blog-list__body .kt-blog-list__meta .kt-blog-list__comments {
+      padding: 0.2rem 1rem; }
+  .kt-blog-list .kt-blog-list__body .kt-blog-list__content {
+    line-height: 2rem;
+    margin-bottom: 1.7rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #918ea7; }

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./built",
+    "allowJs": true,
+    "sourceMap": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./src/**/*.js",
+    "./src/**/*.ts"
+  ]
+}

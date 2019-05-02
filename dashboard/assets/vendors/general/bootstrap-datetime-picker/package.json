@@ -1,0 +1,35 @@
+{
+  "name": "bootstrap-datetime-picker",
+  "homepage": "http://www.malot.fr/bootstrap-datetimepicker/",
+  "description": "Both Date and Time picker widget based on twitter bootstrap",
+  "version": "2.4.4",
+  "license": "Apache 2.0",
+  "author": {
+    "name": "Sebastien Malot"
+  },
+  "maintainers": [{
+      "name": "Sebastien Malot"
+    },{
+      "name": "Christian Vaas",
+      "email": "christianvaas@auspex.eu"
+    }
+  ],
+  "keywords": [
+    "bootstrap", "datetime", "picker"
+  ],
+  "repository": {
+    "type": "git",
+    "url":  "git://github.com/smalot/bootstrap-datetimepicker.git"
+  },
+  "bugs": {
+    "url":  "https://github.com/smalot/bootstrap-datetimepicker"
+  },
+  "main": "./js/bootstrap-datetimepicker.js",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-version-check": "^0.3.7",
+    "jshint": "^2.9.4",
+    "load-grunt-tasks": "^3.4.1"
+  }
+}

@@ -1,0 +1,35 @@
+<ul class="side-nav">
+	<li class="side-nav-head">Getting Started</li>
+	{{#withSort pages "data.sort"}}
+		{{#is data.subTitle "Getting Started"}}
+		<li><a href="{{basename }}.html">{{data.title}}</a></li>
+		{{/is}}
+	{{/withSort}}
+</ul>
+
+<ul class="side-nav">
+	<li class="side-nav-head">API</li>
+	{{#withSort pages "data.sort"}}
+		{{#is data.subTitle "API"}}
+		<li><a href="{{basename }}.html">{{data.title}}</a></li>
+		{{/is}}
+	{{/withSort}}
+</ul>
+
+<ul class="side-nav">
+	<li class="side-nav-head">Development</li>
+	{{#withSort pages "data.sort"}}
+		{{#is data.subTitle "Development"}}
+		<li><a href="{{basename }}.html">{{data.title}}</a></li>
+		{{/is}}
+	{{/withSort}}
+</ul>
+
+<ul class="side-nav">
+	<li class="side-nav-head">Support</li>
+	{{#withSort pages "data.sort"}}
+		{{#is data.subTitle "Support"}}
+		<li><a href="{{basename }}.html">{{data.title}}</a></li>
+		{{/is}}
+	{{/withSort}}
+</ul>

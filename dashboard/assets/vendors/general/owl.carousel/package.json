@@ -1,0 +1,57 @@
+{
+  "name": "owl.carousel",
+  "description": "Touch enabled jQuery plugin that lets you create beautiful responsive carousel slider.",
+  "version": "2.3.4",
+  "homepage": "https://github.com/OwlCarousel2/OwlCarousel2",
+  "main": "./dist/owl.carousel.js",
+  "style": "./dist/assets/owl.carousel.css",
+  "author": {
+    "name": "David Deutsch",
+    "email": "deutsch@medienpark.net",
+    "url": "https://owlcarousel2.github.io/OwlCarousel2"
+  },
+  "license": "SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE",
+  "bugs": {
+    "url": "https://github.com/OwlCarousel2/OwlCarousel2/issues",
+    "email": "deutsch@medienpark.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/OwlCarousel2/OwlCarousel2.git"
+  },
+  "dependencies": {
+    "jquery": ">=1.8.3"
+  },
+  "devDependencies": {
+    "assemble": "~0.4.37",
+    "blanket": "^1.1.7",
+    "foundation-sites": "~5.5.2",
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^3.0.3",
+    "grunt-banner": "^0.4.0",
+    "grunt-blanket-qunit": "^0.2.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-compress": "~0.13.0",
+    "grunt-contrib-concat": "~0.5.1",
+    "grunt-contrib-connect": "~0.10.1",
+    "grunt-contrib-copy": "~0.8.0",
+    "grunt-contrib-cssmin": "^0.12.3",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-qunit": ">=0.2.1",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-gh-pages": "^0.10.0",
+    "grunt-jscs": "~1.8.0",
+    "grunt-sass": "^1.0.0",
+    "load-grunt-tasks": "^3.2.0",
+    "pretty": "^1.0.0",
+    "qunitjs": "^1.18.0"
+  },
+  "keywords": [
+    "responsive",
+    "carousel",
+    "owlcarousel",
+    "jQuery",
+    "plugin"
+  ]
+}

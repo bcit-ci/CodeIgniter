@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for test/unit/base/editing/Typing.spec.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">test/unit/base/editing/</a> Typing.spec.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>34/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>13/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>34/34</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Typing.spec.js
+ * (c) 2015~ Summernote Team
+ * summernote may be freely distributed under the MIT license./
+ */
+/* jshint unused: false */
+/* jshint -W101 */
+import chai from 'chai';
+import $ from 'jquery';
+import range from '../../../../src/js/base/core/range';
+import Typing from '../../../../src/js/base/editing/Typing';
+&nbsp;
+var expect = chai.expect;
+&nbsp;
+describe('base:editing.Style', () =&gt; {
+  function typing(level) {
+    return new Typing({ options: { blockquoteBreakingLevel: level } });
+  }
+&nbsp;
+  describe('base:editing.Typing', () =&gt; {
+    describe('insertParagraph', () =&gt; {
+      describe('blockquote breaking support', () =&gt; {
+        var $editable;
+&nbsp;
+        function check(html) {
+          expect($editable.html()).to.equalsIgnoreCase(html);
+        }
+&nbsp;
+        beforeEach(() =&gt; {
+          $editable = $('&lt;div class="note-editable"&gt;&lt;blockquote id="1"&gt;Part1&lt;blockquote id="2"&gt;Part2.1&lt;br&gt;Part2.2&lt;/blockquote&gt;Part3&lt;/blockquote&gt;&lt;/div&gt;');
+        });
+&nbsp;
+        it('should not break blockquote if blockquoteBreakingLevel=0', () =&gt; {
+          typing(0).insertParagraph($editable, range.create($('#2', $editable)[0].firstChild, 1));
+&nbsp;
+          check('&lt;blockquote id="1"&gt;Part1&lt;blockquote id="2"&gt;&lt;p&gt;P&lt;/p&gt;&lt;p&gt;art2.1&lt;br&gt;Part2.2&lt;/p&gt;&lt;/blockquote&gt;Part3&lt;/blockquote&gt;');
+        });
+&nbsp;
+        it('should break the first blockquote if blockquoteBreakingLevel=1', () =&gt; {
+          typing(1).insertParagraph($editable, range.create($('#2', $editable)[0].firstChild, 1));
+&nbsp;
+          check('&lt;blockquote id="1"&gt;Part1&lt;blockquote id="2"&gt;&lt;p&gt;P&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;blockquote id="2"&gt;&lt;p&gt;art2.1&lt;br&gt;Part2.2&lt;/p&gt;&lt;/blockquote&gt;Part3&lt;/blockquote&gt;');
+        });
+&nbsp;
+        it('should break all blockquotes if blockquoteBreakingLevel=2', () =&gt; {
+          typing(2).insertParagraph($editable, range.create($('#2', $editable)[0].firstChild, 1));
+&nbsp;
+          check('&lt;blockquote id="1"&gt;Part1&lt;blockquote id="2"&gt;&lt;p&gt;P&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;blockquote id="1"&gt;&lt;blockquote id="2"&gt;&lt;p&gt;art2.1&lt;br&gt;Part2.2&lt;/p&gt;&lt;/blockquote&gt;Part3&lt;/blockquote&gt;');
+        });
+&nbsp;
+        it('should remove leading BR from split, when breaking is on the right edge of a line', () =&gt; {
+          typing(1).insertParagraph($editable, range.create($('#2', $editable)[0].firstChild, 7));
+&nbsp;
+          check('&lt;blockquote id="1"&gt;Part1&lt;blockquote id="2"&gt;&lt;p&gt;Part2.1&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;blockquote id="2"&gt;&lt;p&gt;Part2.2&lt;/p&gt;&lt;/blockquote&gt;Part3&lt;/blockquote&gt;');
+        });
+&nbsp;
+        it('should insert new paragraph after the blockquote, if break happens at the end of the blockquote', () =&gt; {
+          typing(2).insertParagraph($editable, range.create($('#1', $editable)[0].lastChild, 5));
+&nbsp;
+          check('&lt;blockquote id="1"&gt;&lt;p&gt;Part1&lt;blockquote id="2"&gt;Part2.1&lt;br&gt;Part2.2&lt;/blockquote&gt;Part3&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;');
+        });
+&nbsp;
+        it('should insert new paragraph before the blockquote, if break happens at the beginning of the blockquote', () =&gt; {
+          typing(2).insertParagraph($editable, range.create($('#1', $editable)[0].firstChild, 0));
+&nbsp;
+          check('&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;blockquote id="1"&gt;&lt;p&gt;Part1&lt;blockquote id="2"&gt;Part2.1&lt;br&gt;Part2.2&lt;/blockquote&gt;Part3&lt;/p&gt;&lt;/blockquote&gt;');
+        });
+      });
+    });
+  });
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:15:48 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

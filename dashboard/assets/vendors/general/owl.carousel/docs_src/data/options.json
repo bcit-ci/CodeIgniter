@@ -1,0 +1,308 @@
+[
+  {
+    "name":     "items",
+    "type":     "Number",
+    "Default":  "3",
+    "desc":     "The number of items you want to see on the screen."
+  },
+  {
+    "name":     "margin",
+    "type":     "Number",
+    "Default":  "0",
+    "desc":     "margin-right(px) on item."
+  },
+  {
+    "name":     "loop",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Infinity loop. Duplicate last and first items to get loop illusion."
+  },
+  {
+    "name":     "center",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Center item. Works well with even an odd number of items."
+  },
+  {
+    "name":     "mouseDrag",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Mouse drag enabled."
+  },
+  {
+    "name":     "touchDrag",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Touch drag enabled."
+  },
+  {
+    "name":     "pullDrag",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Stage pull to edge."
+  },
+  {
+    "name":     "freeDrag",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Item pull to edge."
+  },
+  {
+    "name":     "stagePadding",
+    "type":     "Number",
+    "Default":  "0",
+    "desc":     "Padding left and right on stage (can see neighbours)."
+  },
+  {
+    "name":     "merge",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Merge items. Looking for data-merge='{number}' inside item.."
+  },
+  {
+    "name":     "mergeFit",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Fit merged items if screen is smaller than items value."
+  },
+  {
+    "name":     "autoWidth",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Set non grid content. Try using width style on divs."
+  },
+  {
+    "name":     "startPosition",
+    "type":     "Number/String",
+    "Default":  "0",
+    "desc":     "Start position or URL Hash string like '#id'."
+  },
+  {
+    "name":     "URLhashListener",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Listen to url hash changes. data-hash on items is required."
+  },
+  {
+    "name":     "nav",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Show next/prev buttons."
+  },
+  {
+    "name":     "rewind",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Go backwards when the boundary has reached."
+  },
+  {
+    "name":     "navText",
+    "type":     "Array",
+    "Default":  "['next','prev']",
+    "desc":     "HTML allowed."
+  },
+    {
+    "name":     "navElement",
+    "type":     "String",
+    "Default":  "div",
+    "desc":     "DOM element type for a single directional navigation link."
+  },
+  {
+    "name":     "slideBy",
+    "type":     "Number/String",
+    "Default":  "1",
+    "desc":     "Navigation slide by x. 'page' string can be set to slide by page."
+  },
+  {
+    "name":     "slideTransition",
+    "type":     "String",
+    "Default":  "",
+    "desc":     "You can define the transition for the stage you want to use eg. linear."
+  },
+  {
+    "name":     "dots",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Show dots navigation."
+  },
+  {
+    "name":     "dotsEach",
+    "type":     "Number/Boolean",
+    "Default":  "false",
+    "desc":     "Show dots each x item."
+  },
+  {
+    "name":     "dotsData",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Used by data-dot content."
+  },
+  {
+    "name":     "lazyLoad",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Lazy load images. data-src and data-src-retina for highres. Also load images into background inline style if element is not <img>"
+  },
+  {
+    "name":     "lazyLoadEager",
+    "type":     "Number",
+    "Default":  "0",
+    "desc":     "Eagerly pre-loads images to the right (and left when loop is enabled) based on how many items you want to preload."
+  },
+  {
+    "name":     "autoplay",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Autoplay."
+  },
+  {
+    "name":     "autoplayTimeout",
+    "type":     "Number",
+    "Default":  "5000",
+    "desc":     "Autoplay interval timeout."
+  },
+  {
+    "name":     "autoplayHoverPause",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Pause on mouse hover."
+  },
+  {
+    "name":     "smartSpeed",
+    "type":     "Number",
+    "Default":  "250",
+    "desc":     "Speed Calculate. More info to come.."
+  },
+  {
+    "name":     "fluidSpeed",
+    "type":     "Boolean",
+    "Default":  "Number",
+    "desc":     "Speed Calculate. More info to come.."
+  },
+  {
+    "name":     "autoplaySpeed",
+    "type":     "Number/Boolean",
+    "Default":  "false",
+    "desc":     "autoplay speed."
+  },
+  {
+    "name":     "navSpeed",
+    "type":     "Number/Boolean",
+    "Default":  "false",
+    "desc":     "Navigation speed."
+  },
+  {
+    "name":     "dotsSpeed",
+    "type":     "Boolean",
+    "Default":  "Number/Boolean",
+    "desc":     "Pagination speed."
+  },
+  {
+    "name":     "dragEndSpeed",
+    "type":     "Number/Boolean",
+    "Default":  "false",
+    "desc":     "Drag end speed."
+  },
+  {
+    "name":     "callbacks",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "Enable callback events."
+  },
+  {
+    "name":     "responsive",
+    "type":     "Object",
+    "Default":  "empty object",
+    "desc":     "Object containing responsive options. Can be set to false to remove responsive capabilities."
+  },
+  {
+    "name":     "responsiveRefreshRate",
+    "type":     "Number",
+    "Default":  "200",
+    "desc":     "Responsive refresh rate."
+  },
+  {
+    "name":     "responsiveBaseElement",
+    "type":     "DOM element",
+    "Default":  "window",
+    "desc":     "Set on any DOM element. If you care about non responsive browser (like ie8) then use it on main wrapper. This will prevent from crazy resizing."
+  },
+  {
+    "name":     "video",
+    "type":     "Boolean",
+    "Default":  "false",
+    "desc":     "Enable fetching YouTube/Vimeo/Vzaar videos."
+  },
+  {
+    "name":     "videoHeight",
+    "type":     "Number/Boolean",
+    "Default":  "false",
+    "desc":     "Set height for videos."
+  },
+  {
+    "name":     "videoWidth",
+    "type":     "Number/Boolean",
+    "Default":  "false",
+    "desc":     "Set width for videos."
+  },
+  {
+    "name":     "animateOut",
+    "type":     "String/Boolean",
+    "Default":  "false",
+    "desc":     "Class for CSS3 animation out."
+  },
+  {
+    "name":     "animateIn",
+    "type":     "String/Boolean",
+    "Default":  "false",
+    "desc":     "Class for CSS3 animation in."
+  },
+  {
+    "name":     "fallbackEasing",
+    "type":     "String",
+    "Default":  "swing",
+    "desc":     "Easing for CSS2 $.animate."
+  },
+  {
+    "name":     "info",
+    "type":     "Function",
+    "Default":  "false",
+    "desc":     "Callback to retrieve basic information (current item/pages/widths). Info function second parameter is Owl DOM object reference."
+  },
+  {
+    "name":     "nestedItemSelector",
+    "type":     "String/Class",
+    "Default":  "false",
+    "desc":     "Use it if owl items are deep nested inside some generated content. E.g 'youritem'. Dont use dot before class name."
+  },
+  {
+    "name":     "itemElement",
+    "type":     "String",
+    "Default":  "div",
+    "desc":     "DOM element type for owl-item."
+  },
+  {
+    "name":     "stageElement",
+    "type":     "String",
+    "Default":  "div",
+    "desc":     "DOM element type for owl-stage."
+  },
+  {
+    "name":     "navContainer",
+    "type":     "String/Class/ID/Boolean",
+    "Default":  "false",
+    "desc":     "Set your own container for nav."
+  },
+  {
+    "name":     "dotsContainer",
+    "type":     "String/Class/ID/Boolean",
+    "Default":  "false",
+    "desc":     "Set your own container for nav."
+  },
+  {
+    "name":     "checkVisible",
+    "type":     "Boolean",
+    "Default":  "true",
+    "desc":     "If you know the carousel will always be visible you can set `checkVisibility` to `false` to prevent the expensive browser layout forced reflow the $element.is(':visible') does."
+  }
+]

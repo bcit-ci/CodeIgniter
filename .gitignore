@@ -2,6 +2,7 @@
 
 application/cache/*
 !application/cache/index.html
+application/.env
 
 application/logs/*
 !application/logs/index.html

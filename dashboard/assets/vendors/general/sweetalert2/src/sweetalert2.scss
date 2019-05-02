@@ -1,0 +1,900 @@
+// SweetAlert2
+// github.com/sweetalert2/sweetalert2
+
+@import 'variables';
+@import 'animations';
+@import 'mixins';
+@import 'toasts';
+
+body {
+  &.swal2-shown {
+    @include not(
+      '.swal2-no-backdrop',
+      '.swal2-toast-shown'
+    ) {
+      overflow: hidden; // not overflow-y because of Sarari, #1253
+    }
+  }
+
+  &.swal2-height-auto {
+    height: auto !important; // #781 #1107
+  }
+
+  &.swal2-no-backdrop {
+    .swal2-shown {
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      background-color: transparent;
+
+      & > .swal2-modal {
+        box-shadow: 0 0 10px $swal2-backdrop;
+      }
+
+      &.swal2-top {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      &.swal2-top-start,
+      &.swal2-top-left {
+        top: 0;
+        left: 0;
+      }
+
+      &.swal2-top-end,
+      &.swal2-top-right {
+        top: 0;
+        right: 0;
+      }
+
+      &.swal2-center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.swal2-center-start,
+      &.swal2-center-left {
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+
+      &.swal2-center-end,
+      &.swal2-center-right {
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+
+      &.swal2-bottom {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      &.swal2-bottom-start,
+      &.swal2-bottom-left {
+        bottom: 0;
+        left: 0;
+      }
+
+      &.swal2-bottom-end,
+      &.swal2-bottom-right {
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+}
+
+.swal2-container {
+  // centering
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  // backdrop
+  background-color: transparent;
+
+  z-index: 1060;
+  overflow-x: hidden;
+
+  // sweetalert2/issues/905
+  -webkit-overflow-scrolling: touch;
+
+  &.swal2-top {
+    align-items: flex-start;
+  }
+
+  &.swal2-top-start,
+  &.swal2-top-left {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  &.swal2-top-end,
+  &.swal2-top-right {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  &.swal2-center {
+    align-items: center;
+  }
+
+  &.swal2-center-start,
+  &.swal2-center-left {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &.swal2-center-end,
+  &.swal2-center-right {
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &.swal2-bottom {
+    align-items: flex-end;
+  }
+
+  &.swal2-bottom-start,
+  &.swal2-bottom-left {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  &.swal2-bottom-end,
+  &.swal2-bottom-right {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  &.swal2-grow-fullscreen > .swal2-modal {
+    display: flex !important;
+    flex: 1;
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  &.swal2-grow-row > .swal2-modal {
+    display: flex !important;
+    flex: 1;
+    align-content: center;
+    justify-content: center;
+  }
+
+  &.swal2-grow-column {
+    flex: 1;
+    flex-direction: column;
+
+    &.swal2-top,
+    &.swal2-center,
+    &.swal2-bottom {
+      align-items: center;
+    }
+
+    &.swal2-top-start,
+    &.swal2-center-start,
+    &.swal2-bottom-start,
+    &.swal2-top-left,
+    &.swal2-center-left,
+    &.swal2-bottom-left {
+      align-items: flex-start;
+    }
+
+    &.swal2-top-end,
+    &.swal2-center-end,
+    &.swal2-bottom-end,
+    &.swal2-top-right,
+    &.swal2-center-right,
+    &.swal2-bottom-right {
+      align-items: flex-end;
+    }
+
+    & > .swal2-modal {
+      display: flex !important;
+      flex: 1;
+      align-content: center;
+      justify-content: center;
+    }
+  }
+
+  @include not(
+    '.swal2-top',
+    '.swal2-top-start',
+    '.swal2-top-end',
+    '.swal2-top-left',
+    '.swal2-top-right',
+    '.swal2-center-start',
+    '.swal2-center-end',
+    '.swal2-center-left',
+    '.swal2-center-right',
+    '.swal2-bottom',
+    '.swal2-bottom-start',
+    '.swal2-bottom-end',
+    '.swal2-bottom-left',
+    '.swal2-bottom-right',
+    '.swal2-grow-fullscreen'
+  ) {
+    & > .swal2-modal {
+      margin: auto;
+    }
+  }
+
+  @include ie {
+    .swal2-modal {
+      margin: 0 !important;
+    }
+  }
+
+  &.swal2-fade {
+    transition: background-color .1s;
+  }
+
+  &.swal2-shown {
+    background-color: $swal2-backdrop;
+  }
+}
+
+
+.swal2-popup {
+  display: none;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  width: $swal2-width;
+  max-width: 100%;
+  padding: $swal2-padding;
+  border-radius: $swal2-border-radius;
+  background: $swal2-background;
+  font-family: $swal2-font;
+  font-size: $swal2-font-size;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.swal2-loading {
+    overflow-y: hidden;
+  }
+
+  .swal2-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .swal2-title {
+    display: block;
+    position: relative;
+    max-width: 100%;
+    margin: $swal2-title-margin;
+    padding: 0;
+    color: $swal2-title-color;
+    font-size: $swal2-title-font-size;
+    font-weight: 600;
+    text-align: center;
+    text-transform: none;
+    word-wrap: break-word;
+  }
+
+  .swal2-actions {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: $swal2-actions-margin;
+    z-index: 1; // prevent sucess icon overlapping buttons
+
+    &:not(.swal2-loading) {
+      .swal2-styled {
+        &[disabled] {
+          opacity: .4;
+        }
+
+        &:hover {
+          background-image: linear-gradient($swal2-button-darken-hover, $swal2-button-darken-hover);
+        }
+
+        &:active {
+          background-image: linear-gradient($swal2-button-darken-active, $swal2-button-darken-active);
+        }
+      }
+    }
+
+    &.swal2-loading {
+      .swal2-styled {
+        &.swal2-confirm {
+          width: 2.5em;
+          height: 2.5em;
+          margin: .46875em;
+          padding: 0;
+          border: .25em solid transparent;
+          border-radius: 100%;
+          border-color: transparent;
+          background-color: transparent !important;
+          color: transparent;
+          cursor: default;
+          box-sizing: border-box;
+          animation: swal2-rotate-loading 1.5s linear 0s infinite normal;
+          user-select: none;
+        }
+
+        &.swal2-cancel {
+          margin-right: 30px;
+          margin-left: 30px;
+        }
+      }
+
+      :not(.swal2-styled) {
+        &.swal2-confirm {
+          &::after {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-left: 5px;
+            border: 3px solid lighten($swal2-black, 60);
+            border-radius: 50%;
+            border-right-color: transparent;
+            box-shadow: 1px 1px 1px $swal2-white;
+            content: '';
+            animation: swal2-rotate-loading 1.5s linear 0s infinite normal;
+          }
+        }
+      }
+    }
+  }
+
+  .swal2-styled {
+    margin: .3125em;
+    padding: .625em 2em;
+    font-weight: 500;
+    box-shadow: none;
+
+    &:not([disabled]) {
+      cursor: pointer;
+    }
+
+    &.swal2-confirm {
+      border: $swal2-confirm-button-border;
+      border-radius: $swal2-confirm-button-border-radius;
+      background: initial;
+      background-color: $swal2-confirm-button-background-color;
+      color: $swal2-confirm-button-color;
+      font-size: $swal2-confirm-button-font-size;
+    }
+
+    &.swal2-cancel {
+      border: $swal2-cancel-button-border;
+      border-radius: $swal2-cancel-button-border-radius;
+      background: initial;
+      background-color: $swal2-cancel-button-background-color;
+      color: $swal2-cancel-button-color;
+      font-size: $swal2-cancel-button-font-size;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px $swal2-white, 0 0 0 4px $swal2-button-focus-outline;
+    }
+
+    &::-moz-focus-inner {
+      border: 0;
+    }
+  }
+
+  .swal2-footer {
+    justify-content: center;
+    margin: $swal2-footer-margin;
+    padding: $swal2-footer-padding;
+    border-top: 1px solid $swal2-footer-border-color;
+    color: $swal2-footer-color;
+    font-size: $swal2-footer-font-size;
+  }
+
+  .swal2-image {
+    max-width: 100%;
+    margin: $swal2-image-margin;
+  }
+
+  .swal2-close {
+    position: $swal2-close-button-position;
+    top: $swal2-close-button-gap;
+    right: $swal2-close-button-gap;
+    justify-content: center;
+    width: $swal2-close-button-width;
+    height: $swal2-close-button-height;
+    padding: 0;
+    transition: $swal2-close-button-transition;
+    border: $swal2-close-button-border;
+    border-radius: $swal2-close-button-border-radius;
+    outline: $swal2-close-button-outline;
+    background: $swal2-close-button-background;
+    color: $swal2-close-button-color;
+    font-family: serif;
+    font-size: $swal2-close-button-font-size;
+    line-height: $swal2-close-button-line-height;
+    cursor: pointer;
+    overflow: hidden;
+
+    &:hover {
+      transform: $swal2-close-button-hover-transform;
+      color: $swal2-close-button-hover-color;
+    }
+  }
+
+  > .swal2-input,
+  > .swal2-file,
+  > .swal2-textarea,
+  > .swal2-select,
+  > .swal2-radio,
+  > .swal2-checkbox {
+    display: none;
+  }
+
+  .swal2-content {
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    color: $swal2-content-color;
+    font-size: $swal2-content-font-size;
+    font-weight: 300;
+    line-height: normal;
+    z-index: 1; // prevent sucess icon overlapping the content
+    word-wrap: break-word;
+  }
+
+  #swal2-content {
+    text-align: center;
+  }
+
+  .swal2-input,
+  .swal2-file,
+  .swal2-textarea,
+  .swal2-select,
+  .swal2-radio,
+  .swal2-checkbox {
+    margin: $swal2-input-margin;
+  }
+
+  .swal2-input,
+  .swal2-file,
+  .swal2-textarea {
+    width: 100%;
+    transition: border-color .3s, box-shadow .3s;
+    border: 1px solid $swal2-input-border;
+    border-radius: $swal2-input-border-radius;
+    font-size: $swal2-input-font-size;
+    box-shadow: inset 0 1px 1px $swal2-input-box-shadow;
+    box-sizing: border-box;
+
+    &.swal2-inputerror {
+      border-color: $swal2-error !important;
+      box-shadow: 0 0 2px $swal2-error !important;
+    }
+
+    &:focus {
+      border: 1px solid $swal2-input-border-focus;
+      outline: none;
+      box-shadow: 0 0 3px $swal2-input-box-shadow-focus;
+    }
+
+    &::placeholder {
+      color: lighten($swal2-black, 80);
+    }
+  }
+
+  .swal2-range {
+    input {
+      width: 80%;
+    }
+
+    output {
+      width: 20%;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    input,
+    output {
+      height: $swal2-input-height;
+      margin: $swal2-input-margin;
+      padding: 0;
+      font-size: $swal2-input-font-size;
+      line-height: $swal2-input-height;
+    }
+  }
+
+  .swal2-input {
+    height: $swal2-input-height;
+    padding: $swal2-input-padding;
+
+    &[type='number'] {
+      max-width: 10em;
+    }
+  }
+
+  .swal2-file {
+    font-size: $swal2-input-font-size;
+  }
+
+  .swal2-textarea {
+    height: $swal2-textarea-height;
+    padding: $swal2-textarea-padding;
+  }
+
+  .swal2-select {
+    min-width: 50%;
+    max-width: 100%;
+    padding: .375em .625em;
+    color: lighten($swal2-black, 33);
+    font-size: $swal2-input-font-size;
+  }
+
+  .swal2-radio,
+  .swal2-checkbox {
+    align-items: center;
+    justify-content: center;
+
+    label {
+      margin: 0 .6em;
+      font-size: $swal2-input-font-size;
+    }
+
+    input {
+      margin: 0 .4em;
+    }
+  }
+
+  .swal2-validation-message {
+    display: none;
+    align-items: center;
+    justify-content: $swal2-validationerror-justify-content;
+    padding: $swal2-validationerror-padding;
+    background: $swal2-validationerror-background;
+    color: $swal2-validationerror-color;
+    font-size: $swal2-validationerror-font-size;
+    font-weight: $swal2-validationerror-font-weight;
+    overflow: hidden;
+
+    &::before {
+      display: inline-block;
+      width: 1.5em;
+      min-width: 1.5em;
+      height: 1.5em;
+      margin: 0 .625em;
+      border-radius: 50%;
+      background-color: $swal2-validationerror-icon-background;
+      color: $swal2-validationerror-icon-color;
+      font-weight: 600;
+      line-height: 1.5em;
+      text-align: center;
+      content: '!';
+      zoom: $swal2-validationerror-icon-zoom;
+    }
+  }
+}
+
+// Microsoft Edge
+@supports (-ms-accelerator: true) {
+  .swal2-range {
+    input {
+      width: 100% !important;
+    }
+
+    output {
+      display: none;
+    }
+  }
+}
+
+// IE11
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .swal2-range {
+    input {
+      width: 100% !important;
+    }
+
+    output {
+      display: none;
+    }
+  }
+}
+
+// Firefox
+@-moz-document url-prefix() {
+  .swal2-close {
+    &:focus {
+      outline: 2px solid $swal2-button-focus-outline;
+    }
+  }
+}
+
+.swal2-icon {
+  position: relative;
+  justify-content: center;
+  width: $swal2-icon-size;
+  height: $swal2-icon-size;
+  margin: $swal2-icon-margin;
+  border: .25em solid transparent;
+  border-radius: 50%;
+  line-height: $swal2-icon-size;
+  cursor: default;
+  box-sizing: content-box;
+  user-select: none;
+  zoom: $swal2-icon-zoom;
+
+  &-text {
+    font-size: 3.75em;
+  }
+
+  &.swal2-error {
+    border-color: $swal2-error;
+
+    .swal2-x-mark {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    [class^='swal2-x-mark-line'] {
+      display: block;
+      position: absolute;
+      top: 2.3125em;
+      width: 2.9375em;
+      height: .3125em;
+      border-radius: .125em;
+      background-color: $swal2-error;
+
+      &[class$='left'] {
+        left: 1.0625em;
+        transform: rotate(45deg);
+      }
+
+      &[class$='right'] {
+        right: 1em;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &.swal2-warning {
+    border-color: lighten($swal2-warning, 7);
+    color: $swal2-warning;
+  }
+
+  &.swal2-info {
+    border-color: lighten($swal2-info, 20);
+    color: $swal2-info;
+  }
+
+  &.swal2-question {
+    border-color: lighten($swal2-question, 20);
+    color: $swal2-question;
+  }
+
+  &.swal2-success {
+    border-color: $swal2-success;
+
+    [class^='swal2-success-circular-line'] { // Emulate moving circular line
+      position: absolute;
+      width: 3.75em;
+      height: 7.5em;
+      transform: rotate(45deg);
+      border-radius: 50%;
+
+      &[class$='left'] {
+        top: -.4375em;
+        left: -2.0635em;
+        transform: rotate(-45deg);
+        transform-origin: 3.75em 3.75em;
+        border-radius: 7.5em 0 0 7.5em;
+      }
+
+      &[class$='right'] {
+        top: -.6875em;
+        left: 1.875em;
+        transform: rotate(-45deg);
+        transform-origin: 0 3.75em;
+        border-radius: 0 7.5em 7.5em 0;
+      }
+    }
+
+    .swal2-success-ring { // Ring
+      position: absolute;
+      top: -.25em;
+      left: -.25em;
+      width: 100%;
+      height: 100%;
+      border: .25em solid $swal2-success-border;
+      border-radius: 50%;
+      z-index: 2;
+      box-sizing: content-box;
+    }
+
+    .swal2-success-fix { // Hide corners left from animation
+      position: absolute;
+      top: .5em;
+      left: 1.625em;
+      width: .4375em;
+      height: 5.625em;
+      transform: rotate(-45deg);
+      z-index: 1;
+    }
+
+    [class^='swal2-success-line'] {
+      display: block;
+      position: absolute;
+      height: .3125em;
+      border-radius: .125em;
+      background-color: $swal2-success;
+      z-index: 2;
+
+      &[class$='tip'] {
+        top: 2.875em;
+        left: .875em;
+        width: 1.5625em;
+        transform: rotate(45deg);
+      }
+
+      &[class$='long'] {
+        top: 2.375em;
+        right: .5em;
+        width: 2.9375em;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}
+
+.swal2-progresssteps {
+  $lightblue: #add8e6;
+  $blue: #3085d6;
+
+  align-items: center;
+  margin: $swal2-progress-steps-margin;
+  padding: 0;
+  font-weight: 600;
+
+  li {
+    display: inline-block;
+    position: relative;
+  }
+
+  .swal2-progresscircle {
+    width: 2em;
+    height: 2em;
+    border-radius: 2em;
+    background: $blue;
+    color: $swal2-white;
+    line-height: 2em;
+    text-align: center;
+    z-index: 20;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.swal2-activeprogressstep {
+      background: $blue;
+
+      ~ .swal2-progresscircle {
+        background: $lightblue;
+      }
+
+      ~ .swal2-progressline {
+        background: $lightblue;
+      }
+    }
+  }
+
+  .swal2-progressline {
+    width: $swal2-progress-steps-distance;
+    height: .4em;
+    margin: 0 -1px;
+    background: $blue;
+    z-index: 10;
+  }
+}
+
+
+// github.com/sweetalert2/sweetalert2/issues/268
+[class^='swal2'] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.swal2-show {
+  animation: $swal2-show-animation;
+
+  &.swal2-noanimation {
+    animation: none;
+  }
+}
+
+.swal2-hide {
+  animation: $swal2-hide-animation;
+
+  &.swal2-noanimation {
+    animation: none;
+  }
+}
+
+
+// Right-to-left support
+.swal2-rtl {
+  .swal2-close {
+    right: auto;
+    left: $swal2-close-button-gap;
+  }
+}
+
+
+// Success icon animation
+.swal2-animate-success-icon {
+  .swal2-success-line-tip {
+    animation: $swal2-success-line-tip-animation;
+  }
+
+  .swal2-success-line-long {
+    animation: $swal2-success-line-long-animation;
+  }
+
+  .swal2-success-circular-line-right {
+    animation: $swal2-success-circular-line-animation;
+  }
+}
+
+// Error icon animation
+.swal2-animate-error-icon {
+  animation: $swal2-error-icon-animation;
+
+  .swal2-x-mark {
+    animation: $swal2-error-x-mark-animation;
+  }
+}
+
+@keyframes swal2-rotate-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media print {
+  body {
+    &.swal2-shown {
+      @include not(
+        '.swal2-no-backdrop',
+        '.swal2-toast-shown'
+      ) {
+        overflow-y: scroll !important;
+
+        > [aria-hidden='true'] {
+          display: none;
+        }
+
+        .swal2-container {
+          position: initial !important;
+        }
+      }
+    }
+  }
+}

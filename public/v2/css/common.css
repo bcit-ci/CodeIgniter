@@ -1,0 +1,276 @@
+/*------------------------------------------------------------------
+[Table of contents]
+1. Common CSS
+-------------------------------------------------------------------*/
+
+
+/* ===================================
+    1. Common CSS
+====================================== */
+
+.block {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.line-height {
+    line-height: 0;
+}
+
+.clear-right {
+    clear: right;
+}
+
+.clear-left {
+    clear: left;
+}
+
+.center-relative {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.center-text, 
+.center {
+    text-align: center;
+}
+
+.text-left, 
+.left {
+    text-align: left;
+}
+
+.text-right, 
+.right {
+    text-align: right;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.relative {
+    position: relative;
+}
+
+.margin-0 {
+    margin: 0 !important;
+    line-height: 0;
+}
+
+.top-0 {
+    margin-top: 0 !important;
+}
+
+.top-5 {
+    margin-top: 5px !important;	
+}
+
+.top-10 {
+    margin-top: 10px;	
+}
+
+.top-15 {
+    margin-top: 15px;	
+}
+
+.top-20 {
+    margin-top: 20px;
+}
+
+.top-25 {
+    margin-top: 25px;	
+}
+
+.top-30 {
+    margin-top: 30px;	
+}
+
+.top-50 {
+    margin-top: 50px;	
+}
+
+.top-60 {
+    margin-top: 60px;	
+}
+
+.top-70 {
+    margin-top: 70px;	
+}
+
+.top-75 {
+    margin-top: 75px;	
+}
+
+.top-80 {
+    margin-top: 80px;
+}
+
+.top-100 {
+    margin-top: 100px;	
+}
+
+.top-105 {
+    margin-top: 105px;	
+}
+
+.top-120 {
+    margin-top: 120px;
+}
+
+.top-150 {
+    margin-top: 150px;	
+}
+
+.top-200 {
+    margin-top: 200px;	
+}
+
+.bottom-0 {
+    margin-bottom: 0 !important;
+}
+
+.bottom-10 {
+    margin-bottom: 10px !important;
+}
+
+.bottom-20 {
+    margin-bottom: 20px !important;
+}
+
+.bottom-25 {
+    margin-bottom: 25px !important;
+}
+
+.bottom-30 {
+    margin-bottom: 30px !important;
+}
+
+.bottom-50 {
+    margin-bottom: 50px !important;
+}
+
+.bottom-100 {
+    margin-bottom: 100px !important;
+}
+
+.bottom-150 {
+    margin-bottom: 150px !important;
+}
+
+.bottom-200 {
+    margin-bottom: 200px !important;
+}
+
+blockquote {
+    font-family: 'Roboto', sans-serif;
+    color: #000;
+    border-left: 8px solid #d95f41;
+    padding-left: 20px;
+    font-size: 24px;
+    line-height: 35px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+blockquote cite {
+    margin-top: 20px;
+    display: block;
+    font-weight: 400;
+}
+
+iframe {
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 38px;
+    line-height: 38px;    
+}
+
+h2 {
+    font-size: 34px;    
+    line-height: 34px;    
+}
+
+h3 {
+    font-size: 32px;  
+    line-height: 32px;    
+}
+
+h4 {
+    font-size: 30px;    
+}
+
+h5 {
+    font-size: 28px;   
+}
+
+h6 {
+    font-size: 26px;    
+}
+
+em {
+    font-style: italic;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+table, 
+th, 
+td {
+    border:1px solid black;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+sub {
+    vertical-align: sub;
+    font-size: smaller;
+}

@@ -1,0 +1,73 @@
+---
+title: Url Hash Navigation Demo
+subTitle: Url Hash Navigation
+nav: demos
+description: Url Hash Navigation usage demo
+sort: 6
+
+tags: 
+- demo
+- core
+---
+
+<div class="owl-carousel owl-theme">
+	<div class="item" data-hash="zero"><h4>0</h4></div>
+	<div class="item" data-hash="one" ><h4>1</h4></div>
+	<div class="item" data-hash="two" ><h4>2</h4></div>
+	<div class="item" data-hash="three" ><h4>3</h4></div>
+	<div class="item" data-hash="four"><h4>4</h4></div>
+	<div class="item" data-hash="five" ><h4>5</h4></div>
+	<div class="item" data-hash="six"><h4>6</h4></div>
+	<div class="item" data-hash="seven" ><h4>7</h4></div>
+	<div class="item" data-hash="eight" ><h4>8</h4></div>
+	<div class="item" data-hash="nine" ><h4>9</h4></div>
+	<div class="item" data-hash="ten" ><h4>10</h4></div>
+	<div class="item" data-hash="eleven" ><h4>11</h4></div>
+	<div class="item" data-hash="tweleve" ><h4>12</h4></div>
+	<div class="item" data-hash="thirteen" ><h4>13</h4></div>
+	<div class="item" data-hash="fourteen" ><h4>14</h4></div>
+	<div class="item" data-hash="fifteen" ><h4>15</h4></div>
+</div>
+<hr>
+<a class="button secondary url" href="#zero">zero</a>
+<a class="button secondary url" href="#three">three</a>
+<a class="button secondary url" href="#five">five</a>
+<a class="button secondary url" href="#seven">seven</a>
+<a class="button secondary url" href="#ten">ten</a>
+
+
+{{#markdown }}
+### Overview
+
+> URLhashListener option is listening for url hash change and is looking for slide with the same data name e.g. `data-hash="zero"`
+
+Also `startPosition` option accept string: `'URLHash'`. This will load corresponding items on startup. Browser history back button is also affected.
+
+### Setup
+```
+	$('.owl-carousel').owlCarousel({
+		items:4,
+		loop:false,
+		center:true,
+		margin:10,
+		URLhashListener:true,
+		autoplayHoverPause:true,
+		startPosition: 'URLHash'
+	});
+```
+{{/markdown }} 
+
+<script>
+$(document).ready(function(){
+	$('.owl-carousel').owlCarousel({
+		items:4,
+		loop:false,
+		center:true,
+		margin:10,
+		callbacks:true,
+		URLhashListener:true,
+		autoplayHoverPause:true,
+		startPosition: 'URLHash'
+	});
+})
+</script>

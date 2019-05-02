@@ -1,0 +1,53 @@
+.kt-error404-v2--enabled {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position: center bottom; }
+
+.kt-error404-v2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start; }
+  @media (max-width: 768px) {
+    .kt-error404-v2 {
+      padding: 2rem; } }
+  .kt-error404-v2 .kt-error404-v2__content {
+    margin-top: 4rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    .kt-error404-v2 .kt-error404-v2__content .kt-error404-v2__title {
+      font-size: 12rem;
+      color: #ffffff;
+      font-weight: 700; }
+    .kt-error404-v2 .kt-error404-v2__content .kt-error404-v2__desc {
+      color: #ffffff;
+      font-size: 1.5rem; }
+      @media (max-width: 768px) {
+        .kt-error404-v2 .kt-error404-v2__content .kt-error404-v2__desc {
+          text-align: center; } }
+
+.kt-bg-error404-v2 {
+  background-image: url("../../../../../../media/misc/404-bg2.jpg"); }
+  @media (max-width: 768px) {
+    .kt-bg-error404-v2 {
+      background-image: url("../../../../../../media/misc/bg-mobile-2.jpg"); } }

@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/base/module/VideoDialog.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/base/module/</a> VideoDialog.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">65.74% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>71/108</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">64.91% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>37/57</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">65.74% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>71/108</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import $ from 'jquery';
+import env from '../core/env';
+import key from '../core/key';
+&nbsp;
+export default class VideoDialog {
+  constructor(context) {
+    this.context = context;
+&nbsp;
+    this.ui = $.summernote.ui;
+    this.$body = $(document.body);
+    this.$editor = context.layoutInfo.editor;
+    this.options = context.options;
+    this.lang = this.options.langInfo;
+  }
+&nbsp;
+  initialize() {
+    const $container = this.options.dialogsInBody ? <span class="branch-0 cbranch-no" title="branch not covered" >this.$body </span>: this.$editor;
+&nbsp;
+    const body = [
+      '&lt;div class="form-group note-form-group row-fluid"&gt;',
+      `&lt;label class="note-form-label"&gt;${this.lang.video.url} &lt;small class="text-muted"&gt;${this.lang.video.providers}&lt;/small&gt;&lt;/label&gt;`,
+      '&lt;input class="note-video-url form-control note-form-control note-input" type="text" /&gt;',
+      '&lt;/div&gt;'
+    ].join('');
+    const buttonClass = 'btn btn-primary note-btn note-btn-primary note-video-btn';
+    const footer = `&lt;input type="button" href="#" class="${buttonClass}" value="${this.lang.video.insert}" disabled&gt;`;
+&nbsp;
+    this.$dialog = this.ui.dialog({
+      title: this.lang.video.insert,
+      fade: this.options.dialogsFade,
+      body: body,
+      footer: footer
+    }).render().appendTo($container);
+  }
+&nbsp;
+  destroy() {
+    this.ui.hideDialog(this.$dialog);
+    this.$dialog.remove();
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  bindEnterKey($input, $btn)</span> {
+<span class="cstat-no" title="statement not covered" >    $input.on('keypress', <span class="fstat-no" title="function not covered" >(event)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (event.keyCode === key.code.ENTER) {</span>
+<span class="cstat-no" title="statement not covered" >        event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >        $btn.trigger('click');</span>
+      }
+    });
+  }
+&nbsp;
+  createVideoNode(url) {
+    // video url patterns(youtube, instagram, vimeo, dailymotion, youku, mp4, ogg, webm)
+    const ytRegExp = /\/\/(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&amp;v=))([\w|-]{11})(?:(?:[\?&amp;]t=)(\S+))?$/;
+    const ytRegExpForStart = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/;
+    const ytMatch = url.match(ytRegExp);
+&nbsp;
+    const igRegExp = /(?:www\.|\/\/)instagram\.com\/p\/(.[a-zA-Z0-9_-]*)/;
+    const igMatch = url.match(igRegExp);
+&nbsp;
+    const vRegExp = /\/\/vine\.co\/v\/([a-zA-Z0-9]+)/;
+    const vMatch = url.match(vRegExp);
+&nbsp;
+    const vimRegExp = /\/\/(player\.)?vimeo\.com\/([a-z]*\/)*(\d+)[?]?.*/;
+    const vimMatch = url.match(vimRegExp);
+&nbsp;
+    const dmRegExp = /.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&amp;]+))?/;
+    const dmMatch = url.match(dmRegExp);
+&nbsp;
+    const youkuRegExp = /\/\/v\.youku\.com\/v_show\/id_(\w+)=*\.html/;
+    const youkuMatch = url.match(youkuRegExp);
+&nbsp;
+    const qqRegExp = /\/\/v\.qq\.com.*?vid=(.+)/;
+    const qqMatch = url.match(qqRegExp);
+&nbsp;
+    const qqRegExp2 = /\/\/v\.qq\.com\/x?\/?(page|cover).*?\/([^\/]+)\.html\??.*/;
+    const qqMatch2 = url.match(qqRegExp2);
+&nbsp;
+    const mp4RegExp = /^.+.(mp4|m4v)$/;
+    const mp4Match = url.match(mp4RegExp);
+&nbsp;
+    const oggRegExp = /^.+.(ogg|ogv)$/;
+    const oggMatch = url.match(oggRegExp);
+&nbsp;
+    const webmRegExp = /^.+.(webm)$/;
+    const webmMatch = url.match(webmRegExp);
+&nbsp;
+    let $video;
+    if (ytMatch &amp;&amp; ytMatch[1].length === 11) {
+      const youtubeId = ytMatch[1];
+      var start = 0;
+      if (typeof ytMatch[2] !== 'undefined') {
+        const ytMatchForStart = ytMatch[2].match(ytRegExpForStart);
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (ytMatchForStart) {
+          for (var n = [3600, 60, 1], i = 0, r = n.length; i &lt; r; i++) {
+            start += (typeof ytMatchForStart[i + 1] !== 'undefined' ? n[i] * parseInt(ytMatchForStart[i + 1], 10) : <span class="branch-1 cbranch-no" title="branch not covered" >0)</span>;
+          }
+        }
+      }
+      $video = $('&lt;iframe&gt;')
+        .attr('frameborder', 0)
+        .attr('src', '//www.youtube.com/embed/' + youtubeId + (start &gt; 0 ? '?start=' + start : ''))
+        .attr('width', '640').attr('height', '360');
+    } else if (igMatch &amp;&amp; igMatch[0].length) {
+      $video = $('&lt;iframe&gt;')
+        .attr('frameborder', 0)
+        .attr('src', 'https://instagram.com/p/' + igMatch[1] + '/embed/')
+        .attr('width', '612').attr('height', '710')
+        .attr('scrolling', 'no')
+        .attr('allowtransparency', 'true');
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (vMatch &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >vMatch[0].length)</span> {
+<span class="cstat-no" title="statement not covered" >      $video = $('&lt;iframe&gt;')</span>
+        .attr('frameborder', 0)
+        .attr('src', vMatch[0] + '/embed/simple')
+        .attr('width', '600').attr('height', '600')
+        .attr('class', 'vine-embed');
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (vimMatch &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >vimMatch[3].length)</span> {
+<span class="cstat-no" title="statement not covered" >      $video = $('&lt;iframe webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;')</span>
+        .attr('frameborder', 0)
+        .attr('src', '//player.vimeo.com/video/' + vimMatch[3])
+        .attr('width', '640').attr('height', '360');
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (dmMatch &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >dmMatch[2].length)</span> {
+<span class="cstat-no" title="statement not covered" >      $video = $('&lt;iframe&gt;')</span>
+        .attr('frameborder', 0)
+        .attr('src', '//www.dailymotion.com/embed/video/' + dmMatch[2])
+        .attr('width', '640').attr('height', '360');
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (youkuMatch &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >youkuMatch[1].length)</span> {
+<span class="cstat-no" title="statement not covered" >      $video = $('&lt;iframe webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;')</span>
+        .attr('frameborder', 0)
+        .attr('height', '498')
+        .attr('width', '510')
+        .attr('src', '//player.youku.com/embed/' + youkuMatch[1]);
+    } else if ((qqMatch &amp;&amp; qqMatch[1].length) || (qqMatch2 &amp;&amp; qqMatch2[2].length)) {
+      const vid = ((qqMatch &amp;&amp; qqMatch[1].length) ? qqMatch[1] : qqMatch2[2]);
+      $video = $('&lt;iframe webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;')
+        .attr('frameborder', 0)
+        .attr('height', '310')
+        .attr('width', '500')
+        .attr('src', 'http://v.qq.com/iframe/player.html?vid=' + vid + '&amp;amp;auto=0');
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (mp4Match || oggMatch || webmMatch) {
+<span class="cstat-no" title="statement not covered" >      $video = $('&lt;video controls&gt;')</span>
+        .attr('src', url)
+        .attr('width', '640').attr('height', '360');
+    } else {
+      // this is not a known video link. Now what, Cat? Now what?
+      return false;
+    }
+&nbsp;
+    $video.addClass('note-video-clip');
+&nbsp;
+    return $video[0];
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  show() {</span>
+<span class="cstat-no" title="statement not covered" >    const text = this.context.invoke('editor.getSelectedText');</span>
+<span class="cstat-no" title="statement not covered" >    this.context.invoke('editor.saveRange');</span>
+<span class="cstat-no" title="statement not covered" >    this.showVideoDialog(text).then(<span class="fstat-no" title="function not covered" >(url)</span> =&gt; {</span>
+      // [workaround] hide dialog before restore range for IE range focus
+<span class="cstat-no" title="statement not covered" >      this.ui.hideDialog(this.$dialog);</span>
+<span class="cstat-no" title="statement not covered" >      this.context.invoke('editor.restoreRange');</span>
+&nbsp;
+      // build node
+<span class="cstat-no" title="statement not covered" >      const $node = this.createVideoNode(url);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if ($node) {</span>
+        // insert video node
+<span class="cstat-no" title="statement not covered" >        this.context.invoke('editor.insertNode', $node);</span>
+      }
+    }).fail(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.context.invoke('editor.restoreRange');</span>
+    });
+  }
+&nbsp;
+  /**
+   * show image dialog
+   *
+   * @param {jQuery} $dialog
+   * @return {Promise}
+   */
+<span class="fstat-no" title="function not covered" >  showVideoDialog(text)</span> {
+<span class="cstat-no" title="statement not covered" >    return $.Deferred(<span class="fstat-no" title="function not covered" >(deferred)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      const $videoUrl = this.$dialog.find('.note-video-url');</span>
+<span class="cstat-no" title="statement not covered" >      const $videoBtn = this.$dialog.find('.note-video-btn');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.ui.onDialogShown(this.$dialog, <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        this.context.triggerEvent('dialog.shown');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        $videoUrl.val(text).on('input', <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          this.ui.toggleBtn($videoBtn, $videoUrl.val());</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!env.isSupportTouch) {</span>
+<span class="cstat-no" title="statement not covered" >          $videoUrl.trigger('focus');</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        $videoBtn.click(<span class="fstat-no" title="function not covered" >(event)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          event.preventDefault();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          deferred.resolve($videoUrl.val());</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.bindEnterKey($videoUrl, $videoBtn);</span>
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.ui.onDialogHidden(this.$dialog, <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        $videoUrl.off('input');</span>
+<span class="cstat-no" title="statement not covered" >        $videoBtn.off('click');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (deferred.state() === 'pending') {</span>
+<span class="cstat-no" title="statement not covered" >          deferred.reject();</span>
+        }
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.ui.showDialog(this.$dialog);</span>
+    });
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 24 2018 21:14:15 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+ {
+  "name": "counterup",
+  "version": "1.0.2",
+  "title": "Counter-Up",
+  "description": "A lightweight jQuery plugin that counts up to a targeted number when the number becomes visible.",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "counter",
+    "count",
+    "up",
+    "number",
+    "figure",
+    "numeric",
+    "int",
+    "float",
+    "animation"
+  ],
+  "homepage": "https://github.com/bfintal/Counter-Up",
+  "author": "Benjamin Intal",
+  "bugs": {
+    "url": "https://github.com/bfintal/Counter-Up/issues"
+  },
+  "licenses": [
+    {
+      "type": "GPL2",
+      "url": "https://raw.github.com/bfintal/Counter-Up/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.5",
+    "waypoints": ">=2.0"
+  },
+  "demo": "http://bfintal.github.io/Counter-Up/demo/demo.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bfintal/Counter-Up"
+  }
+}

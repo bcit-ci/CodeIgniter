@@ -1,0 +1,25 @@
+/*
+ * 	Owl Carousel - Lazy Load Plugin
+ */
+
+.owl-carousel {
+	.owl-item {
+		.owl-lazy {
+				opacity: 0;
+				transition: opacity 400ms ease;
+		}
+
+		/**
+			This is introduced due to a bug in IE11 where lazy loading combined with autoheight plugin causes a wrong
+			calculation of the height of the owl-item that breaks page layouts
+		 */
+		.owl-lazy[src^=""], .owl-lazy:not([src]) {
+			max-height: 0;
+		}
+
+		img.owl-lazy {
+			transform-style: preserve-3d;
+		}
+	}
+}
+

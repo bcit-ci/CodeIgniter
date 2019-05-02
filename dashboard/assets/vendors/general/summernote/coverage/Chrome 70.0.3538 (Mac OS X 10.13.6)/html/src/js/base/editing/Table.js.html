@@ -1,0 +1,1787 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/js/base/editing/Table.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/js/base/editing/</a> Table.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.96% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>251/279</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">78.48% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>124/158</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.24% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>20/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.24% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>250/274</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">102×</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-yes">94×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-yes">42×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import $ from 'jquery';
+import dom from '../core/dom';
+import range from '../core/range';
+import lists from '../core/lists';
+&nbsp;
+/**
+ * @class Create a virtual table to create what actions to do in change.
+ * @param {object} startPoint Cell selected to apply change.
+ * @param {enum} where  Where change will be applied Row or Col. Use enum: TableResultAction.where
+ * @param {enum} action Action to be applied. Use enum: TableResultAction.requestAction
+ * @param {object} domTable Dom element of table to make changes.
+ */
+const TableResultAction = function(startPoint, where, action, domTable) {
+  const _startPoint = { 'colPos': 0, 'rowPos': 0 };
+  const _virtualTable = [];
+  const _actionCellList = [];
+&nbsp;
+  /// ///////////////////////////////////////////
+  // Private functions
+  /// ///////////////////////////////////////////
+&nbsp;
+  /**
+   * Set the startPoint of action.
+   */
+  function setStartPoint() {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!startPoint || !startPoint.tagName || (startPoint.tagName.toLowerCase() !== 'td' &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >startPoint.tagName.toLowerCase() !== 'th')</span>) {
+<span class="cstat-no" title="statement not covered" >      console.error('Impossible to identify start Cell point.', startPoint);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+    _startPoint.colPos = startPoint.cellIndex;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!startPoint.parentElement || !startPoint.parentElement.tagName || startPoint.parentElement.tagName.toLowerCase() !== 'tr') {
+<span class="cstat-no" title="statement not covered" >      console.error('Impossible to identify start Row point.', startPoint);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+    _startPoint.rowPos = startPoint.parentElement.rowIndex;
+  }
+&nbsp;
+  /**
+   * Define virtual table position info object.
+   *
+   * @param {int} rowIndex Index position in line of virtual table.
+   * @param {int} cellIndex Index position in column of virtual table.
+   * @param {object} baseRow Row affected by this position.
+   * @param {object} baseCell Cell affected by this position.
+   * @param {bool} isSpan Inform if it is an span cell/row.
+   */
+  function setVirtualTablePosition(rowIndex, cellIndex, baseRow, baseCell, isRowSpan, isColSpan, isVirtualCell) {
+    const objPosition = {
+      'baseRow': baseRow,
+      'baseCell': baseCell,
+      'isRowSpan': isRowSpan,
+      'isColSpan': isColSpan,
+      'isVirtual': isVirtualCell
+    };
+    if (!_virtualTable[rowIndex]) {
+      _virtualTable[rowIndex] = [];
+    }
+    _virtualTable[rowIndex][cellIndex] = objPosition;
+  }
+&nbsp;
+  /**
+   * Create action cell object.
+   *
+   * @param {object} virtualTableCellObj Object of specific position on virtual table.
+   * @param {enum} resultAction Action to be applied in that item.
+   */
+  function getActionCell(virtualTableCellObj, resultAction, virtualRowPosition, virtualColPosition) {
+    return {
+      'baseCell': virtualTableCellObj.baseCell,
+      'action': resultAction,
+      'virtualTable': {
+        'rowIndex': virtualRowPosition,
+        'cellIndex': virtualColPosition
+      }
+    };
+  }
+&nbsp;
+  /**
+   * Recover free index of row to append Cell.
+   *
+   * @param {int} rowIndex Index of row to find free space.
+   * @param {int} cellIndex Index of cell to find free space in table.
+   */
+  function recoverCellIndex(rowIndex, cellIndex) {
+    if (!_virtualTable[rowIndex]) {
+      return cellIndex;
+    }
+    if (!_virtualTable[rowIndex][cellIndex]) {
+      return cellIndex;
+    }
+&nbsp;
+    let newCellIndex = cellIndex;
+    while (_virtualTable[rowIndex][newCellIndex]) {
+      newCellIndex++;
+      if (!_virtualTable[rowIndex][newCellIndex]) {
+        return newCellIndex;
+      }
+    }
+  }
+&nbsp;
+  /**
+   * Recover info about row and cell and add information to virtual table.
+   *
+   * @param {object} row Row to recover information.
+   * @param {object} cell Cell to recover information.
+   */
+  function addCellInfoToVirtual(row, cell) {
+    const cellIndex = recoverCellIndex(row.rowIndex, cell.cellIndex);
+    const cellHasColspan = (cell.colSpan &gt; 1);
+    const cellHasRowspan = (cell.rowSpan &gt; 1);
+    const isThisSelectedCell = (row.rowIndex === _startPoint.rowPos &amp;&amp; cell.cellIndex === _startPoint.colPos);
+    setVirtualTablePosition(row.rowIndex, cellIndex, row, cell, cellHasRowspan, cellHasColspan, false);
+&nbsp;
+    // Add span rows to virtual Table.
+    const rowspanNumber = cell.attributes.rowSpan ? parseInt(cell.attributes.rowSpan.value, 10) : 0;
+    if (rowspanNumber &gt; 1) {
+      for (let rp = 1; rp &lt; rowspanNumber; rp++) {
+        const rowspanIndex = row.rowIndex + rp;
+        adjustStartPoint(rowspanIndex, cellIndex, cell, isThisSelectedCell);
+        setVirtualTablePosition(rowspanIndex, cellIndex, row, cell, true, cellHasColspan, true);
+      }
+    }
+&nbsp;
+    // Add span cols to virtual table.
+    const colspanNumber = cell.attributes.colSpan ? parseInt(cell.attributes.colSpan.value, 10) : 0;
+    if (colspanNumber &gt; 1) {
+      for (let cp = 1; cp &lt; colspanNumber; cp++) {
+        const cellspanIndex = recoverCellIndex(row.rowIndex, (cellIndex + cp));
+        adjustStartPoint(row.rowIndex, cellspanIndex, cell, isThisSelectedCell);
+        setVirtualTablePosition(row.rowIndex, cellspanIndex, row, cell, cellHasRowspan, true, true);
+      }
+    }
+  }
+&nbsp;
+  /**
+   * Process validation and adjust of start point if needed
+   *
+   * @param {int} rowIndex
+   * @param {int} cellIndex
+   * @param {object} cell
+   * @param {bool} isSelectedCell
+   */
+  function adjustStartPoint(rowIndex, cellIndex, cell, isSelectedCell) {
+    if (rowIndex === _startPoint.rowPos &amp;&amp; _startPoint.colPos &gt;= cell.cellIndex &amp;&amp; cell.cellIndex &lt;= cellIndex &amp;&amp; !isSelectedCell) {
+      _startPoint.colPos++;
+    }
+  }
+&nbsp;
+  /**
+   * Create virtual table of cells with all cells, including span cells.
+   */
+  function createVirtualTable() {
+    const rows = domTable.rows;
+    for (let rowIndex = 0; rowIndex &lt; rows.length; rowIndex++) {
+      const cells = rows[rowIndex].cells;
+      for (let cellIndex = 0; cellIndex &lt; cells.length; cellIndex++) {
+        addCellInfoToVirtual(rows[rowIndex], cells[cellIndex]);
+      }
+    }
+  }
+&nbsp;
+  /**
+   * Get action to be applied on the cell.
+   *
+   * @param {object} cell virtual table cell to apply action
+   */
+  function getDeleteResultActionToCell(cell) {
+    switch (where) {
+      case TableResultAction.where.Column:
+        if (cell.isColSpan) {
+          return TableResultAction.resultAction.SubtractSpanCount;
+        }
+        break;
+      case TableResultAction.where.Row:
+        if (!cell.isVirtual &amp;&amp; cell.isRowSpan) {
+          return TableResultAction.resultAction.AddCell;
+        } else if (cell.isRowSpan) {
+          return TableResultAction.resultAction.SubtractSpanCount;
+        }
+        break;
+    }
+    return TableResultAction.resultAction.RemoveCell;
+  }
+&nbsp;
+  /**
+   * Get action to be applied on the cell.
+   *
+   * @param {object} cell virtual table cell to apply action
+   */
+  function getAddResultActionToCell(cell) {
+    switch (where) {
+      case TableResultAction.where.Column:
+        if (cell.isColSpan) {
+          return TableResultAction.resultAction.SumSpanCount;
+        } else if (cell.isRowSpan &amp;&amp; cell.isVirtual) {
+          return TableResultAction.resultAction.Ignore;
+        }
+        break;
+      case TableResultAction.where.Row:
+        if (cell.isRowSpan) {
+          return TableResultAction.resultAction.SumSpanCount;
+        } else if (cell.isColSpan &amp;&amp; cell.isVirtual) {
+          return TableResultAction.resultAction.Ignore;
+        }
+        break;
+    }
+    return TableResultAction.resultAction.AddCell;
+  }
+&nbsp;
+  function init() {
+    setStartPoint();
+    createVirtualTable();
+  }
+&nbsp;
+  /// ///////////////////////////////////////////
+  // Public functions
+  /// ///////////////////////////////////////////
+&nbsp;
+  /**
+   * Recover array os what to do in table.
+   */
+  this.getActionList = function() {
+    const fixedRow = (where === TableResultAction.where.Row) ? _startPoint.rowPos : -1;
+    const fixedCol = (where === TableResultAction.where.Column) ? _startPoint.colPos : -1;
+&nbsp;
+    let actualPosition = 0;
+    let canContinue = true;
+    while (canContinue) {
+      const rowPosition = (fixedRow &gt;= 0) ? fixedRow : actualPosition;
+      const colPosition = (fixedCol &gt;= 0) ? fixedCol : actualPosition;
+      const row = _virtualTable[rowPosition];
+      if (!row) {
+        canContinue = false;
+        return _actionCellList;
+      }
+      const cell = row[colPosition];
+      if (!cell) {
+        canContinue = false;
+        return _actionCellList;
+      }
+&nbsp;
+      // Define action to be applied in this cell
+      let resultAction = TableResultAction.resultAction.Ignore;
+      switch (action) {
+        case TableResultAction.requestAction.Add:
+          resultAction = getAddResultActionToCell(cell);
+          break;
+        case TableResultAction.requestAction.Delete:
+          resultAction = getDeleteResultActionToCell(cell);
+          break;
+      }
+      _actionCellList.push(getActionCell(cell, resultAction, rowPosition, colPosition));
+      actualPosition++;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return _actionCellList;</span>
+  };
+&nbsp;
+  init();
+};
+/**
+*
+* Where action occours enum.
+*/
+TableResultAction.where = { 'Row': 0, 'Column': 1 };
+/**
+*
+* Requested action to apply enum.
+*/
+TableResultAction.requestAction = { 'Add': 0, 'Delete': 1 };
+/**
+*
+* Result action to be executed enum.
+*/
+TableResultAction.resultAction = { 'Ignore': 0, 'SubtractSpanCount': 1, 'RemoveCell': 2, 'AddCell': 3, 'SumSpanCount': 4 };
+&nbsp;
+/**
+ *
+ * @class editing.Table
+ *
+ * Table
+ *
+ */
+export default class Table {
+  /**
+   * handle tab key
+   *
+   * @param {WrappedRange} rng
+   * @param {Boolean} isShift
+   */
+<span class="fstat-no" title="function not covered" >  tab(rng, isShift)</span> {
+<span class="cstat-no" title="statement not covered" >    const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);</span>
+<span class="cstat-no" title="statement not covered" >    const table = dom.ancestor(cell, dom.isTable);</span>
+<span class="cstat-no" title="statement not covered" >    const cells = dom.listDescendant(table, dom.isCell);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const nextCell = lists[isShift ? 'prev' : 'next'](cells, cell);</span>
+<span class="cstat-no" title="statement not covered" >    if (nextCell) {</span>
+<span class="cstat-no" title="statement not covered" >      range.create(nextCell, 0).select();</span>
+    }
+  }
+&nbsp;
+  /**
+   * Add a new row
+   *
+   * @param {WrappedRange} rng
+   * @param {String} position (top/bottom)
+   * @return {Node}
+   */
+  addRow(rng, position) {
+    const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
+&nbsp;
+    const currentTr = $(cell).closest('tr');
+    const trAttributes = this.recoverAttributes(currentTr);
+    const html = $('&lt;tr' + trAttributes + '&gt;&lt;/tr&gt;');
+&nbsp;
+    const vTable = new TableResultAction(cell, TableResultAction.where.Row,
+      TableResultAction.requestAction.Add, $(currentTr).closest('table')[0]);
+    const actions = vTable.getActionList();
+&nbsp;
+    for (let idCell = 0; idCell &lt; actions.length; idCell++) {
+      const currentCell = actions[idCell];
+      const tdAttributes = this.recoverAttributes(currentCell.baseCell);
+      switch (currentCell.action) {
+        case TableResultAction.resultAction.AddCell:
+          html.append('&lt;td' + tdAttributes + '&gt;' + dom.blank + '&lt;/td&gt;');
+          break;
+        case TableResultAction.resultAction.SumSpanCount:
+          if (position === 'top') {
+            const baseCellTr = currentCell.baseCell.parent;
+            const isTopFromRowSpan = (!baseCellTr ? 0 : <span class="branch-1 cbranch-no" title="branch not covered" >currentCell.baseCell.closest('tr').rowIndex)</span> &lt;= currentTr[0].rowIndex;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (isTopFromRowSpan) {
+              const newTd = $('&lt;div&gt;&lt;/div&gt;').append($('&lt;td' + tdAttributes + '&gt;' + dom.blank + '&lt;/td&gt;').removeAttr('rowspan')).html();
+              html.append(newTd);
+              break;
+            }
+          }
+          let rowspanNumber = parseInt(currentCell.baseCell.rowSpan, 10);
+          rowspanNumber++;
+          currentCell.baseCell.setAttribute('rowSpan', rowspanNumber);
+          break;
+      }
+    }
+&nbsp;
+    if (position === 'top') {
+      currentTr.before(html);
+    } else {
+      const cellHasRowspan = (cell.rowSpan &gt; 1);
+      if (cellHasRowspan) {
+        const lastTrIndex = currentTr[0].rowIndex + (cell.rowSpan - 2);
+        $($(currentTr).parent().find('tr')[lastTrIndex]).after($(html));
+        return;
+      }
+      currentTr.after(html);
+    }
+  }
+&nbsp;
+  /**
+   * Add a new col
+   *
+   * @param {WrappedRange} rng
+   * @param {String} position (left/right)
+   * @return {Node}
+   */
+  addCol(rng, position) {
+    const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
+    const row = $(cell).closest('tr');
+    const rowsGroup = $(row).siblings();
+    rowsGroup.push(row);
+&nbsp;
+    const vTable = new TableResultAction(cell, TableResultAction.where.Column,
+      TableResultAction.requestAction.Add, $(row).closest('table')[0]);
+    const actions = vTable.getActionList();
+&nbsp;
+    for (let actionIndex = 0; actionIndex &lt; actions.length; actionIndex++) {
+      const currentCell = actions[actionIndex];
+      const tdAttributes = this.recoverAttributes(currentCell.baseCell);
+      switch (currentCell.action) {
+        case TableResultAction.resultAction.AddCell:
+          if (position === 'right') {
+            $(currentCell.baseCell).after('&lt;td' + tdAttributes + '&gt;' + dom.blank + '&lt;/td&gt;');
+          } else {
+            $(currentCell.baseCell).before('&lt;td' + tdAttributes + '&gt;' + dom.blank + '&lt;/td&gt;');
+          }
+          break;
+        case TableResultAction.resultAction.SumSpanCount:
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (position === 'right') {
+            let colspanNumber = parseInt(currentCell.baseCell.colSpan, 10);
+            colspanNumber++;
+            currentCell.baseCell.setAttribute('colSpan', colspanNumber);
+          } else {
+<span class="cstat-no" title="statement not covered" >            $(currentCell.baseCell).before('&lt;td' + tdAttributes + '&gt;' + dom.blank + '&lt;/td&gt;');</span>
+          }
+          break;
+      }
+    }
+  }
+&nbsp;
+  /*
+  * Copy attributes from element.
+  *
+  * @param {object} Element to recover attributes.
+  * @return {string} Copied string elements.
+  */
+  recoverAttributes(el) {
+    let resultStr = '';
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!el) {
+<span class="cstat-no" title="statement not covered" >      return resultStr;</span>
+    }
+&nbsp;
+    const attrList = el.attributes || [];
+&nbsp;
+    for (let i = 0; i &lt; attrList.length; i++) {
+      if (attrList[i].name.toLowerCase() === 'id') {
+        continue;
+      }
+&nbsp;
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (attrList[i].specified) {
+        resultStr += ' ' + attrList[i].name + '=\'' + attrList[i].value + '\'';
+      }
+    }
+&nbsp;
+    return resultStr;
+  }
+&nbsp;
+  /**
+   * Delete current row
+   *
+   * @param {WrappedRange} rng
+   * @return {Node}
+   */
+  deleteRow(rng) {
+    const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
+    const row = $(cell).closest('tr');
+    const cellPos = row.children('td, th').index($(cell));
+    const rowPos = row[0].rowIndex;
+&nbsp;
+    const vTable = new TableResultAction(cell, TableResultAction.where.Row,
+      TableResultAction.requestAction.Delete, $(row).closest('table')[0]);
+    const actions = vTable.getActionList();
+&nbsp;
+    for (let actionIndex = 0; actionIndex &lt; actions.length; actionIndex++) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!actions[actionIndex]) {
+<span class="cstat-no" title="statement not covered" >        continue;</span>
+      }
+&nbsp;
+      const baseCell = actions[actionIndex].baseCell;
+      const virtualPosition = actions[actionIndex].virtualTable;
+      const hasRowspan = (baseCell.rowSpan &amp;&amp; baseCell.rowSpan &gt; 1);
+      let rowspanNumber = (hasRowspan) ? parseInt(baseCell.rowSpan, 10) : 0;
+      switch (actions[actionIndex].action) {
+<span class="branch-0 cbranch-no" title="branch not covered" >        case TableResultAction.resultAction.Ignore:</span>
+<span class="cstat-no" title="statement not covered" >          continue;</span>
+        case TableResultAction.resultAction.AddCell:
+          const nextRow = row.next('tr')[0];
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (!nextRow) { <span class="cstat-no" title="statement not covered" >continue; </span>}
+          const cloneRow = row[0].cells[cellPos];
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (hasRowspan) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (rowspanNumber &gt; 2) {
+<span class="cstat-no" title="statement not covered" >              rowspanNumber--;</span>
+<span class="cstat-no" title="statement not covered" >              nextRow.insertBefore(cloneRow, nextRow.cells[cellPos]);</span>
+<span class="cstat-no" title="statement not covered" >              nextRow.cells[cellPos].setAttribute('rowSpan', rowspanNumber);</span>
+<span class="cstat-no" title="statement not covered" >              nextRow.cells[cellPos].innerHTML = '';</span>
+            } else <span class="missing-if-branch" title="else path not taken" >E</span>if (rowspanNumber === 2) {
+              nextRow.insertBefore(cloneRow, nextRow.cells[cellPos]);
+              nextRow.cells[cellPos].removeAttribute('rowSpan');
+              nextRow.cells[cellPos].innerHTML = '';
+            }
+          }
+          continue;
+        case TableResultAction.resultAction.SubtractSpanCount:
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (hasRowspan) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (rowspanNumber &gt; 2) {
+              rowspanNumber--;
+              baseCell.setAttribute('rowSpan', rowspanNumber);
+              <span class="missing-if-branch" title="if path not taken" >I</span>if (virtualPosition.rowIndex !== rowPos &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >baseCell.cellIndex === cellPos)</span> { <span class="cstat-no" title="statement not covered" >baseCell.innerHTML = ''; </span>}
+            } else <span class="cstat-no" title="statement not covered" >if (rowspanNumber === 2) {</span>
+<span class="cstat-no" title="statement not covered" >              baseCell.removeAttribute('rowSpan');</span>
+<span class="cstat-no" title="statement not covered" >              if (virtualPosition.rowIndex !== rowPos &amp;&amp; baseCell.cellIndex === cellPos) { <span class="cstat-no" title="statement not covered" >baseCell.innerHTML = ''; </span>}</span>
+            }
+          }
+          continue;
+        case TableResultAction.resultAction.RemoveCell:
+          // Do not need remove cell because row will be deleted.
+          continue;
+      }
+    }
+    row.remove();
+  }
+&nbsp;
+  /**
+   * Delete current col
+   *
+   * @param {WrappedRange} rng
+   * @return {Node}
+   */
+  deleteCol(rng) {
+    const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
+    const row = $(cell).closest('tr');
+    const cellPos = row.children('td, th').index($(cell));
+&nbsp;
+    const vTable = new TableResultAction(cell, TableResultAction.where.Column,
+      TableResultAction.requestAction.Delete, $(row).closest('table')[0]);
+    const actions = vTable.getActionList();
+&nbsp;
+    for (let actionIndex = 0; actionIndex &lt; actions.length; actionIndex++) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!actions[actionIndex]) {
+<span class="cstat-no" title="statement not covered" >        continue;</span>
+      }
+      switch (actions[actionIndex].action) {
+<span class="branch-0 cbranch-no" title="branch not covered" >        case TableResultAction.resultAction.Ignore:</span>
+<span class="cstat-no" title="statement not covered" >          continue;</span>
+        case TableResultAction.resultAction.SubtractSpanCount:
+          const baseCell = actions[actionIndex].baseCell;
+          const hasColspan = (baseCell.colSpan &amp;&amp; baseCell.colSpan &gt; 1);
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (hasColspan) {
+            let colspanNumber = (baseCell.colSpan) ? parseInt(baseCell.colSpan, 10) : <span class="branch-1 cbranch-no" title="branch not covered" >0;</span>
+            if (colspanNumber &gt; 2) {
+              colspanNumber--;
+              baseCell.setAttribute('colSpan', colspanNumber);
+              <span class="missing-if-branch" title="if path not taken" >I</span>if (baseCell.cellIndex === cellPos) { <span class="cstat-no" title="statement not covered" >baseCell.innerHTML = ''; </span>}
+            } else <span class="missing-if-branch" title="else path not taken" >E</span>if (colspanNumber === 2) {
+              baseCell.removeAttribute('colSpan');
+              if (baseCell.cellIndex === cellPos) { baseCell.innerHTML = ''; }
+            }
+          }
+          continue;
+        case TableResultAction.resultAction.RemoveCell:
+          dom.remove(actions[actionIndex].baseCell, true);
+          continue;
+      }
+    }
+  }
+&nbsp;
+  /**
+   * create empty table element
+   *
+   * @param {Number} rowCount
+   * @param {Number} colCount
+   * @return {Node}
+   */
+  createTable(colCount, rowCount, options) {
+    const tds = [];
+    let tdHTML;
+    for (let idxCol = 0; idxCol &lt; colCount; idxCol++) {
+      tds.push('&lt;td&gt;' + dom.blank + '&lt;/td&gt;');
+    }
+    tdHTML = tds.join('');
+&nbsp;
+    const trs = [];
+    let trHTML;
+    for (let idxRow = 0; idxRow &lt; rowCount; idxRow++) {
+      trs.push('&lt;tr&gt;' + tdHTML + '&lt;/tr&gt;');
+    }
+    trHTML = trs.join('');
+    const $table = $('&lt;table&gt;' + trHTML + '&lt;/table&gt;');
+    if (options &amp;&amp; options.tableClassName) {
+      $table.addClass(options.tableClassName);
+    }
+&nbsp;
+    return $table[0];
+  }
+&nbsp;
+  /**
+   * Delete current table
+   *
+   * @param {WrappedRange} rng
+   * @return {Node}
+   */
+  deleteTable(rng) {
+    const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
+    $(cell).closest('table').remove();
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 30 2018 20:23:35 GMT+0900 (KST)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

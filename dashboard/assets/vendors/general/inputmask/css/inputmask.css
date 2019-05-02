@@ -1,0 +1,69 @@
+mark.im-caret {
+    animation: 1s blink step-end infinite !important;
+}
+
+mark.im-caret-select {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+@keyframes blink {
+    from, to {
+        border-right-color: black;
+    }
+    50% {
+        border-right-color: transparent;
+    }
+}
+
+span.im-static {
+    color: grey;
+}
+
+div.im-colormask {
+    display: inline-block;
+    border-style: inset;
+    border-width: 2px;
+    appearance: textfield;
+    cursor: text;
+}
+
+div.im-colormask > input, div.im-colormask > input:-webkit-autofill {
+    position: absolute !important;
+    display: inline-block;
+    background-color: transparent;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: transparent;
+    text-shadow: none;
+    appearance: caret;
+    border-style: none;
+    left: 0; /*calculated*/
+}
+
+div.im-colormask > input:focus {
+    outline: none;
+}
+
+div.im-colormask > input::selection {
+    background: none;
+}
+
+div.im-colormask > input::-moz-selection {
+    background: none;
+}
+
+div.im-colormask > input:-webkit-autofill ~ div {
+    background-color: rgb(250, 255, 189);
+}
+
+div.im-colormask > div {
+    color: black;
+    display: inline-block;
+    width: 100px; /*calculated*/
+}
+
+[im-insert="false"] {
+    caret-color: red;
+    caret-shape: block;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Summernote with language files</title>
+  <!-- include jquery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+  <!-- include libraries BS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.5/umd/popper.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.js"></script>
+
+  <!-- include summernote -->
+  <link rel="stylesheet" href="../dist/summernote-bs4.css">
+  <script type="text/javascript" src="../dist/summernote-bs4.js"></script>
+  <script type="text/javascript" src="../lang/summernote-ko-KR.js"></script>
+
+  <link rel="stylesheet" href="example.css">
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.summernote').summernote({
+        height: 200,
+        tabsize: 2,
+        lang: 'ko-KR'
+      });
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <h1>Summernote with a language setting</h1>
+  <p>This example shows Summernote with Korean language(ko-KR) setting.</p>
+  <textarea class="summernote"><p>Seasons <b>coming up</b></p></textarea>
+</div
+</body>
+</html>

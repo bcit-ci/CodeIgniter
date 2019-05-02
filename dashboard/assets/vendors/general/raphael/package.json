@@ -1,0 +1,46 @@
+{
+  "name": "raphael",
+  "version": "2.2.8",
+  "description": "JavaScript Vector Library",
+  "main": "raphael.min.js",
+  "author": {
+    "name": "Dmitry Baranovskiy"
+  },
+  "contributors": [
+    {
+      "name": "Tomas Alabes",
+      "url": "https://github.com/tomasAlabes"
+    }
+  ],
+  "dependencies": {
+    "eve-raphael": "0.5.0"
+  },
+  "devDependencies": {
+    "qunitjs": "^1.0.0",
+    "webpack": "4.29.6",
+    "webpack-cli": "3.3.0"
+  },
+  "scripts": {
+    "build-dev": "webpack -d",
+    "build-no-deps": "webpack --env.noDeps -d --output-filename raphael.no-deps.js",
+    "build-no-deps-min": "webpack --env.noDeps -p --output-filename raphael.no-deps.min.js",
+    "build-prod": "webpack -p --output-filename raphael.min.js",
+    "build-all": "yarn build-dev && yarn build-no-deps && yarn build-no-deps-min && yarn build-prod",
+    "test": "echo \"Open dev/test/index.html with your browser\" && exit 1",
+    "prepublishOnly": "yarn build-all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DmitryBaranovskiy/raphael.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DmitryBaranovskiy/raphael/issues"
+  },
+  "keywords": [
+    "svg",
+    "vml",
+    "javascript"
+  ],
+  "homepage": "http://dmitrybaranovskiy.github.io/raphael/",
+  "license": "MIT"
+}

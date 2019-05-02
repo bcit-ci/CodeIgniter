@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Summernote - Custom Paragraph Style</title>
+  <!-- include jquery -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+  <!-- include libs stylesheets -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.5/umd/popper.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.js"></script>
+
+  <!-- include summernote -->
+  <link rel="stylesheet" href="../dist/summernote-bs4.css">
+  <script type="text/javascript" src="../dist/summernote-bs4.js"></script>
+
+  <link rel="stylesheet" href="example.css">
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.summernote').summernote({
+        height: 300,
+        tabsize: 2,
+        styleTags: [
+          'p',
+          {title: 'Striked', tag: 'p', className: 'striked', value: 'p'},
+          {title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote'},
+          {title: 'Big Title', tag: 'h1', className: 'bigtitle', value: 'h1'}
+        ]
+      });
+    });
+  </script>
+  <style>
+  .bigtitle {
+    font-size: 5em;
+  }
+  .striked {
+    text-decoration: line-through;
+  }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Summernote - Custom Paragraph Style</h1>
+  <div class="summernote">Make me big!</div>
+</div>
+</body>
+</html>

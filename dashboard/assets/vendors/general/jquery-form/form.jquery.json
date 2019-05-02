@@ -1,0 +1,54 @@
+{
+  "name": "form",
+  "title": "jQuery Form",
+  "version": "4.2.2",
+  "author": {
+    "name": "Kevin Morris",
+    "url": "https://github.com/kevindb/"
+  },
+  "description": "The jQuery Form Plugin allows you to easily and unobtrusively upgrade HTML forms to use AJAX.",
+  "keywords": [ "jquery", "ajax", "jquery-plugin", "json", "json-form", "html-form", "form", "jquery-form" ],
+  "homepage": "https://github.com/jquery-form/form",
+  "docs": "https://jquery-form.github.io/form/",
+  "bugs": "https://github.com/jquery-form/form/issues",
+  "licenses": [
+    {
+      "type": "LGPL-2.1+",
+      "url": "https://github.com/jquery-form/form/blob/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://github.com/jquery-form/form/blob/master/LICENSE-MIT"
+    }
+  ],
+  "maintainers": [
+    {
+       "name": "Kevin Morris",
+       "url": "https://github.com/kevindb"
+    },
+    {
+       "name": "Mike Alsup",
+       "url": "https://github.com/malsup"
+    }
+  ],
+  "main": "src/jquery.form.js",
+  "browser": "dist/jquery.form.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jquery-form/form.git"
+  },
+  "dependencies": {
+    "jquery": ">=1.7.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-uglify": "^3.0.1",
+    "grunt-eslint": "*",
+    "grunt-githooks": "^0.6.0",
+    "grunt-mocha": "^1.0.4",
+    "jquery": "^3.0.0",
+    "mocha": "^3.4.2"
+  }
+}

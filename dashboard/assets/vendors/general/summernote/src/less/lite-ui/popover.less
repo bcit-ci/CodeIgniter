@@ -1,0 +1,121 @@
+.note-popover {
+  position: absolute;
+  z-index: @zindex-popover;
+  display: block;
+  // Our parent element can be arbitrary since popovers are by default inserted as a sibling of their target element.
+  // So reset our font and text properties to avoid inheriting weird values.
+  font-size: 13px;
+
+  display: none;
+  background: @popover-bg;
+  border: 1px solid @popover-border-color;
+  border: 1px solid @popover-fallback-border-color;
+
+  &.in     { display: block; }
+  &.top    { margin-top:  -3px; padding: 5 0; }
+  &.right  { margin-left:  3px; padding: 0 5; }
+  &.bottom { margin-top:   3px; padding: 5 0; }
+  &.left   { margin-left: -3px; padding: 0 5; }
+}
+
+.note-popover {
+  &.bottom .note-popover-arrow {
+    top: -11px;
+    left: 50%;
+    margin-left: -@popover-arrow-width;
+    border-top-width: 0;
+    border-bottom-color: @popover-arrow-outer-fallback-color;
+    border-bottom-color: @popover-arrow-outer-color;
+
+    &::after {
+      top: 1px;
+      margin-left: -10px;
+      content: " ";
+      border-top-width: 0;
+      border-bottom-color: #fff;
+    }
+  }
+
+  &.top .note-popover-arrow {
+    bottom: -11px;
+    left: 50%;
+    margin-left: -@popover-arrow-width;
+    border-bottom-width: 0;
+    border-top-color: @popover-arrow-outer-fallback-color;
+    border-top-color: @popover-arrow-outer-color;
+
+    &::after {
+      bottom: 1px;
+      margin-left: -10px;
+      content: " ";
+      border-bottom-width: 0;
+      border-top-color: #fff;
+    }
+  }
+
+  &.right .note-popover-arrow {
+    top: 50%;
+    left: -11px;
+    margin-top: -@popover-arrow-width;
+    border-left-width: 0;
+    border-right-color: @popover-arrow-outer-fallback-color;
+    border-right-color: @popover-arrow-outer-color;
+
+    &::after {
+      left: 1px;
+      margin-top: -10px;
+      content: " ";
+      border-left-width: 0;
+      border-right-color: #fff;
+    }
+
+  }
+  &.left .note-popover-arrow {
+    top: 50%;
+    right: -11px;
+    margin-top: -@popover-arrow-width;
+    border-right-width: 0;
+    border-left-color: @popover-arrow-outer-fallback-color;
+    border-left-color: @popover-arrow-outer-color;
+
+    &::after {
+      right: 1px;
+      margin-top: -10px;
+      content: " ";
+      border-right-width: 0;
+      border-left-color: #fff;
+    }
+  }
+}
+
+
+.note-popover-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 11px solid transparent;
+
+  &::after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+
+
+    content :  " ";
+    border-width: 10px;
+  }
+
+}
+
+.note-popover-content {
+  /*max-width: @popover-max-width;*/
+  padding: 3px 8px;
+  color: @popover-color;
+  text-align: center;
+  background-color: @popover-bg;
+  min-width: 100px;
+  min-height: 30px;
+}

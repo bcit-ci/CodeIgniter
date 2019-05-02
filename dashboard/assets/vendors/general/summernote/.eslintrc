@@ -1,0 +1,19 @@
+{
+  "extends": "standard",
+    "plugins": [
+      "chai-friendly"
+    ],
+    "rules": {
+      "semi": [2, "always"],
+      "space-before-function-paren": ["error", "never"],
+      "no-useless-escape": 0,
+      "no-unused-expressions": 0,
+      "chai-friendly/no-unused-expressions": 2
+    },
+    "env": {
+      "es6": true,
+      "browser": true,
+      "jquery": true,
+      "mocha": true
+    }
+}

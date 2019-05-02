@@ -1,0 +1,11 @@
+{
+  "name": "es6-promise-polyfill",
+  "version": "1.1.1",
+  "main": "promise.js",
+  "ignore": [
+    ".*",
+    "**/.*",
+    "node_modules",
+    "test"
+  ]
+}

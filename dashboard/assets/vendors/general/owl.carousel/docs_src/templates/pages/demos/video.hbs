@@ -1,0 +1,99 @@
+---
+title: Video Demo
+subTitle: Video
+nav: demos
+description: Owl Carousel supports YouTube, Vimeo, and vzaar videos
+sort: 2
+
+tags:
+- demo
+- plugin
+---
+
+<div class="owl-carousel owl-theme">
+	<div class="item-video" data-merge="3"><a class="owl-video" href="https://vimeo.com/23924346"></a></div>
+	<div class="item-video" data-merge="1"><a class="owl-video" href="https://www.youtube.com/watch?v=JpxsRwnRwCQ"></a></div>
+	<div class="item-video" data-merge="2"><a class="owl-video" href="https://www.youtube.com/watch?v=FBu_jxT1PkA"></a></div>
+	<div class="item-video" data-merge="1"><a class="owl-video" href="https://www.youtube.com/watch?v=oy18DJwy5lI"></a></div>
+	<div class="item-video" data-merge="2"><a class="owl-video" href="https://www.youtube.com/watch?v=H3jLkJrhHKQ"></a></div>
+	<div class="item-video" data-merge="3"><a class="owl-video" href="https://www.youtube.com/watch?v=g3J4VxWIM6s"></a></div>
+	<div class="item-video" data-merge="1"><a class="owl-video" href="https://www.youtube.com/watch?v=0fhoIate4qI"></a></div>
+	<div class="item-video" data-merge="2"><a class="owl-video" href="https://www.youtube.com/watch?v=EF_kj2ojZaE"></a></div>
+</div>
+
+{{#markdown }}
+### Overview
+
+Enable video option:
+```
+video:true
+```
+To add video into carousel just put `<a class="owl-video" href="_straight URL from YouTube, Vimeo, or vzaar"></a>`.
+
+A tag is not mandatory, it can be any other tag but "owl-video" and href with url link is required.
+
+
+Additional video options:
+
+```
+videoWidth: false, // Default false; Type: Boolean/Number
+videoHeight: false, // Default false; Type: Boolean/Number
+```
+
+### Setup
+```
+	$('.owl-carousel').owlCarousel({
+		items:1,
+		merge:true,
+		loop:true,
+		margin:10,
+		video:true,
+		lazyLoad:true,
+		center:true,
+		responsive:{
+			480:{
+				items:2
+			},
+			600:{
+				items:4
+			}
+		}
+	})
+```
+### html
+```
+<div class="owl-carousel owl-theme">
+	<div class="item-video" data-merge="3"><a class="owl-video" href="https://vimeo.com/23924346"></a></div>
+	<div class="item-video" data-merge="1"><a class="owl-video" href="https://www.youtube.com/watch?v=JpxsRwnRwCQ"></a></div>
+	<div class="item-video" data-merge="2"><a class="owl-video" href="https://www.youtube.com/watch?v=FBu_jxT1PkA"></a></div>
+	<div class="item-video" data-merge="1"><a class="owl-video" href="https://www.youtube.com/watch?v=oy18DJwy5lI"></a></div>
+	<div class="item-video" data-merge="2"><a class="owl-video" href="https://www.youtube.com/watch?v=H3jLkJrhHKQ"></a></div>
+	<div class="item-video" data-merge="3"><a class="owl-video" href="https://www.youtube.com/watch?v=g3J4VxWIM6s"></a></div>
+	<div class="item-video" data-merge="1"><a class="owl-video" href="https://www.youtube.com/watch?v=0fhoIate4qI"></a></div>
+	<div class="item-video" data-merge="2"><a class="owl-video" href="https://www.youtube.com/watch?v=EF_kj2ojZaE"></a></div>
+</div>
+```
+
+{{/markdown }}
+
+<script>
+$(document).ready(function(){
+	$('.owl-carousel').owlCarousel({
+		items:1,
+		merge:true,
+		loop:true,
+		margin:10,
+		video:true,
+		lazyLoad:true,
+		center:true,
+		responsive:{
+			480:{
+				items:2
+			},
+			600:{
+				items:4
+			}
+		}
+	})
+})
+</script>
