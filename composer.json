@@ -12,7 +12,8 @@
 	},
 	"require": {
 		"php": ">=5.3.7",
-		"vlucas/phpdotenv": "^3.3"
+		"vlucas/phpdotenv": "^3.3",
+		"phpmailer/phpmailer": "^6.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
