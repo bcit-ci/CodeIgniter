@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once __DIR__ . "../../../vendor/autoload.php";
 /*
 | -------------------------------------------------------------------------
 | Hooks
@@ -11,3 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
+
+$hook['pre_system'] = function() {
+    $dotenv = Dotenv\Dotenv::create(APPPATH);
+    $dotenv->load();
+};
