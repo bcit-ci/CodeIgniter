@@ -22,6 +22,7 @@ class Home extends CI_Controller {
 
 	public function request()
 	{
+		var_dump("I am here");
 	
 		$name = $this->input->post('name');
 		$email = $this->input->post('email');
