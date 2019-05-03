@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name: Auth Lang - Norwegian
 *
@@ -162,4 +164,3 @@ $lang['email_activate_link']       = 'Aktivér din konto';
 $lang['email_forgot_password_heading']    = 'Tilbakestill passord for %s';
 $lang['email_forgot_password_subheading'] = 'Klikk denne linken for å %s.';
 $lang['email_forgot_password_link']       = 'Tilbakestill passordet ditt';
-

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,7 +129,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</tr>
 										</thead>
 										<tbody>
-										<?php foreach($requests as $request){ ?>
+										<?php foreach ($requests as $request) {
+    ?>
 											<tr>
 												<td><?php echo $request["id"] ?></td>
 												<td><?php echo $request["link"] ?></td>
@@ -139,7 +140,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?php echo $request["review_status"] ?></td>
 												<td nowrap></td>
 											</tr>
-										<?php } ?>
+										<?php
+} ?>
 										</tbody>
 									</table>
 								</div>

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - French
 *
@@ -75,4 +77,3 @@ $lang['email_forgotten_password_subject'] = 'Mot de Passe Oublié - Vérificatio
 $lang['email_forgot_password_heading']    = 'Réinitialiser le mot de passe pour %s';
 $lang['email_forgot_password_subheading'] = 'Veuillez cliquer sur ce lien pour %s.';
 $lang['email_forgot_password_link']       = 'Réinitialiser votre mot de passe';
-

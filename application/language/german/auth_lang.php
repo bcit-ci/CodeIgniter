@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - German
 *
@@ -7,7 +9,7 @@
 *         @benedmunds
 *
 * Translation: Benjamin Neu (benny@duxu.de), Max Vogl mail@max-vogl.de
-*         
+*
 *
 * Location: http://github.com/benedmunds/ion_auth/
 *
@@ -161,4 +163,3 @@ $lang['email_activate_link']       = 'Aktivieren Sie Ihr Konto';
 $lang['email_forgot_password_heading']    = 'Kennwort für %s zurücksetzen';
 $lang['email_forgot_password_subheading'] = 'Bitte drücken Sie diese Link um zu %s.';
 $lang['email_forgot_password_link']       = 'Ihr Kennwort zurückstellen';
-

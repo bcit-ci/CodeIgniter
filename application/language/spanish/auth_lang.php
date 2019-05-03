@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - English
 *
@@ -8,7 +10,7 @@
 *
 * Author: Daniel Davis
 *         @ourmaninjapan
-* 
+*
 * Author: Josue Ibarra
 *         @josuetijuana
 *
@@ -156,4 +158,3 @@ $lang['email_activate_link']       = 'Activar tu cuenta';
 $lang['email_forgot_password_heading']    = 'Reestablecer contraseña para %s';
 $lang['email_forgot_password_subheading'] = 'Por favor ingresa en este link para %s.';
 $lang['email_forgot_password_link']       = 'Restablecer Tu Contraseña';
-

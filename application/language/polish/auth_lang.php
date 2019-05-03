@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - Polish
 *
@@ -156,4 +158,3 @@ $lang['email_activate_link']       = 'Aktywuj nowe konto';
 $lang['email_forgot_password_heading']    = 'Zresetuj hasło dla %s';
 $lang['email_forgot_password_subheading'] = 'Proszę klilknąć na link aby %s.';
 $lang['email_forgot_password_link']       = 'Resetuj hasło';
-

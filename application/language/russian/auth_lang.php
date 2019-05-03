@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
  * Name:  Auth Lang - Russian
  *
@@ -161,4 +163,3 @@ $lang['email_activate_link']       = 'Активировать аккаунт';
 $lang['email_forgot_password_heading']    = 'Сбросить пароль для %s';
 $lang['email_forgot_password_subheading'] = 'Пожалуста по ссылке для %s.';
 $lang['email_forgot_password_link']       = 'Сбросить пароль';
-

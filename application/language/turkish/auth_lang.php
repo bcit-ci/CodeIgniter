@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - Turkish
 *
@@ -154,5 +156,3 @@ $lang['email_activate_link']       = 'Hesabınızı Etkinleştiriniz';
 $lang['email_forgot_password_heading']    = '%s İçin Şifre Sıfırlama';
 $lang['email_forgot_password_subheading'] = 'Bağlantıya basarak %s.';
 $lang['email_forgot_password_link']       = 'Şifrenizi Sıfırlayınız';
-
-

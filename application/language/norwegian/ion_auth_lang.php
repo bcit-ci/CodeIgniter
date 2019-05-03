@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - Norwegian
 *
@@ -77,4 +79,3 @@ $lang['email_forgotten_password_subject'] = 'Glemt passord: bekreftelse';
 $lang['email_forgot_password_heading']    = 'Tilbakestill passord for %s';
 $lang['email_forgot_password_subheading'] = 'Klikk på denne linken for å %s.';
 $lang['email_forgot_password_link']       = 'Tilbakestill passord';
-

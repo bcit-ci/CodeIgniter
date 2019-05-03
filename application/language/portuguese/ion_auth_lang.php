@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - Portuguese (UTF-8)
 *
@@ -72,4 +74,3 @@ $lang['email_forgotten_password_subject']   = 'Esqueci a senha';
 $lang['email_forgot_password_heading']    	= 'Redefinido a senha para %s';
 $lang['email_forgot_password_subheading'] 	= 'Por favor, clique neste link para %s.';
 $lang['email_forgot_password_link']       	= 'Redefina sua senha';
-

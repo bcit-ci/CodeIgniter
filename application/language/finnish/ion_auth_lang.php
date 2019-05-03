@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - Finnish
 *
@@ -72,4 +74,3 @@ $lang['email_forgotten_password_subject']        = 'Unohtuneen salasanan palautu
 $lang['email_forgot_password_heading']    = 'Reset Password for %s';
 $lang['email_forgot_password_subheading'] = 'Please click this link to %s.';
 $lang['email_forgot_password_link']       = 'Reset Your Password';
-

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
  * Name:  Ion Auth Lang - Turkish (UTF-8)
  *
@@ -75,4 +77,3 @@ $lang['email_forgotten_password_subject']       = 'Şifremi Unuttum';
 $lang['email_forgot_password_heading']          = '%s için şifre sıfırlama';
 $lang['email_forgot_password_subheading']       = 'Bağlantıya tıklayarak %s.';
 $lang['email_forgot_password_link']             = 'şifrenizi sıfırlayınız';
-

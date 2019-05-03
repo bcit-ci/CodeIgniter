@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - English
 *
@@ -155,4 +157,3 @@ $lang['email_forgot_password_subheading'] = 'Prosím kliknite na tento odkaz %s.
 $lang['email_forgot_password_link'] = 'Reset hesla';
 
 $lang['email new_password nadpis'] = 'Vaše heslo bolo obnovené: %s';
-

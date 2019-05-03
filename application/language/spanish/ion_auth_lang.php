@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:     Ion Auth Lang - Spanish
 *
@@ -71,4 +73,3 @@ $lang['email_forgotten_password_subject']       = 'Verificación de contraseña 
 $lang['email_forgot_password_heading']          = 'Resetea contraseña para %s';
 $lang['email_forgot_password_subheading']       = 'Por favor, haga click en este link para %s.';
 $lang['email_forgot_password_link']             = 'Resetea tu contraseña';
-

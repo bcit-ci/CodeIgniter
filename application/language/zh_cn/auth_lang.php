@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - Chinese Simplified
 *
@@ -160,4 +162,3 @@ $lang['email_activate_link']       = '激活您的账户';
 $lang['email_forgot_password_heading']    = '重置 %s 的密码';
 $lang['email_forgot_password_subheading'] = '请点击连接跳转至 %s.';
 $lang['email_forgot_password_link']       = '重置您的密码';
-

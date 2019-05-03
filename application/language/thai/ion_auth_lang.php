@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - English
 *
@@ -77,4 +79,3 @@ $lang['email_forgotten_password_subject']    = 'การยืนยันล�
 $lang['email_forgot_password_heading']    = 'ล้างรหัสผ่านสำหรับ%s';
 $lang['email_forgot_password_subheading'] = 'กรุณาคลิกลิงค์นี้เพื่อ%s';
 $lang['email_forgot_password_link']       = 'ล้างรหัสผ่าน';
-

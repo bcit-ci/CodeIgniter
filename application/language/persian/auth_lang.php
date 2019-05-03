@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - Persian
 *
@@ -149,4 +151,3 @@ $lang['email_activate_link']       = 'اکانت خود را فعال کنید';
 $lang['email_forgot_password_heading']    = 'بازیابی کلمه عبور برای %s';
 $lang['email_forgot_password_subheading'] = 'لطفا روی این لینک کلیک کنید %s';
 $lang['email_forgot_password_link']       = 'کلمه عبور خود را بازیابی کنید';
-

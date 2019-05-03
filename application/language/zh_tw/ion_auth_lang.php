@@ -76,4 +76,3 @@ $lang['email_forgotten_password_subject'] = '密碼重設驗證';
 $lang['email_forgot_password_heading']    = '重新啟用密碼 %s';
 $lang['email_forgot_password_subheading'] = '請點此連結 %s';
 $lang['email_forgot_password_link']       = '重新啟動密碼';
-

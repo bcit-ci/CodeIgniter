@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - English
 *
@@ -156,5 +158,3 @@ $lang['email_activate_link']       = 'Aktivirajte Vaš račun';
 $lang['email_forgot_password_heading']    = 'Poništi lozinku za %s';
 $lang['email_forgot_password_subheading'] = 'Klikni ovaj link za %s.';
 $lang['email_forgot_password_link']       = 'Poništi lozinku';
-
-

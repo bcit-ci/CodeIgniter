@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <?php include('includes/header.php'); ?>
 
@@ -131,10 +131,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                             <div class="one_half last ">
                                 <div class="contact-form">
-                                <?php echo form_open($action = "request", 
-                                                        $attributes = array("method" => "post", 
+                                <?php echo form_open(
+    $action = "request",
+    $attributes = array("method" => "post",
                                                                             "id" => "submit-form"
-                                                    ));?>
+                                                    )
+);?>
                                         <p><input type="text" placeholder="Your name" name="name"></p>
                                         <p><input type="email" placeholder="Your email address" name="email"></p>
                                         <p><input type="text" placeholder="Your phone number" name="phonenumber"></p>

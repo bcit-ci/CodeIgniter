@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - Lithuanian
 *
@@ -155,4 +157,3 @@ $lang['email_forgot_password_subheading'] = 'Norėdami %s turite paspausti šią
 $lang['email_forgot_password_link']       = 'Sugeneruoti slaptažodį iš naujo';
 
 // New Slaptažodis Email
-

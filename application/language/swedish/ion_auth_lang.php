@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - Swedish
 *
@@ -74,4 +76,3 @@ $lang['email_forgotten_password_subject'] = 'Glömt lösenordsverifikation';
 $lang['email_forgot_password_heading']    = 'Glömt lösenord för %s';
 $lang['email_forgot_password_subheading'] = 'Klicka denna länk för att %s.';
 $lang['email_forgot_password_link']       = 'återställa ditt lösenord';
-

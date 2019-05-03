@@ -17,7 +17,7 @@
 
   <p>
     <?php echo lang('login_remember_label', 'remember');?>
-    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>
+    <?php echo form_checkbox('remember', '1', false, 'id="remember"');?>
   </p>
 
 

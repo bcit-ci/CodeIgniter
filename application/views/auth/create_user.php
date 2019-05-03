@@ -16,7 +16,7 @@
       </p>
       
       <?php
-      if($identity_column!=='email') {
+      if ($identity_column!=='email') {
           echo '<p>';
           echo lang('create_user_identity_label', 'identity');
           echo '<br />';

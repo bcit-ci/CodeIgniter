@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 require_once __DIR__ . "../../../vendor/autoload.php";
 /*
 | -------------------------------------------------------------------------
@@ -12,7 +12,7 @@ require_once __DIR__ . "../../../vendor/autoload.php";
 |
 */
 
-$hook['pre_system'] = function() {
+$hook['pre_system'] = function () {
     $dotenv = Dotenv\Dotenv::create(APPPATH);
     $dotenv->load();
 };

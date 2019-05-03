@@ -1,4 +1,6 @@
-﻿<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - Romanian
 *
@@ -71,4 +73,3 @@ $lang['email_forgotten_password_subject']   = 'Verificarea parolei uitate';
 $lang['email_forgot_password_heading']    	= 'Resetarea parolei pentru %s';
 $lang['email_forgot_password_subheading'] 	= 'Dați clic pe această adresă pentru %s.';
 $lang['email_forgot_password_link']       	= 'Resetarea parolei';
-
