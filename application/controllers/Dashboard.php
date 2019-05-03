@@ -15,6 +15,7 @@ class Dashboard extends CI_Controller {
 	{
 		 $request = $this->request_model->get();
 		 echo base_url();
+		 echo getenv('BASE_URL');
 		 echo site_url();
 		 exit;
 		//var_dump($request);
