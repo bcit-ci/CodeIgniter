@@ -7,7 +7,7 @@ class Request_model extends CI_Model {
 			 $this->load->database();
     	}
 
-        public function get_upriselive_lead(){
+        public function get(){
  
         $response = array();
         
