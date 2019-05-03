@@ -55,7 +55,7 @@ class Auth extends CI_Controller
 				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
 			}
 
-			$this->_render_page('login', $this->data);
+			$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'index', $this->data);
 		}
 	}
 
@@ -110,7 +110,7 @@ class Auth extends CI_Controller
 				'type' => 'password',
 			];
 
-			$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'login', $this->data);
+			$this->_render_page('login', $this->data);
 		}
 	}
 
