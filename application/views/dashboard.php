@@ -130,7 +130,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</tr>
 										</thead>
 										<tbody>
+										<?php foreach($requests as $request){ ?>
 											<tr>
+												<td><?php echo $request["id"] ?></td>
+												<td><?php echo $request["link"] ?></td>
+												<td><?php echo $request["name"] ?></td>
+												<td><?php echo $request["email"] ?></td>
+												<td><?php echo $request["approval_status"] ?></td>
+												<td><?php echo $request["review_status"] ?></td>
+												<td nowrap></td>
+											</tr>
+										<?php } ?>
+											<!-- <tr>
 												<td>1</td>
 												<td>https://seekhype.ng/download-mp3/dj-kaywise-ft-olamide-see-mary-see-jesus/</td>
 												<td>Wizzoniyo</td>
@@ -318,7 +329,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td>4</td>
 												<td>3</td>
 												<td nowrap></td>
-											</tr>
+											</tr> -->
 										</tbody>
 									</table>
 								</div>
