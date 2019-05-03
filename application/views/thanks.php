@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="post-wrapper center-relative">                                                        
                         <h1 class="entry-title">Thanks for Enrolling, We would get back to you. Please check your mail for updates.</h1>     
                         <div class="single-post-featured-image">
-                            <img src="images/thanks.jpg" alt="" />
+                            <img src="<?php echo base_url(). 'images/thanks.jpg' ?>" alt="" />
                         </div>              
                 </article> 
             </div>
