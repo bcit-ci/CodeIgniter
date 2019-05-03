@@ -1,11 +1,11 @@
 <div class="doc-loader">
-                <img src="public/images/favicons/preload.png" alt="Upriselive">
+                <img src="<?php echo base_url(). 'public/images/favicons/preload.png' ?>" alt="Upriselive">
             </div>       
 
             <header class="header-holder">             
                 <div class="menu-wrapper center-relative relative">             
                     <div class="header-logo">
-                        <a href="#home"><img src="public/images/logo.png" alt="Upriselive"></a>               
+                        <a href="#home"><img src="<?php echo base_url(). 'public/images/logo.png' ?>" alt="Upriselive"></a>               
                     </div>
                     <div class="toggle-holder">
                         <div id="toggle">

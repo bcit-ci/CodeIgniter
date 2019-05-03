@@ -1,7 +1,7 @@
 <footer class="footer">
                 <div class="footer-content center-relative">
                     <div class="footer-logo">
-                        <img src="public/images/footer_logo.png" alt="Upriselive" />
+                        <img src="<?php echo base_url(). 'public/images/footer_logo.png' ?>" alt="Upriselive" />
                     </div>        
                     <div class="footer-logo-divider"></div>
                     <div class="footer-mail">            
@@ -28,18 +28,18 @@
             </footer>
         </div>
 
-        <script src="public/js/jquery.js"></script>			                                       
-        <script src="public/js/jquery.sticky.js"></script>			                                       
-        <script src="public/js/tipper.js"></script>			                                       
-        <script src="public/js/jarallax.js"></script>			                                       
-        <script src="public/js/jarallax-element.min.js"></script>			                                       
-        <script src='public/js/imagesloaded.pkgd.js'></script>                
-        <script src='public/js/jquery.fitvids.js'></script>                
-        <script src='public/js/jquery.smartmenus.min.js'></script>                                 
-        <script src='public/js/isotope.pkgd.js'></script>                                                 
-        <script src='public/js/owl.carousel.min.js'></script>                          
-        <script src='public/js/jquery.sticky-kit.min.js'></script>                          
-        <script src='public/js/main.js'></script>
+        <script src="<?php echo base_url(). 'public/js/jquery.js' ?>"></script>			                                       
+        <script src="<?php echo base_url(). 'public/js/jquery.sticky.jss' ?>"></script>			                                       
+        <script src="<?php echo base_url(). 'public/js/tipper.jss' ?>"></script>			                                       
+        <script src="<?php echo base_url(). 'public/js/jarallax.jss' ?>"></script>			                                       
+        <script src="<?php echo base_url(). 'public/js/jarallax-element.min.jss' ?>"></script>			                                       
+        <script src="<?php echo base_url(). 'public/js/imagesloaded.pkgd.jss' ?>"></script>                
+        <script src="<?php echo base_url(). 'public/js/jquery.fitvids.jss' ?>"></script>                
+        <script src="<?php echo base_url(). 'public/js/jquery.smartmenus.min.jss' ?>"></script>                                 
+        <script src="<?php echo base_url(). 'public/js/isotope.pkgd.jss' ?>"></script>                                                 
+        <script src="<?php echo base_url(). 'public/js/owl.carousel.min.jss' ?>"></script>                          
+        <script src="<?php echo base_url(). 'public/js/jquery.sticky-kit.min.jss' ?>"></script>                          
+        <script src="<?php echo base_url(). 'public/js/main.jss' ?>"></script>
 
     </body>
 </html>
