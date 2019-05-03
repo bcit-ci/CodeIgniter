@@ -81,7 +81,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<h3>Sign to Account</h3>
                                 </div>
                                 <div id="infoMessage"><?php echo $message;?></div>
-								<form class="kt-login-v2__form kt-form" action="auth/login" autocomplete="off">
+								<!-- <form class="kt-login-v2__form kt-form" action="login" method="post" autocomplete="off"> -->
+                                <?php echo form_open($action = "auth/login", $attributes = array("class" => "kt-login-v2__form kt-form" ) );?>
+
 									<div class="form-group">
 										<input class="form-control" type="text" placeholder="Username" name="identity" autocomplete="off">
 									</div>
@@ -94,7 +96,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</a>
 										<button type="submit" class="btn btn-brand btn-elevate btn-pill">Sign In</button>
 									</div>
-								</form>
+                                <!-- </form> -->
+                                <?php echo form_close();?>
 								<div class="kt-separator kt-separator--space-lg  kt-separator--border-solid"></div>
 
 								<h3 class="kt-login-v2__desc">Or sign with social account</h3>
