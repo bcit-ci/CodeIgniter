@@ -45,7 +45,7 @@
            jQuery("document").ready(function() {
           // The DOM is ready!
           // The rest of your code goes here!
-                      var form = document.getElementById("submit-form");
+            var form = document.getElementById("submit-form");
 
             form.onsubmit = function (e) {
               // stop the regular form submission

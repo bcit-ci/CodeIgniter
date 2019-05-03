@@ -131,13 +131,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                             <div class="one_half last ">
                                 <div class="contact-form">
-                                    <form action="#" class="" id="submit-form">
+                                <?php echo form_open($action = "home/request", 
+                                                        $attributes = array("id" => "submit-form"
+                                                    ));?>
                                         <p><input type="text" placeholder="Your name" name="name"></p>
                                         <p><input type="email" placeholder="Your email address" name="email"></p>
                                         <p><input type="text" placeholder="Your phone number" name="phonenumber"></p>
                                         <p><input type="text" placeholder="Your song link ( i.e on soundcloud, naijaloaded, tooxclsuive, etc )" name="link"></p>
                                         <p class="contact-submit-holder"><input type="submit" value="SUBMIT"></p>
-                                    </form>
+                                    <?php echo form_close();?>
                                 </div>
                             </div>                            
                             <div class="clear"></div>

@@ -82,7 +82,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                                 <div id="infoMessage"><?php echo $message;?></div>
 								<!-- <form class="kt-login-v2__form kt-form" action="login" method="post" autocomplete="off"> -->
-                                <?php echo form_open($action = "auth/login", $attributes = array("class" => "kt-login-v2__form kt-form" ) );?>
+                                <?php echo form_open($action = "auth/login", 
+                                                    $attributes = array("class" => "kt-login-v2__form kt-form", 
+                                                                "autocomplete" => "off" 
+                                                    ));?>
 
 									<div class="form-group">
 										<input class="form-control" type="text" placeholder="Username" name="identity" autocomplete="off">

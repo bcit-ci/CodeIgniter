@@ -21,21 +21,7 @@ class Home extends CI_Controller {
 
 	public function request()
 	{
-
-
-		header("Access-Control-Allow-Origin: *");
-
-		if ($this->input->server('REQUEST_METHOD') == 'GET')
-		{
-			$data = $this->request_model->get();
-
-			$this->output
-	        ->set_content_type('application/json')
-	        ->set_output(json_encode($data));
-		}
-  
-		else if ($this->input->server('REQUEST_METHOD') == 'POST')
-		{
+	
 		$name = $this->input->post('name');
 		$email = $this->input->post('email');
 		$phonenumber = $this->input->post('phonenumber');
@@ -57,15 +43,10 @@ class Home extends CI_Controller {
 
 		$message= "You are about to experince a breakthrough in your career";
 
-
 		$this->mail($email, "Upriselive", $name, $message, $Subject, $alt_body);
 
-		$this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode(array('success' => true)));
+		redirect('thanks');
 
-    }
-		
 	}
 	public function thanks()
 	{
