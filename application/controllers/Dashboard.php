@@ -14,6 +14,6 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		$data['request'] = $this->request_model->get();
-		$this->load->view('dashboard');
+		$this->load->view('dashboard', $data);
 	}
 }
