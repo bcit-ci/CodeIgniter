@@ -265,19 +265,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url() . 'admin/assets/js/demo1/scripts.bundle.js' ?>" type="text/javascript"></script>
 		<script src="<?php echo base_url() . 'admin/assets/vendors/custom/datatables/datatables.bundle.js' ?>" type="text/javascript"></script>
 		<script src="<?php echo base_url() . 'admin/assets/js/demo1/pages/crud/datatables/advanced/column-rendering.js' ?>" type="text/javascript"></script>
-		<script>
-			 fetch('https://api.fungifting.com/lead/upriselive')
-			    .then( function(response){
-			    	return response.json();
-			    })
-			    .then(function(data){
-                	console.log(data); //log the data;
-                	data.reverse();
-                    var $table =  $('#datatable tbody');
-                    $.each(data, function(idx, elem){
-    					$table.append("<tr><td>"+elem.id+"</td><td>"+elem.name+"</td>   <td>"+elem.email+"</td><td>"+elem.phonenumber+"</td><td><a href=\""+elem.link + "\">"+elem.link+"</a></td></tr>");
-    				});
-			    }); 
-		</script>
 	</body>
 </html>
