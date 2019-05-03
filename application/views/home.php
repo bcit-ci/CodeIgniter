@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                             <div class="one_half last ">
                                 <div class="contact-form">
-                                <?php echo form_open($action = "home/request", 
+                                <?php echo form_open($action = "request", 
                                                         $attributes = array("id" => "submit-form"
                                                     ));?>
                                         <p><input type="text" placeholder="Your name" name="name"></p>
