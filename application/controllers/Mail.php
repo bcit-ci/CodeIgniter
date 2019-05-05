@@ -28,17 +28,17 @@ class Mail extends CI_Controller
     {
         $mail = $this->phpmailer->load();
 
-        //$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+        //$mail = new PHPMailer\PHPMailer\PHPMailer(true);                              // Passing `true` enables exceptions
         try {
             //Server settings
-                $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-                $mail->isSMTP();                                      // Set mailer to use SMTP
-                $mail->Host = 'smtp.zoho.com';  					  // Specify main and backup SMTP servers
-                $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                $mail->Username = 'tosin@fungifting.com';                 // SMTP username
-                $mail->Password = 'Amudafala$9876';                    // SMTP password
-                $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-                $mail->Port = 465;                                    // TCP port to connect to
+            $mail->SMTPDebug = 0;                                 // Enable verbose debug output
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.zoho.com';  					  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'tosin@fungifting.com';                 // SMTP username
+            $mail->Password = '##############';                    // SMTP password
+            $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 465;                                    // TCP port to connect to
 
                 //Recipients
             $mail->setFrom('hello@fungifting.com', $from_name);
@@ -47,13 +47,13 @@ class Mail extends CI_Controller
 
          
             //Content
-                $mail->isHTML(true); // Set email format to HTML
-                $mail->Subject = $Subject;
+            $mail->isHTML(true); // Set email format to HTML
+            $mail->Subject = $Subject;
             $mail->Body = $message;
             $mail->AltBody = $alt_body;
             $mail->send();
         } catch (Exception $e) {
-            ;
+            echo 'Message: ' .$e->getMessage();
         }
     }
 }
