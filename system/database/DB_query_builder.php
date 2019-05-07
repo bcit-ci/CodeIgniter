@@ -2236,11 +2236,16 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		}
 		elseif (is_array($table))
 		{
-			empty($where) && $reset_data = FALSE;
+			$single_table_reset_data = $reset_data;
+			empty($where) && $single_table_reset_data = FALSE;
 
 			foreach ($table as $single_table)
 			{
-				$this->delete($single_table, $where, $limit, $reset_data);
+				$this->delete($single_table, $where, $limit, $single_table_reset_data);
+			}
+			if ($reset_data)
+			{
+				$this->_reset_write();
 			}
 
 			return;
