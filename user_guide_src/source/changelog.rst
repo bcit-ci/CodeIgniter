@@ -20,6 +20,7 @@ Bug fixes for 3.1.11
 -  Fixed a bug (#5708) - :doc:`Session Library <libraries/session>` 'redis' driver too often failed with locking-related errors that could've been avoided.
 -  Fixed a bug (#5703) - :doc:`Session Library <libraries/session>` triggered an ``E_WARNING`` message about changing ``session.save_path`` during an active session when it fails to obtain a lock.
 -  Fixed a bug where :doc:`Session Library <libraries/session>` 'database' driver didn't trigger a failure if it can't obtain a lock.
+-  Fixed a bug (#5755) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_url** accepted digit-only domains due to a PHP bug.
 
 Version 3.1.10
 ==============
