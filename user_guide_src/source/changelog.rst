@@ -7,6 +7,9 @@ Version 3.1.11
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Changed ``CI_Log`` to append ``PHP_EOL`` instead of ``\n`` at the end of log messages.
 
 Bug fixes for 3.1.11
 ====================
