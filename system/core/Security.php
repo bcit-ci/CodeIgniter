@@ -363,7 +363,17 @@ class CI_Security {
 
 			return $str;
 		}
+		
+		
+		// Encode the special sanitize chars
+		$str = filter_var(urldecode($str), FILTER_SANITIZE_SPECIAL_CHARS);
+		if (! filter_var($str, FILTER_VALIDATE_URL))
+		{
+		    return '';
+		}
+		$str = urlencode($str);
 
+		
 		// Remove Invisible Characters
 		$str = remove_invisible_characters($str);
 
