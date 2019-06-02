@@ -1,6 +1,5 @@
 # Contributing to CodeIgniter
 
-
 CodeIgniter is a community driven project and accepts contributions of code and documentation from the community. These contributions are made in the form of Issues or [Pull Requests](http://help.github.com/send-pull-requests/) on the [CodeIgniter repository](https://github.com/bcit-ci/CodeIgniter) on GitHub.
 
 Issues are a quick way to point out a bug. If you find a bug or documentation error in CodeIgniter then please check a few things first:
@@ -59,7 +58,6 @@ If you are using [Tower](http://www.git-tower.com/) there is a "Sign-Off" checkb
 
 By signing your work in this manner, you certify to a "Developer's Certificate of Origin". The current version of this certificate is in the `DCO.txt` file in the root of this repository.
 
-
 ## How-to Guide
 
 There are two ways to make changes, the easy way and the hard way. Either way you will need to [create a GitHub account](https://github.com/signup/free).
@@ -68,15 +66,15 @@ Easy way GitHub allows in-line editing of files for making simple typo changes a
 
 Hard way The best way to contribute is to "clone" your fork of CodeIgniter to your development area. That sounds like some jargon, but "forking" on GitHub means "making a copy of that repo to your account" and "cloning" means "copying that code to your environment so you can work on it".
 
-1. Set up Git (Windows, Mac & Linux)
-2. Go to the CodeIgniter repo
-3. Fork it
-4. Clone your CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git
-5. Checkout the "develop" branch At this point you are ready to start making changes. 
+1. [Set up Git](https://help.github.com/en/articles/set-up-git) (Windows, Mac & Linux)
+2. Go to the [CodeIgniter repo](https://github.com/bcit-ci/CodeIgniter)
+3. [Fork it](https://help.github.com/en/articles/fork-a-repo)
+4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git.
+5. Checkout the "develop" branch. At this point you are ready to start making changes.
 6. Fix existing bugs on the Issue tracker after taking a look to see nobody else is working on them.
-7. Commit the files
-8. Push your develop branch to your fork
-9. Send a pull request [http://help.github.com/send-pull-requests/](http://help.github.com/send-pull-requests/)
+7. [Commit](https://help.github.com/en/articles/adding-a-file-to-a-repository-using-the-command-line) the files
+8. [Push](https://help.github.com/en/articles/pushing-to-a-remote) your develop branch to your fork
+9. [Send a pull request](https://help.github.com/en/articles/creating-a-pull-request)
 
 The Reactor Engineers will now be alerted about the change and at least one of the team will respond. If your change fails to meet the guidelines it will be bounced, or feedback will be provided to help you improve it.
 
