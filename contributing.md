@@ -91,3 +91,7 @@ If you are using command-line you can do the following:
 3. `git push origin develop`
 
 Now your fork is up to date. This should be done regularly, or before you send a pull request at least.
+
+### Issue triage [![Open Source Helpers](https://www.codetriage.com/bcit-ci/codeigniter/badges/users.svg)](https://www.codetriage.com/bcit-ci/codeigniter)
+
+You can contribute by triaging issues which may include reproducing bug reports or asking for vital information, such as version numbers or reproduction instructions. If you would like to start triaging issues, one easy way to get started is to [subscribe to codeigniter on CodeTriage](https://www.codetriage.com/bcit-ci/codeigniter).
