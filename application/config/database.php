@@ -52,8 +52,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |				'ssl_verify' - TRUE/FALSE; Whether verify the server certificate or not
 |
 |	['compress'] Whether or not to use client compression (MySQL only)
-|	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
-|							- good for ensuring strict SQL while developing
+|	['stricton'] TRUE/FALSE - Forces 'Strict Mode' connections
+|				- Good for ensuring strict SQL while developing
+|				- If you don't want to set the SQL mode on every connection, remove this property.
 |	['ssl_options']	Used to set various SSL options that can be used when making SSL connections.
 |	['failover'] array - A array with 0 or more data for connections if the main should fail.
 |	['save_queries'] TRUE/FALSE - Whether to "save" all executed queries.
