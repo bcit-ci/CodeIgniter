@@ -149,11 +149,10 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		}
 		else
 		{
+			$this->php5_validate_id();
 			$this->_redis = $redis;
 			return $this->_success;
 		}
-
-		$this->php5_validate_id();
 
 		return $this->_failure;
 	}
