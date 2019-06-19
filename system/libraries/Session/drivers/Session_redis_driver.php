@@ -168,6 +168,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			}
 			else
 			{
+				$this->php5_validate_id();
 				$this->_redis = $redis;
 				return $this->_success;
 			}
@@ -176,8 +177,6 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
 		}
-
-		$this->php5_validate_id();
 
 		return $this->_fail();
 	}
