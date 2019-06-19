@@ -23,6 +23,7 @@ Bug fixes for 3.1.11
 -  Fixed a bug where :doc:`Session Library <libraries/session>` 'database' driver didn't trigger a failure if it can't obtain a lock.
 -  Fixed a bug (#5755) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_url** accepted digit-only domains due to a PHP bug.
 -  Fixed a bug (#5753) - :doc:`Cache Library <libraries/caching>` 'redis' driver methods ``increment()``, ``decrement()`` ignored their ``$offset`` parameter.
+-  Fixed a bug (#5779) - :doc:`Session Library <libraries/session>` 'redis' only attempted to validate session IDs in case the connection to Redis failed.
 
 Version 3.1.10
 ==============
