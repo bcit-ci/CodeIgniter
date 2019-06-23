@@ -11,6 +11,7 @@ Release Date: Not Released
 
    -  Changed ``CI_Log`` to append ``PHP_EOL`` instead of ``\n`` at the end of log messages.
    -  Improved performance in :doc:`Cache Library <libraries/caching>` 'redis' driver with non-scalar variables.
+   -  Altered the :doc:`Session Library <libraries/session>` 'files' driver to log error and trigger a session start failure instead of throwing an ``Exception`` in case of unusable ``$config['sess_save_path']``.
 
 Bug fixes for 3.1.11
 ====================
