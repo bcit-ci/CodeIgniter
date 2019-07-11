@@ -354,6 +354,12 @@ class CI_Security {
 	 */
 	public function xss_clean($str, $is_image = FALSE)
 	{
+		// Is the string a numeric? you can't have XSS in a numeric
+		if (is_numeric($str))
+		{
+			return $str;
+		}
+
 		// Is the string an array?
 		if (is_array($str))
 		{
