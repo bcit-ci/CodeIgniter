@@ -248,7 +248,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		if (isset($this->_redis))
 		{
 			try {
-				if ($this->_redis->ping() === '+PONG')
+				if ($this->_redis->ping() === TRUE)
 				{
 					$this->_release_lock();
 					if ($this->_redis->close() === FALSE)
