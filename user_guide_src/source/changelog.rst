@@ -27,6 +27,7 @@ Bug fixes for 3.1.11
 -  Fixed a bug (#5779) - :doc:`Session Library <libraries/session>` 'redis' only attempted to validate session IDs in case the connection to Redis failed.
 -  Fixed a bug (#5774) - :doc:`Database Results <database/results>` method ``custom_result_object()`` didn't properly handle empty result sets, triggering ``E_WARNING`` messages on PHP 7.2+.
 -  Fixed a bug (#5788) - :doc:`Database Results <database/results>` method ``field_data()`` triggered an ``E_NOTICE`` error with PDO when a field type is not recognized by PHP.
+-  Fixed a bug (#5796) - :doc:`Query Builder <database/query_builder>` method ``list_tables()`` triggered an SQL syntax error under MySQL when the database schema is a numeric string.
 
 Version 3.1.10
 ==============
