@@ -74,6 +74,17 @@ class Security_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_xss_clean_with_invalid_unicode()
+	{
+		$harm_string = "I have a invalid unicode with space and should keep it as is. % ca";
+
+		$harmless_string = $this->security->xss_clean($harm_string);
+
+		$this->assertEquals("I have a invalid unicode with space and should keep it as is. % ca", $harmless_string);
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_xss_clean_string_array()
 	{
 		$harm_strings = array(

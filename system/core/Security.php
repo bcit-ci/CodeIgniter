@@ -782,9 +782,12 @@ class CI_Security {
 	{
 		$input    = $matches[0];
 		$nospaces = preg_replace('#\s+#', '', $input);
-		return ($nospaces === $input)
+		$is_the_same_character = $nospaces === $input;
+		$decoded_input = rawurldecode($nospaces);
+		$is_invalid_character = !(mb_check_encoding($decoded_input));
+		return ($is_the_same_character || $is_invalid_character)
 			? $input
-			: rawurldecode($nospaces);
+			: $decoded_input;
 	}
 
 	// ----------------------------------------------------------------
