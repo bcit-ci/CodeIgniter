@@ -447,13 +447,15 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 *
 	 * Sets expiration for a key
 	 *
+	 * @param	string	$key	Redis key
+	 * @param	int		$ttl	The key's remaining Time To Live, in seconds.
 	 * @return	bool
 	 */
-	protected function _expire($key, $timeout)
+	protected function _expire($key, $ttl)
 	{
 		if (method_exists($this->_redis, 'expire'))
-			return $this->_redis->expire($key, $timeout);
-		return $this->_redis->setTimeout($key, $timeout);
+			return $this->_redis->expire($key, $ttl);
+		return $this->_redis->setTimeout($key, $ttl);
 	}
 
 	// ------------------------------------------------------------------------
@@ -463,6 +465,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 *
 	 * Deletes a key
 	 *
+	 * @param	string	$key		Redis key
 	 * @return	bool
 	 */
 	protected function _delete($key)
