@@ -12,3 +12,9 @@ Replace all files and directories in your *system/* directory.
 
 .. note:: If you have any custom developed files in these directories,
 	please make copies of them first.
+
+Step 2: Replace config/mimes.php
+================================
+
+This config file has received some updates. Please copy it to
+*application/config/mimes.php*.
