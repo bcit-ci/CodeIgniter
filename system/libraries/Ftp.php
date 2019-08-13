@@ -486,26 +486,31 @@ class CI_FTP {
 		{
 			for ($i = 0, $c = count($list); $i < $c; $i++)
 			{
-				// If we can't delete the item it's probably a directory,
-				// so we'll recursively call delete_dir()
-				if ( ! preg_match('#/\.\.?$#', $list[$i]) && ! @ftp_delete($this->conn_id, $list[$i]))
-				{
-					$this->delete_dir($filepath.$list[$i]);
-				}
+				// First 2 elements of $list array would be '.' and '..', this will case errors
+				if($list[$i] != '.' && $list[$i] != '..'){
+					// If we can't delete the item it's probably a directory,
+					// so we'll recursively call delete_dir()
+					if ( ! preg_match('#/\.\.?$#', $list[$i]) && ! @ftp_delete($this->conn_id, $filepath . $list[$i]))
+					{
+						$this->delete_dir($filepath.$list[$i]);
+					}
+				}	
 			}
-		}
 
-		if (@ftp_rmdir($this->conn_id, $filepath) === FALSE)
-		{
-			if ($this->debug === TRUE)
+			if (@ftp_rmdir($this->conn_id, $filepath) === FALSE)
 			{
-				$this->_error('ftp_unable_to_delete');
+				if ($this->debug === TRUE)
+				{
+					$this->_error('ftp_unable_to_delete');
+				}
+
+				return FALSE;
 			}
 
-			return FALSE;
+			return TRUE;
 		}
 
-		return TRUE;
+		
 	}
 
 	// --------------------------------------------------------------------
