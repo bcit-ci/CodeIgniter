@@ -240,7 +240,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			$this->_session_id = $session_id;
 		}
 
-		$this->_expire($this->_lock_key, 300);
+		$this->_expire_key($this->_lock_key, 300);
 		if ($this->_fingerprint !== ($fingerprint = md5($session_data)) OR $this->_key_exists === FALSE)
 		{
 			if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
@@ -253,7 +253,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 			return $this->_fail();
 		}
 
-		return ($this->_expire($this->_key_prefix.$session_id, $this->_config['expiration']))
+		return ($this->_expire_key($this->_key_prefix.$session_id, $this->_config['expiration']))
 			? $this->_success
 			: $this->_fail();
 	}
@@ -273,7 +273,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			try {
 				$ping = $this->_redis->ping();
-				if ($ping === '+PONG' || $ping === TRUE)
+				if ($ping === '+PONG' OR $ping === TRUE)
 				{
 					$this->_release_lock();
 					if ($this->_redis->close() === FALSE)
@@ -308,7 +308,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	{
 		if (isset($this->_redis, $this->_lock_key))
 		{
-			if (($result = $this->_delete($this->_key_prefix.$session_id)) !== 1)
+			if (($result = $this->_delete_key($this->_key_prefix.$session_id)) !== 1)
 			{
 				log_message('debug', 'Session: Redis::del() expected to return 1, got '.var_export($result, TRUE).' instead.');
 			}
@@ -369,7 +369,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		// correct session ID.
 		if ($this->_lock_key === $this->_key_prefix.$session_id.':lock')
 		{
-			return $this->_expire($this->_lock_key, 300);
+			return $this->_expire_key($this->_lock_key, 300);
 		}
 
 		// 30 attempts to obtain a lock, in case another request already has it
@@ -443,15 +443,15 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Expire
+	 * Expire key
 	 *
 	 * Sets expiration for a key
 	 *
 	 * @param	string	$key	Redis key
-	 * @param	int		$ttl	The key's remaining Time To Live, in seconds.
+	 * @param	int	$ttl	The key's remaining Time To Live, in seconds.
 	 * @return	bool
 	 */
-	protected function _expire($key, $ttl)
+	protected function _expire_key($key, $ttl)
 	{
 		if (method_exists($this->_redis, 'expire'))
 			return $this->_redis->expire($key, $ttl);
@@ -461,14 +461,14 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Delete
+	 * Delete key
 	 *
 	 * Deletes a key
 	 *
 	 * @param	string	$key		Redis key
 	 * @return	bool
 	 */
-	protected function _delete($key)
+	protected function _delete_key($key)
 	{
 		if (method_exists($this->_redis, 'del'))
 			return $this->_redis->del($key);
