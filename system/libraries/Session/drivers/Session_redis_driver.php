@@ -453,7 +453,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected function _expire_key($key, $ttl)
 	{
-		if (method_exists($this->_redis, 'expire'))
+		if (version_compare(phpversion('redis'), '5', '>='))
 			return $this->_redis->expire($key, $ttl);
 		return $this->_redis->setTimeout($key, $ttl);
 	}
@@ -470,7 +470,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected function _delete_key($key)
 	{
-		if (method_exists($this->_redis, 'del'))
+		if (version_compare(phpversion('redis'), '5', '>='))
 			return $this->_redis->del($key);
 		return $this->_redis->delete($key);
 	}
