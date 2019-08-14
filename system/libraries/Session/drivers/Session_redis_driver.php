@@ -37,6 +37,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+define('PHPREDIS_VERSION', phpversion('redis'));
+
 /**
  * CodeIgniter Session Redis Driver
  *
@@ -453,7 +455,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected function _expire_key($key, $ttl)
 	{
-		if (version_compare(phpversion('redis'), '5', '>='))
+		if (version_compare(PHPREDIS_VERSION, '5', '>='))
 			return $this->_redis->expire($key, $ttl);
 		return $this->_redis->setTimeout($key, $ttl);
 	}
@@ -470,7 +472,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	 */
 	protected function _delete_key($key)
 	{
-		if (version_compare(phpversion('redis'), '5', '>='))
+		if (version_compare(PHPREDIS_VERSION, '5', '>='))
 			return $this->_redis->del($key);
 		return $this->_redis->delete($key);
 	}
