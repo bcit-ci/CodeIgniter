@@ -49,6 +49,18 @@ class Security_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_csrf_verify_invalid_array()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_POST[$this->security->csrf_token_name] = [$this->security->csrf_hash];
+
+		$this->setExpectedException('RuntimeException', 'CI Error: The action you have requested is not allowed');
+
+		$this->security->csrf_verify();
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_get_csrf_hash()
 	{
 		$this->assertEquals($this->security->csrf_hash, $this->security->get_csrf_hash());
