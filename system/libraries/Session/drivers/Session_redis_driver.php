@@ -97,11 +97,11 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 	protected $_delete_name;
 
 	/**
-	 * Response of ping() method in phpRedis
+	 * Success return value of ping() method in phpRedis
 	 * 
 	 * @var mixed
 	 */
-	protected $_ping_response;
+	protected $_ping_success;
 
 	// ------------------------------------------------------------------------
 
@@ -120,13 +120,13 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			$this->_setTimeout_name = 'expire';
 			$this->_delete_name = 'del';
-			$this->_ping_response = TRUE;
+			$this->_ping_success = TRUE;
 		}
 		else
 		{
 			$this->_setTimeout_name = 'setTimeout';
 			$this->_delete_name = 'delete';
-			$this->_ping_response = '+PONG';
+			$this->_ping_success = '+PONG';
 		}
 
 		if (empty($this->_config['save_path']))
@@ -313,7 +313,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		if (isset($this->_redis))
 		{
 			try {
-				if ($this->_redis->ping() === $this->_ping_response)
+				if ($this->_redis->ping() === $this->_ping_success)
 				{
 					$this->_release_lock();
 					if ($this->_redis->close() === FALSE)
