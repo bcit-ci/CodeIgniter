@@ -78,27 +78,27 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 
 	/**
 	 * Name of setTimeout() method in phpRedis
-	 * 
+	 *
 	 * Due to some deprecated methods in phpRedis, we need to call the
 	 * specific methods depending on the version of phpRedis.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_setTimeout_name;
 
 	/**
 	 * Name of delete() method in phpRedis
-	 * 
+	 *
 	 * Due to some deprecated methods in phpRedis, we need to call the
 	 * specific methods depending on the version of phpRedis.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_delete_name;
 
 	/**
 	 * Success return value of ping() method in phpRedis
-	 * 
+	 *
 	 * @var mixed
 	 */
 	protected $_ping_success;
