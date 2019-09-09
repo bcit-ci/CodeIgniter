@@ -63,26 +63,34 @@ The following functions are available:
 
 	.. note:: This function acquires an exclusive lock on the file while writing to it.
 
-.. php:function:: delete_files($path[, $del_dir = FALSE[, $htdocs = FALSE]])
+.. php:function:: delete_files($path[, $del_dir = FALSE[, $del_subdir = FALSE[, $htdocs = FALSE]]])
 
 	:param	string	$path: Directory path
-	:param	bool	$del_dir: Whether to also delete directories
+	:param	bool	$del_dir: Whether to delete the self directory including any sub-directories and files
+	:param	bool	$del_subdir: Whether to delete any sub-directories found in the path
 	:param	bool	$htdocs: Whether to skip deleting .htaccess and index page files
 	:returns:	TRUE on success, FALSE in case of an error
 	:rtype:	bool
 
-	Deletes ALL files contained in the supplied path.
+	Deletes ALL files and directories contained in the supplied path.
 
 	Example::
 
 		delete_files('./path/to/directory/');
 
-	If the second parameter is set to TRUE, any directories contained within the supplied
-	root path will be deleted as well.
+	If the second parameter is set to TRUE, the directory will be deleted including any directories or files
+	contained within the supplied root path.
 
 	Example::
 
 		delete_files('./path/to/directory/', TRUE);
+
+	If the second parameter is set to FALSE and the third parameter is set to TRUE, any directories or files contained
+	within the supplied root path will be deleted only.
+
+	Example::
+
+		delete_files('./path/to/directory/', FALSE, TRUE);
 
 	.. note:: The files must be writable or owned by the system in order to be deleted.
 

@@ -99,12 +99,13 @@ if ( ! function_exists('delete_files'))
 	 * within the supplied base directory will be nuked as well.
 	 *
 	 * @param	string	$path		File path
-	 * @param	bool	$del_dir	Whether to delete any directories found in the path
+	 * @param	bool	$del_dir	Whether to delete the self directory including any sub-directories and files
+	 * @param	bool	$del_subdir	Whether to delete any sub-directories found in the path
 	 * @param	bool	$htdocs		Whether to skip deleting .htaccess and index page files
-	 * @param	int	$_level		Current directory depth level (default: 0; internal use only)
+	 * @param	int		$_level		Current directory depth level (default: 0; internal use only)
 	 * @return	bool
 	 */
-	function delete_files($path, $del_dir = FALSE, $htdocs = FALSE, $_level = 0)
+	function delete_files($path, $del_dir = FALSE, $del_subdir = FALSE, $htdocs = FALSE, $_level = 0)
 	{
 		// Trim the trailing slash
 		$path = rtrim($path, '/\\');
@@ -122,7 +123,7 @@ if ( ! function_exists('delete_files'))
 
 				if (is_dir($filepath) && $filename[0] !== '.' && ! is_link($filepath))
 				{
-					delete_files($filepath, $del_dir, $htdocs, $_level + 1);
+					delete_files($filepath, $del_dir, $del_subdir, $htdocs, $_level + 1);
 				}
 				elseif ($htdocs !== TRUE OR ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename))
 				{
@@ -133,7 +134,7 @@ if ( ! function_exists('delete_files'))
 
 		closedir($current_dir);
 
-		return ($del_dir === TRUE && $_level > 0)
+		return ($del_dir OR ($del_subdir === TRUE && $_level > 0))
 			? @rmdir($path)
 			: TRUE;
 	}
