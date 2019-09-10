@@ -102,7 +102,7 @@ if ( ! function_exists('delete_files'))
 	 * @param	bool	$del_dir	Whether to delete the self directory including any sub-directories and files
 	 * @param	bool	$del_subdir	Whether to delete any sub-directories found in the path
 	 * @param	bool	$htdocs		Whether to skip deleting .htaccess and index page files
-	 * @param	int		$_level		Current directory depth level (default: 0; internal use only)
+	 * @param	int	$_level		Current directory depth level (default: 0; internal use only)
 	 * @return	bool
 	 */
 	function delete_files($path, $del_dir = FALSE, $del_subdir = FALSE, $htdocs = FALSE, $_level = 0)
