@@ -47,7 +47,7 @@ Class Reference
 	.. php:method:: auto_typography($str[, $reduce_linebreaks = FALSE])
 
 		:param	string	$str: Input string
-		:param	bool	$reduce_linebreaks: Whether to reduce consequitive linebreaks
+		:param	bool	$reduce_linebreaks: Whether to reduce consecutive linebreaks
 		:returns:	HTML typography-safe string
 		:rtype:	string
 
