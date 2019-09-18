@@ -76,6 +76,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected $_serialized = array();
 
+	/**
+	 * del()/delete() method name depending on phpRedis version
+	 *
+	 * @var	string
+	 */
+	protected static $_delete_name;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -96,6 +103,10 @@ class CI_Cache_redis extends CI_Driver
 			log_message('error', 'Cache: Failed to create Redis object; extension not loaded?');
 			return;
 		}
+
+		isset(static::$_delete_name) OR static::$_delete_name = version_compare(phpversion('phpredis'), '5', '>=')
+			? 'del'
+			: 'delete';
 
 		$CI =& get_instance();
 
@@ -198,7 +209,7 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function delete($key)
 	{
-		if ($this->_redis->delete($key) !== 1)
+		if ($this->_redis->{static::$_delete_name}($key) !== 1)
 		{
 			return FALSE;
 		}
