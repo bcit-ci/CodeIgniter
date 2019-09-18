@@ -25,7 +25,7 @@ the slug from our title in the model. Create the new view at
     <?php echo form_open('news/create'); ?>
 
         <label for="title">Title</label> 
-        <input type="input" name="title" /><br />
+        <input type="text" name="title" /><br />
 
         <label for="text">Text</label>
         <textarea name="text"></textarea><br />
