@@ -2,10 +2,16 @@
 Change Log
 ##########
 
-Version 3.1.11
+Version 3.1.12
 ==============
 
 Release Date: Not Released
+
+
+Version 3.1.11
+==============
+
+Release Date: Sep 19, 2019
 
 -  General Changes
 
