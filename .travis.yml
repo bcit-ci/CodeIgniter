@@ -1,5 +1,5 @@
 language: php
-dist: precise
+dist: trusty
 
 php:
   - 5.4
