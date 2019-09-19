@@ -10,6 +10,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4snapshot
   - master
   - hhvm
   
@@ -34,6 +35,7 @@ script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7
 
 matrix:
   allow_failures:
+    - php: 7.4snapshot
     - php: hhvm
     - php: master
   exclude:
@@ -48,6 +50,8 @@ matrix:
     - php: 7.2
       env: DB=mysql
     - php: 7.3
+      env: DB=mysql
+    - php: 7.4snapshot
       env: DB=mysql
     - php: master
       env: DB=mysql
