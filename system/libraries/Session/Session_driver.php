@@ -184,25 +184,4 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 
 		return TRUE;
 	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Fail
-	 *
-	 * Drivers other than the 'files' one don't (need to) use the
-	 * session.save_path INI setting, but that leads to confusing
-	 * error messages emitted by PHP when open() or write() fail,
-	 * as the message contains session.save_path ...
-	 * To work around the problem, the drivers will call this method
-	 * so that the INI is set just in time for the error message to
-	 * be properly generated.
-	 *
-	 * @return	mixed
-	 */
-	protected function _fail()
-	{
-		ini_set('session.save_path', config_item('sess_save_path'));
-		return $this->_failure;
-	}
 }

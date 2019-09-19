@@ -129,17 +129,40 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
-Version 3.1.11
+Version 3.1.12
 ==============
 
 Release Date: Not Released
 
+
+Version 3.1.11
+==============
+
+Release Date: Sep 19, 2019
+
+-  General Changes
+
+   -  Changed ``CI_Log`` to append ``PHP_EOL`` instead of ``\n`` at the end of log messages.
+   -  Improved performance in :doc:`Cache Library <libraries/caching>` 'redis' driver with non-scalar variables.
+   -  Altered the :doc:`Session Library <libraries/sessions>` 'files' driver to log error and trigger a session start failure instead of throwing an ``Exception`` in case of unusable ``$config['sess_save_path']``.
+   -  Updated the :doc:`Session <libraries/sessions>` and :doc:`Cache <libraries/caching>` libraries' 'redis' driver to work with phpRedis 5.
 
 Bug fixes for 3.1.11
 ====================
 
 -  Fixed a bug (#5681) - :doc:`Database Forge <database/forge>` method ``modify_column()`` produced erroneous SQL for ``DEFAULT`` attribute changes under PostgreSQL, Firebird.
 -  Fixed a bug (#5692) - :doc:`Database Forge <database/forge>` didn't handle column nullability with the 'oci8', 'pdo/oci' drivers.
+-  Fixed a bug (#5701) - :doc:`Database <database/index>` driver 'pdo/pgsql' produced incorrect DSNs when constructing from a configuration array.
+-  Fixed a bug (#5708) - :doc:`Session Library <libraries/sessions>` 'redis' driver too often failed with locking-related errors that could've been avoided.
+-  Fixed a bug (#5703) - :doc:`Session Library <libraries/sessions>` triggered an ``E_WARNING`` message about changing ``session.save_path`` during an active session when it fails to obtain a lock.
+-  Fixed a bug where :doc:`Session Library <libraries/sessions>` 'database' driver didn't trigger a failure if it can't obtain a lock.
+-  Fixed a bug (#5755) - :doc:`Form Validation Library <libraries/form_validation>` rule **valid_url** accepted digit-only domains due to a PHP bug.
+-  Fixed a bug (#5753) - :doc:`Cache Library <libraries/caching>` 'redis' driver methods ``increment()``, ``decrement()`` ignored their ``$offset`` parameter.
+-  Fixed a bug (#5779) - :doc:`Session Library <libraries/sessions>` 'redis' only attempted to validate session IDs in case the connection to Redis failed.
+-  Fixed a bug (#5774) - :doc:`Database Results <database/results>` method ``custom_result_object()`` didn't properly handle empty result sets, triggering ``E_WARNING`` messages on PHP 7.2+.
+-  Fixed a bug (#5788) - :doc:`Database Results <database/results>` method ``field_data()`` triggered an ``E_NOTICE`` error with PDO when a field type is not recognized by PHP.
+-  Fixed a bug (#5796) - :doc:`Query Builder <database/query_builder>` method ``list_tables()`` triggered an SQL syntax error under MySQL when the database schema is a numeric string.
+-  Fixed a bug where :doc:`Security Class <libraries/security>` would trigger an ``E_WARNING`` if CSRF inputs are arrays instead of strings.
 
 Version 3.1.10
 ==============
