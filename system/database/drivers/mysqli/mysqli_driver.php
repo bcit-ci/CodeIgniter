@@ -429,7 +429,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = 'SHOW TABLES FROM '.$this->escape_identifiers($this->database);
+		$sql = 'SHOW TABLES FROM '.$this->_escape_char.$this->database.$this->_escape_char;
 
 		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{

@@ -57,7 +57,7 @@ class Log_test extends CI_TestCase {
 		$format_line->setAccessible(TRUE);
 		$this->assertEquals(
 			$format_line->invoke($instance, 'LEVEL', 'Timestamp', 'Message'),
-			"LEVEL - Timestamp --> Message\n"
+			"LEVEL - Timestamp --> Message".PHP_EOL
 		);
 	}
 }
