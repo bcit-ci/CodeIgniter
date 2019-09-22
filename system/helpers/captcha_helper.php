@@ -113,7 +113,7 @@ if ( ! function_exists('create_captcha'))
 
 			if ( ! is_dir($img_path) OR ! is_really_writable($img_path))
 			{
-				log_message('error', "create_captcha(): '$img_path' is not a dir, nor it's writable.");
+				log_message('error', "create_captcha(): '{$img_path}' is not a dir, nor is it writable.");
 				return FALSE;
 			}
 
