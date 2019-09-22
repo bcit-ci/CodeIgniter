@@ -7,6 +7,10 @@ Version 3.1.12
 
 Release Date: Not Released
 
+Bug fixes for 3.1.12
+====================
+
+-  Fixed a bug (#5834) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` triggered an SQL error for queries with a ``HAVING`` clause.
 
 Version 3.1.11
 ==============
@@ -21,7 +25,7 @@ Release Date: Sep 19, 2019
    -  Updated the :doc:`Session <libraries/sessions>` and :doc:`Cache <libraries/caching>` libraries' 'redis' driver to work with phpRedis 5.
 
 Bug fixes for 3.1.11
-====================
+--------------------
 
 -  Fixed a bug (#5681) - :doc:`Database Forge <database/forge>` method ``modify_column()`` produced erroneous SQL for ``DEFAULT`` attribute changes under PostgreSQL, Firebird.
 -  Fixed a bug (#5692) - :doc:`Database Forge <database/forge>` didn't handle column nullability with the 'oci8', 'pdo/oci' drivers.
