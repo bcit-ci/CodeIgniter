@@ -81,14 +81,14 @@ class CI_Cache_redis extends CI_Driver
 	 *
 	 * @var	string
 	 */
-    protected static $_delete_name;
+	protected static $_delete_name;
 
-    /**
+	/**
 	 * sRem()/sRemove() method name depending on phpRedis version
 	 * @see https://github.com/phpredis/phpredis#srem-sremove
 	 * @var	string
 	 */
-    protected static $_srem_name;
+	protected static $_srem_name;
 
 	// ------------------------------------------------------------------------
 
@@ -109,13 +109,13 @@ class CI_Cache_redis extends CI_Driver
 		{
 			log_message('error', 'Cache: Failed to create Redis object; extension not loaded?');
 			return;
-        }
+		}
 
 		isset(static::$_delete_name) OR static::$_delete_name = version_compare(phpversion('redis'), '5', '>=')
 			? 'del'
-            : 'delete';
+			: 'delete';
 
-        isset(static::$_srem_name) OR static::$_srem_name = version_compare(phpversion('redis'), '5', '>=')
+		isset(static::$_srem_name) OR static::$_srem_name = version_compare(phpversion('redis'), '5', '>=')
 			? 'sRem'
 			: 'sRemove';
 
