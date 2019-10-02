@@ -153,6 +153,7 @@ $mobiles = array(
 	'open web'		=> 'Open Web',
 	'openweb'		=> 'OpenWeb',
 	'meizu'                 => 'Meizu',
+	'infinix'               => 'Infinix',
 
 	// Operating Systems
 	'android'		=> 'Android',
