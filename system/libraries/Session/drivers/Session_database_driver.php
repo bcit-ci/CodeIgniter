@@ -159,7 +159,17 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		$this->_db->reset_query();
 
 		// Needed by write() to detect session_regenerate_id() calls
-		$this->_session_id = $session_id;
+		if (is_php('7.0'))
+		{
+			if(is_null($this->_session_id))
+			{
+				$this->_session_id = $session_id;
+			}
+		}
+		else
+		{
+			$this->_session_id = $session_id;
+		}
 
 		$this->_db
 			->select('data')
@@ -212,9 +222,12 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		// Was the ID regenerated?
 		if (isset($this->_session_id) && $session_id !== $this->_session_id)
 		{
-			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
+			if (!is_php('7.0'))
 			{
-				return $this->_failure;
+				if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
+				{
+					return $this->_failure;
+				}
 			}
 
 			$this->_row_exists = FALSE;

@@ -188,7 +188,17 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			}
 
 			// Needed by write() to detect session_regenerate_id() calls
-			$this->_session_id = $session_id;
+			if (is_php('7.0'))
+			{
+				if(is_null($this->_session_id))
+				{
+					$this->_session_id = $session_id;
+				}
+			}
+			else
+			{
+				$this->_session_id = $session_id;
+			}
 
 			if ($this->_file_new)
 			{
@@ -237,10 +247,20 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 	public function write($session_id, $session_data)
 	{
 		// If the two IDs don't match, we have a session_regenerate_id() call
-		// and we need to close the old handle and open a new one
-		if ($session_id !== $this->_session_id && ($this->close() === $this->_failure OR $this->read($session_id) === $this->_failure))
+		if ($session_id !== $this->_session_id)
 		{
-			return $this->_failure;
+			if (is_php('7.0'))
+			{
+				$this->_session_id = $session_id;
+			}
+			else
+			{
+				// and we need to close the old handle and open a new one
+				if ($this->close() === $this->_failure OR $this->read($session_id) === $this->_failure)
+				{
+					return $this->_failure;
+				}
+			}
 		}
 
 		if ( ! is_resource($this->_file_handle))
@@ -298,7 +318,12 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 			flock($this->_file_handle, LOCK_UN);
 			fclose($this->_file_handle);
 
-			$this->_file_handle = $this->_file_new = $this->_session_id = NULL;
+			$this->_file_handle = $this->_file_new = NULL;
+			if (!is_php('7.0'))
+			{
+				$this->_session_id = null;
+			}
+
 		}
 
 		return $this->_success;

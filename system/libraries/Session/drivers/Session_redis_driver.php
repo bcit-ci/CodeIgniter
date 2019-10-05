@@ -239,7 +239,17 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		if (isset($this->_redis) && $this->_get_lock($session_id))
 		{
 			// Needed by write() to detect session_regenerate_id() calls
-			$this->_session_id = $session_id;
+			if (is_php('7.0'))
+			{
+				if(is_null($this->_session_id))
+				{
+					$this->_session_id = $session_id;
+				}
+			}
+			else
+			{
+				$this->_session_id = $session_id;
+			}
 
 			$session_data = $this->_redis->get($this->_key_prefix.$session_id);
 

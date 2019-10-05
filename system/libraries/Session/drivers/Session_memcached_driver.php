@@ -165,7 +165,17 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 		if (isset($this->_memcached) && $this->_get_lock($session_id))
 		{
 			// Needed by write() to detect session_regenerate_id() calls
-			$this->_session_id = $session_id;
+			if (is_php('7.0'))
+			{
+				if(is_null($this->_session_id))
+				{
+					$this->_session_id = $session_id;
+				}
+			}
+			else
+			{
+				$this->_session_id = $session_id;
+			}
 
 			$session_data = (string) $this->_memcached->get($this->_key_prefix.$session_id);
 			$this->_fingerprint = md5($session_data);
