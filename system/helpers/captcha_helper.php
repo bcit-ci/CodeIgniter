@@ -107,7 +107,7 @@ if ( ! function_exists('create_captcha'))
 		{
 			if ($img_path === '' OR $img_url === '')
 			{
-				log_message('error', 'create_captcha(): "$img_path" and "$img_url" are required.');
+				log_message('error', 'create_captcha(): $img_path and $img_url are required.');
 				return FALSE;
 			}
 
