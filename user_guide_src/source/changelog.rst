@@ -11,6 +11,7 @@ Bug fixes for 3.1.12
 ====================
 
 -  Fixed a bug (#5834) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` triggered an SQL error for queries with a ``HAVING`` clause.
+-  Fixed a bug (#5840) - :doc:`Cache Library <libraries/caching>` 'redis' driver triggered an ``E_DEPRECATED`` warning about ``sRemove()`` with phpRedis 5.
 
 Version 3.1.11
 ==============
