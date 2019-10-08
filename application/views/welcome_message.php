@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 	a:hover {
-	   color: #97310e;
+		color: #97310e;
 	}
 
 	h1 {
@@ -69,8 +69,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 	p {
-		 margin: 0 0 10px;
-		 padding:0;
+		margin: 0 0 10px;
+		padding:0;
 	}
 
 	p.footer {
