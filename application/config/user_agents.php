@@ -157,6 +157,7 @@ $mobiles = array(
 	'xiaomi'                => 'Xiaomi',
 	'oppo'                  => 'Oppo',
 	'vivo'                  => 'Vivo',
+	'infinix'               => 'Infinix',
 
 	// Operating Systems
 	'android'		=> 'Android',
