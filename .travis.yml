@@ -1,5 +1,5 @@
 language: php
-dist: precise
+dist: trusty
 
 php:
   - 5.4
@@ -9,8 +9,9 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - master
-  - hhvm
+  - 7.4snapshot
+  - nightly
+  - hhvm-3.30
   
 env:
   - DB=mysql
@@ -33,12 +34,13 @@ script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7
 
 matrix:
   allow_failures:
-    - php: hhvm
-    - php: master
+    - php: 7.4snapshot
+    - php: nightly
+    - php: hhvm-3.30
   exclude:
-    - php: hhvm
+    - php: hhvm-3.30
       env: DB=pgsql
-    - php: hhvm
+    - php: hhvm-3.30
       env: DB=pdo/pgsql
     - php: 7.0
       env: DB=mysql
@@ -48,7 +50,9 @@ matrix:
       env: DB=mysql
     - php: 7.3
       env: DB=mysql
-    - php: master
+    - php: 7.4snapshot
+      env: DB=mysql
+    - php: nightly
       env: DB=mysql
 
 branches:
