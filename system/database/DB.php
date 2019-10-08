@@ -185,7 +185,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	elseif ( ! class_exists('CI_DB', FALSE))
 	{
 		/**
-	 	 * @ignore
+		 * @ignore
 		 */
 		class CI_DB extends CI_DB_driver { }
 	}
