@@ -119,8 +119,8 @@ class File_helper_Test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	 public function test_write_file()
-	 {
+	public function test_write_file()
+	{
 		$content = 'Jack and Jill went up the mountain to fight a billy goat.';
 
 		$file = vfsStream::newFile('write.txt', 0777)
@@ -129,6 +129,6 @@ class File_helper_Test extends CI_TestCase {
 			->at($this->_test_dir);
 
 		$this->assertTrue(write_file(vfsStream::url('write.txt'), $content));
-	 }
+	}
 
 }

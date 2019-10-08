@@ -241,7 +241,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 			$dir_root = $root->getChild($dir);
 			if ($dir_root)
 			{
-			   	// Yes - recurse into subdir
+				// Yes - recurse into subdir
 				$root = $dir_root;
 			}
 			else
