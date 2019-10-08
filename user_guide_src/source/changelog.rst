@@ -7,6 +7,10 @@ Version 3.1.12
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Improved logging of error conditions in :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()`.
+
 Bug fixes for 3.1.12
 ====================
 
