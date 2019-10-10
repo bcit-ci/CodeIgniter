@@ -88,7 +88,7 @@ class CI_Cache_redis extends CI_Driver
 	 *
 	 * @var	string
 	 */
-	protected static $_delete_name;
+	protected static $_sRemove_name;
 
 	// ------------------------------------------------------------------------
 
