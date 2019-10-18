@@ -20,4 +20,6 @@ tests/travis/ export-ignore
 
 # User Guide Source Files
 user_guide_src
-user_guide
+
+# User Guide Compiled Files
+user_guide export-ignore
