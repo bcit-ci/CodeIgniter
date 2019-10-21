@@ -98,7 +98,7 @@ class CI_Cache_redis extends CI_Driver
 			return;
 		}
 
-		isset(static::$_delete_name) OR static::$_delete_name = version_compare(phpversion('phpredis'), '5', '>=')
+		isset(static::$_delete_name) OR static::$_delete_name = version_compare(phpversion('redis'), '5', '>=')
 			? 'del'
 			: 'delete';
 
