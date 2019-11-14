@@ -171,10 +171,10 @@ class CI_Cache_apcu extends CI_Driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info()
-	 {
-		 return apcu_cache_info();
-	 }
+	public function cache_info()
+	{
+		return apcu_cache_info();
+	}
 
 	// ------------------------------------------------------------------------
 

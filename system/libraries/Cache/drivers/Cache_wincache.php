@@ -169,10 +169,10 @@ class CI_Cache_wincache extends CI_Driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info()
-	 {
-		 return wincache_ucache_info(TRUE);
-	 }
+	public function cache_info()
+	{
+		return wincache_ucache_info(TRUE);
+	}
 
 	// ------------------------------------------------------------------------
 
