@@ -366,6 +366,17 @@ $config['encryption_key'] = '';
 | Other session cookie settings are shared with the rest of the application,
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
+| 'sess_cookie_samesite'
+|
+| SameSite prevents the browser from sending this cookie along with cross-site requests.
+| There are three possible values for the same-site attribute:
+| 'Lax'
+|			-	Some cross-site usage is allowed. 
+| 'Strict' 
+|			-	The cookie is withheld with any cross-site usage. 
+| 'None'
+|			-	Clearly communicate you intentionally want the cookie sent in a third-party context.
+|
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
