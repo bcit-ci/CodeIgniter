@@ -10,6 +10,7 @@ Release Date: Not Released
 -  General Changes
 
    -  Improved logging of error conditions in :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()`.
+   -  Added ``AUTO_INCREMENT`` support for Oracle 12.1+ to :doc:`Database Forge <database/forge>`.
 
 Bug fixes for 3.1.12
 ====================
