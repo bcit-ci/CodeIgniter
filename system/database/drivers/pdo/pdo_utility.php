@@ -54,11 +54,6 @@ class CI_DB_pdo_utility extends CI_DB_utility {
 	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
-	// protected function _backup($params = array())
-	// {
-	// 	// Currently unsupported
-	// 	return $this->db->display_error('db_unsupported_feature');
-	// }
 	protected function _backup($params = array())
 	{
 		if (count($params) === 0)
@@ -134,8 +129,6 @@ class CI_DB_pdo_utility extends CI_DB_utility {
 			$i = 0;
 			$field_str = '';
 			$is_int = array();
-			
-
 
 			$fields = $this->db->list_fields($table);
 			foreach ($fields as $field) {
