@@ -825,6 +825,18 @@ abstract class CI_DB_driver {
 	{
 		return $this->_trans_status;
 	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Lets you retrieve the transaction depth
+	 *
+	 * @return	int
+	 */
+	public function trans_depth()
+	{
+		return $this->_trans_depth;
+	}
 
 	// --------------------------------------------------------------------
 
