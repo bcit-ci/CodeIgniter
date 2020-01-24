@@ -161,6 +161,14 @@ This article is intended to be a reference for them.
 
 		Lets you retrieve the transaction status flag to
 		determine if it has failed.
+		
+	.. php:method:: trans_depth()
+
+                :returns:	The current transaction depth
+		:rtype:	int
+
+		Lets you retrieve the transaction depth value which
+		will be 1 or greater if a transaction is active.
 
 	.. php:method:: compile_binds($sql, $binds)
 
