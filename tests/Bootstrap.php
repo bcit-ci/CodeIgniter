@@ -70,6 +70,11 @@ include_once SYSTEM_PATH.'core/compat/hash.php';
 include_once SYSTEM_PATH.'core/compat/password.php';
 include_once SYSTEM_PATH.'core/compat/standard.php';
 
+if ( !class_exists('PHPUnit_Framework_TestCase'))
+{
+	class PHPUnit_Framework_TestCase extends PHPUnit\Framework\TestCase{}
+}
+
 include_once $dir.'/mocks/autoloader.php';
 spl_autoload_register('autoload');
 

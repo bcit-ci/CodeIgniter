@@ -35,7 +35,7 @@ class Lang_test extends CI_TestCase {
 		$this->assertEquals('german', $this->lang->is_loaded['email_lang.php']);
 
 		// Non-existent file
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
 		);
@@ -69,7 +69,7 @@ class Lang_test extends CI_TestCase {
 			0 => 'profiler',
 			1 => 'nonexistent'
 		);
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested language file: language/english/nonexistent_lang.php'
 		);

@@ -206,7 +206,7 @@ class Config_test extends CI_TestCase {
 		$this->assertFalse($this->config->load($file, FALSE, TRUE));
 
 		// Test regular fail of invalid file
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Your '.$this->ci_vfs_path('config/'.$file.'.php', APPPATH).
 				' file does not appear to contain a valid configuration array.'
@@ -223,7 +223,7 @@ class Config_test extends CI_TestCase {
 
 		// Test regular fail
 		$file = 'absentia';
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: The configuration file '.$file.'.php does not exist.'
 		);

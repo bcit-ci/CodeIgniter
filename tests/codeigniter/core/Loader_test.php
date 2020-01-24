@@ -51,7 +51,7 @@ class Loader_test extends CI_TestCase {
 		// test non existent lib
 		$lib = 'non_existent_test_lib';
 
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested class: '.ucfirst($lib)
 		);
@@ -64,7 +64,7 @@ class Loader_test extends CI_TestCase {
 	{
 		$lib = 'bad_test_lib';
 		$this->ci_vfs_create(ucfirst($lib), '', $this->ci_app_root, 'libraries');
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Non-existent class: '.ucfirst($lib)
 		);
@@ -108,7 +108,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create($class, '<?php class '.$class.' { }', $this->ci_app_root, 'libraries');
 
 		// Test missing base class
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested class: '.$lib
 		);
@@ -147,7 +147,7 @@ class Loader_test extends CI_TestCase {
 		$lib = 'another_test_lib';
 		$class = ucfirst($lib);
 		$this->ci_vfs_create(ucfirst($lib), '<?php class '.$class.' { }', $this->ci_app_root, 'libraries');
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			"CI Error: Resource '".$obj."' already exists and is not a ".$class." instance."
 		);
@@ -248,7 +248,7 @@ class Loader_test extends CI_TestCase {
 		// Test name conflict
 		$obj = 'conflict';
 		$this->ci_obj->$obj = new stdClass();
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'The model name you are loading is the name of a resource that is already being used: '.$obj
 		);
@@ -259,7 +259,7 @@ class Loader_test extends CI_TestCase {
 
 	public function test_non_existent_model()
 	{
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'Unable to locate the model you have specified: Ci_test_nonexistent_model.php'
 		);
@@ -279,7 +279,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create($model, $content, $this->ci_app_root, 'models');
 
 		// Test no extending
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'Class '.$model.' doesn\'t extend CI_Model'
 		);
@@ -324,7 +324,7 @@ class Loader_test extends CI_TestCase {
 
 	public function test_non_existent_view()
 	{
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested file: ci_test_nonexistent_view.php'
 		);
@@ -347,7 +347,7 @@ class Loader_test extends CI_TestCase {
 		$this->assertEquals($content, $out);
 
 		// Test non-existent file
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested file: ci_test_file_not_exists'
 		);
@@ -412,7 +412,7 @@ class Loader_test extends CI_TestCase {
 		$this->ci_vfs_create($this->prefix.$ext.'_helper', '', $this->ci_app_root, 'helpers');
 
 		// Test bad extension
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested file: helpers/'.$ext.'_helper.php'
 		);
@@ -423,7 +423,7 @@ class Loader_test extends CI_TestCase {
 
 	public function test_non_existent_helper()
 	{
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested file: helpers/bad_helper.php'
 		);
@@ -482,7 +482,7 @@ class Loader_test extends CI_TestCase {
 		$paths = $this->load->get_package_paths(TRUE);
 
 		// Test failed load without path
-		$this->setExpectedException(
+		$this->expectedException(
 			'RuntimeException',
 			'CI Error: Unable to load the requested class: '.ucfirst($lib)
 		);

@@ -455,7 +455,7 @@ class Form_validation_test extends CI_TestCase {
 
 	public function test_set_rules_exception()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectedException('BadMethodCallException');
 		$this->form_validation->set_rules('foo', 'bar');
 	}
 

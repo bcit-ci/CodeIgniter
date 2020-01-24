@@ -59,7 +59,7 @@ class Driver_test extends CI_TestCase {
 
 		// Do we get an error for an invalid driver?
 		$driver = 'unlisted';
-		$this->setExpectedException('RuntimeException', 'CI Error: Invalid driver requested: '.$this->name.'_'.$driver);
+		$this->expectedException('RuntimeException', 'CI Error: Invalid driver requested: '.$this->name.'_'.$driver);
 		$this->lib->load_driver($driver);
 	}
 
@@ -89,7 +89,7 @@ class Driver_test extends CI_TestCase {
 		$this->assertAttributeInstanceOf('CI_Driver', $driver, $this->lib);
 
 		// Do we get an error for a non-existent driver?
-		$this->setExpectedException('RuntimeException', 'CI Error: Unable to load the requested driver: CI_'.
+		$this->expectedException('RuntimeException', 'CI Error: Unable to load the requested driver: CI_'.
 			$this->name.'_'.$nodriver);
 		$this->lib->load_driver($nodriver);
 	}
@@ -132,7 +132,7 @@ class Driver_test extends CI_TestCase {
 		$this->lib->driver_list($driver);
 
 		// Do we get an error when base class isn't found?
-		$this->setExpectedException('RuntimeException', 'CI Error: Unable to load the requested class: CI_'.$base);
+		$this->expectedException('RuntimeException', 'CI Error: Unable to load the requested class: CI_'.$base);
 		$this->lib->load_driver($driver);
 	}
 
