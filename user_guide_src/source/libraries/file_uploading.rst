@@ -35,7 +35,7 @@ Creating the Upload Form
 Using a text editor, create a form called upload_form.php. In it, place
 this code and save it to your **application/views/** directory::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>Upload Form</title>
 	</head>
@@ -68,7 +68,7 @@ The Success Page
 Using a text editor, create a form called upload_success.php. In it,
 place this code and save it to your **application/views/** directory::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>Upload Form</title>
 	</head>

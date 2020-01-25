@@ -58,7 +58,7 @@ the following code:
 
 ::
 
-	<html>
+	<html lang="en">
 		<head>
 			<title>CodeIgniter Tutorial</title>
 		</head>
