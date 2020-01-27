@@ -19,6 +19,7 @@ Bug fixes for 3.1.12
 -  Fixed a bug (#5840) - :doc:`Cache Library <libraries/caching>` 'redis' driver triggered an ``E_DEPRECATED`` warning about ``sRemove()`` with phpRedis 5.
 -  Fixed a bug (#5857) - :doc:`Session <libraries/sessions>` data could be corrupted after a concurrent request write with the 'files' driver due to a filesize cache being incorrect.
 -  Fixed a bug (#5861) - :doc:`Cache Library <libraries/caching>` 'redis' driver would always use phpRedis 5 ``del()`` due to an incorrect version check.
+-  Fixed a bug (#5879) - :doc:`Profiler Library <general/profiling>` triggered an ``E_DEPRECATED`` warning on PHP 7.4+.
 
 Version 3.1.11
 ==============
