@@ -199,7 +199,7 @@ query.
 
 If you need a specific type of JOIN you can specify it via the third
 parameter of the function. Options are: left, right, outer, inner, left
-outer, and right outer.
+outer, right outer and full outer.
 
 ::
 
