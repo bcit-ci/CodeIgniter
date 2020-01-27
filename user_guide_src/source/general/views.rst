@@ -22,7 +22,7 @@ Creating a View
 Using your text editor, create a file called blogview.php, and put this
 in it::
 
-	<html>
+	<html lang="en">
 	<head>
 		<title>My Blog</title>
 	</head>
@@ -138,7 +138,7 @@ Let's try it with your controller file. Open it add this code::
 Now open your view file and change the text to variables that correspond
 to the array keys in your data::
 
-	<html>
+	<html lang="en">
 	<head>
 		<title><?php echo $title;?></title>
 	</head>
@@ -176,7 +176,7 @@ Here's a simple example. Add this to your controller::
 
 Now open your view file and create a loop::
 
-	<html>
+	<html lang="en">
 	<head>
 		<title><?php echo $title;?></title>
 	</head>
