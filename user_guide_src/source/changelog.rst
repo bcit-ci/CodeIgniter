@@ -72,6 +72,7 @@ Release Date: Not Released
 
       - Added option to change the output filename via the ``new_name`` option when rendering images with ``dynamic_output``.
       - Updated to serve multibyte filenames when rendering images with ``dynamic_output``, if possible.
+      - Added WebP image support.
 
 -  :doc:`Database <database/index>` changes include:
 
