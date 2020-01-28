@@ -12,6 +12,7 @@ Release Date: Not Released
    -  Improved logging of error conditions in :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()`.
    -  Added ``AUTO_INCREMENT`` support for Oracle 12.1+ to :doc:`Database Forge <database/forge>`.
    -  Added ``FULL [OUTER] JOIN`` support to :doc:`Query Builder <database/query_builder>`.
+   -  Added support for detecting WebP image type to :doc:`File Uploading Library <libraries/file_uploading>`.
 
 Bug fixes for 3.1.12
 ====================
