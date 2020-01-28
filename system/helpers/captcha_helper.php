@@ -103,6 +103,18 @@ if ( ! function_exists('create_captcha'))
 			return FALSE;
 		}
 
+		if ($img_path === '' OR $img_url === '')
+		{
+			log_message('error', 'create_captcha(): $img_path and $img_url are required.');
+			return FALSE;
+		}
+
+		if ( ! is_dir($img_path) OR ! is_really_writable($img_path))
+		{
+			log_message('error', "create_captcha(): '{$img_path}' is not a dir, nor is it writable.");
+			return FALSE;
+		}
+
 		if ($img_url !== '' OR $img_path !== '')
 		{
 			if ($img_path === '' OR $img_url === '')

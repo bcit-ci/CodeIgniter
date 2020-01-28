@@ -196,6 +196,10 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 				$this->_fingerprint = md5('');
 				return '';
 			}
+
+			// Prevent possible data corruption
+			// See https://github.com/bcit-ci/CodeIgniter/issues/5857
+			clearstatcache(TRUE, $this->_file_path.$session_id);
 		}
 		// We shouldn't need this, but apparently we do ...
 		// See https://github.com/bcit-ci/CodeIgniter/issues/4039
