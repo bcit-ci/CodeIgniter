@@ -829,7 +829,7 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Returns whether a transaction is currently active
+	 * Returns TRUE if a transaction is currently active
 	 *
 	 * @return	bool
 	 */
