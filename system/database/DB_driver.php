@@ -829,13 +829,13 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Lets you retrieve the transaction depth
+	 * Returns whether a transaction is currently active
 	 *
-	 * @return	int
+	 * @return	bool
 	 */
-	public function trans_depth()
+	public function trans_active()
 	{
-		return $this->_trans_depth;
+		return (bool) $this->_trans_depth;
 	}
 
 	// --------------------------------------------------------------------
