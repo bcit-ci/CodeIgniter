@@ -169,6 +169,13 @@ This article is intended to be a reference for them.
 
 		Lets you retrieve the transaction status flag to
 		determine if it has failed.
+		
+	.. php:method:: trans_active()
+
+		:returns:	TRUE if a transaction is active, FALSE if not
+		:rtype:	bool
+
+		Determines if a transaction is currently active.
 
 	.. php:method:: compile_binds($sql, $binds)
 
