@@ -164,7 +164,7 @@ This article is intended to be a reference for them.
 
 	.. php:method:: trans_status()
 
-                :returns:	TRUE if the transaction succeeded, FALSE if it failed
+		:returns:	TRUE if the transaction succeeded, FALSE if it failed
 		:rtype:	bool
 
 		Lets you retrieve the transaction status flag to
