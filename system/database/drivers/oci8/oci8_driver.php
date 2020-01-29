@@ -682,6 +682,14 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
+		if (is_resource($this->curs_id))
+		{
+			oci_free_statement($this->curs_id);
+		}
+		if (is_resource($this->stmt_id))
+		{
+			oci_free_statement($this->stmt_id);
+		}
 		oci_close($this->conn_id);
 	}
 
