@@ -428,7 +428,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		return 'SELECT "column_name"
 			FROM "information_schema"."columns"
-			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
+			WHERE "table_schema" = \''.$this->schema.'\' AND LOWER("table_name") = '.$this->escape(strtolower($table));
 	}
 
 	// --------------------------------------------------------------------
@@ -443,7 +443,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		$sql = 'SELECT "column_name", "data_type", "character_maximum_length", "numeric_precision", "column_default"
 			FROM "information_schema"."columns"
-			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
+			WHERE "table_schema" = \''.$this->schema.'\' AND LOWER("table_name") = '.$this->escape(strtolower($table));
 
 		if (($query = $this->query($sql)) === FALSE)
 		{
