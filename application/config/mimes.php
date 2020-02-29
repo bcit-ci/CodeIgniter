@@ -88,6 +88,8 @@ return array(
 	'png'	=>	array('image/png',  'image/x-png'),
 	'tiff'	=>	'image/tiff',
 	'tif'	=>	'image/tiff',
+	'heic' 	=>	'image/heic',
+	'heif' 	=>	'image/heif',
 	'css'	=>	array('text/css', 'text/plain'),
 	'html'	=>	array('text/html', 'text/plain'),
 	'htm'	=>	array('text/html', 'text/plain'),
