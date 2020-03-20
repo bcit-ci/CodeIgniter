@@ -1,0 +1,77 @@
+.navigation {
+    height: 75px;
+    background-color: white;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 100px;
+    margin-bottom: 60px;
+  }
+  
+  .navigation .navigation__column:first-child img {
+    height: 45px;
+  }
+  
+  .navigation .navigations__links {
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .navigation .navigation__list-item {
+    margin-left: 30px;
+    padding: 0 2px;
+    opacity: 0;
+    animation: slideNavLink 0.5s ease-out forwards;
+  }
+  
+  @keyframes slideNavLink {
+    from {
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  .navigation .navigation__list-item:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .navigation .navigation__list-item:last-child {
+    animation-delay: 0.3s;
+  }
+  
+  .navigation__link {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
+  }
+  
+  .navigation__column input {
+    padding: 5px 0;
+    padding-left: 60px;
+    border: 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background: #fafafa;
+    font-size: 16px;
+  }
+  
+  .navigation__column input:focus {
+    outline: none;
+    border: 1px solid #a9a9a9;
+  }
+  
+  .navigation__column {
+    position: relative;
+  }
+  
+  .navigation__column .fa-search {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+  }

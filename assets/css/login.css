@@ -1,0 +1,128 @@
+#login {
+    width: 100%;
+    max-width: 800px;
+    margin: 45px auto;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  #login .login__column {
+    width: 45%;
+  }
+  
+  .login__column .login__phone {
+    max-width: 100%;
+  }
+  
+  .login__column .login__box {
+    background-color: white;
+    border: 1px solid #e6e6e6;
+  }
+  
+  .login__column .login__box--transparent {
+    background: none;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35px;
+  }
+  
+  .login__column .login__appstores {
+    margin-top: 20px;
+  }
+  
+  .login__appstores .login__appstore {
+    height: 40px;
+  }
+  
+  #login .login__box {
+    padding: 30px 0;
+    text-align: center;
+  }
+  
+  #login .login__box:first-child {
+    margin-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  .login__column .login__logo {
+    height: 50px;
+  }
+  
+  .login__form input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+    font-size: 14px;
+    border: 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    background: #fafafa;
+  }
+  
+  .login__form input:focus {
+    outline: none;
+    border: 1px solid #a9a9a9;
+  }
+  
+  .login__form input:first-child {
+    margin-bottom: 5px;
+  }
+  
+  .login__form input[type="submit"] {
+    background-color: #3f99ed;
+    border: 0;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 600;
+  }
+  
+  #login .login__divider {
+    display: block;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #999;
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+  }
+  
+  #login .login__link {
+    display: block;
+    text-decoration: none;
+    color: #003569;
+  }
+  
+  #login .login__link--small {
+    margin-top: 30px;
+  }
+  
+  .login__box a {
+    text-decoration: none;
+    color: var(--fd-blue);
+  }
+  
+  #login .login__divider:before {
+    content: "";
+    height: 1px;
+    background-color: rgba(153, 153, 153, 0.5);
+    width: 40%;
+    position: absolute;
+    left: 0;
+    top: 10px;
+  }
+  
+  #login .login__divider:after {
+    content: "";
+    height: 1px;
+    background-color: rgba(153, 153, 153, 0.5);
+    width: 40%;
+    position: absolute;
+    right: 0;
+    top: 10px;
+  }

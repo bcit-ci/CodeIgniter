@@ -1,0 +1,70 @@
+#explore {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 500px;
+  }
+  
+  #explore .explore__users {
+    background-color: white;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .explore__users .explore__user {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  
+  .explore__users .explore__user:last-child {
+    border: 0;
+  }
+  
+  .explore__user .explore__avatar {
+    width: 55px;
+    border-radius: 50%;
+  }
+  
+  .explore__user .explore__user-column {
+    display: flex;
+    align-items: center;
+  }
+  
+  .explore__user .explore__info {
+    margin-left: 15px;
+  }
+  
+  .explore__info .explore__username {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .explore__info .explore__full-name {
+    color: #999;
+  }
+  
+  .explore__user-column button {
+    background-color: var(--fd-blue);
+    color: white;
+    border: 0;
+    font-weight: 600;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .explore__user-column button:active,
+  .explore__user-column button:focus {
+    outline: none;
+  }
+  
+  .explore__user-column:active {
+    opacity: 0.9;
+  }

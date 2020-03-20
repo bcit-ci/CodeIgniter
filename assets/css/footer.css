@@ -1,0 +1,30 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .footer .footer__list {
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+  }
+  
+  .footer .footer__copyright {
+    color: hsl(0, 0%, 60%);
+  }
+  
+  .footer__list .footer__list-item {
+    margin-right: 10px;
+  }
+  
+  .footer .footer__link {
+    text-decoration: none;
+    color: var(--link-color);
+  }
