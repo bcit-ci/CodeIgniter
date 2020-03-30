@@ -14,6 +14,7 @@ Release Date: Not Released
    -  Added ``FULL [OUTER] JOIN`` support to :doc:`Query Builder <database/query_builder>`.
    -  Added support for detecting WebP image type to :doc:`File Uploading Library <libraries/file_uploading>`.
    -  Added method :doc:`Database Library <database/index>` method ``trans_active()`` to expose transaction state.
+   -  Updated :doc:`Database Library <database/index>` 'pdo' driver to attempt to free resources in order to allow connections to be closed.
 
 Bug fixes for 3.1.12
 ====================
