@@ -18,3 +18,9 @@ Step 2: Replace config/user_agents.php
 
 This config file has received some updates. Please copy it to
 *application/config/user_agents.php*.
+
+Step 3: Replace config/mimes.php
+================================
+
+This config file has received some updates. Please copy it to
+*application/config/mimes.php*.
