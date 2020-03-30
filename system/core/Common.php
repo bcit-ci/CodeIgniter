@@ -565,7 +565,7 @@ if ( ! function_exists('set_status_header'))
 			return;
 		}
 
-		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2'), TRUE))
+		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0'), TRUE))
 			? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 		header($server_protocol.' '.$code.' '.$text, TRUE, $code);
 	}
