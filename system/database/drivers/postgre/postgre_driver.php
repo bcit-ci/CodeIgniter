@@ -78,22 +78,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Class constructor
+	 * Build DSN
 	 *
-	 * Creates a DSN string to be used for db_connect() and db_pconnect()
-	 *
-	 * @param	array	$params
 	 * @return	void
 	 */
-	public function __construct($params)
+	protected function _build_dsn()
 	{
-		parent::__construct($params);
-
-		if ( ! empty($this->dsn))
-		{
-			return;
-		}
-
 		$this->dsn === '' OR $this->dsn = '';
 
 		if (strpos($this->hostname, '/') !== FALSE)
@@ -149,6 +139,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
+		empty($this->dsn) OR $this->_build_dsn();
 		$this->conn_id = ($persistent === TRUE)
 			? pg_pconnect($this->dsn)
 			: pg_connect($this->dsn);
