@@ -25,6 +25,7 @@ Bug fixes for 3.1.12
 -  Fixed a bug (#5879) - :doc:`Profiler Library <general/profiling>` triggered an ``E_DEPRECATED`` warning on PHP 7.4+.
 -  Fixed a bug (#5901) - :doc:`Database Library <database/index>` methods ``list_fields()`` and ``field_data()`` ignored the configured table schema on PostgreSQL.
 -  Fixed a bug (#5906) - :doc:`Database Library <database/index>` 'postgre' driver couldn't use the failover feature without a ``$config['dsn']``.
+-  Fixed a bug (#5903) - :doc:`common function <general/common_functions>` :php:func:`set_status_header()` didn't recognize 'HTTP/2.0' as a valid ``$_SERVER['SERVER_PROTOCOL']``.
 
 Version 3.1.11
 ==============
