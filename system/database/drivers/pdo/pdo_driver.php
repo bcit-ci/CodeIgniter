@@ -326,4 +326,17 @@ class CI_DB_pdo_driver extends CI_DB {
 		return 'TRUNCATE TABLE '.$table;
 	}
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Close DB Connection
+	 *
+	 * @return	void
+	 */
+	protected function _close()
+	{
+		$this->result_id = FALSE;
+		$this->conn_id = FALSE;
+	}
+
 }
