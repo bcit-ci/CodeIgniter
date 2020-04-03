@@ -175,17 +175,16 @@ class CI_Table {
 	
 	
 	/**
-	 * Set the table footer sum columns
+	 * Set the table footer columns with their function or custom content 
 	 *
-	 * Can be passed as an array or discreet params
+	 * Must be passed as an array
 	 *
 	 * @param	mixed
 	 * @return	CI_Table
 	 */
 	public function set_footer_columns($args = array())
 	{
-			$this->footer_columns = func_get_args()[0];
-			
+		$this->footer_columns = func_get_args()[0];	
 		return $this;
 	}
 	// --------------------------------------------------------------------
