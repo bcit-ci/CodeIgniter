@@ -365,7 +365,7 @@ class CI_Table {
 			$out .= '<caption>'.$this->caption.'</caption>'.$this->newline;
 		}
 
-		// footer preparation
+		// footer initialization
 		$this->footer = array();
 		
 		// Is there a table heading to display?
@@ -386,6 +386,8 @@ class CI_Table {
 				}
 
 				$out .= $temp.(isset($heading['data']) ? $heading['data'] : '').$this->template['heading_cell_end'];
+				
+				// Set 0 to the specified columns in the footer
 				if($this->footer_columns)
 						$this->footer[isset($heading['data']) ? $heading['data'] : '']=isset($this->footer_columns[isset($heading['data']) ? $heading['data'] : '']) ? 0 : '';
 			}
@@ -403,7 +405,7 @@ class CI_Table {
 					$temp_footer_columns[array_search($key, array_keys($this->footer))]=$value ;
 				$this->footer_columns =$temp_footer_columns;
 				
-				//Map footer array key from name to index
+				//Map footer array key to index
 				$temp_footer=array();
 				$i=0;
 				foreach ($this->footer as $footer_cell)
@@ -465,6 +467,7 @@ class CI_Table {
 					
 					//Footer cell calculation
 					if(isset($this->footer_columns[$cell_key])){
+						// Filter data and get number from the cell 
 						$number=(float) filter_var($cell, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
 						if($this->footer_columns[$cell_key]=="SUM")
 							$this->footer[$cell_key]+=$number;
