@@ -70,13 +70,13 @@ class CI_Table {
 	 * @var array
 	 */
 	public $footer		= array();
+	
 	/**
-	 * Columns that must have sum at footer
+	 *  Specified columns (and its aggregation function) to show in footer
 	 *
 	 * @var array
 	 */
-	 
-	public $footer_columns		= array();
+	public $footer_columns	= array();
 	
 
 	/**
