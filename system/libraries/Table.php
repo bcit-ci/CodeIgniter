@@ -182,9 +182,16 @@ class CI_Table {
 	 * @param	mixed
 	 * @return	CI_Table
 	 */
-	public function set_footer_columns($args = array())
+	public function set_footer_columns($array)
 	{
-		$this->footer_columns = func_get_args()[0];	
+		if(! is_array($array))
+			return FALSE;
+		
+		if ( count($array) === 0 OR $array=== NULL )
+			$this->footer_columns = array();
+		else 
+			$this->footer_columns = $array;
+			
 		return $this;
 	}
 	// --------------------------------------------------------------------
