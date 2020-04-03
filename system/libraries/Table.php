@@ -63,6 +63,21 @@ class CI_Table {
 	 * @var array
 	 */
 	public $heading		= array();
+	
+	/**
+	 * Data for table footer
+	 *
+	 * @var array
+	 */
+	public $footer		= array();
+	/**
+	 * Columns that must have sum at footer
+	 *
+	 * @var array
+	 */
+	 
+	public $footer_columns		= array();
+	
 
 	/**
 	 * Whether or not to automatically create the table header
@@ -157,7 +172,22 @@ class CI_Table {
 		$this->heading = $this->_prep_args(func_get_args());
 		return $this;
 	}
-
+	
+	
+	/**
+	 * Set the table footer sum columns
+	 *
+	 * Can be passed as an array or discreet params
+	 *
+	 * @param	mixed
+	 * @return	CI_Table
+	 */
+	public function set_footer_columns($args = array())
+	{
+			$this->footer_columns = func_get_args()[0];
+			
+		return $this;
+	}
 	// --------------------------------------------------------------------
 
 	/**
@@ -329,6 +359,9 @@ class CI_Table {
 			$out .= '<caption>'.$this->caption.'</caption>'.$this->newline;
 		}
 
+		// footer preparation
+		$this->footer = array();
+		
 		// Is there a table heading to display?
 		if ( ! empty($this->heading))
 		{
@@ -347,11 +380,34 @@ class CI_Table {
 				}
 
 				$out .= $temp.(isset($heading['data']) ? $heading['data'] : '').$this->template['heading_cell_end'];
+				if($this->footer_columns)
+						$this->footer[isset($heading['data']) ? $heading['data'] : '']=isset($this->footer_columns[isset($heading['data']) ? $heading['data'] : '']) ? 0 : '';
 			}
 
 			$out .= $this->template['heading_row_end'].$this->newline.$this->template['thead_close'].$this->newline;
 		}
 
+		// If table_data is not database result , we have to map header to row's cell's index
+		if($this->footer_columns){
+			if( is_array($table_data) OR $table_data===NULL){
+				
+				//Map footer_columns name to index
+				$temp_footer_columns=array();
+				foreach($this->footer_columns as $key=>$value)
+					$temp_footer_columns[array_search($key, array_keys($this->footer))]=$value ;
+				$this->footer_columns =$temp_footer_columns;
+				
+				//Map footer array key from name to index
+				$temp_footer=array();
+				$i=0;
+				foreach ($this->footer as $footer_cell)
+					$temp_footer[$i++]=$footer_cell;
+				$this->footer=$temp_footer;
+				
+			}
+		}
+		
+	
 		// Build the table rows
 		if ( ! empty($this->rows))
 		{
@@ -360,20 +416,21 @@ class CI_Table {
 			$i = 1;
 			foreach ($this->rows as $row)
 			{
+				
 				if ( ! is_array($row))
 				{
 					break;
 				}
 
 				// We use modulus to alternate the row colors
-				$name = fmod($i++, 2) ? '' : 'alt_';
+				$name = fmod($i, 2) ? '' : 'alt_';
 
 				$out .= $this->template['row_'.$name.'start'].$this->newline;
-
-				foreach ($row as $cell)
+				$is_sum_column=false;
+				foreach ($row as $cell_key=>$cell)
 				{
 					$temp = $this->template['cell_'.$name.'start'];
-
+					
 					foreach ($cell as $key => $val)
 					{
 						if ($key !== 'data')
@@ -384,7 +441,7 @@ class CI_Table {
 
 					$cell = isset($cell['data']) ? $cell['data'] : '';
 					$out .= $temp;
-
+					
 					if ($cell === '' OR $cell === NULL)
 					{
 						$out .= $this->empty_cells;
@@ -399,12 +456,54 @@ class CI_Table {
 					}
 
 					$out .= $this->template['cell_'.$name.'end'];
+					
+					//Footer cell calculation
+					if(isset($this->footer_columns[$cell_key])){
+						$number=(float) filter_var($cell, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
+						if($this->footer_columns[$cell_key]=="SUM")
+							$this->footer[$cell_key]+=$number;
+						else if($this->footer_columns[$cell_key]=="AVG")
+							$this->footer[$cell_key]=(($this->footer[$cell_key]*($i-1) )+ $number)/$i;
+						else if($this->footer_columns[$cell_key]=="MIN")
+							$this->footer[$cell_key]=$this->footer[$cell_key] >$number ? $number : $this->footer[$cell_key];
+						else if($this->footer_columns[$cell_key]=="MAX")
+							$this->footer[$cell_key]=$this->footer[$cell_key] <$number ? $number : $this->footer[$cell_key];
+						else if($this->footer_columns[$cell_key]=="CNT")
+							$this->footer[$cell_key]=($cell!="" && $cell!="0") ? $this->footer[$cell_key]+1 : $this->footer[$cell_key];
+						else 
+							$this->footer[$cell_key]=$this->footer_columns[$cell_key];
+					}
+							
 				}
-
+				$i++;
 				$out .= $this->template['row_'.$name.'end'].$this->newline;
 			}
 
 			$out .= $this->template['tbody_close'].$this->newline;
+			
+		// Is there a table footer to display?
+		if ( ! empty($this->footer))
+		{
+			$this->footer=$this->_prep_args($this->footer);
+			$out .= $this->template['tfoot_open'].$this->newline.$this->template['footer_row_start'].$this->newline;
+
+			foreach ($this->footer as $foot)
+			{
+				$temp = $this->template['footer_cell_start'];
+
+				foreach ($foot as $key => $val)
+				{
+					if ($key !== 'data')
+					{
+						$temp = str_replace('<th', '<th '.$key.'="'.$val.'"', $temp);
+					}
+				}
+
+				$out .= $temp.(isset($foot['data']) ? isset($this->function) ? call_user_func($this->function, $foot['data']): $foot['data'] : '').$this->template['footer_cell_end'];
+			}
+
+			$out .= $this->template['footer_row_end'].$this->newline.$this->template['tfoot_close'].$this->newline;
+		}
 		}
 
 		$out .= $this->template['table_close'];
@@ -490,7 +589,7 @@ class CI_Table {
 		}
 
 		$this->temp = $this->_default_template();
-		foreach (array('table_open', 'thead_open', 'thead_close', 'heading_row_start', 'heading_row_end', 'heading_cell_start', 'heading_cell_end', 'tbody_open', 'tbody_close', 'row_start', 'row_end', 'cell_start', 'cell_end', 'row_alt_start', 'row_alt_end', 'cell_alt_start', 'cell_alt_end', 'table_close') as $val)
+		foreach (array('table_open', 'thead_open', 'thead_close', 'tfoot_open', 'tfoot_close', 'heading_row_start', 'heading_row_end', 'heading_cell_start', 'footer_cell_end','footer_row_start', 'footer_row_end', 'footer_cell_start', 'footer_cell_end', 'tbody_open', 'tbody_close', 'row_start', 'row_end', 'cell_start', 'cell_end', 'row_alt_start', 'row_alt_end', 'cell_alt_start', 'cell_alt_end', 'table_close') as $val)
 		{
 			if ( ! isset($this->template[$val]))
 			{
@@ -513,12 +612,18 @@ class CI_Table {
 
 			'thead_open'		=> '<thead>',
 			'thead_close'		=> '</thead>',
-
+			'tfoot_open'		=> '<tfoot>',
+			'tfoot_close'		=> '</tfoot>',
 			'heading_row_start'	=> '<tr>',
 			'heading_row_end'	=> '</tr>',
 			'heading_cell_start'	=> '<th>',
 			'heading_cell_end'	=> '</th>',
 
+			'footer_row_start'	=> '<tr>',
+			'footer_row_end'	=> '</tr>',
+			'footer_cell_start'	=> '<th>',
+			'footer_cell_end'	=> '</th>',
+			
 			'tbody_open'		=> '<tbody>',
 			'tbody_close'		=> '</tbody>',
 
