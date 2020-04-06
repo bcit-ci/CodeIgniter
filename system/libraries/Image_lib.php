@@ -1474,15 +1474,16 @@ class CI_Image_lib {
 					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_png_not_supported'));
 					return FALSE;
 				}
+
+				return imagecreatefrompng($path);
 			case 18:
 				if ( ! function_exists('imagecreatefromwebp'))
 				{
 					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_webp_not_supported'));
 					return FALSE;
 				}
-				return imagecreatefromwebp($path);
 
-				return imagecreatefrompng($path);
+				return imagecreatefromwebp($path);
 			default:
 				$this->set_error(array('imglib_unsupported_imagecreate'));
 				return FALSE;
