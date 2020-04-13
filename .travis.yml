@@ -23,6 +23,10 @@ services:
   - mysql
   - postgresql
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 before_script:
   - sh -c "composer install --no-progress"
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS ci_test;' -U postgres; fi"
