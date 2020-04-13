@@ -64,7 +64,12 @@ class Text_helper_test extends CI_TestCase {
 
 	public function test_convert_accented_characters()
 	{
-		$this->ci_vfs_clone('application/config/foreign_chars.php');
+		$path = 'application/config/foreign_chars.php';
+		$this->ci_vfs_clone($path);
+		if (is_php('7.4'))
+		{
+			copy(PROJECT_BASE.$path, APPPATH.'../'.$path);
+		}
 		$this->assertEquals('AAAeEEEIIOOEUUUeY', convert_accented_characters('ÀÂÄÈÊËÎÏÔŒÙÛÜŸ'));
 		$this->assertEquals('a e i o u n ue', convert_accented_characters('á é í ó ú ñ ü'));
 	}
