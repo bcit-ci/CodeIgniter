@@ -138,7 +138,7 @@ class CI_Input {
 			return $output;
 		}
 		
-		if(is_string($index) === TRUE && strpos($index, ',') !== FALSE)
+		if (is_string($index) === TRUE && strpos($index, ',') !== FALSE)
 		{
 			// Explode index list
 			$index_keys = explode(',', $index);
@@ -149,7 +149,7 @@ class CI_Input {
 				// Trim index value
 				$index = trim($index);
 
-				if(($value = $this->_fetch_from_array($array, $index, $xss_clean)) !== NULL)
+				if (($value = $this->_fetch_from_array($array, $index, $xss_clean)) !== NULL)
 				{
 					return $value;
 				}
