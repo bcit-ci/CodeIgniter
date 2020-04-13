@@ -36,6 +36,10 @@ With CodeIgniter's built in methods you can simply do this::
 
 	$something = $this->input->post('something');
 
+Additionally, you can use a comma-separated string of items to get the first one that's not NULL if any:
+
+	$something = $this->input->post('something, another');
+
 The main methods are:
 
 -  ``$this->input->post()``
@@ -59,11 +63,15 @@ from the **php://input** stream at any time, just by using the
 
 	$this->input->raw_input_stream;
 
-Additionally if the input stream is form-encoded like $_POST you can 
+Additionally, if the input stream is form-encoded like $_POST you can 
 access its values by calling the
 ``input_stream()`` method::
 
 	$this->input->input_stream('key');
+
+This method also supports using a comma-separated string of items to get the first one that's not NULL if any:
+
+	$this->input->input_stream('something, another');
 
 Similar to other methods such as ``get()`` and ``post()``, if the
 requested data is not found, it will return NULL and you can also
@@ -118,6 +126,12 @@ Class Reference
 			$this->input->post(NULL, TRUE); // returns all POST items with XSS filter
 			$this->input->post(NULL, FALSE); // returns all POST items without XSS filter
 
+		To return the first item value that's not NULL if any, call with
+		a comma-separated string of items:
+		::
+
+			$this->input->post('something, another');
+
 		To return an array of multiple POST parameters, pass all the required keys
 		as an array.
 		::
@@ -150,6 +164,12 @@ Class Reference
 
 			$this->input->get(NULL, TRUE); // returns all GET items with XSS filter
 			$this->input->get(NULL, FALSE); // returns all GET items without XSS filtering
+
+		To return the first item value that's not NULL if any, call with
+		a comma-separated string of items:
+		::
+
+			$this->input->get('something, another');
 
 		To return an array of multiple GET parameters, pass all the required keys
 		as an array.
@@ -204,6 +224,12 @@ Class Reference
 			$this->input->cookie('some_cookie');
 			$this->input->cookie('some_cookie', TRUE); // with XSS filter
 
+		To return the first item value that's not NULL if any, call with
+		a comma-separated string of items:
+		::
+
+			$this->input->cookie('something, another');
+
 		To return an array of multiple cookie values, pass all the required keys
 		as an array.
 		::
@@ -225,6 +251,12 @@ Class Reference
 		methods, only it fetches server data (``$_SERVER``)::
 
 			$this->input->server('some_data');
+
+		To return the first item value that's not NULL if any, call with
+		a comma-separated string of items:
+		::
+
+			$this->input->server('something, another');
 
 		To return an array of multiple ``$_SERVER`` values, pass all the required keys
 		as an array.
