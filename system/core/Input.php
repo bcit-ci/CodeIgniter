@@ -137,6 +137,26 @@ class CI_Input {
 
 			return $output;
 		}
+		
+		if(is_string($index) === TRUE && strpos($index, ',') !== FALSE)
+		{
+			// Explode index list
+			$index_keys = explode(',', $index);
+
+			// Go through indexes
+			foreach ($index_keys as $index)
+			{
+				// Trim index value
+				$index = trim($index);
+
+				if(($value = $this->_fetch_from_array($array, $index, $xss_clean)) !== NULL)
+				{
+					return $value;
+				}
+			}
+
+			return NULL;
+		}
 
 		if (isset($array[$index]))
 		{
