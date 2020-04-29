@@ -35,7 +35,7 @@ Creating the Upload Form
 Using a text editor, create a form called upload_form.php. In it, place
 this code and save it to your **application/views/** directory::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>Upload Form</title>
 	</head>
@@ -68,7 +68,7 @@ The Success Page
 Using a text editor, create a form called upload_success.php. In it,
 place this code and save it to your **application/views/** directory::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>Upload Form</title>
 	</head>
@@ -233,7 +233,7 @@ Preference                   Default Value     Options                 Descripti
                                                                        unless you have no other option as that would cause a security risk.
 **mod_mime_fix**             TRUE              TRUE/FALSE (boolean)    If set to TRUE, multiple filename extensions will be suffixed with an
                                                                        underscore in order to avoid triggering `Apache mod_mime
-                                                                       <http://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
+                                                                       <https://httpd.apache.org/docs/2.0/mod/mod_mime.html#multipleext>`_.
                                                                        DO NOT turn off this option if your upload directory is public, as this
                                                                        is a security risk.
 ============================ ================= ======================= ======================================================================

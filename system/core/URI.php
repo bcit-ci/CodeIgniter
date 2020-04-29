@@ -96,45 +96,40 @@ class CI_URI {
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(CI_Config $config)
 	{
-		$this->config =& load_class('Config', 'core');
+		$this->config = $config;
 
+		// If it's a CLI request, ignore the configuration
+		if (is_cli())
+		{
+			$this->_set_uri_string($this->_parse_argv(), TRUE);
+		}
 		// If query strings are enabled, we don't need to parse any segments.
-		// However, they don't make sense under CLI.
-		if (is_cli() OR $this->config->item('enable_query_strings') !== TRUE)
+		elseif ($this->config->item('enable_query_strings') !== TRUE)
 		{
 			$this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
+			$protocol = $this->config->item('uri_protocol');
+			empty($protocol) && $protocol = 'REQUEST_URI';
 
-			// If it's a CLI request, ignore the configuration
-			if (is_cli())
+			switch ($protocol)
 			{
-				$uri = $this->_parse_argv();
-			}
-			else
-			{
-				$protocol = $this->config->item('uri_protocol');
-				empty($protocol) && $protocol = 'REQUEST_URI';
-
-				switch ($protocol)
-				{
-					case 'AUTO': // For BC purposes only
-					case 'REQUEST_URI':
-						$uri = $this->_parse_request_uri();
-						break;
-					case 'QUERY_STRING':
-						$uri = $this->_parse_query_string();
-						break;
-					case 'PATH_INFO':
-					default:
-						$uri = isset($_SERVER[$protocol])
-							? $_SERVER[$protocol]
-							: $this->_parse_request_uri();
-						break;
-				}
+				case 'AUTO': // For BC purposes only
+				case 'REQUEST_URI':
+					$uri = $this->_parse_request_uri();
+					break;
+				case 'QUERY_STRING':
+					$uri = $this->_parse_query_string();
+					break;
+				case 'PATH_INFO':
+				default:
+					$uri = isset($_SERVER[$protocol])
+						? $_SERVER[$protocol]
+						: $this->_parse_request_uri();
+					break;
 			}
 
-			$this->_set_uri_string($uri);
+			$this->_set_uri_string($uri, FALSE);
 		}
 
 		log_message('info', 'URI Class Initialized');
@@ -145,43 +140,66 @@ class CI_URI {
 	/**
 	 * Set URI String
 	 *
-	 * @param 	string	$str
+	 * @param 	string	$str	Input URI string
+	 * @param	bool	$is_cli	Whether the input comes from CLI
 	 * @return	void
 	 */
-	protected function _set_uri_string($str)
+	protected function _set_uri_string($str, $is_cli = FALSE)
 	{
-		// Filter out control characters and trim slashes
-		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
-
-		if ($this->uri_string !== '')
+		// CLI requests have a bit simpler logic
+		if ($is_cli)
 		{
-			// Remove the URL suffix, if present
-			if (($suffix = (string) $this->config->item('url_suffix')) !== '')
+			if (($this->uri_string = trim($str, '/')) === '')
 			{
-				$slen = strlen($suffix);
-
-				if (substr($this->uri_string, -$slen) === $suffix)
-				{
-					$this->uri_string = substr($this->uri_string, 0, -$slen);
-				}
+				return;
 			}
 
 			$this->segments[0] = NULL;
-			// Populate the segments array
-			foreach (explode('/', trim($this->uri_string, '/')) as $val)
+			foreach (explode('/', $this->uri_string) as $segment)
 			{
-				$val = trim($val);
-				// Filter segments for security
-				$this->filter_uri($val);
-
-				if ($val !== '')
+				if (($segment = trim($segment)) !== '')
 				{
-					$this->segments[] = $val;
+					$this->segments[] = $segment;
 				}
 			}
 
 			unset($this->segments[0]);
+			return;
 		}
+
+		// Filter out control characters and trim slashes
+		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
+
+		if ($this->uri_string === '')
+		{
+			return;
+		}
+
+		// Remove the URL suffix, if present
+		if (($suffix = (string) $this->config->item('url_suffix')) !== '')
+		{
+			$slen = strlen($suffix);
+
+			if (substr($this->uri_string, -$slen) === $suffix)
+			{
+				$this->uri_string = substr($this->uri_string, 0, -$slen);
+			}
+		}
+
+		$this->segments[0] = NULL;
+		foreach (explode('/', trim($this->uri_string, '/')) as $segment)
+		{
+			$segment = trim($segment);
+			// Filter segments for security
+			$this->filter_uri($segment);
+
+			if ($segment !== '')
+			{
+				$this->segments[] = $segment;
+			}
+		}
+
+		unset($this->segments[0]);
 	}
 
 	// --------------------------------------------------------------------

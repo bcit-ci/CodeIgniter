@@ -12,12 +12,8 @@ class Input_test extends CI_TestCase {
 		$this->ci_set_config('global_xss_filtering', FALSE);
 		$this->ci_set_config('csrf_protection', FALSE);
 
-		$security = new Mock_Core_Security();
-
-		$this->ci_set_config('charset', 'UTF-8');
-		$utf8 = new Mock_Core_Utf8();
-
-		$this->input = new Mock_Core_Input($security, $utf8);
+		$security = new Mock_Core_Security('UTF-8');
+		$this->input = new CI_Input($security);
 	}
 
 	// --------------------------------------------------------------------
@@ -94,12 +90,46 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function test_post_get_array_notation()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_POST['foo']['bar'] = 'baz';
+		$barArray = array('bar' => 'baz');
+
+		$this->assertEquals('baz', $this->input->get_post('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->get_post('foo[]'));
+		$this->assertNull($this->input->get_post('foo[baz]'));
+
+		$this->assertEquals('baz', $this->input->post_get('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->post_get('foo[]'));
+		$this->assertNull($this->input->post_get('foo[baz]'));
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_get_post()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_GET['foo'] = 'bar';
 
 		$this->assertEquals('bar', $this->input->get_post('foo'));
+	}
+
+	// --------------------------------------------------------------------
+
+	public function test_get_post_array_notation()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['foo']['bar'] = 'baz';
+		$barArray = array('bar' => 'baz');
+
+		$this->assertEquals('baz', $this->input->get_post('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->get_post('foo[]'));
+		$this->assertNull($this->input->get_post('foo[baz]'));
+
+		$this->assertEquals('baz', $this->input->post_get('foo[bar]'));
+		$this->assertEquals($barArray, $this->input->post_get('foo[]'));
+		$this->assertNull($this->input->post_get('foo[baz]'));
 	}
 
 	// --------------------------------------------------------------------
@@ -122,14 +152,17 @@ class Input_test extends CI_TestCase {
 
 	public function test_fetch_from_array()
 	{
+		$reflection = new ReflectionMethod($this->input, '_fetch_from_array');
+		$reflection->setAccessible(TRUE);
+
 		$data = array(
 			'foo' => 'bar',
 			'harm' => 'Hello, i try to <script>alert(\'Hack\');</script> your site',
 		);
 
-		$foo = $this->input->fetch_from_array($data, 'foo');
-		$harm = $this->input->fetch_from_array($data, 'harm');
-		$harmless = $this->input->fetch_from_array($data, 'harm', TRUE);
+		$foo      = $reflection->invokeArgs($this->input, [&$data, 'foo']);
+		$harm     = $reflection->invokeArgs($this->input, [&$data, 'harm']);
+		$harmless = $reflection->invokeArgs($this->input, [&$data, 'harm', TRUE]);
 
 		$this->assertEquals('bar', $foo);
 		$this->assertEquals("Hello, i try to <script>alert('Hack');</script> your site", $harm);
@@ -217,57 +250,60 @@ class Input_test extends CI_TestCase {
 
 	public function test_ip_address()
 	{
-		$this->input->ip_address = '127.0.0.1';
+		$reflection = new ReflectionProperty($this->input, 'ip_address');
+		$reflection->setAccessible(TRUE);
+
+		$reflection->setValue($this->input, '127.0.0.1');
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 
 		// 127.0.0.1 is set in our Bootstrap file
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 
 		// Invalid
 		$_SERVER['REMOTE_ADDR'] = 'invalid_ip_address';
-		$this->input->ip_address = FALSE; // reset cached value
+		$reflection->setValue($this->input, FALSE); // reset cached value
 		$this->assertEquals('0.0.0.0', $this->input->ip_address());
 
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
 		// Proxy_ips tests
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$this->ci_set_config('proxy_ips', '127.0.0.3, 127.0.0.4, 127.0.0.2');
 		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.2';
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 
 		// Invalid spoof
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$this->ci_set_config('proxy_ips', 'invalid_ip_address');
 		$_SERVER['HTTP_CLIENT_IP'] = 'invalid_ip_address';
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$this->ci_set_config('proxy_ips', 'http://foo/bar/baz, 127.0.0.1/1');
 		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.1';
 		$this->assertEquals('127.0.0.1', $this->input->ip_address());
 
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$this->ci_set_config('proxy_ips', 'http://foo/bar/baz, 127.0.0.2');
 		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.2';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.2';
 		$this->assertEquals('127.0.0.2', $this->input->ip_address());
 
-		//IPv6
-		$this->input->ip_address = FALSE;
+		// IPv6
+		$reflection->setValue($this->input, FALSE);
 		$this->ci_set_config('proxy_ips', 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329/1, FE80:0000:0000:0000:0202:B3FF:FE1E:8300/2');
 		$_SERVER['HTTP_CLIENT_IP'] = 'FE80:0000:0000:0000:0202:B3FF:FE1E:8300';
 		$_SERVER['REMOTE_ADDR'] = 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329';
 		$this->assertEquals('FE80:0000:0000:0000:0202:B3FF:FE1E:8300', $this->input->ip_address());
 
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$this->ci_set_config('proxy_ips', '0::/32');
 		$_SERVER['HTTP_CLIENT_IP'] = '127.0.0.7';
 		$_SERVER['REMOTE_ADDR'] = '0000:0000:0000:0000:0000:0000:0000:0001';
 		$this->assertEquals('127.0.0.7', $this->input->ip_address());
 
-		$this->input->ip_address = FALSE;
+		$reflection->setValue($this->input, FALSE);
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1'; // back to reality
 	}
 

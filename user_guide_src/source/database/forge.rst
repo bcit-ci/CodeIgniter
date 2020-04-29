@@ -370,7 +370,7 @@ Class Reference
 	.. php:method:: drop_column($table, $column_name)
 
 		:param	string	$table: Table name
-		:param	array	$column_name: The column name to drop
+		:param	string	$column_name: The column name to drop
 		:returns:	TRUE on success, FALSE on failure
 		:rtype:	bool
 

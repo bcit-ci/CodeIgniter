@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * CodeIgniter Wincache Caching Class
  *
  * Read more about Wincache functions here:
- * http://www.php.net/manual/en/ref.wincache.php
+ * https://secure.php.net/manual/en/ref.wincache.php
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -169,10 +169,10 @@ class CI_Cache_wincache extends CI_Driver {
 	 *
 	 * @return	mixed	array on success, false on failure
 	 */
-	 public function cache_info()
-	 {
-		 return wincache_ucache_info(TRUE);
-	 }
+	public function cache_info()
+	{
+		return wincache_ucache_info(TRUE);
+	}
 
 	// ------------------------------------------------------------------------
 

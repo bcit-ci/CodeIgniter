@@ -56,7 +56,7 @@ if ( ! function_exists('force_download'))
 	 *
 	 * Generates headers that force a download to happen
 	 *
-	 * @param	string	filename
+	 * @param	mixed	filename (or an array of local file path => destination filename)
 	 * @param	mixed	the data to be downloaded
 	 * @param	bool	whether to try and send the actual file MIME type
 	 * @return	void
@@ -69,14 +69,34 @@ if ( ! function_exists('force_download'))
 		}
 		elseif ($data === NULL)
 		{
-			if ( ! @is_file($filename) OR ($filesize = @filesize($filename)) === FALSE)
+			// Is $filename an array as ['local source path' => 'destination filename']?
+			if (is_array($filename))
+			{
+				if (count($filename) !== 1)
+				{
+					return;
+				}
+
+				reset($filename);
+				$filepath = key($filename);
+				$filename = current($filename);
+
+				if (is_int($filepath))
+				{
+					return;
+				}
+			}
+			else
+			{
+				$filepath = $filename;
+				$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
+				$filename = end($filename);
+			}
+
+			if ( ! @is_file($filepath) OR ($filesize = @filesize($filepath)) === FALSE)
 			{
 				return;
 			}
-
-			$filepath = $filename;
-			$filename = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $filename));
-			$filename = end($filename);
 		}
 		else
 		{
@@ -121,20 +141,23 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
-		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
-		{
-			return;
-		}
-
 		// Clean output buffer
 		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
 		{
 			@ob_clean();
 		}
 
+		// RFC 6266 allows for multibyte filenames, but only in UTF-8,
+		// so we have to make it conditional ...
+		$charset = strtoupper(config_item('charset'));
+		$utf8_filename = ($charset !== 'UTF-8')
+			? get_instance()->utf8->convert_to_utf8($filename, $charset)
+			: $filename;
+		isset($utf8_filename[0]) && $utf8_filename = " filename*=UTF-8''".rawurlencode($utf8_filename);
+
 		// Generate the server headers
 		header('Content-Type: '.$mime);
-		header('Content-Disposition: attachment; filename="'.$filename.'"');
+		header('Content-Disposition: attachment; filename="'.$filename.'";'.$utf8_filename);
 		header('Expires: 0');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.$filesize);
@@ -146,13 +169,12 @@ if ( ! function_exists('force_download'))
 			exit($data);
 		}
 
-		// Flush 1MB chunks of data
-		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		// Flush the file
+		if (@readfile($filepath) === FALSE)
 		{
-			echo $data;
+			return;
 		}
 
-		fclose($fp);
 		exit;
 	}
 }

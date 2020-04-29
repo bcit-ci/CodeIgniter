@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Zip Compression Class
  *
  * This class is based on a library I found at Zend:
- * http://www.zend.com/codex.php?id=696&single=1
+ * https://www.zend.com/codex.php?id=696&single=1
  *
  * The original library is a little rough around the edges so I
  * refactored it and added several additional methods -- Rick Ellis
@@ -366,7 +366,7 @@ class CI_Zip {
 
 		while (FALSE !== ($file = readdir($fp)))
 		{
-			if ($file[0] === '.')
+			if ($file === '.' OR $file === '..')
 			{
 				continue;
 			}
@@ -406,13 +406,14 @@ class CI_Zip {
 			return FALSE;
 		}
 
-		return $this->zipdata
-			.$this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
+		// @see https://github.com/bcit-ci/CodeIgniter/issues/5864
+		$footer = $this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
 			.pack('v', $this->entries) // total # of entries "on this disk"
 			.pack('v', $this->entries) // total # of entries overall
 			.pack('V', self::strlen($this->directory)) // size of central dir
 			.pack('V', self::strlen($this->zipdata)) // offset to start of central dir
 			."\x00\x00"; // .zip file comment length
+		return $this->zipdata.$footer;
 	}
 
 	// --------------------------------------------------------------------
@@ -519,9 +520,6 @@ class CI_Zip {
 	{
 		if (self::$func_overload)
 		{
-			// mb_substr($str, $start, null, '8bit') returns an empty
-			// string on PHP 5.3
-			isset($length) OR $length = ($start >= 0 ? self::strlen($str) - $start : -$start);
 			return mb_substr($str, $start, $length, '8bit');
 		}
 

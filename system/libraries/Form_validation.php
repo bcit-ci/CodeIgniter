@@ -105,13 +105,6 @@ class CI_Form_validation {
 	protected $error_string		= '';
 
 	/**
-	 * Whether the form data has been validated as safe
-	 *
-	 * @var bool
-	 */
-	protected $_safe_form_data	= FALSE;
-
-	/**
 	 * Custom data to validate
 	 *
 	 * @var array
@@ -164,7 +157,7 @@ class CI_Form_validation {
 	 * @param	array	$errors
 	 * @return	CI_Form_validation
 	 */
-	public function set_rules($field, $label = '', $rules = array(), $errors = array())
+	public function set_rules($field, $label = null, $rules = null, $errors = array())
 	{
 		// No reason to set rules if we have no POST data
 		// or a validation array has not been specified
@@ -197,18 +190,22 @@ class CI_Form_validation {
 
 			return $this;
 		}
+		elseif ( ! isset($rules))
+		{
+			throw new BadMethodCallException('Form_validation: set_rules() called without a $rules parameter');
+		}
 
 		// No fields or no rules? Nothing to do...
 		if ( ! is_string($field) OR $field === '' OR empty($rules))
 		{
-			return $this;
+			throw new RuntimeException('Form_validation: set_rules() called with an empty $rules parameter');
 		}
 		elseif ( ! is_array($rules))
 		{
 			// BC: Convert pipe-separated rules string to an array
 			if ( ! is_string($rules))
 			{
-				return $this;
+				throw new InvalidArgumentException('Form_validation: set_rules() expect $rules to be string or array; '.gettype($rules).' given');
 			}
 
 			$rules = preg_split('/\|(?![^\[]*\])/', $rules);
@@ -410,10 +407,11 @@ class CI_Form_validation {
 	 *
 	 * This function does all the work.
 	 *
-	 * @param	string	$group
+	 * @param	string	$config
+	 * @param	array	$data
 	 * @return	bool
 	 */
-	public function run($group = '')
+	public function run($config = NULL, &$data = NULL)
 	{
 		$validation_array = empty($this->validation_data)
 			? $_POST
@@ -424,19 +422,19 @@ class CI_Form_validation {
 		if (count($this->_field_data) === 0)
 		{
 			// No validation rules?  We're done...
-			if (count($this->_config_rules) === 0)
+			if (empty($this->_config_rules))
 			{
 				return FALSE;
 			}
 
-			if (empty($group))
+			if (empty($config))
 			{
 				// Is there a validation rule for the particular URI being accessed?
-				$group = trim($this->CI->uri->ruri_string(), '/');
-				isset($this->_config_rules[$group]) OR $group = $this->CI->router->class.'/'.$this->CI->router->method;
+				$config = trim($this->CI->uri->ruri_string(), '/');
+				isset($this->_config_rules[$config]) OR $config = $this->CI->router->class.'/'.$this->CI->router->method;
 			}
 
-			$this->set_rules(isset($this->_config_rules[$group]) ? $this->_config_rules[$group] : $this->_config_rules);
+			$this->set_rules(isset($this->_config_rules[$config]) ? $this->_config_rules[$config] : $this->_config_rules);
 
 			// Were we able to set the rules correctly?
 			if (count($this->_field_data) === 0)
@@ -478,17 +476,22 @@ class CI_Form_validation {
 			$this->_execute($row, $row['rules'], $row['postdata']);
 		}
 
-		// Did we end up with any errors?
-		$total_errors = count($this->_error_array);
-		if ($total_errors > 0)
+		if ( ! empty($this->_error_array))
 		{
-			$this->_safe_form_data = TRUE;
+			return FALSE;
 		}
 
-		// Now we need to re-set the POST data with the new, processed data
-		empty($this->validation_data) && $this->_reset_post_array();
+		// Fill $data if requested, otherwise modify $_POST, as long as
+		// set_data() wasn't used (yea, I know it sounds confusing)
+		if (func_num_args() >= 2)
+		{
+			$data = empty($this->validation_data) ? $_POST : $this->validation_data;
+			$this->_reset_data_array($data);
+			return TRUE;
+		}
 
-		return ($total_errors === 0);
+		empty($this->validation_data) && $this->_reset_data_array($_POST);
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -576,7 +579,7 @@ class CI_Form_validation {
 	 *
 	 * @return	void
 	 */
-	protected function _reset_post_array()
+	protected function _reset_data_array(&$data)
 	{
 		foreach ($this->_field_data as $field => $row)
 		{
@@ -584,27 +587,26 @@ class CI_Form_validation {
 			{
 				if ($row['is_array'] === FALSE)
 				{
-					isset($_POST[$field]) && $_POST[$field] = is_array($row['postdata']) ? NULL : $row['postdata'];
+					isset($data[$field]) && $data[$field] = is_array($row['postdata']) ? NULL : $row['postdata'];
 				}
 				else
 				{
-					// start with a reference
-					$post_ref =& $_POST;
+					$data_ref =& $data;
 
 					// before we assign values, make a reference to the right POST key
 					if (count($row['keys']) === 1)
 					{
-						$post_ref =& $post_ref[current($row['keys'])];
+						$data_ref =& $data[current($row['keys'])];
 					}
 					else
 					{
 						foreach ($row['keys'] as $val)
 						{
-							$post_ref =& $post_ref[$val];
+							$data_ref =& $data_ref[$val];
 						}
 					}
 
-					$post_ref = $row['postdata'];
+					$data_ref = $row['postdata'];
 				}
 			}
 		}
@@ -623,11 +625,13 @@ class CI_Form_validation {
 	 */
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
+		$allow_arrays = in_array('is_array', $rules, TRUE);
+
 		// If the $_POST data is an array we will run a recursive call
 		//
 		// Note: We MUST check if the array is empty or not!
 		//       Otherwise empty arrays will always pass validation.
-		if (is_array($postdata) && ! empty($postdata))
+		if ($allow_arrays === FALSE && is_array($postdata) && ! empty($postdata))
 		{
 			foreach ($postdata as $key => $val)
 			{
@@ -656,14 +660,16 @@ class CI_Form_validation {
 				$postdata = $this->_field_data[$row['field']]['postdata'][$cycles];
 				$_in_array = TRUE;
 			}
+			// If we get an array field, but it's not expected - then it is most likely
+			// somebody messing with the form on the client side, so we'll just consider
+			// it an empty field
+			elseif ($allow_arrays === FALSE && is_array($this->_field_data[$row['field']]['postdata']))
+			{
+				$postdata = NULL;
+			}
 			else
 			{
-				// If we get an array field, but it's not expected - then it is most likely
-				// somebody messing with the form on the client side, so we'll just consider
-				// it an empty field
-				$postdata = is_array($this->_field_data[$row['field']]['postdata'])
-					? NULL
-					: $this->_field_data[$row['field']]['postdata'];
+				$postdata = $this->_field_data[$row['field']]['postdata'];
 			}
 
 			// Is the rule a callback?
@@ -698,7 +704,7 @@ class CI_Form_validation {
 
 			// Ignore empty, non-required inputs with a few exceptions ...
 			if (
-				($postdata === NULL OR $postdata === '')
+				($postdata === NULL OR ($allow_arrays === FALSE && $postdata === ''))
 				&& $callback === FALSE
 				&& $callable === FALSE
 				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
@@ -1294,6 +1300,31 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Validate MAC address
+	 *
+	 * @param	string	$mac
+	 * @return	bool
+	 */
+	public function valid_mac($mac)
+	{
+		if ( ! is_php('5.5'))
+		{
+			// Most common format, with either dash or colon delimiters
+			if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}(?P=delimiter)){4}[0-9a-f]{2}\z#i', $mac))
+			{
+				return TRUE;
+			}
+
+			// The less common format; e.g. 0123.4567.89ab
+			return (bool) preg_match('#((\A|\.)[0-9a-f]{4}){3}\z#i', $mac);
+		}
+
+		return (bool) filter_var($mac, FILTER_VALIDATE_MAC);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Alpha
 	 *
 	 * @param	string
@@ -1498,38 +1529,6 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep data for form
-	 *
-	 * This function allows HTML to be safely shown in a form.
-	 * Special characters are converted.
-	 *
-	 * @deprecated	3.0.6	Not used anywhere within the framework and pretty much useless
-	 * @param	mixed	$data	Input data
-	 * @return	mixed
-	 */
-	public function prep_for_form($data)
-	{
-		if ($this->_safe_form_data === FALSE OR empty($data))
-		{
-			return $data;
-		}
-
-		if (is_array($data))
-		{
-			foreach ($data as $key => $val)
-			{
-				$data[$key] = $this->prep_for_form($val);
-			}
-
-			return $data;
-		}
-
-		return str_replace(array("'", '"', '<', '>'), array('&#39;', '&quot;', '&lt;', '&gt;'), stripslashes($data));
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Prep URL
 	 *
 	 * @param	string
@@ -1537,12 +1536,7 @@ class CI_Form_validation {
 	 */
 	public function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str === '')
-		{
-			return '';
-		}
-
-		if (strpos($str, 'http://') !== 0 && strpos($str, 'https://') !== 0)
+		if ($str !== '' && stripos($str, 'http://') !== 0 && stripos($str, 'https://') !== 0)
 		{
 			return 'http://'.$str;
 		}

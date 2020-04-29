@@ -283,7 +283,7 @@ Preference              Default Value       Options             Description
 **wm_shadow_color**     None                None                The color of the drop shadow, specified in hex. If you leave this blank
                                                                 a drop shadow will not be used. Both the full 6-length (ie, 993300) and
                                                                 the short three character abbreviated version (ie, fff) are supported.
-**wm_shadow_distance**  3                   None                The distance (in pixels) from the font that the drop shadow should
+**wm_shadow_distance**  2                   None                The distance (in pixels) from the font that the drop shadow should
                                                                 appear.
 ======================= =================== =================== ==========================================================================
 
@@ -408,7 +408,7 @@ Class Reference
 			method is not very useful unless you intend to build such an
 			interface. That's exactly what we did using for the photo gallery module
 			in ExpressionEngine, the CMS we develop. We added a JavaScript UI that
-			lets the cropping area be selected.
+			lets the cropping area be selected. (from EllisLab)
 
 	.. php:method:: rotate()
 

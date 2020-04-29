@@ -10,11 +10,6 @@ class standard_test extends CI_TestCase {
 		}
 
 		$this->assertTrue(function_exists('array_column'));
-
-		if ( ! is_php('5.4'))
-		{
-			$this->assertTrue(function_exists('hex2bin'));
-		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -330,25 +325,6 @@ class standard_test extends CI_TestCase {
 			array_column($input, 'b', 'a')
 		);
 	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * hex2bin() tests
-	 *
-	 * @depends	test_bootstrap
-	 */
-	public function test_hex2bin()
-	{
-		if (is_php('5.4'))
-		{
-			return $this->markTestSkipped('hex2bin() is already available on PHP 5.4');
-		}
-
-		$this->assertEquals("\x03\x04", hex2bin("0304"));
-		$this->assertEquals('', hex2bin(''));
-		$this->assertEquals("\x01\x02\x03", hex2bin(new FooHex()));
-	}
 }
 
 // ------------------------------------------------------------------------
@@ -366,13 +342,5 @@ class Bar {
 	public function __toString()
 	{
 		return 'first_name';
-	}
-}
-
-class FooHex {
-
-	public function __toString()
-	{
-		return '010203';
 	}
 }

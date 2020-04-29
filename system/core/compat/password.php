@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category	Compatibility
  * @author		Andrey Andreev
  * @link		https://codeigniter.com/user_guide/
- * @link		http://php.net/password
+ * @link		https://secure.php.net/password
  */
 
 // ------------------------------------------------------------------------
@@ -67,7 +67,7 @@ if ( ! function_exists('password_get_info'))
 	/**
 	 * password_get_info()
 	 *
-	 * @link	http://php.net/password_get_info
+	 * @link	https://secure.php.net/password_get_info
 	 * @param	string	$hash
 	 * @return	array
 	 */
@@ -86,7 +86,7 @@ if ( ! function_exists('password_hash'))
 	/**
 	 * password_hash()
 	 *
-	 * @link	http://php.net/password_hash
+	 * @link	https://secure.php.net/password_hash
 	 * @param	string	$password
 	 * @param	int	$algo
 	 * @param	array	$options
@@ -141,7 +141,7 @@ if ( ! function_exists('password_hash'))
 				}
 
 				// Try not to waste entropy ...
-				is_php('5.4') && stream_set_chunk_size($fp, 16);
+				stream_set_chunk_size($fp, 16);
 
 				$options['salt'] = '';
 				for ($read = 0; $read < 16; $read = ($func_overload) ? mb_strlen($options['salt'], '8bit') : strlen($options['salt']))
@@ -194,7 +194,7 @@ if ( ! function_exists('password_needs_rehash'))
 	/**
 	 * password_needs_rehash()
 	 *
-	 * @link	http://php.net/password_needs_rehash
+	 * @link	https://secure.php.net/password_needs_rehash
 	 * @param	string	$hash
 	 * @param	int	$algo
 	 * @param	array	$options
@@ -228,7 +228,7 @@ if ( ! function_exists('password_verify'))
 	/**
 	 * password_verify()
 	 *
-	 * @link	http://php.net/password_verify
+	 * @link	https://secure.php.net/password_verify
 	 * @param	string	$password
 	 * @param	string	$hash
 	 * @return	bool

@@ -30,7 +30,7 @@ class Inflector_helper_test extends CI_TestCase {
 		$strs = array(
 			'telly'      => 'tellies',
 			'smelly'     => 'smellies',
-			'abjectness' => 'abjectnesses', // ref : http://en.wiktionary.org/wiki/abjectnesses
+			'abjectness' => 'abjectnesses', // ref : https://en.wiktionary.org/wiki/abjectnesses
 			'smell'      => 'smells',
 			'witch'      => 'witches',
 			'equipment'  => 'equipment'
@@ -93,4 +93,23 @@ class Inflector_helper_test extends CI_TestCase {
 		}
 	}
 
+	// --------------------------------------------------------------------
+
+	public function test_ordinal_format()
+	{
+		$strs = array(
+			1                => '1st',
+			2                => '2nd',
+			4                => '4th',
+			11               => '11th',
+			12               => '12th',
+			13               => '13th',
+			'something else' => 'something else',
+		);
+
+		foreach ($strs as $str => $expect)
+		{
+			$this->assertEquals($expect, ordinal_format($str));
+		}
+	}
 }

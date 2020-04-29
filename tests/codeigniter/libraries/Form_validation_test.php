@@ -13,10 +13,8 @@ class Form_validation_test extends CI_TestCase {
 		// Same applies for lang
 		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
 
-		$this->ci_set_config('charset', 'UTF-8');
-		$utf8 = new Mock_Core_Utf8();
-		$security = new Mock_Core_Security();
-		$input = new Mock_Core_Input($security, $utf8);
+		$security = new Mock_Core_Security('UTF-8');
+		$input = new CI_Input($security);
 
 		$this->ci_instance_var('lang', $lang);
 		$this->ci_instance_var('load', $loader);
@@ -45,7 +43,6 @@ class Form_validation_test extends CI_TestCase {
 		// Empty, not required
 		$this->assertTrue($this->run_rules($rules, array('foo' => '')));
 
-
 		// Not required, but also not empty
 		$this->assertTrue($this->run_rules($rules, array('foo' => '123')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
@@ -56,6 +53,13 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => ' ')));
 		$this->assertFalse($this->run_rules($rules, array('foo' => 'bar')));
+	}
+
+	public function test_rule_is_array()
+	{
+		$rules = array(array('field' => 'foo', 'label' => 'Foo', 'rules' => 'is_array'));
+		$this->assertTrue($this->run_rules($rules,  array('foo' => array('1', '2'))));
+		$this->assertFalse($this->run_rules($rules, array('foo' => '')));
 	}
 
 	public function test_rule_matches()
@@ -299,10 +303,22 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->form_validation->valid_ip('127.0.0.259'));
 	}
 
+	public function test_rule_valid_mac()
+	{
+		$this->assertTrue($this->form_validation->valid_mac("01-23-45-67-89-aB"));
+		$this->assertTrue($this->form_validation->valid_mac("01:23:45:67:89:aB"));
+		$this->assertTrue($this->form_validation->valid_mac("0123.4567.89aB"));
+
+		$this->assertFalse($this->form_validation->valid_mac("-01-23-45-67-89-ab"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ab:"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ab\n"));
+		$this->assertFalse($this->form_validation->valid_mac("01:23:45:67:89:ag:"));
+		$this->assertFalse($this->form_validation->valid_mac('0123456789ab'));
+	}
+
 	public function test_rule_valid_base64()
 	{
 		$this->assertTrue($this->form_validation->valid_base64(base64_encode('string')));
-
 		$this->assertFalse($this->form_validation->valid_base64('FA08GG'));
 	}
 
@@ -437,6 +453,12 @@ class Form_validation_test extends CI_TestCase {
 		$_POST = array();
 	}
 
+	public function test_set_rules_exception()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		$this->form_validation->set_rules('foo', 'bar');
+	}
+
 	public function test_has_rule()
 	{
 		$this->form_validation->set_rules('foo', 'label', 'required');
@@ -460,6 +482,19 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertEquals('bar2', $this->form_validation->set_value('bar[]', $default));
 
 		$_POST = array();
+	}
+
+	public function test_issue_5202()
+	{
+		$data = array('person' => array('firstname' => 'Dick', 'lastname' => 'Tracy '));
+		$this->form_validation->set_rules('person[firstname]', 'First Name', 'required|trim');
+		$this->form_validation->set_rules('person[lastname]', 'Last Name', 'required|trim');
+		$this->form_validation->set_data($data);
+		$valid = $this->form_validation->run('', $data);
+
+		$this->assertTrue($valid);
+		$this->assertEquals('Dick', $data['person']['firstname']);
+		$this->assertEquals('Tracy', $data['person']['lastname']);
 	}
 
 	public function test_set_select()
@@ -575,20 +610,6 @@ class Form_validation_test extends CI_TestCase {
 		$this->assertFalse($this->form_validation->regex_match('bar', $regex));
 	}
 
-	public function test_prep_for_form()
-	{
-		$this->form_validation->reset_validation();
-		$error_msg_unprepped = '<error =\'foobar\'">';
-		$error_msg_prepped = '&lt;error =&#39;foobar&#39;&quot;&gt;';
-		$this->form_validation->set_rules('foo', 'label', 'required', array('required' => $error_msg_unprepped));
-		$_POST = array('foo' => '');
-		$this->form_validation->run();
-		$error_arr = $this->form_validation->error_array();
-
-		$this->assertEquals('', $this->form_validation->prep_for_form(''));
-		$this->assertEquals(array('foo' => $error_msg_prepped), $this->form_validation->prep_for_form($error_arr));
-	}
-
 	public function test_prep_url()
 	{
 		$this->assertEquals('', $this->form_validation->prep_url(''));
@@ -602,6 +623,23 @@ class Form_validation_test extends CI_TestCase {
 	{
 		$this->assertEquals("&lt;?php", $this->form_validation->encode_php_tags('<?php'));
 		$this->assertEquals('?&gt;', $this->form_validation->encode_php_tags('?>'));
+	}
+
+	public function test_validated_data_assignment()
+	{
+		$_POST = $post_original = array('foo' => ' bar ', 'bar' => 'baz');
+
+		$this->form_validation->set_data($_POST);
+		$this->form_validation->set_rules('foo', 'Foo', 'required|trim');
+
+		$data_processed = NULL;
+		$validation_result = $this->form_validation->run('', $data_processed);
+
+		$this->assertTrue($validation_result);
+		$this->assertEquals($post_original, $_POST);
+		$this->assertEquals(array('foo' => 'bar', 'bar' => 'baz'), $data_processed);
+
+		$_POST = array();
 	}
 
 	/**

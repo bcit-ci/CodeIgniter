@@ -160,7 +160,7 @@ programmers, but can prove invaluable when returning to your own code
 months down the line. There is not a required format for comments, but
 the following are recommended.
 
-`DocBlock <http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock>`_
+`DocBlock <https://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock>`_
 style comments preceding class, method, and property declarations so they can be
 picked up by IDEs::
 
@@ -319,7 +319,7 @@ Use **===** and **!==** as necessary.
 
 
 See also information regarding `typecasting
-<http://php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
+<https://secure.php.net/manual/en/language.types.type-juggling.php#language.types.typecasting>`_,
 which can be quite useful. Typecasting has a slightly different effect
 which may be desirable. When casting a variable as a string, for
 instance, NULL and boolean FALSE variables become empty strings, 0 (and
@@ -346,7 +346,7 @@ Compatibility
 =============
 
 CodeIgniter recommends PHP 5.6 or newer to be used, but it should be
-compatible with PHP 5.3.7. Your code must either be compatible with this
+compatible with PHP 5.4.8. Your code must either be compatible with this
 requirement, provide a suitable fallback, or be an optional feature that
 dies quietly without affecting a user's application.
 
@@ -542,7 +542,7 @@ the ability to change this in the php.ini, you can often enable it with::
 	ini_set('display_errors', 1);
 
 .. note:: Setting the `display_errors
-	<http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors>`_
+	<https://secure.php.net/manual/en/errorfunc.configuration.php#ini.display-errors>`_
 	setting with ``ini_set()`` at runtime is not identical to having
 	it enabled in the PHP environment. Namely, it will not have any
 	effect if the script has fatal errors.

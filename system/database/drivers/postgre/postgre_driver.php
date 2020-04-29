@@ -163,6 +163,13 @@ class CI_DB_postgre_driver extends CI_DB {
 				return FALSE;
 			}
 
+			if (pg_set_client_encoding($this->conn_id, $this->char_set) !== 0)
+			{
+				log_message('error', "Database: Unable to set the configured connection charset ('{$this->char_set}').");
+				pg_close($this->conn_id);
+				return ($this->db->db_debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
+			}
+
 			empty($this->schema) OR $this->simple_query('SET search_path TO '.$this->schema.',public');
 		}
 
@@ -185,19 +192,6 @@ class CI_DB_postgre_driver extends CI_DB {
 		{
 			$this->conn_id = FALSE;
 		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set client character set
-	 *
-	 * @param	string	$charset
-	 * @return	bool
-	 */
-	protected function _db_set_charset($charset)
-	{
-		return (pg_set_client_encoding($this->conn_id, $charset) === 0);
 	}
 
 	// --------------------------------------------------------------------
@@ -321,7 +315,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function escape($str)
 	{
-		if (is_php('5.4.4') && (is_string($str) OR (is_object($str) && method_exists($str, '__toString'))))
+		if (is_string($str) OR (is_object($str) && method_exists($str, '__toString')))
 		{
 			return pg_escape_literal($this->conn_id, $str);
 		}

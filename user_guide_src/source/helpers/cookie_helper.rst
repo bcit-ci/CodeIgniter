@@ -25,7 +25,7 @@ Available Functions
 The following functions are available:
 
 
-.. php:function:: set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = NULL[, $httponly = NULL]]]]]]])
+.. php:function:: set_cookie($name[, $value = ''[, $expire = 0[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = NULL[, $httponly = NULL]]]]]]])
 
 	:param	mixed	$name: Cookie name *or* associative array of all of the parameters available to this function
 	:param	string	$value: Cookie value
@@ -42,7 +42,7 @@ The following functions are available:
 	a description of its use, as this function is an alias for
 	``CI_Input::set_cookie()``.
 
-.. php:function:: get_cookie($index[, $xss_clean = NULL])
+.. php:function:: get_cookie($index[, $xss_clean = FALSE])
 
 	:param	string	$index: Cookie name
 	:param	bool	$xss_clean: Whether to apply XSS filtering to the returned value

@@ -26,13 +26,12 @@ Password Hashing
 ****************
 
 This set of compatibility functions offers a "backport" of PHP's
-standard `Password Hashing extension <http://php.net/password>`_
+standard `Password Hashing extension <https://secure.php.net/password>`_
 that is otherwise available only since PHP 5.5.
 
 Dependencies
 ============
 
-- PHP 5.3.7
 - ``CRYPT_BLOWFISH`` support for ``crypt()``
 
 Constants
@@ -51,7 +50,7 @@ Function reference
 	:rtype:	array
 
 	For more information, please refer to the `PHP manual for
-	password_get_info() <http://php.net/password_get_info>`_.
+	password_get_info() <https://secure.php.net/password_get_info>`_.
 
 .. php:function:: password_hash($password, $algo[, $options = array()])
 
@@ -62,7 +61,7 @@ Function reference
 	:rtype:	string
 
 	For more information, please refer to the `PHP manual for
-	password_hash() <http://php.net/password_hash>`_.
+	password_hash() <https://secure.php.net/password_hash>`_.
 
 	.. note:: Unless you provide your own (and valid) salt, this function
 		has a further dependency on an available CSPRNG source. Each
@@ -81,7 +80,7 @@ Function reference
 	:rtype:	bool
 
 	For more information, please refer to the `PHP manual for
-	password_needs_rehash() <http://php.net/password_needs_rehash>`_.
+	password_needs_rehash() <https://secure.php.net/password_needs_rehash>`_.
 
 .. php:function:: password_verify($password, $hash)
 
@@ -91,7 +90,7 @@ Function reference
 	:rtype:	bool
 
 	For more information, please refer to the `PHP manual for
-	password_verify() <http://php.net/password_verify>`_.
+	password_verify() <https://secure.php.net/password_verify>`_.
 
 *********************
 Hash (Message Digest)
@@ -117,7 +116,7 @@ Function reference
 	:rtype:	string
 
 	For more information, please refer to the `PHP manual for
-	hash_equals() <http://php.net/hash_equals>`_.
+	hash_equals() <https://secure.php.net/hash_equals>`_.
 
 .. php:function:: hash_pbkdf2($algo, $password, $salt, $iterations[, $length = 0[, $raw_output = FALSE]])
 
@@ -131,14 +130,14 @@ Function reference
 	:rtype:	string
 
 	For more information, please refer to the `PHP manual for
-	hash_pbkdf2() <http://php.net/hash_pbkdf2>`_.
+	hash_pbkdf2() <https://secure.php.net/hash_pbkdf2>`_.
 
 ****************
 Multibyte String
 ****************
 
 This set of compatibility functions offers limited support for PHP's
-`Multibyte String extension <http://php.net/mbstring>`_. Because of
+`Multibyte String extension <https://secure.php.net/mbstring>`_. Because of
 the limited alternative solutions, only a few functions are available.
 
 .. note:: When a character set parameter is ommited,
@@ -147,7 +146,7 @@ the limited alternative solutions, only a few functions are available.
 Dependencies
 ============
 
-- `iconv <http://php.net/iconv>`_ extension
+- `iconv <https://secure.php.net/iconv>`_ extension
 
 .. important:: This dependency is optional and these functions will
 	always be declared. If iconv is not available, they WILL
@@ -170,7 +169,7 @@ Function reference
 	:rtype:	string
 
 	For more information, please refer to the `PHP manual for
-	mb_strlen() <http://php.net/mb_strlen>`_.
+	mb_strlen() <https://secure.php.net/mb_strlen>`_.
 
 .. php:function:: mb_strpos($haystack, $needle[, $offset = 0[, $encoding = NULL]])
 
@@ -182,7 +181,7 @@ Function reference
 	:rtype:	mixed
 
 	For more information, please refer to the `PHP manual for
-	mb_strpos() <http://php.net/mb_strpos>`_.
+	mb_strpos() <https://secure.php.net/mb_strpos>`_.
 
 .. php:function:: mb_substr($str, $start[, $length = NULL[, $encoding = NULL]])
 
@@ -194,7 +193,7 @@ Function reference
 	:rtype:	string
 
 	For more information, please refer to the `PHP manual for
-	mb_substr() <http://php.net/mb_substr>`_.
+	mb_substr() <https://secure.php.net/mb_substr>`_.
 
 ******************
 Standard Functions
@@ -220,13 +219,4 @@ Function reference
 	:rtype:	array
 
 	For more information, please refer to the `PHP manual for
-	array_column() <http://php.net/array_column>`_.
-
-.. php:function:: hex2bin($data)
-
-	:param	array	$data: Hexadecimal representation of data
-	:returns:	Binary representation of the given data
-	:rtype:	string
-
-	For more information, please refer to the `PHP manual for hex2bin()
-	<http://php.net/hex2bin>`_.
+	array_column() <https://secure.php.net/array_column>`_.

@@ -9,7 +9,7 @@ It can parse simple variables or variable tag pairs.
 If you've never used a template engine,
 pseudo-variable names are enclosed in braces, like this::
 
-	<html>
+	<html lang="en">
 		<head>
 			<title>{blog_title}</title>
 		</head>
@@ -95,7 +95,7 @@ you would like an entire block of variables to be repeated, with each
 iteration containing new values? Consider the template example we showed
 at the top of the page::
 
-	<html>
+	<html lang="en">
 		<head>
 			<title>{blog_title}</title>
 		</head>
@@ -290,7 +290,7 @@ Class Reference
 
 	.. php:method:: parse_string($template, $data[, $return = FALSE])
 
-		:param	string	$template: Path to view file
+		:param	string	$template: Content to parse
 		:param	array	$data: Variable data
 		:param	bool	$return: Whether to only return the parsed template
 		:returns:	Parsed template string

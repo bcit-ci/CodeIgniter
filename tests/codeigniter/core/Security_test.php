@@ -12,7 +12,8 @@ class Security_test extends CI_TestCase {
 		$this->ci_set_config('csrf_token_name', 'ci_csrf_token');
 		$this->ci_set_config('csrf_cookie_name', 'ci_csrf_cookie');
 
-		$this->security = new Mock_Core_Security();
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$this->security = new Mock_Core_Security('UTF-8');
 	}
 
 	// --------------------------------------------------------------------
@@ -305,7 +306,7 @@ class Security_test extends CI_TestCase {
 		$imgtags = array(
 			'<img src="smiley.gif" alt="Smiley face" height="42" width="42">',
 			'<img alt="Smiley face" height="42" width="42" src="smiley.gif">',
-			'<img src="http://www.w3schools.com/images/w3schools_green.jpg">',
+			'<img src="https://www.w3schools.com/images/w3schools_green.jpg">',
 			'<img src="/img/sunset.gif" height="100%" width="100%">',
 			'<img src="mdn-logo-sm.png" alt="MD Logo" srcset="mdn-logo-HD.png 2x, mdn-logo-small.png 15w, mdn-banner-HD.png 100w 2x" />',
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
@@ -317,7 +318,7 @@ class Security_test extends CI_TestCase {
 		$urls = array(
 			'smiley.gif',
 			'smiley.gif',
-			'http://www.w3schools.com/images/w3schools_green.jpg',
+			'https://www.w3schools.com/images/w3schools_green.jpg',
 			'/img/sunset.gif',
 			'mdn-logo-sm.png',
 			'<img sqrc="/img/sunset.gif" height="100%" width="100%">',
@@ -346,7 +347,7 @@ class Security_test extends CI_TestCase {
 		// leave csrf_cookie_name as blank to test _csrf_set_hash function
 		$this->ci_set_config('csrf_cookie_name', '');
 
-		$this->security = new Mock_Core_Security();
+		$this->security = new Mock_Core_Security('UTF-8');
 
 		$this->assertNotEmpty($this->security->get_csrf_hash());
 	}

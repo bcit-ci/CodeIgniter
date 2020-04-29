@@ -32,32 +32,60 @@
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
- * @since	Version 2.0
+ * @since	Version 3.2.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Dummy Caching Class
+ * CodeIgniter APCu Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
- * @author		EllisLab Dev Team
- * @link
+ * @author		CodeIgniter Dev team
  */
-class CI_Cache_dummy extends CI_Driver {
+class CI_Cache_apcu extends CI_Driver {
+
+	/**
+	 * Class constructor
+	 *
+	 * Only present so that an error message is logged
+	 * if APCu is not available.
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		if ( ! $this->is_supported())
+		{
+			log_message('error', 'Cache: Failed to initialize APCu; extension not loaded/enabled?');
+		}
+	}
+
+	// ------------------------------------------------------------------------
 
 	/**
 	 * Get
 	 *
-	 * Since this is the dummy class, it's always going to return FALSE.
+	 * Look for a value in the cache. If it exists, return the data
+	 * if not, return FALSE
 	 *
 	 * @param	string
-	 * @return	bool	FALSE
+	 * @return	mixed	value that is stored/FALSE on failure
 	 */
 	public function get($id)
 	{
+		$success = FALSE;
+		$data = apcu_fetch($id, $success);
+
+		if ($success === TRUE)
+		{
+			return is_array($data)
+				? $data[0]
+				: $data;
+		}
+
 		return FALSE;
 	}
 
@@ -66,15 +94,21 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Save
 	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
-	 * @param	bool	Whether to store the raw value
-	 * @return	bool	TRUE, Simulating success
+	 * @param	string	$id	Cache ID
+	 * @param	mixed	$data	Data to store
+	 * @param	int	$ttl	Length of time (in seconds) to cache the data
+	 * @param	bool	$raw	Whether to store the raw value
+	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
 	{
-		return TRUE;
+		$ttl = (int) $ttl;
+
+		return apcu_store(
+			$id,
+			($raw === TRUE ? $data : array($data, time(), $ttl)),
+			$ttl
+		);
 	}
 
 	// ------------------------------------------------------------------------
@@ -83,11 +117,11 @@ class CI_Cache_dummy extends CI_Driver {
 	 * Delete from Cache
 	 *
 	 * @param	mixed	unique identifier of the item in the cache
-	 * @return	bool	TRUE, simulating success
+	 * @return	bool	true on success/false on failure
 	 */
 	public function delete($id)
 	{
-		return TRUE;
+		return apcu_delete($id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -101,7 +135,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 */
 	public function increment($id, $offset = 1)
 	{
-		return TRUE;
+		return apcu_inc($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -115,7 +149,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 */
 	public function decrement($id, $offset = 1)
 	{
-		return TRUE;
+		return apcu_dec($id, $offset);
 	}
 
 	// ------------------------------------------------------------------------
@@ -123,11 +157,11 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Clean the cache
 	 *
-	 * @return	bool	TRUE, simulating success
+	 * @return	bool	false on failure/true on success
 	 */
 	public function clean()
 	{
-		return TRUE;
+		return apcu_clear_cache();
 	}
 
 	// ------------------------------------------------------------------------
@@ -135,12 +169,11 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @param	string	user/filehits
-	 * @return	bool	FALSE
+	 * @return	mixed	array on success, false on failure
 	 */
-	public function cache_info($type = NULL)
+	public function cache_info()
 	{
-		return FALSE;
+		return apcu_cache_info();
 	}
 
 	// ------------------------------------------------------------------------
@@ -149,24 +182,38 @@ class CI_Cache_dummy extends CI_Driver {
 	 * Get Cache Metadata
 	 *
 	 * @param	mixed	key to get cache metadata on
-	 * @return	bool	FALSE
+	 * @return	mixed	array on success/false on failure
 	 */
 	public function get_metadata($id)
 	{
-		return FALSE;
+		$success = FALSE;
+		$stored = apcu_fetch($id, $success);
+
+		if ($success === FALSE OR count($stored) !== 3)
+		{
+			return FALSE;
+		}
+
+		list($data, $time, $ttl) = $stored;
+
+		return array(
+			'expire'  => $time + $ttl,
+			'mtime'   => $time,
+			'data'    => $data
+		);
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Is this caching driver supported on the system?
-	 * Of course this one is.
+	 * is_supported()
 	 *
-	 * @return	bool	TRUE
+	 * Check to see if APCu is available on this system, bail if it isn't.
+	 *
+	 * @return	bool
 	 */
 	public function is_supported()
 	{
-		return TRUE;
+		return (extension_loaded('apcu') && ini_get('apc.enabled'));
 	}
-
 }

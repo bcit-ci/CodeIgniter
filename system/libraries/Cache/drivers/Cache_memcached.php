@@ -102,10 +102,22 @@ class CI_Cache_memcached extends CI_Driver {
 			return;
 		}
 
-		foreach ($this->_config as $cache_server)
+		foreach ($this->_config as $cache_name => $cache_server)
 		{
-			isset($cache_server['hostname']) OR $cache_server['hostname'] = $defaults['host'];
-			isset($cache_server['port']) OR $cache_server['port'] = $defaults['port'];
+			if ( ! isset($cache_server['hostname']))
+			{
+				log_message('debug', 'Cache: Memcache(d) configuration "'.$cache_name.'" doesn\'t include a hostname; ignoring.');
+				continue;
+			}
+			elseif ($cache_server['hostname'][0] === '/')
+			{
+				$cache_server['port'] = 0;
+			}
+			elseif (empty($cache_server['port']))
+			{
+				$cache_server['port'] = $defaults['port'];
+			}
+
 			isset($cache_server['weight']) OR $cache_server['weight'] = $defaults['weight'];
 
 			if ($this->_memcached instanceof Memcache)

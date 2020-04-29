@@ -9,13 +9,6 @@ class Html_helper_test extends CI_TestCase {
 
 	// ------------------------------------------------------------------------
 
-	public function test_br()
-	{
-		$this->assertEquals('<br /><br />', br(2));
-	}
-
-	// ------------------------------------------------------------------------
-
 	public function test_heading()
 	{
 		$this->assertEquals('<h1>foobar</h1>', heading('foobar'));
@@ -86,21 +79,26 @@ EOH;
 
 	// ------------------------------------------------------------------------
 
-	public function test_NBS()
-	{
-		$this->assertEquals('&nbsp;&nbsp;&nbsp;', nbs(3));
-	}
-
-	// ------------------------------------------------------------------------
-
 	public function test_meta()
 	{
-		$this->assertEquals("<meta name=\"test\" content=\"foo\" />\n", meta('test', 'foo'));
+		$this->assertEquals(
+			"<meta name=\"test\" content=\"foo\" />\n",
+			meta('test', 'foo')
+		);
 
-		$expect = "<meta name=\"foo\" content=\"\" />\n";
+		$this->assertEquals(
+			"<meta name=\"foo\" content=\"\" />\n",
+			meta(array('name' => 'foo'))
+		);
 
-		$this->assertEquals($expect, meta(array('name' => 'foo')));
+		$this->assertEquals(
+			"<meta charset=\"foo\" />\n",
+			meta(array('name' => 'foo', 'type' => 'charset'))
+		);
 
+		$this->assertEquals(
+			"<meta charset=\"foo\" />\n",
+			meta(array('name' => 'foo', 'type' => 'charset'))
+		);
 	}
-
 }

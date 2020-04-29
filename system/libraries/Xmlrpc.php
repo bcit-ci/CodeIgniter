@@ -743,7 +743,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			{
 				break;
 			}
-			// See https://bugs.php.net/bug.php?id=39598 and http://php.net/manual/en/function.fwrite.php#96951
+			// See https://bugs.php.net/bug.php?id=39598 and https://secure.php.net/manual/en/function.fwrite.php#96951
 			elseif ($result === 0)
 			{
 				if ($timestamp === 0)
@@ -836,9 +836,7 @@ class XML_RPC_Response
 		{
 			// error
 			$this->errno = $code;
-			$this->errstr = htmlspecialchars($fstr,
-							(is_php('5.4') ? ENT_XML1 | ENT_NOQUOTES : ENT_NOQUOTES),
-							'UTF-8');
+			$this->errstr = htmlspecialchars($fstr, ENT_XML1 | ENT_NOQUOTES, 'UTF-8');
 		}
 		elseif ( ! is_object($val))
 		{

@@ -97,3 +97,19 @@ The following functions are available:
 
 	.. note:: This function used to be called ``is_countable()`` in
 		in previous CodeIgniter versions.
+
+.. php:function:: ordinal_format($number)
+
+	:param	int	$number: non-negative natural number to be converted
+	:returns:	Ordinal numeral for given number or original value on failure
+	:rtype:	string
+
+	Returns the ordinal numeral (1st, 2nd, 3rd etc.) for a
+	non-negative natural number. If the input is not a natural number
+	greater than 0, the function will return the original value. Examples::
+
+		echo ordinal_format(1); // Returns 1st
+		echo ordinal_format(3); // Returns 3rd
+		echo ordinal_format(21); // Returns 21st
+		echo ordinal_format(102); // Returns 102nd
+		echo ordinal_format(-5); // Invalid input, will return -5

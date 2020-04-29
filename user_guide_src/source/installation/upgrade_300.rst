@@ -532,9 +532,9 @@ the ``EXT`` constant has been removed. Use just '.php' instead.
 Smiley helper
 =============
 
-The :doc:`Smiley Helper <../helpers/smiley_helper>` is a legacy feature from EllisLab's
-ExpressionEngine product. However, it is too specific for a general purpose framework like
-CodeIgniter and as such it is now deprecated.
+The *Smiley Helper* is a legacy feature from EllisLab's ExpressionEngine product.
+However, it is too specific for a general purpose framework like CodeIgniter
+and as such it is now deprecated.
 
 Also, the previously deprecated ``js_insert_smiley()`` (since version 1.7.2) is now removed.
 
@@ -545,8 +545,8 @@ Following numerous vulnerability reports, the :doc:`Encrypt Library <../librarie
 been deprecated and a new, :doc:`Encryption Library <../libraries/encryption>` is added to take
 its place.
 
-The new library requires either the `MCrypt extension <http://php.net/mcrypt>`_ (and /dev/urandom
-availability) or PHP 5.3.3 and the `OpenSSL extension <http://php.net/openssl>`_.
+The new library requires either the `MCrypt extension <https://secure.php.net/mcrypt>`_ (and /dev/urandom
+availability) or PHP 5.3.3 and the `OpenSSL extension <https://secure.php.net/openssl>`_.
 While this might be rather inconvenient, it is a requirement that allows us to have properly
 implemented cryptographic functions.
 
@@ -559,12 +559,12 @@ implemented cryptographic functions.
 The Cart library
 ================
 
-The :doc:`Cart Library <../libraries/cart>`, similarly to the :doc:`Smiley Helper
-<../helpers/smiley_helper>` is too specific for CodeIgniter. It is now deprecated
-and scheduled for removal in CodeIgniter 3.1+.
+The *Cart Library*, similarly to the *Smiley Helper* is too specific for
+CodeIgniter. It is now deprecated and scheduled for removal in
+CodeIgniter 3.1+.
 
-.. note:: The library is still available, but you're strongly encouraged to remove its usage sooner
-	rather than later.
+.. note:: The library is still available, but you're strongly encouraged to
+	remove its usage sooner rather than later.
 
 Database drivers 'mysql', 'sqlite', 'mssql', 'pdo/dblib'
 ========================================================
@@ -624,7 +624,7 @@ CodeIgniter 3.1+.
 String helper repeater()
 ========================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`repeater()` is now just an alias for
+:doc:`String Helper <../helpers/string_helper>` function ``repeater()`` is now just an alias for
 PHP's native ``str_repeat()`` function. It is deprecated and scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: This function is still available, but you're strongly encouraged to remove its usage sooner
@@ -633,7 +633,7 @@ PHP's native ``str_repeat()`` function. It is deprecated and scheduled for remov
 String helper trim_slashes()
 ============================
 
-:doc:`String Helper <../helpers/string_helper>` function :php:func:`trim_slashes()` is now just an alias
+:doc:`String Helper <../helpers/string_helper>` function ``trim_slashes()`` is now just an alias
 for PHP's native ``trim()`` function (with a slash passed as its second argument). It is deprecated and
 scheduled for removal in CodeIgniter 3.1+.
 
@@ -643,8 +643,8 @@ scheduled for removal in CodeIgniter 3.1+.
 Form helper form_prep()
 =======================
 
-:doc:`Form Helper <../helpers/form_helper>` function :php:func:`form_prep()`
-is now just an alias for :doc:`common function </general/common_functions>`
+:doc:`Form Helper <../helpers/form_helper>` function ``form_prep()`` is now
+just an alias for :doc:`common function </general/common_functions>`
 :func:`html_escape()`. It is deprecated and will be removed in the future.
 
 Please use :php:func:`html_escape()` instead.
@@ -655,14 +655,13 @@ Please use :php:func:`html_escape()` instead.
 Email helper functions
 ======================
 
-:doc:`Email Helper <../helpers/email_helper>` only has two functions
+The *Email Helper* only has two functions:
 
- - :php:func:`valid_email()`
- - :php:func:`send_email()`
+ - ``valid_email()``
+ - ``send_email()``
 
 Both of them are now aliases for PHP's native ``filter_var()`` and ``mail()`` functions, respectively.
-Therefore the :doc:`Email Helper <../helpers/email_helper>` altogether is being deprecated and
-is scheduled for removal in CodeIgniter 3.1+.
+Therefore, the *Email Helper* altogether is being deprecated and is scheduled for removal in CodeIgniter 3.1+.
 
 .. note:: These functions are still available, but you're strongly encouraged to remove their usage
 	sooner rather than later.
@@ -671,7 +670,7 @@ Date helper standard_date()
 ===========================
 
 :doc:`Date Helper <../helpers/date_helper>` function ``standard_date()`` is being deprecated due
-to the availability of native PHP `constants <http://php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
+to the availability of native PHP `constants <https://secure.php.net/manual/en/class.datetime.php#datetime.constants.types>`_,
 which when combined with ``date()`` provide the same functionality. Furthermore, they have the
 exact same names as the ones supported by ``standard_date()``. Here are examples of how to replace
 its usage:
@@ -845,8 +844,8 @@ CodeIgniter 3.1+.
 The Javascript library
 ======================
 
-The :doc:`Javascript Library <../libraries/javascript>` has always had an
-'experimental' status and was never really useful, nor a proper solution.
+The *Javascript Library* has always had an 'experimental' status and was
+never really useful, nor a proper solution.
 
 It is now deprecated and scheduled for removal in CodeIgniter 3.1+.
 

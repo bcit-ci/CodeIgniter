@@ -8,7 +8,7 @@ class Output_test extends CI_TestCase {
 	public function set_up()
 	{
 		$this->_output_data =<<<HTML
-		<html>
+		<html lang="en">
 			<head>
 				<title>Basic HTML</title>
 			</head>
