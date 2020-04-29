@@ -522,6 +522,8 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
 			$owner = $this->username;
 		}
+		
+		$table = $this->protect_identifiers($table, TRUE, FALSE, FALSE);
 
 		return 'SELECT COLUMN_NAME FROM ALL_TAB_COLUMNS
 			WHERE UPPER(OWNER) = '.$this->escape(strtoupper($owner)).'
