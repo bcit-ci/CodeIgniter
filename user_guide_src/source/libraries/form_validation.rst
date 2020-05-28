@@ -65,7 +65,7 @@ The Form
 Using a text editor, create a form called myform.php. In it, place this
 code and save it to your application/views/ folder::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>My Form</title>
 	</head>
@@ -100,7 +100,7 @@ The Success Page
 Using a text editor, create a form called formsuccess.php. In it, place
 this code and save it to your application/views/ folder::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>My Form</title>
 	</head>
@@ -359,7 +359,7 @@ function calls!**
 
 ::
 
-	<html>
+	<html lang="en">
 	<head>
 	<title>My Form</title>
 	</head>

@@ -72,6 +72,7 @@ Release Date: Not Released
 
       - Added option to change the output filename via the ``new_name`` option when rendering images with ``dynamic_output``.
       - Updated to serve multibyte filenames when rendering images with ``dynamic_output``, if possible.
+      - Added WebP image support.
 
 -  :doc:`Database <database/index>` changes include:
 
@@ -134,6 +135,20 @@ Version 3.1.12
 
 Release Date: Not Released
 
+-  General Changes
+
+   -  Improved logging of error conditions in :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()`.
+   -  Added ``AUTO_INCREMENT`` support for Oracle 12.1+ to :doc:`Database Forge <database/forge>`.
+   -  Added ``FULL [OUTER] JOIN`` support to :doc:`Query Builder <database/query_builder>`.
+
+Bug fixes for 3.1.12
+====================
+
+-  Fixed a bug (#5834) - :doc:`Query Builder <database/query_builder>` method ``count_all_results()`` triggered an SQL error for queries with a ``HAVING`` clause.
+-  Fixed a bug (#5840) - :doc:`Cache Library <libraries/caching>` 'redis' driver triggered an ``E_DEPRECATED`` warning about ``sRemove()`` with phpRedis 5.
+-  Fixed a bug (#5857) - :doc:`Session <libraries/sessions>` data could be corrupted after a concurrent request write with the 'files' driver due to a filesize cache being incorrect.
+-  Fixed a bug (#5861) - :doc:`Cache Library <libraries/caching>` 'redis' driver would always use phpRedis 5 ``del()`` due to an incorrect version check.
+-  Fixed a bug (#5879) - :doc:`Profiler Library <general/profiling>` triggered an ``E_DEPRECATED`` warning on PHP 7.4+.
 
 Version 3.1.11
 ==============
@@ -148,7 +163,7 @@ Release Date: Sep 19, 2019
    -  Updated the :doc:`Session <libraries/sessions>` and :doc:`Cache <libraries/caching>` libraries' 'redis' driver to work with phpRedis 5.
 
 Bug fixes for 3.1.11
-====================
+--------------------
 
 -  Fixed a bug (#5681) - :doc:`Database Forge <database/forge>` method ``modify_column()`` produced erroneous SQL for ``DEFAULT`` attribute changes under PostgreSQL, Firebird.
 -  Fixed a bug (#5692) - :doc:`Database Forge <database/forge>` didn't handle column nullability with the 'oci8', 'pdo/oci' drivers.

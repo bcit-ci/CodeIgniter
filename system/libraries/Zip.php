@@ -406,13 +406,14 @@ class CI_Zip {
 			return FALSE;
 		}
 
-		return $this->zipdata
-			.$this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
+		// @see https://github.com/bcit-ci/CodeIgniter/issues/5864
+		$footer = $this->directory."\x50\x4b\x05\x06\x00\x00\x00\x00"
 			.pack('v', $this->entries) // total # of entries "on this disk"
 			.pack('v', $this->entries) // total # of entries overall
 			.pack('V', self::strlen($this->directory)) // size of central dir
 			.pack('V', self::strlen($this->zipdata)) // offset to start of central dir
 			."\x00\x00"; // .zip file comment length
+		return $this->zipdata.$footer;
 	}
 
 	// --------------------------------------------------------------------

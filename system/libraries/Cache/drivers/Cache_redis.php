@@ -77,6 +77,13 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected static $_delete_name;
 
+	/**
+	 * sRem()/sRemove() method name depending on phpRedis version
+	 *
+	 * @var	string
+	 */
+	protected static $_sRemove_name;
+
 	// ------------------------------------------------------------------------
 
 	/**
@@ -98,9 +105,19 @@ class CI_Cache_redis extends CI_Driver
 			return;
 		}
 
-		isset(static::$_delete_name) OR static::$_delete_name = version_compare(phpversion('phpredis'), '5', '>=')
-			? 'del'
-			: 'delete';
+		if ( ! isset(static::$_delete_name, static::$_sRemove_name))
+		{
+			if (version_compare(phpversion('redis'), '5', '>='))
+			{
+				static::$_delete_name  = 'del';
+				static::$_sRemove_name = 'sRem';
+			}
+			else
+			{
+				static::$_delete_name  = 'delete';
+				static::$_sRemove_name = 'sRemove';
+			}
+		}
 
 		$CI =& get_instance();
 
@@ -210,7 +227,7 @@ class CI_Cache_redis extends CI_Driver
 		}
 		else
 		{
-			$this->_redis->sRemove('_ci_redis_serialized', $id);
+			$this->_redis->{static::$_sRemove_name}('_ci_redis_serialized', $id);
 		}
 
 		return TRUE;
@@ -231,7 +248,7 @@ class CI_Cache_redis extends CI_Driver
 			return FALSE;
 		}
 
-		$this->_redis->sRemove('_ci_redis_serialized', $key);
+		$this->_redis->{static::$_sRemove_name}('_ci_redis_serialized', $key);
 
 		return TRUE;
 	}

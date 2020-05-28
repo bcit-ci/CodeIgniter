@@ -142,9 +142,9 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver {
 		}
 
 		$version_string = parent::version();
-		if (preg_match('#Release\s(?<version>\d+(?:\.\d+)+)#', $version_string, $match))
+		if (preg_match('#(Release\s)?(?<version>\d+(?:\.\d+)+)#', $version_string, $match))
 		{
-			return $this->data_cache['version'] = $match[1];
+			return $this->data_cache['version'] = $match['version'];
 		}
 
 		return FALSE;

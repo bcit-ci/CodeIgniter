@@ -44,6 +44,7 @@ $lang['imglib_unsupported_imagecreate'] = 'Your server does not support the GD f
 $lang['imglib_gif_not_supported'] = 'GIF images are often not supported due to licensing restrictions. You may have to use JPG or PNG images instead.';
 $lang['imglib_jpg_not_supported'] = 'JPG images are not supported.';
 $lang['imglib_png_not_supported'] = 'PNG images are not supported.';
+$lang['imglib_webp_not_supported'] = 'WEBP images are not supported.';
 $lang['imglib_jpg_or_png_required'] = 'The image resize protocol specified in your preferences only works with JPEG or PNG image types.';
 $lang['imglib_copy_error'] = 'An error was encountered while attempting to replace the file. Please make sure your file directory is writable.';
 $lang['imglib_rotate_unsupported'] = 'Image rotation does not appear to be supported by your server.';

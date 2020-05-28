@@ -47,10 +47,10 @@ function autoload($class)
 		'Profiler',
 		'Table',
 		'Trackback',
-	   	'Typography',
+		'Typography',
 		'Unit_test',
 		'Upload',
-	   	'User_agent',
+		'User_agent',
 		'Xmlrpc',
 		'Zip'
 	);
