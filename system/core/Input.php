@@ -302,7 +302,7 @@ class CI_Input {
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
 	 * @return	void
 	 */
-	public function set_cookie($name, $value = '', $expire = 0, $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
+	public function set_cookie($name, $value = '', $expire = 0, $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL, $samesite = NULL)
 	{
 		if (is_array($name))
 		{
@@ -340,8 +340,9 @@ class CI_Input {
 			: (bool) $httponly;
 			
 		// Handle cookie 'samesite' attribute
-		$samesite = config_item('cookie_samesite');
-		$samesite = empty($samesite)? 'None' : $samesite;
+		$samesite = ($samesite === NULL && config_item('cookie_samesite') !== NULL)
+			? config_item('cookie_samesite')
+			: 'None';
 
 		if ( ! is_numeric($expire) OR $expire < 0)
 		{
