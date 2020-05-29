@@ -338,6 +338,9 @@ class CI_Input {
 		$httponly = ($httponly === NULL && config_item('cookie_httponly') !== NULL)
 			? (bool) config_item('cookie_httponly')
 			: (bool) $httponly;
+			
+		// Handle cookie 'samesite' attribute
+		$samesite = empty(config_item('cookie_samesite'))? 'None' : config_item('cookie_samesite');
 
 		if ( ! is_numeric($expire) OR $expire < 0)
 		{
@@ -347,8 +350,20 @@ class CI_Input {
 		{
 			$expire = ($expire > 0) ? time() + $expire : 0;
 		}
-
-		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure, $httponly);
+		
+		// using setcookie with array option to add cookie 'samesite' attribute
+		setcookie(
+			$prefix.$name, 
+			$value, 
+			array(
+				'expires' => $expire, 
+				'path' => $path,
+				'domain' => $domain, 
+				'secure' => $secure, 
+				'httponly' => $httponly,
+				'samesite' => $samesite // add samesite attribute
+			)
+		);
 	}
 
 	// --------------------------------------------------------------------
