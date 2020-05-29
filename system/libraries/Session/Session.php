@@ -144,14 +144,18 @@ class CI_Session {
 		// unless it is being currently created or regenerated
 		elseif (isset($_COOKIE[$this->_config['cookie_name']]) && $_COOKIE[$this->_config['cookie_name']] === session_id())
 		{
+			// using setcookie with array option to add cookie 'samesite' attribute
 			setcookie(
 				$this->_config['cookie_name'],
-				session_id(),
-				(empty($this->_config['cookie_lifetime']) ? 0 : time() + $this->_config['cookie_lifetime']),
-				$this->_config['cookie_path'],
-				$this->_config['cookie_domain'],
-				$this->_config['cookie_secure'],
-				TRUE
+				session_id(), 
+				array(
+					'expires' => (empty($this->_config['cookie_lifetime']) ? 0 : time() + $this->_config['cookie_lifetime']),
+					'path' => $this->_config['cookie_path'],
+					'domain' => $this->_config['cookie_domain'],
+					'secure' => $this->_config['cookie_secure'],
+					'httponly' => TRUE,
+					'samesite' => config_item('cookie_samesite') // add samesite attribute
+				)
 			);
 		}
 
@@ -267,12 +271,18 @@ class CI_Session {
 		isset($params['cookie_domain']) OR $params['cookie_domain'] = config_item('cookie_domain');
 		isset($params['cookie_secure']) OR $params['cookie_secure'] = (bool) config_item('cookie_secure');
 
+		// additional for cookie 'samesite' attribute
+		isset($params['cookie_samesite']) OR $params['cookie_samesite'] = config_item('cookie_samesite'); 
+		
 		session_set_cookie_params(
-			$params['cookie_lifetime'],
-			$params['cookie_path'],
-			$params['cookie_domain'],
-			$params['cookie_secure'],
-			TRUE // HttpOnly; Yes, this is intentional and not configurable for security reasons
+			array(
+				'lifetime' => $params['cookie_lifetime'],
+				'path' => $params['cookie_path'],
+				'domain' => $params['cookie_domain'],
+				'secure' => $params['cookie_secure'],
+				'httponly' => TRUE, // HttpOnly; Yes, this is intentional and not configurable for security reasons
+				'samesite' => $params['cookie_samesite'] // The value of the samesite element should be either None, Lax or Strict
+			)
 		);
 
 		if (empty($expiration))

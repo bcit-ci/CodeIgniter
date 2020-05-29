@@ -148,6 +148,19 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 			$this->_config['cookie_secure'],
 			TRUE
 		);
+		// using setcookie with array option to add cookie 'samesite' attribute
+		return setcookie(
+			$this->_config['cookie_name'],
+			NULL,
+			array(
+				'expires' => 1, 
+				'path' => $this->_config['cookie_path'],
+				'domain' => $this->_config['cookie_domain'],
+				'secure' => $this->_config['cookie_secure'],
+				'httponly' => TRUE,
+				'samesite' => $this->_config['cookie_samesite'] // add samesite attribute
+			)
+		);
 	}
 
 	// ------------------------------------------------------------------------
