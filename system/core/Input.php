@@ -340,7 +340,8 @@ class CI_Input {
 			: (bool) $httponly;
 			
 		// Handle cookie 'samesite' attribute
-		$samesite = empty(config_item('cookie_samesite'))? 'None' : config_item('cookie_samesite');
+		$samesite = config_item('cookie_samesite');
+		$samesite = empty($samesite)? 'None' : $samesite;
 
 		if ( ! is_numeric($expire) OR $expire < 0)
 		{
