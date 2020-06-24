@@ -19,7 +19,7 @@ for us to maintain quality of the code-base.
 
 ### PHP Style
 
-All code must meet the [Style Guide](https://codeigniter.com/user_guide/general/styleguide.html), which is
+All code must meet the [Style Guide](https://codeigniter.com/userguide3/general/styleguide.html), which is
 essentially the [Allman indent style](https://en.wikipedia.org/wiki/Indent_style#Allman_style), underscores and readable operators. This makes certain that all code is the same format as the existing code and means it will be as readable as possible.
 
 ### Documentation

@@ -51,9 +51,9 @@ class UserAgent_test extends CI_TestCase {
 
 	public function test_referrer()
 	{
-		$_SERVER['HTTP_REFERER'] = 'http://codeigniter.com/user_guide/';
+		$_SERVER['HTTP_REFERER'] = 'http://codeigniter.com/userguide3/';
 		$this->assertTrue($this->agent->is_referral());
-		$this->assertEquals('http://codeigniter.com/user_guide/', $this->agent->referrer());
+		$this->assertEquals('http://codeigniter.com/userguide3/', $this->agent->referrer());
 
 		$this->agent->referer = NULL;
 		unset($_SERVER['HTTP_REFERER']);
