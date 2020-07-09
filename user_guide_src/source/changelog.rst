@@ -140,6 +140,9 @@ Release Date: Not Released
    -  Improved logging of error conditions in :doc:`CAPTCHA Helper <helpers/captcha_helper>` function :php:func:`create_captcha()`.
    -  Added ``AUTO_INCREMENT`` support for Oracle 12.1+ to :doc:`Database Forge <database/forge>`.
    -  Added ``FULL [OUTER] JOIN`` support to :doc:`Query Builder <database/query_builder>`.
+   -  Added support for detecting WebP image type to :doc:`File Uploading Library <libraries/file_uploading>`.
+   -  Added method :doc:`Database Library <database/index>` method ``trans_active()`` to expose transaction state.
+   -  Updated :doc:`Database Library <database/index>` 'pdo' driver to attempt to free resources in order to allow connections to be closed.
 
 Bug fixes for 3.1.12
 ====================
@@ -149,6 +152,9 @@ Bug fixes for 3.1.12
 -  Fixed a bug (#5857) - :doc:`Session <libraries/sessions>` data could be corrupted after a concurrent request write with the 'files' driver due to a filesize cache being incorrect.
 -  Fixed a bug (#5861) - :doc:`Cache Library <libraries/caching>` 'redis' driver would always use phpRedis 5 ``del()`` due to an incorrect version check.
 -  Fixed a bug (#5879) - :doc:`Profiler Library <general/profiling>` triggered an ``E_DEPRECATED`` warning on PHP 7.4+.
+-  Fixed a bug (#5901) - :doc:`Database Library <database/index>` methods ``list_fields()`` and ``field_data()`` ignored the configured table schema on PostgreSQL.
+-  Fixed a bug (#5906) - :doc:`Database Library <database/index>` 'postgre' driver couldn't use the failover feature without a ``$config['dsn']``.
+-  Fixed a bug (#5903) - :doc:`common function <general/common_functions>` :php:func:`set_status_header()` didn't recognize 'HTTP/2.0' as a valid ``$_SERVER['SERVER_PROTOCOL']``.
 
 Version 3.1.11
 ==============
