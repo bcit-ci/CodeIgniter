@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	HTML Tables
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/libraries/table.html
+ * @link		https://codeigniter.com/userguide3/libraries/table.html
  */
 class CI_Table {
 
