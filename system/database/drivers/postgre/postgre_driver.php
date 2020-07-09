@@ -139,7 +139,7 @@ class CI_DB_postgre_driver extends CI_DB {
 	 */
 	public function db_connect($persistent = FALSE)
 	{
-		empty($this->dsn) OR $this->_build_dsn();
+		empty($this->dsn) && $this->_build_dsn();
 		$this->conn_id = ($persistent === TRUE)
 			? pg_pconnect($this->dsn)
 			: pg_connect($this->dsn);
