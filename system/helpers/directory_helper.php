@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/directory_helper.html
+ * @link		https://codeigniter.com/userguide3/helpers/directory_helper.html
  */
 
 // ------------------------------------------------------------------------

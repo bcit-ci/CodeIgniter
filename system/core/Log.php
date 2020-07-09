@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Logging
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/general/errors.html
+ * @link		https://codeigniter.com/userguide3/general/errors.html
  */
 class CI_Log {
 

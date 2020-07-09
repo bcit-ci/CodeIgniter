@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Loader
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/libraries/javascript.html
+ * @link		https://codeigniter.com/userguide3/libraries/javascript.html
  */
 class CI_Jquery extends CI_Javascript {
 

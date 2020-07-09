@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/libraries/config.html
+ * @link		https://codeigniter.com/userguide3/libraries/config.html
  */
 class CI_Model {
 

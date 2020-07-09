@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	CodeIgniter
  * @category	Compatibility
  * @author		Andrey Andreev
- * @link		https://codeigniter.com/user_guide/
- * @link		http://php.net/mbstring
+ * @link		https://codeigniter.com/userguide3/
+ * @link		https://secure.php.net/mbstring
  */
 
 // ------------------------------------------------------------------------
