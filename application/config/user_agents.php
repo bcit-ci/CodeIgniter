@@ -217,5 +217,6 @@ $robots = array(
 	'curious george'	=> 'Curious George',
 	'ia_archiver'		=> 'Alexa Crawler',
 	'MJ12bot'		=> 'Majestic-12',
-	'Uptimebot'		=> 'Uptimebot'
+	'Uptimebot'		=> 'Uptimebot',
+	'UptimeRobot'		=> 'UptimeRobot'
 );
