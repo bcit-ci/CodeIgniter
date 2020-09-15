@@ -331,6 +331,8 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver {
 				$retval[$i]->max_length
 			);
 
+			$retval[$i]->null		= $query[$i]->Null;
+			$retval[$i]->extra		= $query[$i]->Extra; 
 			$retval[$i]->default		= $query[$i]->Default;
 			$retval[$i]->primary_key	= (int) ($query[$i]->Key === 'PRI');
 		}
