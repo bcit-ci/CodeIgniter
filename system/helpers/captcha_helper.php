@@ -57,10 +57,11 @@ if ( ! function_exists('create_captcha'))
 	 * @param	array	$data		Data for the CAPTCHA
 	 * @param	string	$img_path	Path to create the image in (deprecated)
 	 * @param	string	$img_url	URL to the CAPTCHA image folder (deprecated)
+	 * @param	string	$img_tag_class	Image tag for class (deprecated)
 	 * @param	string	$font_path	Server path to font (deprecated)
 	 * @return	string
 	 */
-	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
+	function create_captcha($data = '', $img_path = '', $img_url = '', $img_tag_class = '', $font_path = '')
 	{
 		$defaults = array(
 			'word'		=> '',
@@ -372,7 +373,7 @@ if ( ! function_exists('create_captcha'))
 			$img_src = 'data:image/png;base64,'.base64_encode($img_src);
 		}
 
-		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" alt="'.$img_alt.'" />';
+		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" class="'.$img_tag_class.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
