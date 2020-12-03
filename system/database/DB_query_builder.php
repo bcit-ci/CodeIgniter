@@ -607,13 +607,22 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Separates multiple calls with 'AND'.
 	 *
 	 * @param	mixed
-	 * @param	mixed
+	 * @param	mixed|array
 	 * @param	bool
 	 * @return	CI_DB_query_builder
 	 */
 	public function where($key, $value = NULL, $escape = NULL)
 	{
-		return $this->_wh('qb_where', $key, $value, 'AND ', $escape);
+		return !is_array($value)
+			? $this->_wh('qb_where', $key, $value, 'AND ', $escape)
+			: $this->_wh_in(
+				'qb_where',
+				$key,
+				$value,
+				false,
+				'AND ',
+				$escape
+			);
 	}
 
 	// --------------------------------------------------------------------
@@ -625,13 +634,15 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Separates multiple calls with 'OR'.
 	 *
 	 * @param	mixed
-	 * @param	mixed
+	 * @param	mixed|array
 	 * @param	bool
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_where($key, $value = NULL, $escape = NULL)
 	{
-		return $this->_wh('qb_where', $key, $value, 'OR ', $escape);
+		return !is_array($value)
+			? $this->_wh('qb_where', $key, $value, 'OR ', $escape)
+			: $this->_wh_in('qb_where',$key, $value, false, 'OR ', $escape);
 	}
 
 	// --------------------------------------------------------------------
