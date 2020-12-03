@@ -269,9 +269,10 @@ class CI_DB_result {
 	/**
 	 * Query result. "array" version.
 	 *
-	 * @return	array
+	 * @param  null|string  $key_column_name Unique column from the result which to be used as a key in the array
+	 * @return    array
 	 */
-	public function result_array()
+	public function result_array($key_column_name = null)
 	{
 		if (count($this->result_array) > 0)
 		{
@@ -288,18 +289,41 @@ class CI_DB_result {
 
 		if (($c = count($this->result_object)) > 0)
 		{
-			for ($i = 0; $i < $c; $i++)
-			{
-				$this->result_array[$i] = (array) $this->result_object[$i];
+			if ($key_column_name) {
+				for ($i = 0; $i < $c; $i++) {
+					$row = (array)$this->result_object[$i];
+					$key = $row[$key_column_name];
+					unset($row[$key_column_name]);
+					if(isset($this->result_array[$key])){
+						trigger_error("The column ".$key_column_name." is not unique. Data may be overwritten!", E_USER_WARNING);
+					}
+					$this->result_array[$key] = $row;
+				}
+			} else {
+				for ($i = 0; $i < $c; $i++) {
+					$this->result_array[$i] = (array)$this->result_object[$i];
+				}
 			}
 
 			return $this->result_array;
 		}
 
 		is_null($this->row_data) OR $this->data_seek(0);
-		while ($row = $this->_fetch_assoc())
-		{
-			$this->result_array[] = $row;
+		if ($key_column_name) {
+			while ($row = $this->_fetch_assoc())
+			{
+				$key = $row[$key_column_name];
+				unset($row[$key_column_name]);
+				if(isset($this->result_array[$key])){
+					trigger_error("The column ".$key_column_name." is not unique. Data may be overwritten!", E_USER_WARNING);
+				}
+				$this->result_array[$key] = $row;
+			}
+		} else {
+			while ($row = $this->_fetch_assoc())
+			{
+				$this->result_array[] = $row;
+			}
 		}
 
 		return $this->result_array;
