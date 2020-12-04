@@ -290,7 +290,7 @@ class DB_result_dummy extends CI_DB_result
 		return array('name', 'email');
 	}
 
-	public function result_array()
+	public function result_array($key_column_name = null)
 	{
 		return array(
 			array('name' => 'John Doe', 'email' => 'john@doe.com'),
