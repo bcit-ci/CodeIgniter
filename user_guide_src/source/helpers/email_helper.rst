@@ -36,7 +36,7 @@ The following functions are available:
 	:rtype:	bool
 
 	Checks if the input is a correctly formatted e-mail address. Note that is
-	doesn't actually prove that the address will be able recieve mail, but
+	doesn't actually prove that the address will be able receive mail, but
 	simply that it is a validly formed address.
 
 	Example::
