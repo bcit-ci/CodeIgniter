@@ -9,6 +9,7 @@ php:
   - 7.2
   - 7.3
   - 7.4
+  - 8.0
   - nightly
 
 env:
@@ -37,6 +38,7 @@ script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7
 
 jobs:
   allow_failures:
+    - php: 8.0
     - php: nightly
     - php: hhvm-3.30
   include:
