@@ -288,7 +288,7 @@ class CI_Migration {
 				$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 				return FALSE;
 			}
-			elseif (!(class_exists($class) && in_array($method, get_class_methods($class))))
+			elseif ( ! (class_exists($class) && in_array($method, get_class_methods($class))))
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 				return FALSE;
