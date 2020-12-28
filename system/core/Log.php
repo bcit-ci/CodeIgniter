@@ -178,8 +178,8 @@ class CI_Log {
 
 		$level = strtoupper($level);
 
-		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))
-			&& ! isset($this->_threshold_array[$this->_levels[$level]]))
+		if ( ! isset($this->_levels[$level])
+			|| ($this->_levels[$level] > $this->_threshold && ! isset($this->_threshold_array[$this->_levels[$level]])))
 		{
 			return FALSE;
 		}
