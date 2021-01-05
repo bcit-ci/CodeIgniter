@@ -1119,7 +1119,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * GROUP BY
 	 *
-	 * @param	string	$by
+	 * @param	mixed	$by
 	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
