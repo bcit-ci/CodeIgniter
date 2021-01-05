@@ -35,8 +35,8 @@ The following functions are available:
 	:returns:	TRUE if a valid email is supplied, FALSE otherwise
 	:rtype:	bool
 
-	Checks if the input is a correctly formatted e-mail address. Note that is
-	doesn't actually prove that the address will be able recieve mail, but
+	Checks if the input is a correctly formatted e-mail address. Note that it
+	doesn't actually prove that the address will be able to receive mail, but
 	simply that it is a validly formed address.
 
 	Example::
