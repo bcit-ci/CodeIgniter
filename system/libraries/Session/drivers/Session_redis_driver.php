@@ -137,7 +137,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			$save_path = array('path' => $matches[1]);
 		}
-		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
+		elseif (preg_match('#(?:(?:tcp|tls)://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
 		{
 			$save_path = array(
 				'host'    => $matches[1],
