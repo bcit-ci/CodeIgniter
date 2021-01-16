@@ -300,9 +300,13 @@ class CI_Output {
 	public function get_header($header)
 	{
 		// Combine headers already sent with our batched headers
+		$headers = array();
+		foreach ($this->headers as $value)
+		{
+			$headers[] = $value[0];
+		}
 		$headers = array_merge(
-			// We only need [x][0] from our multi-dimensional array
-			array_map('array_shift', $this->headers),
+			$headers,
 			headers_list()
 		);
 
