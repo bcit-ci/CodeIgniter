@@ -1,5 +1,3 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
 An uncaught Exception was encountered
 
 Type:        <?php echo get_class($exception), "\n"; ?>
