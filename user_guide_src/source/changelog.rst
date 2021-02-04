@@ -28,6 +28,7 @@ Bug fixes for 3.1.12
 -  Fixed a bug (#5906) - :doc:`Database Library <database/index>` 'postgre' driver couldn't use the failover feature without a ``$config['dsn']``.
 -  Fixed a bug (#5903) - :doc:`common function <general/common_functions>` :php:func:`set_status_header()` didn't recognize 'HTTP/2.0' as a valid ``$_SERVER['SERVER_PROTOCOL']``.
 -  Fixed a bug (#6013) - :doc:`Session <libraries/sessions>` flashdata didn't work on PHP 8.
+-  Fixed a bug (#6006) - ``is_callable()`` change in PHP 8 broke :doc:`Migrations <libraries/migrations>`, a part of :doc:`XML-RPC <libraries/xmlrpc>` and an edge case in 404 detection logic.
 
 Version 3.1.11
 ==============
