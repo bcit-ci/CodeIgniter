@@ -127,6 +127,7 @@ Release Date: Not Released
    -  :doc:`CAPTCHA Helper <helpers/captcha_helper>` changes include:
 
       - Added 'img_alt' option with a default value of 'captcha'.
+      - Added 'img_class' option.
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 

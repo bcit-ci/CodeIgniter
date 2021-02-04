@@ -69,6 +69,7 @@ if ( ! function_exists('create_captcha'))
 			'img_width'	=> '150',
 			'img_height'	=> '30',
 			'img_alt'	=> 'captcha',
+			'img_class'	=> '',
 			'font_path'	=> '',
 			'font_size'	=> 16,
 			'expiration'	=> 7200,
@@ -372,7 +373,10 @@ if ( ! function_exists('create_captcha'))
 			$img_src = 'data:image/png;base64,'.base64_encode($img_src);
 		}
 
-		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" alt="'.$img_alt.'" />';
+		$img_class = trim($img_class);
+		$img_class = (bool) strlen($img_class) ? 'class="'.$img_class.'" ' : '';
+
+		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" '.$img_class.'alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
