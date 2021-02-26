@@ -1483,8 +1483,17 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$qb_orderby       = $this->qb_orderby;
 		$qb_cache_orderby = $this->qb_cache_orderby;
 		$this->qb_orderby = $this->qb_cache_orderby = array();
+		
+		//if DISTINCT is not used, this should return the same count as the select, 
+		//but avoiding extra memory and extra subqueries, thus faster
+		$qb_select        = $this->qb_select;
+ 		$qb_cache_select  = $this->qb_cache_select;
+ 		if($this->qb_distinct === FALSE){
+			$this->qb_select  = ['1'];
+			$this->qb_cache_select  = [];
+ 		}
 
-		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR ! empty($this->qb_having) OR $this->qb_limit OR $this->qb_offset)
+		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR $this->qb_limit OR $this->qb_offset)
 			? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
 			: $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 
@@ -1496,6 +1505,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			$this->qb_orderby       = $qb_orderby;
 			$this->qb_cache_orderby = $qb_cache_orderby;
+
+			$this->qb_select        = $qb_select;
+			$this->qb_cache_select  = $qb_cache_select;
 		}
 
 		if ($result->num_rows() === 0)
