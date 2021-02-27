@@ -1489,8 +1489,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$qb_select        = $this->qb_select;
  		$qb_cache_select  = $this->qb_cache_select;
  		if($this->qb_distinct === FALSE){
-			$this->qb_select  = ['1'];
-			$this->qb_cache_select  = [];
+			$this->qb_select  = array('1');
+			$this->qb_cache_select  = array();
  		}
 
 		$result = ($this->qb_distinct === TRUE OR ! empty($this->qb_groupby) OR ! empty($this->qb_cache_groupby) OR $this->qb_limit OR $this->qb_offset)
