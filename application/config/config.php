@@ -385,6 +385,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 | 'cookie_path'     = Typically will be a forward slash
 | 'cookie_secure'   = Cookie will only be set if a secure HTTPS connection exists.
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
+| 'cookie_samesite' = Cookie's samesite attribute (Lax, Strict or None)
 |
 | Note: These settings (with the exception of 'cookie_prefix' and
 |       'cookie_httponly') will also affect sessions.
@@ -395,6 +396,7 @@ $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
+$config['cookie_samesite'] 	= 'lax';
 
 /*
 |--------------------------------------------------------------------------
