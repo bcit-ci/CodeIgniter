@@ -364,7 +364,7 @@ class CI_Input {
 		}
 
 		$cookie_header = 'Set-Cookie: '.$prefix.$name.'='.rawurlencode($value);
-		$cookie_header .= ($expire === 0 ? '' : '; expires='.gmdate('D, d-M-Y H:i:s T', 0));
+		$cookie_header .= ($expire === 0 ? '' : '; expires='.gmdate('D, d-M-Y H:i:s T', $expire));
 		$cookie_header .= '; path='.$path.($domain !== '' ? '; domain='.$domain : '');
 		$cookie_header .= ($secure ? '; secure' : '').($httponly ? '; HttpOnly' : '').($samesite !== NULL ? '; SameSite='.$samesite : '');
 		header($cookie_header);
