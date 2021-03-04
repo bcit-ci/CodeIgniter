@@ -619,6 +619,37 @@ class CI_Input {
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * Is Payload request?
+	 * 
+	 * Determine whether the request parameter is `payload request`
+	 * 
+	 * Example:
+	 * ```
+	 * 	// PHP
+	 * 	if ($this->input->is_payload_request()){
+	 * 		$payload = json_decode($this->input->raw_input_stream,1);
+	 *		$username = isset($payload["username"]) ? $payload["username"] : NULL;
+	 *		$password = isset($payload["password"]) ? $payload["password"] : NULL;
+	 *	}else{
+	 *	 	$username = $this->input->post("username");
+	 * 		$password = $this->input->post("password");
+	 *	}
+	 *
+	 *	// Axios
+	 *	axios.post("/", {username:"admin",password:"admin"})
+	 * ```
+	 * 		
+	 * @return bool
+	 */
+	public function is_payload_request(){
+		$content_type = $this->get_request_header("Content-Type",TRUE);
+		if(is_null($content_type)) return false;
+		return strpos($content_type,"application/json") === 0;
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Get Request Method
