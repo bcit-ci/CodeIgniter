@@ -7,7 +7,7 @@ return array(
 		'dsn' => '',
 		'hostname' => 'localhost',
 		'username' => 'postgres',
-		'password' => '',
+		'password' => 'postgres',
 		'database' => 'ci_test',
 		'dbdriver' => 'postgre'
 	),
@@ -25,7 +25,7 @@ return array(
 				'dsn' => '',
 				'hostname' => 'localhost',
 				'username' => 'postgres',
-				'password' => '',
+				'password' => 'postgres',
 				'database' => 'ci_test',
 				'dbdriver' => 'postgre',
 			)
