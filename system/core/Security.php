@@ -273,14 +273,18 @@ class CI_Security {
 			return FALSE;
 		}
 
+		// using setcookie with array option to add cookie 'samesite' attribute
 		setcookie(
-			$this->_csrf_cookie_name,
-			$this->_csrf_hash,
-			$expire,
-			config_item('cookie_path'),
-			config_item('cookie_domain'),
-			$secure_cookie,
-			config_item('cookie_httponly')
+			$this->_csrf_cookie_name, 
+			$this->_csrf_hash, 
+			array(
+				'expires' => $expire, 
+				'path' => config_item('cookie_path'),
+				'domain' => config_item('cookie_domain'), 
+				'secure' => $secure_cookie, 
+				'httponly' => config_item('cookie_httponly'),
+				'samesite' => config_item('cookie_samesite') // add samesite attribute
+			)
 		);
 		log_message('info', 'CSRF cookie sent');
 
