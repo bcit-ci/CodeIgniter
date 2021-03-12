@@ -54,6 +54,13 @@ class CI_Log {
 	 * @var string
 	 */
 	protected $_log_path;
+	
+	/**
+	 * Filename of log
+	 *
+	 * @var string
+	 */
+	protected $_log_file;
 
 	/**
 	 * File permissions
@@ -127,6 +134,9 @@ class CI_Log {
 		$this->_log_path = ($config['log_path'] !== '')
 			? rtrim($config['log_path'], '/\\').DIRECTORY_SEPARATOR : APPPATH.'logs'.DIRECTORY_SEPARATOR;
 
+		$this->_log_file = (isset($config['log_file']) && $config['log_file'] !== '')
+			? $config['log_file'] : 'log-'.date('Y-m-d');
+
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
 
@@ -184,7 +194,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
+		$filepath = $this->_log_path.$this->_log_file.'.'.$this->_file_ext;
 		$message = '';
 
 		if ( ! file_exists($filepath))
