@@ -75,6 +75,13 @@ abstract class CI_DB_forge {
 	public $primary_keys	= array();
 
 	/**
+	 * Foreign keys.
+	 *
+	 * @var array Foreign keys.
+	 */
+	public $foreign_keys = array();
+
+	/**
 	 * Database character set
 	 *
 	 * @var	string
@@ -270,6 +277,75 @@ abstract class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Add foreign key.
+	 *
+	 * @param string $key              Key index name.
+	 * @param string $reference_table  Reference table.
+	 * @param string $reference_column Reference column.
+	 * @param string $on_update        On update.
+	 * @param string $on_delete        On delete.
+	 *
+	 * @return CI_DB_forge Database forge.
+	 */
+	public function add_foreign_key($key, $reference_table, $reference_column, $on_update = 'NO ACTION', $on_delete = 'NO ACTION')
+	{
+		if (empty($on_update))
+		{
+			$on_update = 'NO ACTION';
+		}
+
+		if (empty($on_delete))
+		{
+			$on_delete = 'NO ACTION';
+		}
+
+		$foreign_key = array(
+			'key'              => $key,
+			'reference_table'  => $reference_table,
+			'reference_column' => $reference_column,
+			'on_update'        => $on_update,
+			'on_delete'        => $on_delete
+		);
+
+		$this->foreign_keys[] = $foreign_key;
+
+		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Add foreign key.
+	 *
+	 * @param string $table            Table.
+	 * @param string $key              Key index name.
+	 * @param string $reference_table  Reference table.
+	 * @param string $reference_column Reference column.
+	 * @param string $on_update        On update.
+	 * @param string $on_delete        On delete.
+	 *
+	 * @return CI_DB_forge Database forge.
+	 */
+	public function add_foreign_key_to_table($table, $key, $reference_table, $reference_column, $on_update = 'NO ACTION', $on_delete = 'NO ACTION')
+	{
+		$this->add_foreign_key($key, $reference_table, $reference_column, $on_update, $on_delete);
+
+		$sql = 'ALTER TABLE ' . $this->db->escape_identifiers($table) . ' ' . $this->_process_foreign_keys($table,
+				TRUE);
+
+		$this->_reset();
+
+		if ($this->db->query($sql) === FALSE)
+		{
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Add Field
 	 *
 	 * @param	array	$field
@@ -402,7 +478,8 @@ abstract class CI_DB_forge {
 		}
 
 		$columns = implode(',', $columns)
-				.$this->_process_primary_keys($table);
+		           . $this->_process_primary_keys($table)
+		           . $this->_process_foreign_keys($table);
 
 		// Are indexes created from within the CREATE TABLE statement? (e.g. in MySQL)
 		if ($this->_create_table_keys === TRUE)
@@ -990,6 +1067,39 @@ abstract class CI_DB_forge {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Process foreign keys.
+	 *
+	 * @param string $table Table name.
+	 * @param bool   $first First.
+	 *
+	 * @return string SQL.
+	 */
+	protected function _process_foreign_keys($table, $first = FALSE)
+	{
+		$sql = '';
+
+		foreach ($this->foreign_keys as $foreign_key)
+		{
+			if ( ! $first)
+			{
+				$sql .= ',';
+			}
+
+			$sql .= PHP_EOL . "\t" . 'CONSTRAINT '
+			        . $this->db->escape_identifiers('fk__' . $table . '__' . $foreign_key['reference_table'])
+			        . ' FOREIGN KEY (' . $this->db->escape_identifiers($foreign_key['key']) . ') REFERENCES '
+			        . $this->db->escape_identifiers($foreign_key['reference_table'])
+			        . ' (' . $this->db->escape_identifiers($foreign_key['reference_column']) . ')'
+			        . ' ON UPDATE ' . $foreign_key['on_update']
+			        . ' ON DELETE ' . $foreign_key['on_delete'];
+		}
+
+		return $sql;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Process indexes
 	 *
 	 * @param	string	$table	Table name
@@ -1039,7 +1149,7 @@ abstract class CI_DB_forge {
 	 */
 	protected function _reset()
 	{
-		$this->fields = $this->keys = $this->primary_keys = array();
+		$this->fields = $this->keys = $this->primary_keys = $this->foreign_keys = array();
 	}
 
 }
