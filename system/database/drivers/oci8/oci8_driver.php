@@ -135,6 +135,20 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected $_count_string = 'SELECT COUNT(1) AS ';
 
+	/**
+	 * Oracle table ROWID
+	 *
+	 * Used by _execute() to fetch Oracle ROWID
+	 */
+	protected $_rowid = NULL;
+
+	/**
+	 * Oracle table
+	 *
+	 * Used by insert_id() method
+	 */
+    protected $_table = NULL;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -280,6 +294,11 @@ class CI_DB_oci8_driver extends CI_DB {
 		if ($this->_reset_stmt_id === TRUE)
 		{
 			$this->stmt_id = oci_parse($this->conn_id, $sql);
+		}
+
+		if (strpos($sql, 'RETURNING ROWID INTO :CI_OCI8_ROWID') !== FALSE)
+		{
+			oci_bind_by_name($this->stmt_id, ':CI_OCI8_ROWID', $this->_rowid, 255);
 		}
 
 		oci_set_prefetch($this->stmt_id, 1000);
@@ -438,8 +457,20 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function insert_id()
 	{
-		// not supported in oracle
-		return $this->display_error('db_unsupported_function');
+		if (! $this->_rowid) return NULL;
+
+		$column	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
+
+		if ($column !== NULL)
+		{
+			$sql = 'SELECT ' . strtoupper($column) . ' AS SEQ ' .
+			       'FROM ' . strtoupper($this->_table) . ' ' .
+			       'WHERE ROWID = ' . $this->escape($this->_rowid);
+			$seq = $this->query($sql)->row()->SEQ;
+			return $seq;
+		}
+
+		return $this->_rowid;
 	}
 
 	// --------------------------------------------------------------------
@@ -582,6 +613,26 @@ class CI_DB_oci8_driver extends CI_DB {
 		return is_array($error)
 			? $error
 			: array('code' => '', 'message' => '');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param	string	the table name
+	 * @param	array	the insert keys
+	 * @param	array	the insert values
+	 * @return	string
+	 */
+	protected function _insert($table, $keys, $values)
+	{
+		$this->_table = $table;
+
+		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).') '.
+		       'RETURNING ROWID INTO :CI_OCI8_ROWID';
 	}
 
 	// --------------------------------------------------------------------
