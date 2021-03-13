@@ -300,7 +300,7 @@ class CI_Input {
 	 * @param	string		$prefix		Cookie name prefix
 	 * @param	bool		$secure		Whether to only transfer cookies via SSL
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
-	 * @param	string		$samesite	SameSite attribute. NULL will avoid sending the attribute
+	 * @param	string		$samesite	SameSite attribute
 	 * @return	void
 	 */
 	public function set_cookie($name, $value = '', $expire = 0, $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL, $samesite = NULL)
@@ -349,24 +349,26 @@ class CI_Input {
 			$expire = ($expire > 0) ? time() + $expire : 0;
 		}
 
-		if ($samesite === NULL && config_item('cookie_samesite') !== NULL)
+		isset($samesite) OR $samesite = config_item('cookie_samesite');
+		if (isset($samesite))
 		{
-			$samesite = strtolower(config_item('cookie_samesite'));
+			$samesite = ucfirst(strtolower($samesite));
+			in_array($samesite, array('Lax', 'Strict', 'None'), TRUE) OR $samesite = 'Lax';
 		}
-		elseif ($samesite !== NULL)
+		else
 		{
-			$samesite = strtolower($samesite);
+			$samesite = 'Lax';
 		}
 
-		if ( ! in_array($samesite, array('lax', 'strict', 'none', NULL), TRUE))
+		if ($samesite === 'None' && !$secure)
 		{
-			$samesite = NULL;
+			log_message('error', $name.' is a non-secure cookie sent with SameSite=None. It can be discarded by the browser.');
 		}
 
 		$cookie_header = 'Set-Cookie: '.$prefix.$name.'='.rawurlencode($value);
 		$cookie_header .= ($expire === 0 ? '' : '; expires='.gmdate('D, d-M-Y H:i:s T', $expire));
 		$cookie_header .= '; path='.$path.($domain !== '' ? '; domain='.$domain : '');
-		$cookie_header .= ($secure ? '; secure' : '').($httponly ? '; HttpOnly' : '').($samesite !== NULL ? '; SameSite='.$samesite : '');
+		$cookie_header .= ($secure ? '; secure' : '').($httponly ? '; HttpOnly' : '').'; SameSite='.$samesite;
 		header($cookie_header);
 	}
 

@@ -252,7 +252,7 @@ Class Reference
 		:param	string	$prefix: Cookie name prefix
 		:param	bool	$secure: Whether to only transfer the cookie through HTTPS
 		:param	bool	$httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
-		:param	string	$samesite: Cookie's SameSite attribute ('lax', 'strict', 'none' or NULL)
+		:param	string	$samesite: Cookie's SameSite attribute ('Lax', 'Strict', 'None')
 		:rtype:	void
 
 
@@ -299,7 +299,7 @@ Class Reference
 
 		The *httponly* and *secure* flags, when omitted, will default to your
 		``$config['cookie_httponly']`` and ``$config['cookie_secure']`` settings.
-		The *samesite* parameter can be ``'lax'``, ``'strict'``, ``'none'`` or ``NULL``. When ``NULL``, the same-site cookie attribute is not set at all.
+		The *samesite* parameter can be ``'Lax'``, ``'Strict'`` or ``'None'``. If not set, the same-site cookie attribute will default to ``'Lax'``.
 
 		**Discrete Parameters**
 
