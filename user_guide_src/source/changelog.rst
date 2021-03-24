@@ -15,6 +15,7 @@ Release Date: Not Released
    -  Added support for detecting WebP image type to :doc:`File Uploading Library <libraries/file_uploading>`.
    -  Added method :doc:`Database Library <database/index>` method ``trans_active()`` to expose transaction state.
    -  Updated :doc:`Database Library <database/index>` 'pdo' driver to attempt to free resources in order to allow connections to be closed.
+   -  Added ``SameSite=Strict`` attribute to the CSRF cookie sent by the :doc:`Security Class <libraries/security>`.
 
 Bug fixes for 3.1.12
 ====================
