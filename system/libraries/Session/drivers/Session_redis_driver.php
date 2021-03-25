@@ -419,23 +419,14 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		$attempt = 0;
 		do
 		{
-			if (($ttl = $this->_redis->ttl($lock_key)) > 0)
+			// Use setnx to perform exclusions with other processes using the lock key. Loop if the lock key cannot be set.
+			$result = $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300));
+			if ( ! $result)
 			{
 				sleep(1);
 				continue;
 			}
-
-			if ($ttl === -2 && ! $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300)))
-			{
-				// Sleep for 1s to wait for lock releases.
-				sleep(1);
-				continue;
-			}
-			elseif ( ! $this->_redis->setex($lock_key, 300, time()))
-			{
-				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
-				return FALSE;
-			}
+			$this->_redis->setex($lock_key, 300, time());
 
 			$this->_lock_key = $lock_key;
 			break;
@@ -446,10 +437,6 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 30 attempts, aborting.');
 			return FALSE;
-		}
-		elseif ($ttl === -1)
-		{
-			log_message('debug', 'Session: Lock for '.$this->_key_prefix.$session_id.' had no TTL, overriding.');
 		}
 
 		$this->_lock = TRUE;
