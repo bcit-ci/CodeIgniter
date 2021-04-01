@@ -365,11 +365,26 @@ class CI_Input {
 			log_message('error', $name.' cookie sent with SameSite=None, but without Secure attribute.');
 		}
 
-		$cookie_header = 'Set-Cookie: '.$prefix.$name.'='.rawurlencode($value);
-		$cookie_header .= ($expire === 0 ? '' : '; expires='.gmdate('D, d-M-Y H:i:s T', $expire));
-		$cookie_header .= '; path='.$path.($domain !== '' ? '; domain='.$domain : '');
-		$cookie_header .= ($secure ? '; secure' : '').($httponly ? '; HttpOnly' : '').'; SameSite='.$samesite;
-		header($cookie_header);
+		if (is_php('7.3'))
+		{
+			$setcookie_options = array(
+				'expires' => $expire,
+				'path' => $path,
+				'domain' => $domain,
+				'secure' => $secure,
+				'httponly' => $httponly,
+				'samesite' => $samesite,
+			);
+			setcookie($prefix.$name, $value, $setcookie_options);
+		}
+		else
+		{
+			$cookie_header = 'Set-Cookie: '.$prefix.$name.'='.rawurlencode($value);
+			$cookie_header .= ($expire === 0 ? '' : '; expires='.gmdate('D, d-M-Y H:i:s T', $expire));
+			$cookie_header .= '; path='.$path.($domain !== '' ? '; domain='.$domain : '');
+			$cookie_header .= ($secure ? '; secure' : '').($httponly ? '; HttpOnly' : '').'; SameSite='.$samesite;
+			header($cookie_header);
+		}
 	}
 
 	// --------------------------------------------------------------------
