@@ -252,7 +252,7 @@ Class Reference
 		:param	string	$prefix: Cookie name prefix
 		:param	bool	$secure: Whether to only transfer the cookie through HTTPS
 		:param	bool	$httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
-		:param	string	$samesite: Cookie's SameSite attribute ('Lax', 'Strict', 'None')
+		:param	string	$samesite: SameSite attribute ('Lax', 'Strict', 'None')
 		:rtype:	void
 
 
@@ -266,14 +266,14 @@ Class Reference
 		parameter::
 
 			$cookie = array(
-				'name'     => 'The Cookie Name',
-				'value'    => 'The Value',
-				'expire'   => 86500,
-				'domain'   => '.some-domain.com',
-				'path'     => '/',
-				'prefix'   => 'myprefix_',
-				'secure'   => TRUE,
-				'samesite' => 'strict'
+				'name'		=> 'The Cookie Name',
+				'value'		=> 'The Value',
+				'expire'	=> 86500,
+				'domain'	=> '.some-domain.com',
+				'path'		=> '/',
+				'prefix'	=> 'myprefix_',
+				'secure'	=> TRUE,
+				'samesite'	=> 'Strict'
 			);
 
 			$this->input->set_cookie($cookie);
