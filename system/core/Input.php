@@ -362,7 +362,7 @@ class CI_Input {
 
 		if ($samesite === 'None' && ! $secure)
 		{
-			log_message('error', $name.' is a non-secure cookie sent with SameSite=None. It can be discarded by the browser.');
+			log_message('error', $name.' cookie sent with SameSite=None, but without Secure attribute.');
 		}
 
 		$cookie_header = 'Set-Cookie: '.$prefix.$name.'='.rawurlencode($value);
