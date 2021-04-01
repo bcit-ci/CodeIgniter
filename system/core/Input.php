@@ -360,7 +360,7 @@ class CI_Input {
 			$samesite = 'Lax';
 		}
 
-		if ($samesite === 'None' && !$secure)
+		if ($samesite === 'None' && ! $secure)
 		{
 			log_message('error', $name.' is a non-secure cookie sent with SameSite=None. It can be discarded by the browser.');
 		}
