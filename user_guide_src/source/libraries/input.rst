@@ -242,7 +242,7 @@ Class Reference
 		This method is identical to ``get()``, ``post()`` and ``cookie()``,
 		only it fetches the *php://input* stream data.
 
-	.. php:method:: set_cookie($name = ''[, $value = ''[, $expire = 0[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = NULL[, $httponly = NULL]]]]]]])
+	.. php:method:: set_cookie($name = ''[, $value = ''[, $expire = 0[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = NULL[, $httponly = NULL[, $samesite = NULL]]]]]]]])
 
 		:param	mixed	$name: Cookie name or an array of parameters
 		:param	string	$value: Cookie value
@@ -252,6 +252,7 @@ Class Reference
 		:param	string	$prefix: Cookie name prefix
 		:param	bool	$secure: Whether to only transfer the cookie through HTTPS
 		:param	bool	$httponly: Whether to only make the cookie accessible for HTTP requests (no JavaScript)
+		:param	string	$samesite: SameSite attribute ('Lax', 'Strict', 'None')
 		:rtype:	void
 
 
@@ -265,13 +266,14 @@ Class Reference
 		parameter::
 
 			$cookie = array(
-				'name'   => 'The Cookie Name',
-				'value'  => 'The Value',
-				'expire' => 86500,
-				'domain' => '.some-domain.com',
-				'path'   => '/',
-				'prefix' => 'myprefix_',
-				'secure' => TRUE
+				'name'		=> 'The Cookie Name',
+				'value'		=> 'The Value',
+				'expire'	=> 86500,
+				'domain'	=> '.some-domain.com',
+				'path'		=> '/',
+				'prefix'	=> 'myprefix_',
+				'secure'	=> TRUE,
+				'samesite'	=> 'Strict'
 			);
 
 			$this->input->set_cookie($cookie);
@@ -297,13 +299,14 @@ Class Reference
 
 		The *httponly* and *secure* flags, when omitted, will default to your
 		``$config['cookie_httponly']`` and ``$config['cookie_secure']`` settings.
+		The *samesite* parameter can be ``'Lax'``, ``'Strict'`` or ``'None'``. If not set, the same-site cookie attribute will default to ``'Lax'``.
 
 		**Discrete Parameters**
 
 		If you prefer, you can set the cookie by passing data using individual
 		parameters::
 
-			$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
+			$this->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $samesite);
 
 	.. php:method:: ip_address()
 
