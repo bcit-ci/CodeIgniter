@@ -1132,6 +1132,26 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Is Exists
+	 *
+	 * Check if the input value exists in the specified
+	 * database field.
+	 *
+	 * @param	string	$str
+	 * @param	string	$field
+	 * @return	bool
+	 */
+	public function is_exists($str, $field)
+	{
+		sscanf($field, '%[^.].%[^.]', $table, $field);
+		return isset($this->CI->db)
+			? ($this->CI->db->limit(1)->get_where($table, array($field => $str))->num_rows() !== 0)
+			: FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Minimum Length
 	 *
 	 * @param	string
