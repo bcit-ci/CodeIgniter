@@ -32,6 +32,8 @@
 class CI_DB_pdo_driver extends CI_DB {
 
 	var $dbdriver = 'pdo';
+	var $subdriver = '';
+	var $dsn = '';
 
 	// the character used to excape - not necessary for PDO
 	var $_escape_char = '';
@@ -52,9 +54,10 @@ class CI_DB_pdo_driver extends CI_DB {
 	function __construct($params)
 	{
 		parent::__construct($params);
+		$this->db_dsn($this->database);
 
 		// clause and character used for LIKE escape sequences
-		if (strpos($this->hostname, 'mysql') !== FALSE)
+		if ('mysql' === $this->subdriver)
 		{
 			$this->_like_escape_str = '';
 			$this->_like_escape_chr = '';
@@ -62,13 +65,13 @@ class CI_DB_pdo_driver extends CI_DB {
 			//Prior to this version, the charset can't be set in the dsn
 			if(is_php('5.3.6'))
 			{
-				$this->hostname .= ";charset={$this->char_set}";
+				$this->dsn .= ";charset={$this->char_set}";
 			}
 
 			//Set the charset with the connection options
 			$this->options['PDO::MYSQL_ATTR_INIT_COMMAND'] = "SET NAMES {$this->char_set}";
 		}
-		elseif (strpos($this->hostname, 'odbc') !== FALSE)
+		elseif ('odbc' === $this->subdriver)
 		{
 			$this->_like_escape_str = " {escape '%s'} ";
 			$this->_like_escape_chr = '!';
@@ -79,12 +82,45 @@ class CI_DB_pdo_driver extends CI_DB {
 			$this->_like_escape_chr = '!';
 		}
 
-		empty($this->database) OR $this->hostname .= ';dbname='.$this->database;
-
 		$this->trans_enabled = FALSE;
 
 		$this->_random_keyword = ' RND('.time().')'; // database specific random keyword
 	}
+
+    /**
+     * Build database DSN
+     *
+     * @access	private called by the base class
+     * @return	string
+     */
+    function db_dsn($database = '')
+    {
+        if(empty($this->dsn))
+        {
+            $this->dsn = $this->subdriver . ":host={$this->hostname}";
+            if(is_numeric($this->port) AND $this->port > 0)
+            {
+                $this->dsn .= ";port={$this->port}";
+            }
+        }
+        if(!empty($database))
+        {
+            $this->dsn .= ";dbname={$database}";
+        }
+        if(empty($this->subdriver))
+        {
+            if (is_php('5.3.0'))
+            {
+                $subdriver = strstr($this->dsn, ':', true);
+            }
+            else
+            {
+                $subdriver = substr($this->dsn, 0, strpos($this->dsn, ':'));
+            }
+            $this->subdriver = strtolower($subdriver);
+        }
+        return $this->dsn;
+    }
 
 	/**
 	 * Non-persistent database connection
@@ -96,7 +132,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 
-		return new PDO($this->hostname, $this->username, $this->password, $this->options);
+		return new PDO($this->dsn, $this->username, $this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
@@ -112,7 +148,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 		$this->options['PDO::ATTR_PERSISTENT'] = TRUE;
 	
-		return new PDO($this->hostname, $this->username, $this->password, $this->options);
+		return new PDO($this->dsn, $this->username, $this->password, $this->options);
 	}
 
 	// --------------------------------------------------------------------
@@ -194,11 +230,7 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		if (is_object($result_id) && $result_id->execute())
 		{
-			if (is_numeric(stripos($sql, 'SELECT')))
-			{
-				$this->affect_rows = count($result_id->fetchAll());
-			}
-			else
+			if (FALSE === stripos($sql, 'SELECT'))
 			{
 				$this->affect_rows = $result_id->rowCount();
 			}
@@ -373,7 +405,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	function insert_id($name=NULL)
 	{
 		//Convenience method for postgres insertid
-		if (strpos($this->hostname, 'pgsql') !== FALSE)
+		if ('pgsql' === $this->subdriver)
 		{
 			$v = $this->_version();
 
@@ -763,7 +795,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function _limit($sql, $limit, $offset)
 	{
-		if (strpos($this->hostname, 'cubrid') !== FALSE || strpos($this->hostname, 'sqlite') !== FALSE)
+		if ('cubrid' === $this->subdriver || 'sqlite' === $this->subdriver)
 		{
 			if ($offset == 0)
 			{

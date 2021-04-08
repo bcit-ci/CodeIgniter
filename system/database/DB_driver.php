@@ -450,8 +450,7 @@ class CI_DB_driver {
 		{
 			$this->initialize();
 		}
-
-		return $this->_execute($sql);
+        return $this->_execute($sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -683,6 +682,9 @@ class CI_DB_driver {
 	{
 		if (is_string($str))
 		{
+			if (! $this->conn_id) {
+				$this->initialize();
+			}
 			$str = "'".$this->escape_str($str)."'";
 		}
 		elseif (is_bool($str))
@@ -1015,8 +1017,8 @@ class CI_DB_driver {
 		}
 		else
 		{
-			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
-			if (is_null($args))
+			$args = array_slice(func_get_args(), 1);
+			if (empty($args))
 			{
 				return call_user_func($function);
 			}
@@ -1386,7 +1388,10 @@ class CI_DB_driver {
 
 		if ($protect_identifiers === TRUE AND ! in_array($item, $this->_reserved_identifiers))
 		{
-			$item = $this->_escape_identifiers($item);
+		    if (!is_string($item) OR trim($item))
+		    {
+                $item = $this->_escape_identifiers($item);
+            }
 		}
 
 		return $item.$alias;
