@@ -2415,7 +2415,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 					$this->qb_select[$key] = $this->protect_identifiers($val, FALSE, $no_escape);
 				}
 
-				$sql .= implode(', ', $this->qb_select);
+				$sql .= implode(',', $this->qb_select);
 			}
 		}
 
