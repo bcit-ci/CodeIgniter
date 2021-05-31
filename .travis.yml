@@ -11,6 +11,7 @@ php:
   - 7.4
   - nightly
 
+env:
   global:
     - XDEBUG_MODE=coverage
   jobs:
