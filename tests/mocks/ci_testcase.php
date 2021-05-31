@@ -1,6 +1,6 @@
 <?php
 
-class CI_TestCase extends PHPUnit_Framework_TestCase {
+class CI_TestCase extends \PHPUnit\Framework\TestCase {
 
 	public $ci_vfs_root;
 	public $ci_app_root;
@@ -381,4 +381,18 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 		return parent::__call($method, $args);
 	}
 
+	public function setExpectedException($exception_class, $exception_message = '', $exception_code = null)
+	{
+		$use_expect_exception = method_exists($this, 'expectException');
+
+		if ($use_expect_exception)
+		{
+			$this->expectException($exception_class);
+			$exception_message !== '' && $this->expectExceptionMessage($exception_message);
+		}
+		else
+		{
+			parent::setExpectedException($exception_class, $exception_message, $exception_code);
+		}
+	}
 }
