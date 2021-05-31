@@ -35,7 +35,7 @@ class CI_TestCase extends PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		// Setup VFS with base directories
-		$this->ci_vfs_root = vfsStream::setup();
+		$this->ci_vfs_root = vfsStream::setup('');
 		$this->ci_app_root = vfsStream::newDirectory('application')->at($this->ci_vfs_root);
 		$this->ci_base_root = vfsStream::newDirectory('system')->at($this->ci_vfs_root);
 		$this->ci_view_root = vfsStream::newDirectory('views')->at($this->ci_app_root);
