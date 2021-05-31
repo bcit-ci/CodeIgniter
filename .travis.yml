@@ -11,13 +11,15 @@ php:
   - 7.4
   - nightly
 
-env:
-  - DB=mysqli
-  - DB=pgsql
-  - DB=sqlite
-  - DB=pdo/mysql
-  - DB=pdo/pgsql
-  - DB=pdo/sqlite
+  global:
+    - XDEBUG_MODE=coverage
+  jobs:
+    - DB=mysqli
+    - DB=pgsql
+    - DB=sqlite
+    - DB=pdo/mysql
+    - DB=pdo/pgsql
+    - DB=pdo/sqlite
 
 services:
   - mysql
