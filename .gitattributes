@@ -18,8 +18,6 @@ readme.rst
 tests/codeigniter/ export-ignore
 tests/travis/ export-ignore
 
-# User Guide Source Files
-user_guide_src
-
-# User Guide Compiled Files
+# User Guide source files and compiled files
+user_guide_src export-ignore
 user_guide export-ignore
