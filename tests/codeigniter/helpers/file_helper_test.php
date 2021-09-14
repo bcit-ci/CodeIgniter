@@ -6,10 +6,7 @@ class File_helper_Test extends CI_TestCase {
 	{
 		$this->helper('file');
 
-		vfsStreamWrapper::register();
-		vfsStreamWrapper::setRoot(new vfsStreamDirectory('testDir'));
-
-		$this->_test_dir = vfsStreamWrapper::getRoot();
+		$this->_test_dir = vfsStream::setup('');
 	}
 
 	// --------------------------------------------------------------------

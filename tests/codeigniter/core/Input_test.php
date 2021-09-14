@@ -22,6 +22,14 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
+	public function tear_down()
+	{
+		$_POST = [];
+		$_GET = [];
+	}
+
+	// --------------------------------------------------------------------
+
 	public function test_get_not_exists()
 	{
 		$this->assertSame(array(), $this->input->get());
@@ -136,7 +144,7 @@ class Input_test extends CI_TestCase {
 		$this->assertEquals("Hello, i try to [removed]alert&#40;'Hack'&#41;;[removed] your site", $harmless);
 
 		$_SERVER['REQUEST_METHOD'] = 'POST';
-		$_POST['foo']['bar'] = 'baz';
+		$_POST['foo'] = array('bar' => 'baz');
 		$barArray = array('bar' => 'baz');
 
 		$this->assertEquals('baz', $this->input->post('foo[bar]'));
