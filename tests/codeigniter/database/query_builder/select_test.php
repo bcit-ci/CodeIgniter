@@ -74,7 +74,7 @@ class Select_test extends CI_TestCase {
 		                    ->row();
 
 		// Average should be 2.5
-		$this->assertEquals('2.5', $job_avg->id);
+		$this->assertEquals(2.5, (float) $job_avg->id);
 	}
 
 	// ------------------------------------------------------------------------

@@ -12,12 +12,15 @@ php:
   - nightly
 
 env:
-  - DB=mysqli
-  - DB=pgsql
-  - DB=sqlite
-  - DB=pdo/mysql
-  - DB=pdo/pgsql
-  - DB=pdo/sqlite
+  global:
+    - XDEBUG_MODE=coverage
+  jobs:
+    - DB=mysqli
+    - DB=pgsql
+    - DB=sqlite
+    - DB=pdo/mysql
+    - DB=pdo/pgsql
+    - DB=pdo/sqlite
 
 services:
   - mysql
@@ -33,7 +36,7 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ] || [ '$DB' = 'pdo/pgsql' ]; then psql -c 'create database ci_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ] || [ '$DB' = 'mysqli' ] || [ '$DB' = 'pdo/mysql' ]; then mysql -e 'create database IF NOT EXISTS ci_test;'; fi"
 
-script: php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7 -d mbstring.internal_encoding=UTF-8 vendor/bin/phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
+script: test $(php -r 'echo PHP_VERSION_ID;') -lt 70300 && php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7 -d mbstring.internal_encoding=UTF-8 vendor/bin/phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml || php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.internal_encoding=UTF-8 vendor/bin/phpunit --coverage-text --configuration tests/travis/$DB.phpunit.xml
 
 jobs:
   allow_failures:
