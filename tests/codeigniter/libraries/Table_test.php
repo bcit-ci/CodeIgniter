@@ -270,14 +270,14 @@ class Table_test extends CI_TestCase {
 		$table = $this->table->generate($data);
 
 		// Test the table header
-		$this->assertContains('<th>Name</th>', $table);
-		$this->assertContains('<th>Color</th>', $table);
-		$this->assertContains('<th>Size</th>', $table);
+		$this->assertEquals(1, substr_count($table, '<th>Name</th>'));
+		$this->assertEquals(1, substr_count($table, '<th>Color</th>'));
+		$this->assertEquals(1, substr_count($table, '<th>Size</th>'));
 
 		// Test the first entry
-		$this->assertContains('<td>Fred</td>', $table);
-		$this->assertContains('<td>Blue</td>', $table);
-		$this->assertContains('<td>Small</td>', $table);
+		$this->assertEquals(1, substr_count($table, '<td>Fred</td>'));
+		$this->assertEquals(1, substr_count($table, '<td>Blue</td>'));
+		$this->assertEquals(1, substr_count($table, '<td>Small</td>'));
 	}
 
 }
