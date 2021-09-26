@@ -199,5 +199,31 @@ class CI_Lang {
 
 		return $value;
 	}
+	
+	
+	
+	#============================================================================================
+	/**
+	 * created on 27 Sep 2021 00:10 AM
+	 * Language lines
+	 *
+	 * Fetches all lines of text from the language array
+	 *
+	 * @param	bool	$log_errors	Whether to log an error message if the line is not found
+	 * @return	array	Translation
+	 * @author Paul Pivot Tjade Tjade
+	 */
+	public function lines($log_errors = TRUE)
+	{
+		$value = isset($this->language) ? $this->language : FALSE;
+
+		// Because killer robots like unicorns!
+		if ($value === FALSE && $log_errors === TRUE)
+		{
+			log_message('error', 'Could not find the language array');
+		}
+
+		return $value;
+	}
 
 }
