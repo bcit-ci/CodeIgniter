@@ -5,6 +5,8 @@
  */
 class Driver_test extends CI_TestCase {
 
+	private $name;
+
 	/**
 	 * Set up test framework
 	 */
@@ -50,8 +52,8 @@ class Driver_test extends CI_TestCase {
 
 		// Was driver loaded?
 		$this->assertObjectHasAttribute($driver, $this->lib);
-		$this->assertAttributeInstanceOf($class, $driver, $this->lib);
-		$this->assertAttributeInstanceOf('CI_Driver', $driver, $this->lib);
+		$this->assertInstanceOf($class, $this->lib->$driver);
+		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
 		// Was decorate called?
 		$this->assertObjectHasAttribute($prop, $this->lib->$driver);
@@ -85,8 +87,8 @@ class Driver_test extends CI_TestCase {
 
 		// Was driver loaded?
 		$this->assertObjectHasAttribute($driver, $this->lib);
-		$this->assertAttributeInstanceOf($class, $driver, $this->lib);
-		$this->assertAttributeInstanceOf('CI_Driver', $driver, $this->lib);
+		$this->assertInstanceOf($class, $this->lib->$driver);
+		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
 		// Do we get an error for a non-existent driver?
 		$this->setExpectedException('RuntimeException', 'CI Error: Unable to load the requested driver: CI_'.
@@ -119,9 +121,9 @@ class Driver_test extends CI_TestCase {
 
 		// Was driver loaded?
 		$this->assertObjectHasAttribute($driver, $this->lib);
-		$this->assertAttributeInstanceOf($class, $driver, $this->lib);
-		$this->assertAttributeInstanceOf($baseclass, $driver, $this->lib);
-		$this->assertAttributeInstanceOf('CI_Driver', $driver, $this->lib);
+		$this->assertInstanceOf($class, $this->lib->$driver);
+		$this->assertInstanceOf($baseclass, $this->lib->$driver);
+		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
 		// Create driver extension without base
 		$driver = 'baseless';

@@ -27,7 +27,7 @@ class mbstring_test extends CI_TestCase {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * @depends	test_boostrap
+	 * @depends	test_bootstrap
 	 */
 	public function test_mb_strpos()
 	{
@@ -39,7 +39,7 @@ class mbstring_test extends CI_TestCase {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * @depends	test_boostrap
+	 * @depends	test_bootstrap
 	 */
 	public function test_mb_substr()
 	{
