@@ -54,6 +54,13 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge {
 	protected $_drop_table_if	= 'DROP TABLE IF EXISTS';
 
 	/**
+	 * CREATE TABLE IF statement
+	 *
+	 * @var	string
+	 */
+	protected $_create_table_if	= 'CREATE TABLE IF NOT EXISTS';
+
+	/**
 	 * UNSIGNED support
 	 *
 	 * @var	array

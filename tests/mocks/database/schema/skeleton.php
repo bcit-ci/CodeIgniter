@@ -76,7 +76,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		self::$forge->add_key('id', TRUE);
-		self::$forge->create_table('user', TRUE);
+		self::$forge->create_table('user', TRUE) || show_error('Unable to create the `user` table');
 
 		// Job Table
 		self::$forge->add_field(array(
@@ -93,7 +93,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		self::$forge->add_key('id', TRUE);
-		self::$forge->create_table('job', TRUE);
+		self::$forge->create_table('job', TRUE) || show_error('Unable to create the `job` table');
 
 		// Misc Table
 		self::$forge->add_field(array(
@@ -110,7 +110,7 @@ class Mock_Database_Schema_Skeleton {
 			)
 		));
 		self::$forge->add_key('id', TRUE);
-		self::$forge->create_table('misc', TRUE);
+		self::$forge->create_table('misc', TRUE) || show_error('Unable to create the `misc` table');
 	}
 
 	/**
@@ -143,11 +143,11 @@ class Mock_Database_Schema_Skeleton {
 
 		foreach ($data as $table => $dummy_data)
 		{
-			self::$db->truncate($table);
+			self::$db->truncate($table) || show_error("Unable to truncate `{$table}` table");
 
 			foreach ($dummy_data as $single_dummy_data)
 			{
-				self::$db->insert($table, $single_dummy_data);
+				self::$db->insert($table, $single_dummy_data) || show_error("Unable to insert data into `{$table}` table");
 			}
 		}
 	}
