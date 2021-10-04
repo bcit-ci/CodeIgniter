@@ -2,7 +2,7 @@
 class Log_test extends CI_TestCase {
 
 	public function test_configuration()
-	{$this->markTestSkipped('test');
+	{
 		$path       = new ReflectionProperty('CI_Log', '_log_path');
 		$path->setAccessible(TRUE);
 		$threshold  = new ReflectionProperty('CI_Log', '_threshold');
