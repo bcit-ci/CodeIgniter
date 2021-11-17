@@ -4,10 +4,10 @@ return array(
 
 	// Typical Database configuration
 	'pdo/mysql' => array(
-		'dsn' => 'mysql:host=localhost;dbname=ci_test',
-		'hostname' => 'localhost',
+		'dsn' => 'mysql:host=127.0.0.1;dbname=ci_test',
+		'hostname' => '127.0.0.1',
 		'username' => 'travis',
-		'password' => '',
+		'password' => 'travis',
 		'database' => 'ci_test',
 		'dbdriver' => 'pdo',
 		'subdriver' => 'mysql'
@@ -16,7 +16,7 @@ return array(
 	// Database configuration with failover
 	'pdo/mysql_failover' => array(
 		'dsn' => '',
-		'hostname' => 'localhost',
+		'hostname' => '127.0.0.1',
 		'username' => 'not_travis',
 		'password' => 'wrong password',
 		'database' => 'not_ci_test',
@@ -24,10 +24,10 @@ return array(
 		'subdriver' => 'mysql',
 		'failover' => array(
 			array(
-				'dsn' => 'mysql:host=localhost;dbname=ci_test',
-				'hostname' => 'localhost',
+				'dsn' => 'mysql:host=127.0.0.1;dbname=ci_test',
+				'hostname' => '127.0.0.1',
 				'username' => 'travis',
-				'password' => '',
+				'password' => 'travis',
 				'database' => 'ci_test',
 				'dbdriver' => 'pdo',
 				'subdriver' => 'mysql'

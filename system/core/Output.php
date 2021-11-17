@@ -305,7 +305,6 @@ class CI_Output {
 			return array_shift($headers);
 		}, $this->headers);
 
-		// Combine headers already sent with our batched headers
 		$headers = array_merge(
 			$header_lines,
 			headers_list()
