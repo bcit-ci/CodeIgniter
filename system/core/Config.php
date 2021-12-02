@@ -88,24 +88,8 @@ class CI_Config {
 		// Set the base_url automatically if none was provided
 		if (empty($this->config['base_url']))
 		{
-			if (isset($_SERVER['SERVER_ADDR']))
-			{
-				if (strpos($_SERVER['SERVER_ADDR'], ':') !== FALSE)
-				{
-					$server_addr = '['.$_SERVER['SERVER_ADDR'].']';
-				}
-				else
-				{
-					$server_addr = $_SERVER['SERVER_ADDR'];
-				}
-
-				$base_url = (is_https() ? 'https' : 'http').'://'.$server_addr
-					.substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], basename($_SERVER['SCRIPT_FILENAME'])));
-			}
-			else
-			{
-				$base_url = 'http://localhost/';
-			}
+			
+			$base_url = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}" . dirname($_SERVER['SCRIPT_NAME']) . (substr(dirname($_SERVER['SCRIPT_NAME']), -1) == '/' ? '' : '/');
 
 			$this->set_item('base_url', $base_url);
 		}
