@@ -89,7 +89,7 @@ class CI_Config {
 		if (empty($this->config['base_url']))
 		{
 			
-			$base_url = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}" . dirname($_SERVER['SCRIPT_NAME']) . (substr(dirname($_SERVER['SCRIPT_NAME']), -1) == '/' ? '' : '/');
+			$base_url = (is_https() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . (substr(dirname($_SERVER['SCRIPT_NAME']), -1) == '/' ? '' : '/');
 
 			$this->set_item('base_url', $base_url);
 		}
