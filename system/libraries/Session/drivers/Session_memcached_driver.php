@@ -103,7 +103,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 * @param	string	$name		Session cookie name, unused
 	 * @return	bool
 	 */
-	public function open($save_path, $name)
+	public function open(string $save_path, string $name): bool
 	{
 		$this->_memcached = new Memcached();
 		$this->_memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE); // required for touch() usage
@@ -160,7 +160,8 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 * @param	string	$session_id	Session ID
 	 * @return	string	Serialized session data
 	 */
-	public function read($session_id)
+	#[\ReturnTypeWillChange]
+	public function read(string $session_id)
 	{
 		if (isset($this->_memcached) && $this->_get_lock($session_id))
 		{
@@ -186,7 +187,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 * @param	string	$session_data	Serialized session data
 	 * @return	bool
 	 */
-	public function write($session_id, $session_data)
+	public function write(string $session_id, string $session_data): bool
 	{
 		if ( ! isset($this->_memcached, $this->_lock_key))
 		{
@@ -237,7 +238,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 *
 	 * @return	bool
 	 */
-	public function close()
+	public function close(): bool
 	{
 		if (isset($this->_memcached))
 		{
@@ -264,7 +265,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 * @param	string	$session_id	Session ID
 	 * @return	bool
 	 */
-	public function destroy($session_id)
+	public function destroy(string $session_id): bool
 	{
 		if (isset($this->_memcached, $this->_lock_key))
 		{
@@ -286,7 +287,8 @@ class CI_Session_memcached_driver extends CI_Session_driver implements SessionHa
 	 * @param	int 	$maxlifetime	Maximum lifetime of sessions
 	 * @return	bool
 	 */
-	public function gc($maxlifetime)
+	#[\ReturnTypeWillChange]
+	public function gc(int $maxlifetime)
 	{
 		// Not necessary, Memcached takes care of that.
 		return $this->_success;
