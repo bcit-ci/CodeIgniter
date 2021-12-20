@@ -126,7 +126,7 @@ class CI_DB_postgre_result extends CI_DB_result {
 	 */
 	public function free_result()
 	{
-		if (is_resource($this->result_id))
+		if ($this->result_id !== FALSE)
 		{
 			pg_free_result($this->result_id);
 			$this->result_id = FALSE;
