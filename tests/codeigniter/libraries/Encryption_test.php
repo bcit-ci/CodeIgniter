@@ -151,7 +151,7 @@ class Encryption_test extends CI_TestCase {
 			'hmac_key' => str_repeat("\x0", 16)
 		);
 
-		$this->assertInternalType('array', $this->encryption->__get_params($params));
+		$this->assertEquals('array', gettype($this->encryption->__get_params($params)));
 
 		$params['base64'] = TRUE;
 		$params['hmac_digest'] = 'sha512';
@@ -217,7 +217,7 @@ class Encryption_test extends CI_TestCase {
 	/**
 	 * encrypt(), decrypt test with custom parameters
 	 *
-	 * @depends	test___get_params
+	 * @depends	test__get_params
 	 */
 	public function test_encrypt_decrypt_custom()
 	{

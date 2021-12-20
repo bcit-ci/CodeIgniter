@@ -5,9 +5,9 @@ return array(
 	// Typical Database configuration
 	'mysql' => array(
 		'dsn' => '',
-		'hostname' => 'localhost',
+		'hostname' => '127.0.0.1',
 		'username' => 'travis',
-		'password' => '',
+		'password' => 'travis',
 		'database' => 'ci_test',
 		'dbdriver' => 'mysql'
 	),
@@ -15,7 +15,7 @@ return array(
 	// Database configuration with failover
 	'mysql_failover' => array(
 		'dsn' => '',
-		'hostname' => 'localhost',
+		'hostname' => '127.0.0.1',
 		'username' => 'not_travis',
 		'password' => 'wrong password',
 		'database' => 'not_ci_test',
@@ -23,9 +23,9 @@ return array(
 		'failover' => array(
 			array(
 				'dsn' => '',
-				'hostname' => 'localhost',
+				'hostname' => '127.0.0.1',
 				'username' => 'travis',
-				'password' => '',
+				'password' => 'travis',
 				'database' => 'ci_test',
 				'dbdriver' => 'mysql',
 			)
