@@ -38,8 +38,8 @@ class Array_helper_test extends CI_TestCase {
 
 	public function test_elements()
 	{
-		$this->assertInternalType('array', elements('test', $this->my_array));
-		$this->assertInternalType('array', elements('foo', $this->my_array));
+		$this->assertEquals('array', gettype(elements('test', $this->my_array)));
+		$this->assertEquals('array', gettype(elements('foo', $this->my_array)));
 	}
 
 }

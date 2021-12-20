@@ -8,7 +8,8 @@
 	stopOnError="false"
 	stopOnFailure="false"
 	stopOnIncomplete="false"
-	stopOnSkipped="false">
+	stopOnSkipped="false"
+	beStrictAboutTestsThatDoNotTestAnything="false">
 	<php>
         <const name="DB_DRIVER" value="mysqli"/>
     </php>
