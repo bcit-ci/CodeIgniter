@@ -42,6 +42,8 @@ Installation
 Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
 of the CodeIgniter User Guide.
 
+Or Run without installation `TeamCode try-it-now <https://www.teamcode.com/tin/clone?applicationId=276109897705627648>`_.
+
 *******
 License
 *******
