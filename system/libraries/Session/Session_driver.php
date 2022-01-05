@@ -140,14 +140,28 @@ abstract class CI_Session_driver {
 	 */
 	protected function _cookie_destroy()
 	{
+		if ( ! is_php('7.3'))
+		{
+			$header = 'Set-Cookie: '.$this->_config['cookie_name'].'=';
+			$header .= '; Expires='.gmdate('D, d-M-Y H:i:s T', 1).'; Max-Age=-1';
+			$header .= '; Path='.$this->_config['cookie_path'];
+			$header .= ($this->_config['cookie_domain'] !== '' ? '; Domain='.$this->_config['cookie_domain'] : '');
+			$header .= ($this->_config['cookie_secure'] ? '; Secure' : '').'; HttpOnly; SameSite='.$this->_config['cookie_samesite'];
+			header($header);
+			return;
+		}
+
 		return setcookie(
 			$this->_config['cookie_name'],
 			NULL,
-			1,
-			$this->_config['cookie_path'],
-			$this->_config['cookie_domain'],
-			$this->_config['cookie_secure'],
-			TRUE
+			array(
+				'expires' => 1,
+				'path' => $this->_config['cookie_path'],
+				'domain' => $this->_config['cookie_domain'],
+				'secure' => $this->_config['cookie_secure'],
+				'httponly' => TRUE,
+				'samesite' => $this->_config['cookie_samesite']
+			)
 		);
 	}
 
