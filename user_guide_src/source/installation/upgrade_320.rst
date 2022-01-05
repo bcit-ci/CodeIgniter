@@ -222,6 +222,7 @@ CodeIgniter versions that have been removed in 3.2.0:
 - ``read_file()`` :doc:`File Helper <../helpers/file_helper>` function (use ``file_get_contents()`` instead)
 - ``form_prep()`` :doc:`Form Helper <../helpers/form_helper>` function (use :php:func:`html_escape()` instead)
 
+- The entire *Encrypt Library* (the newer :doc:`Encryption Library <../libraries/encryption>` is still available)
 - The entire *Cart Library* (an archived version is available on GitHub: `bcit-ci/ci3-cart-library <https://github.com/bcit-ci/ci3-cart-library>`_)
 - The entire *Javascript Library* (it was always experimental in the first place)
 

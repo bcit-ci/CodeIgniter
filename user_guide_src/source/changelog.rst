@@ -37,6 +37,7 @@ Release Date: Not Released
 
 -  Libraries
 
+   -  Removed previously deprecated *Encrypt Library*.
    -  Removed previously deprecated *Cart Library*.
    -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
    -  Removed previously deprecated ``anchor_class`` option from :doc:`Pagination Library <libraries/pagination>`.
@@ -368,10 +369,10 @@ Release Date: Mar 20, 2017
 -  **Security**
 
    -  Fixed a header injection vulnerability in :doc:`common function <general/common_functions>` :php:func:`set_status_header()` under Apache (thanks to Guillermo Caminer from `Flowgate <https://flowgate.net/>`_).
-   -  Fixed byte-safety issues in :doc:`Encrypt Library <libraries/encrypt>` (DEPRECATED) when ``mbstring.func_overload`` is enabled.
+   -  Fixed byte-safety issues in **Encrypt Library** (DEPRECATED) when ``mbstring.func_overload`` is enabled.
    -  Fixed byte-safety issues in :doc:`Encryption Library <libraries/encryption>` when ``mbstring.func_overload`` is enabled.
    -  Fixed byte-safety issues in :doc:`compatibility functions <general/compatibility_functions>` ``password_hash()``, ``hash_pbkdf2()`` when ``mbstring.func_overload`` is enabled.
-   -  Updated :doc:`Encrypt Library <libraries/encrypt>` (DEPRECATED) to call ``mcrypt_create_iv()`` with ``MCRYPT_DEV_URANDOM``.
+   -  Updated **Encrypt Library** (DEPRECATED) to call ``mcrypt_create_iv()`` with ``MCRYPT_DEV_URANDOM``.
 
 -  General Changes
 
@@ -1079,9 +1080,9 @@ Release Date: March 30, 2015
 
 -  Libraries
 
-   -  Added a new :doc:`Encryption Library <libraries/encryption>` to replace the old, largely insecure :doc:`Encrypt Library <libraries/encrypt>`.
+   -  Added a new :doc:`Encryption Library <libraries/encryption>` to replace the old, largely insecure **Encrypt Library**.
 
-   -  :doc:`Encrypt Library <libraries/encrypt>` changes include:
+   -  **Encrypt Library** changes include:
 
       -  Deprecated the library in favor of the new :doc:`Encryption Library <libraries/encryption>`.
       -  Added support for hashing algorithms other than SHA1 and MD5.
@@ -1462,7 +1463,7 @@ Bug fixes for 3.0
 -  Fixed a bug (#1264) - :doc:`Database Forge <database/forge>` and :doc:`Database Utilities <database/utilities>` didn't update/reset the databases and tables list cache when a table or a database is created, dropped or renamed.
 -  Fixed a bug (#7) - :doc:`Query Builder <database/query_builder>` method ``join()`` only escaped one set of conditions.
 -  Fixed a bug (#1321) - ``CI_Exceptions`` couldn't find the *errors/* directory in some cases.
--  Fixed a bug (#1202) - :doc:`Encrypt Library <libraries/encrypt>` ``encode_from_legacy()`` didn't set back the encrypt mode on failure.
+-  Fixed a bug (#1202) - **Encrypt Library** ``encode_from_legacy()`` didn't set back the encrypt mode on failure.
 -  Fixed a bug (#145) - :doc:`Database Class <database/index>` method ``compile_binds()`` failed when the bind marker was present in a literal string within the query.
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` method ``protect_identifiers()`` where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method ``_detect_uri()`` failed with paths containing a colon.
@@ -1632,7 +1633,7 @@ Release Date: June 2, 2014
 
 -  General Changes
 
-   - Security: :doc:`Encrypt Library <libraries/encrypt>` method ``xor_encode()`` has been removed. The Encrypt Class now requires the Mcrypt extension to be installed.
+   - Security: **Encrypt Library** method ``xor_encode()`` has been removed. The Encrypt Class now requires the Mcrypt extension to be installed.
    - Security: The :doc:`Session Library <libraries/sessions>` now uses HMAC authentication instead of a simple MD5 checksum.
 
 Bug fixes for 2.2.0
@@ -2241,7 +2242,7 @@ Hg Tag: v2.0.0
    -  Documented append_output() in the :doc:`Output
       Class <libraries/output>`.
    -  Documented a second argument in the decode() function for the
-      :doc:`Encrypt Class <libraries/encrypt>`.
+      **Encrypt Class**.
    -  Documented db->close().
    -  Updated the router to support a default route with any number of
       segments.
