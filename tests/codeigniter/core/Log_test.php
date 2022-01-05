@@ -9,8 +9,8 @@ class Log_test extends CI_TestCase {
 		$threshold->setAccessible(TRUE);
 		$date_fmt   = new ReflectionProperty('CI_Log', '_date_fmt');
 		$date_fmt->setAccessible(TRUE);
-		$file_ext   = new ReflectionProperty('CI_Log', '_file_ext');
-		$file_ext->setAccessible(TRUE);
+		$filename   = new ReflectionProperty('CI_Log', '_log_filename');
+		$filename->setAccessible(TRUE);
 		$file_perms = new ReflectionProperty('CI_Log', '_file_permissions');
 		$file_perms->setAccessible(TRUE);
 		$enabled    = new ReflectionProperty('CI_Log', '_enabled');
@@ -19,28 +19,28 @@ class Log_test extends CI_TestCase {
 		$this->ci_set_config('log_path', '/root/');
 		$this->ci_set_config('log_threshold', 'z');
 		$this->ci_set_config('log_date_format', 'd.m.Y');
-		$this->ci_set_config('log_file_extension', '');
+		$this->ci_set_config('log_filename', '');
 		$this->ci_set_config('log_file_permissions', '');
 		$instance = new CI_Log();
 
 		$this->assertEquals($path->getValue($instance), '/root/');
 		$this->assertEquals($threshold->getValue($instance), 1);
 		$this->assertEquals($date_fmt->getValue($instance), 'd.m.Y');
-		$this->assertEquals($file_ext->getValue($instance), 'php');
+		$this->assertEquals($filename->getValue($instance), 'log-'.date('Y-m-d').'.php');
 		$this->assertEquals($file_perms->getValue($instance), 0644);
 		$this->assertFalse($enabled->getValue($instance));
 
 		$this->ci_set_config('log_path', '');
 		$this->ci_set_config('log_threshold', '0');
 		$this->ci_set_config('log_date_format', '');
-		$this->ci_set_config('log_file_extension', '.log');
+		$this->ci_set_config('log_filename', 'testname.log');
 		$this->ci_set_config('log_file_permissions', 0600);
 		$instance = new CI_Log();
 
 		$this->assertEquals($path->getValue($instance), APPPATH.'logs/');
 		$this->assertEquals($threshold->getValue($instance), 0);
 		$this->assertEquals($date_fmt->getValue($instance), 'Y-m-d H:i:s');
-		$this->assertEquals($file_ext->getValue($instance), 'log');
+		$this->assertEquals($filename->getValue($instance), 'testname.log');
 		$this->assertEquals($file_perms->getValue($instance), 0600);
 		$this->assertEquals($enabled->getValue($instance), TRUE);
 	}
