@@ -953,7 +953,7 @@ class CI_Loader {
 		 * configuration.
 		 */
 
-		is_array($_ci_vars) && $_ci_vars = array();
+		is_array($_ci_vars) OR $_ci_vars = array();
 
 		// Include the global cached vars into the current _ci_vars if needed
 		empty($this->_ci_cached_vars) OR $_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
