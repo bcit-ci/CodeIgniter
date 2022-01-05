@@ -851,11 +851,6 @@ class CI_Form_validation {
 		{
 			return $line;
 		}
-		// DEPRECATED support for non-prefixed keys, lang file again
-		elseif (FALSE !== ($line = $this->CI->lang->line($rule, FALSE)))
-		{
-			return $line;
-		}
 
 		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
 	}

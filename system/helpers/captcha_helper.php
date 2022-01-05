@@ -54,13 +54,10 @@ if ( ! function_exists('create_captcha'))
 	/**
 	 * Create CAPTCHA
 	 *
-	 * @param	array	$data		Data for the CAPTCHA
-	 * @param	string	$img_path	Path to create the image in (deprecated)
-	 * @param	string	$img_url	URL to the CAPTCHA image folder (deprecated)
-	 * @param	string	$font_path	Server path to font (deprecated)
-	 * @return	string
+	 * @param	array	$data	Data for the CAPTCHA
+	 * @return	array
 	 */
-	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
+	function create_captcha($data)
 	{
 		$defaults = array(
 			'word'		=> '',
@@ -106,7 +103,7 @@ if ( ! function_exists('create_captcha'))
 
 		if ($img_path === '' OR $img_url === '')
 		{
-			log_message('error', 'create_captcha(): $img_path and $img_url are required.');
+			log_message('error', 'create_captcha(): img_path and img_url are required.');
 			return FALSE;
 		}
 

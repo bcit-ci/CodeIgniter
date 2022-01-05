@@ -56,6 +56,7 @@ Release Date: Not Released
    -  :doc:`Form Validation Library <libraries/form_validation>` changes include:
 
       - Removed previously deprecated method ``prep_for_form()`` / rule *prep_for_form*.
+      - Removed previously deprecated ability to use language translations without the ``'form_validation_'`` prefix.
       - Changed method ``set_rules()`` to throw a ``BadMethodCallException`` when its first parameter is not an array and the ``$rules`` one is unused.
       - Added rule **valid_mac**, which replicates PHP's native ``filter_var()`` with ``FILTER_VALIDATE_MAC``.
       - Added ability to validate entire arrays at once, if ``is_array`` is within the list of rules.
@@ -103,6 +104,7 @@ Release Date: Not Released
    -  Removed previously deprecated *Email Helper* (had only two functions, aliases for PHP's native ``filter_var()`` and ``mail()``).
    -  Removed previously deprecated *Smiley Helper*.
    -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
+   -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``nice_date()`` (use PHP's native ``DateTime::format()`` instead).
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
    -  Removed previously deprecated options ``'dash'`` and ``'underscore'`` from :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`.
@@ -138,6 +140,7 @@ Release Date: Not Released
       - Added 'img_class' option.
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
+      - Removed previously deprecated usage with ``$img_path``, ``$img_url``, ``$font_path`` as extra parameters instead of array options.
 
 Bug fixes for 3.2.0
 ===================
@@ -411,7 +414,7 @@ Release Date: Jan 09, 2017
 
    -  Deprecated ``$config['allow_get_array']``.
    -  Deprecated ``$config['standardize_newlines']``.
-   -  Deprecated :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()`.
+   -  Deprecated :doc:`Date Helper <helpers/date_helper>` function ``nice_date()``.
 
 Bug fixes for 3.1.3
 -------------------
@@ -423,7 +426,7 @@ Bug fixes for 3.1.3
 -  Fixed a bug (#4902) - :doc:`Image Manipulation Library <libraries/image_lib>` processing via ImageMagick didn't work.
 -  Fixed a bug (#4905) - :doc:`Loader Library <libraries/loader>` didn't take into account possible user-provided directory paths when loading helpers.
 -  Fixed a bug (#4916) - :doc:`Session Library <libraries/sessions>` with ``sess_match_ip`` enabled was unusable for IPv6 clients when using the 'database' driver on MySQL 5.7.5+.
--  Fixed a bug (#4917) - :doc:`Date Helper <helpers/date_helper>` function :php:func:`nice_date()` didn't handle YYYYMMDD inputs properly.
+-  Fixed a bug (#4917) - :doc:`Date Helper <helpers/date_helper>` function ``nice_date()`` didn't handle YYYYMMDD inputs properly.
 -  Fixed a bug (#4923) - :doc:`Session Library <libraries/sessions>` could execute an erroneous SQL query with the 'database' driver, if the lock attempt times out.
 -  Fixed a bug (#4927) - :doc:`Output Library <libraries/output>` method ``get_header()`` returned the first matching header, regardless of whether it would be replaced by a second ``set_header()`` call.
 -  Fixed a bug (#4844) - :doc:`Email Library <libraries/email>` didn't apply ``escapeshellarg()`` to the while passing the Sendmail ``-f`` parameter through ``popen()``.
@@ -1464,7 +1467,7 @@ Bug fixes for 3.0
 -  Fixed a bug in :doc:`Query Builder <database/query_builder>` method ``protect_identifiers()`` where if passed along with the field names, operators got escaped as well.
 -  Fixed a bug (#10) - :doc:`URI Library <libraries/uri>` internal method ``_detect_uri()`` failed with paths containing a colon.
 -  Fixed a bug (#1387) - :doc:`Query Builder <database/query_builder>` method ``from()`` didn't escape table aliases.
--  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function :php:func:``nice_date()`` failed when the optional second parameter is not passed.
+-  Fixed a bug (#520) - :doc:`Date Helper <helpers/date_helper>` function ``nice_date()`` failed when the optional second parameter is not passed.
 -  Fixed a bug (#318) - :doc:`Profiling Library <general/profiling>` setting *query_toggle_count* was not settable as described in the manual.
 -  Fixed a bug (#938) - :doc:`Config Library <libraries/config>` method ``site_url()`` added a question mark to the URL string when query strings are enabled even if it already existed.
 -  Fixed a bug (#999) - :doc:`Config Library <libraries/config>` method ``site_url()`` always appended ``$config['url_suffix']`` to the end of the URL string, regardless of whether a query string exists in it.

@@ -213,6 +213,7 @@ CodeIgniter versions that have been removed in 3.2.0:
 - ``CI_Form_validation::prep_for_form()`` (the *prep_for_form* rule)
 
 - ``standard_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``date()`` instead)
+- ``nice_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``DateTime::format()`` instead)
 - ``do_hash()`` :doc:`Security Helper <../helpers/security_helper>` function (use ``hash()`` instead)
 - ``br()`` :doc:`HTML Helper <../helpers/html_helper>` function (use ``str_repeat()`` with ``'<br />'`` instead)
 - ``nbs()`` :doc:`HTML Helper <../helpers/html_helper>` function (use ``str_repeat()`` with ``'&nbsp;'`` instead)
@@ -235,6 +236,8 @@ CodeIgniter versions that have been removed in 3.2.0:
 - The ``anchor_class`` option from :doc:`Pagination Library <../libraries/pagination>` (use ``class`` instead).
 - The ``unique`` and ``encrypt`` options from :doc:`String Helper <../helpers/string_helper>` function ``random_string()``.
 - The ``underscore`` and ``dash`` options from :doc:`URL Helper <../helpers/url_helper>`` function :php:func:`url_title()`.
+- The ``$img_path``, ``$img_url`` and ``$font_path`` parameters from
+  :doc:`CAPCHA Helper <../helpers/captcha_helper>` function :php:func:`create_captcha()` (pass as array options instead).
 
 Step 11: Make sure you're validating all user inputs
 ====================================================

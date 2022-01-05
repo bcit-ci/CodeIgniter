@@ -157,33 +157,6 @@ The following functions are available:
 		$human = unix_to_human($now);
 		$unix = human_to_unix($human);
 
-.. php:function:: nice_date([$bad_date = ''[, $format = FALSE]])
-
-	:param	int	$bad_date: The terribly formatted date-like string
-	:param	string	$format: Date format to return (same as PHP's ``date()`` function)
-	:returns:	Formatted date
-	:rtype:	string
-
-	This function can take a number poorly-formed date formats and convert
-	them into something useful. It also accepts well-formed dates.
-
-	The function will return a UNIX timestamp by default. You can, optionally,
-	pass a format string (the same type as the PHP ``date()`` function accepts)
-	as the second parameter.
-
-	Example::
-
-		$bad_date = '199605';
-		// Should Produce: 1996-05-01
-		$better_date = nice_date($bad_date, 'Y-m-d');
-
-		$bad_date = '9-11-2001';
-		// Should Produce: 2001-09-11
-		$better_date = nice_date($bad_date, 'Y-m-d');
-
-	.. note:: This function is DEPRECATED. Use PHP's native `DateTime class
-		<https://secure.php.net/datetime>`_ instead.
-
 .. php:function:: timespan([$seconds = 1[, $time = ''[, $units = '']]])
 
 	:param	int	$seconds: Number of seconds
