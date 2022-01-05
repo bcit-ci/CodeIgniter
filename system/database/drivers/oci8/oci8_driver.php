@@ -69,13 +69,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	public $dbdriver = 'oci8';
 
 	/**
-	 * Statement ID
-	 *
-	 * @var	resource
-	 */
-	public $stmt_id;
-
-	/**
 	 * Commit mode flag
 	 *
 	 * @var	int
@@ -262,9 +255,14 @@ class CI_DB_oci8_driver extends CI_DB {
 		/* Oracle must parse the query before it is run. All of the actions with
 		 * the query are based on the statement id returned by oci_parse().
 		 */
-		$this->stmt_id = oci_parse($this->conn_id, $sql);
-		oci_set_prefetch($this->stmt_id, 1000);
-		return oci_execute($this->stmt_id, $this->commit_mode);
+		$this->result_id = oci_parse($this->conn_id, $sql);
+		oci_set_prefetch($this->result_id, 1000);
+		if (oci_execute($this->result_id, $this->commit_mode))
+		{
+			return $this->result_id;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -277,7 +275,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _bind_params($params)
 	{
-		if ( ! is_array($params) OR ! is_resource($this->stmt_id))
+		if ( ! is_array($params) OR ! is_resource($this->result_id))
 		{
 			return;
 		}
@@ -292,7 +290,7 @@ class CI_DB_oci8_driver extends CI_DB {
 				}
 			}
 
-			oci_bind_by_name($this->stmt_id, $param['name'], $param['value'], $param['length'], $param['type']);
+			oci_bind_by_name($this->result_id, $param['name'], $param['value'], $param['length'], $param['type']);
 		}
 	}
 
@@ -345,7 +343,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return oci_num_rows($this->stmt_id);
+		return oci_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -481,9 +479,9 @@ class CI_DB_oci8_driver extends CI_DB {
 		// oci_error() returns an array that already contains
 		// 'code' and 'message' keys, but it can return false
 		// if there was no error ....
-		if (is_resource($this->stmt_id))
+		if (is_resource($this->result_id))
 		{
-			$error = oci_error($this->stmt_id);
+			$error = oci_error($this->result_id);
 		}
 		elseif (is_resource($this->conn_id))
 		{
@@ -597,9 +595,9 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		if (is_resource($this->stmt_id))
+		if (is_resource($this->result_id))
 		{
-			oci_free_statement($this->stmt_id);
+			oci_free_statement($this->result_id);
 		}
 
 		oci_close($this->conn_id);

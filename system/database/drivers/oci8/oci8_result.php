@@ -49,13 +49,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CI_DB_oci8_result extends CI_DB_result {
 
 	/**
-	 * Statement ID
-	 *
-	 * @var	resource
-	 */
-	public $stmt_id;
-
-	/**
 	 * Limit used flag
 	 *
 	 * @var	bool
@@ -81,10 +74,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 	{
 		parent::__construct($driver_object);
 
-		$this->stmt_id = $driver_object->stmt_id;
+		$this->result_id = $driver_object->result_id;
 		$this->limit_used = $driver_object->limit_used;
 		$this->commit_mode =& $driver_object->commit_mode;
-		$driver_object->stmt_id = FALSE;
+		$driver_object->result_id = FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -96,7 +89,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		$count = oci_num_fields($this->stmt_id);
+		$count = oci_num_fields($this->result_id);
 
 		// if we used a limit we subtract it
 		return ($this->limit_used) ? $count - 1 : $count;
@@ -116,7 +109,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 		$field_names = array();
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
-			$field_names[] = oci_field_name($this->stmt_id, $c);
+			$field_names[] = oci_field_name($this->result_id, $c);
 		}
 		return $field_names;
 	}
@@ -136,9 +129,9 @@ class CI_DB_oci8_result extends CI_DB_result {
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
 			$F		= new stdClass();
-			$F->name	= oci_field_name($this->stmt_id, $c);
-			$F->type	= oci_field_type($this->stmt_id, $c);
-			$F->max_length	= oci_field_size($this->stmt_id, $c);
+			$F->name	= oci_field_name($this->result_id, $c);
+			$F->type	= oci_field_type($this->result_id, $c);
+			$F->max_length	= oci_field_size($this->result_id, $c);
 
 			$retval[] = $F;
 		}
@@ -160,11 +153,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 			oci_free_statement($this->result_id);
 			$this->result_id = FALSE;
 		}
-
-		if (is_resource($this->stmt_id))
-		{
-			oci_free_statement($this->stmt_id);
-		}
 	}
 
 	// --------------------------------------------------------------------
@@ -178,7 +166,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		return oci_fetch_assoc($this->stmt_id);
+		return oci_fetch_assoc($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -193,7 +181,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{
-		$row = oci_fetch_object($this->stmt_id);
+		$row = oci_fetch_object($this->result_id);
 
 		if ($class_name === 'stdClass' OR ! $row)
 		{
