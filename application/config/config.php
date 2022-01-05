@@ -232,24 +232,10 @@ $config['log_path'] = '';
 |--------------------------------------------------------------------------
 |
 | Leave this BLANK unless you would like to set something other than the default
-| 'log-'.date('Y-m-d') filename. No DIRECTORY_SEPARATOR(s) or file extension
+| 'log-'.date('Y-m-d').'.php'. No DIRECTORY_SEPARATOR(s), just the filename.
 |
 */
-$config['log_file'] = '';
-
-/*
-|--------------------------------------------------------------------------
-| Log File Extension
-|--------------------------------------------------------------------------
-|
-| The default filename extension for log files. The default 'php' allows for
-| protecting the log files via basic scripting, when they are to be stored
-| under a publicly accessible directory.
-|
-| Note: Leaving it blank will default to 'php'.
-|
-*/
-$config['log_file_extension'] = '';
+$config['log_filename'] = '';
 
 /*
 |--------------------------------------------------------------------------

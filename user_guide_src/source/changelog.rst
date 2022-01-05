@@ -16,6 +16,8 @@ Release Date: Not Released
 
 -  Core
 
+   -  Added a ``$config['log_file']`` option.
+   -  Removed ``$config['log_file_extension']``.
    -  Removed ``$config['rewrite_short_tags']`` (irrelevant on PHP 5.4+).
    -  Removed previously deprecated ``$config['global_xss_filtering']``.
    -  Removed previously deprecated :doc:`Routing Class <general/routing>` methods ``fetch_directory()``, ``fetch_class()`` and ``fetch_method()`` (use the respective class properties instead).

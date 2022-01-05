@@ -267,3 +267,15 @@ The ``$curs_id`` property is also removed.
 
 If you were using those, you can create your own cursors via ``oci_new_cursor()``
 and the publicly accessible ``$conn_id()``.
+
+Stop 14: Replace $config['log_file_extension'] with $config['log_filename'] in application/config/config.php
+============================================================================================================
+
+You can now specify the full log filename via ``$config['log_filename']``.
+Add this configuration option to your **application/config/config.php**,
+if you haven't copied the new one over.
+
+The previously existing ``$config['log_file_extension']`` option has been
+removed and no longer works. However, its functionality is essentially
+integrated into the new ``$config['log_filename']``, since it includes the
+filename extension in itself.
