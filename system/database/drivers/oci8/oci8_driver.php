@@ -85,6 +85,26 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public $limit_used = FALSE;
 
+	/**
+	 * Error cache
+	 *
+	 * Cached error info about failed queries.
+	 * Used so that statement IDs can be released immediately.
+	 *
+	 * @var	array|false
+	 */
+	protected $_error = FALSE;
+
+	/**
+	 * Affected rows
+	 *
+	 * Cached result of oci_num_rows().
+	 * Used so that statement IDs can be released immediately.
+	 *
+	 * @var	int|false
+	 */
+	protected $_affected_rows = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -257,12 +277,17 @@ class CI_DB_oci8_driver extends CI_DB {
 		 */
 		$this->result_id = oci_parse($this->conn_id, $sql);
 		oci_set_prefetch($this->result_id, 1000);
-		if (oci_execute($this->result_id, $this->commit_mode))
+		$result = oci_execute($this->result_id, $this->commit_mode);
+		$this->_error = oci_error($this->result_id);
+		$this->is_write_type($sql) && $this->_affected_rows = oci_num_rows($this->result_id);
+
+		if ($this->is_write_type($sql) OR $result === FALSE)
 		{
-			return $this->result_id;
+			oci_free_statement($this->result_id);
+			return $result;
 		}
 
-		return FALSE;
+		return $this->result_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -314,7 +339,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function affected_rows()
 	{
-		return oci_num_rows($this->result_id);
+		return $this->_affected_rows;
 	}
 
 	// --------------------------------------------------------------------
@@ -447,14 +472,15 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	public function error()
 	{
+		if ( ! empty($this->_error))
+		{
+			return $this->_error;
+		}
+
 		// oci_error() returns an array that already contains
 		// 'code' and 'message' keys, but it can return false
 		// if there was no error ....
-		if (is_resource($this->result_id))
-		{
-			$error = oci_error($this->result_id);
-		}
-		elseif (is_resource($this->conn_id))
+		if (is_resource($this->conn_id))
 		{
 			$error = oci_error($this->conn_id);
 		}

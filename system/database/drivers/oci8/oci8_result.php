@@ -196,4 +196,19 @@ class CI_DB_oci8_result extends CI_DB_result {
 
 		return $class_name;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Destructor
+	 *
+	 * Attempt to free remaining statement IDs.
+	 *
+	 * @see	https://github.com/bcit-ci/CodeIgniter/pull/5896
+	 * @return	void
+	 */
+	public function __destruct()
+	{
+		$this->free_result();
+	}
 }
