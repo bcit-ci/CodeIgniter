@@ -39,6 +39,7 @@ Release Date: Not Released
 
    -  Removed previously deprecated *Cart Library*.
    -  Removed previously deprecated *Javascript Library* (it was always experimental in the first place).
+   -  Removed previously deprecated ``anchor_class`` option from :doc:`Pagination Library <libraries/pagination>`.
    -  Added TLS and UNIX socket connection support to :doc:`Session Library <libraries/sessions>` 'redis' driver.
    -  Updated :doc:`ZIP Library <libraries/zip>` method ``read_dir()`` to include hidden (dot-prefixed) files.
 
@@ -88,6 +89,7 @@ Release Date: Not Released
    -  :doc:`Database Forge <database/forge>`:
 
       - Added support for declaring date/time type fields default values as ``CURRENT_TIMESTAMP`` and similar.
+      - Removed previously deprecated ``$_after`` parameter for ``add_column()``.
 
    -  :doc:`Query Builder <database/query_builder>`:
 
@@ -103,6 +105,7 @@ Release Date: Not Released
    -  Removed previously deprecated :doc:`Date Helper <helpers/date_helper>` function ``standard_date()`` (use PHP's native ``date()`` instead).
    -  Removed previously deprecated :doc:`Security Helper <helpers/security_helper>` function ``do_hash()`` (use PHP's native ``hash()`` instead).
    -  Removed previously deprecated :doc:`File Helper <helpers/file_helper>` function ``read_file()`` (use PHP's native ``file_get_contents()`` instead).
+   -  Removed previously deprecated options ``'dash'`` and ``'underscore'`` from :doc:`URL Helper <helpers/url_helper>` function :php:func:`url_title()`.
    -  Added new function :php:func:`ordinal_format()` to :doc:`Inflector Helper <helpers/inflector_helper>`.
 
    -  :doc:`Download Helper <helpers/download_helper>` changes include:
@@ -115,6 +118,7 @@ Release Date: Not Released
 
       - Removed previously deprecated function ``trim_slashes()`` (use PHP's native ``trim()`` with ``'/'`` instead).
       - Removed previously deprecated function ``repeater()`` (use PHP's native ``str_repeat()`` instead).
+      - Removed previously deprecated ``'unique'`` and ``'encrypt'`` options from ``random_string()``.
 
    -  :doc:`HTML Helper <helpers/html_helper>` changes include:
 

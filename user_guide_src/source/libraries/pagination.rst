@@ -277,9 +277,6 @@ by the pagination class, you can set them as key/value pairs in the
 	// Produces: class="myclass"
 	$config['attributes'] = array('class' => 'myclass');
 
-.. note:: Usage of the old method of setting classes via "anchor_class"
-	is deprecated.
-
 *****************************
 Disabling the "rel" attribute
 *****************************

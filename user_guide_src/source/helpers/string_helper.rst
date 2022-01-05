@@ -52,9 +52,6 @@ The following functions are available:
 
 		echo random_string('alnum', 16);
 
-	.. note:: Usage of the *unique* and *encrypt* types is DEPRECATED. They
-		are just aliases for *md5* and *sha1* respectively.
-
 .. php:function:: increment_string($str[, $separator = '_'[, $first = 1]])
 
 	:param	string	$str: Input string

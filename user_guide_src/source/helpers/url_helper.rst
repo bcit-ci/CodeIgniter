@@ -298,9 +298,6 @@ The following functions are available:
 		$url_title = url_title($title, 'underscore');
 		// Produces: Whats_wrong_with_CSS
 
-	.. note:: Old usage of 'dash' and 'underscore' as the second parameter
-		is DEPRECATED.
-
 	The third parameter determines whether or not lowercase characters are
 	forced. By default they are not. Options are boolean TRUE/FALSE.
 
