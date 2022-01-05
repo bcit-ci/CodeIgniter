@@ -26,14 +26,6 @@ class Input_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function tear_down()
-	{
-		$_POST = [];
-		$_GET = [];
-	}
-
-	// --------------------------------------------------------------------
-
 	public function test_get_not_exists()
 	{
 		$this->assertSame(array(), $this->input->get());
