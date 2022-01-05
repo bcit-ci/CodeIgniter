@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2019 - 2022, CodeIgniter Foundation
+ * Copyright (c) 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +28,7 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (http://bcit.ca/)
- * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (http://codeigniter.com/)
+ * @copyright	Copyright (c) 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -39,9 +37,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * SessionHandlerInterface
+ * PHP8SessionWrapper
  *
- * PHP 5.4 compatibility interface
+ * PHP 8 Session handler compatibility wrapper
  *
  * @package	CodeIgniter
  * @subpackage	Libraries
@@ -49,12 +47,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author	Andrey Andreev
  * @link	https://codeigniter.com/userguide3/libraries/sessions.html
  */
-interface SessionHandlerInterface {
+class CI_SessionWrapper implements SessionHandlerInterface {
 
-	public function open($save_path, $name);
-	public function close();
-	public function read($session_id);
-	public function write($session_id, $session_data);
-	public function destroy($session_id);
-	public function gc($maxlifetime);
+	protected CI_Session_driver_interface $driver;
+
+	public function __construct(CI_Session_driver_interface $driver)
+	{
+		$this->driver = $driver;
+	}
+
+	public function open(string $save_path, string $name): bool
+	{
+		return $this->driver->open($save_path, $name);
+	}
+
+	public function close(): bool
+	{
+		return $this->driver->close();
+	}
+
+	#[\ReturnTypeWillChange]
+	public function read(string $id): mixed
+	{
+		return $this->driver->read($id);
+	}
+
+	public function write(string $id, string $data): bool
+	{
+		return $this->driver->write($id, $data);
+	}
+
+	public function destroy(string $id): bool
+	{
+		return $this->driver->destroy($id);
+	}
+
+	#[\ReturnTypeWillChange]
+	public function gc(int $maxlifetime): mixed
+	{
+		return $this->driver->gc($maxlifetime);
+	}
 }

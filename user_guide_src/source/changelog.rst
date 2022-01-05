@@ -16,6 +16,7 @@ Release Date: Not Released
    -  Added method :doc:`Database Library <database/index>` method ``trans_active()`` to expose transaction state.
    -  Updated :doc:`Database Library <database/index>` 'pdo' driver to attempt to free resources in order to allow connections to be closed.
    -  Added ``SameSite=Strict`` attribute to the CSRF cookie sent by the :doc:`Security Class <libraries/security>`.
+   -  Added a wrapper class around :doc:`Session <libraries/sessions>` drivers to deal with compatibility between PHP 8.1 and older versions.
 
 Bug fixes for 3.1.12
 ====================

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 2.0.0
@@ -102,31 +103,24 @@ class CI_Session {
 		$this->_configure($params);
 		$this->_config['_sid_regexp'] = $this->_sid_regexp;
 
-		$class = new $class($this->_config);
-		if ($class instanceof SessionHandlerInterface)
+		$class   = new $class($this->_config);
+		$wrapper = new CI_SessionWrapper($class);
+		if (is_php('5.4'))
 		{
-			if (is_php('5.4'))
-			{
-				session_set_save_handler($class, TRUE);
-			}
-			else
-			{
-				session_set_save_handler(
-					array($class, 'open'),
-					array($class, 'close'),
-					array($class, 'read'),
-					array($class, 'write'),
-					array($class, 'destroy'),
-					array($class, 'gc')
-				);
-
-				register_shutdown_function('session_write_close');
-			}
+			session_set_save_handler($class, TRUE);
 		}
 		else
 		{
-			log_message('error', "Session: Driver '".$this->_driver."' doesn't implement SessionHandlerInterface. Aborting.");
-			return;
+			session_set_save_handler(
+				array($class, 'open'),
+				array($class, 'close'),
+				array($class, 'read'),
+				array($class, 'write'),
+				array($class, 'destroy'),
+				array($class, 'gc')
+			);
+
+			register_shutdown_function('session_write_close');
 		}
 
 		// Sanitize the cookie, because apparently PHP doesn't do that for userspace handlers
@@ -192,6 +186,10 @@ class CI_Session {
 	{
 		// PHP 5.4 compatibility
 		interface_exists('SessionHandlerInterface', FALSE) OR require_once(BASEPATH.'libraries/Session/SessionHandlerInterface.php');
+
+		require_once(BASEPATH.'libraries/Session/CI_Session_driver_interface.php');
+		$wrapper = is_php('8.0') ? 'PHP8SessionWrapper' : 'OldSessionWrapper';
+		require_once(BASEPATH.'libraries/Session/'.$wrapper.'.php');
 
 		$prefix = config_item('subclass_prefix');
 
