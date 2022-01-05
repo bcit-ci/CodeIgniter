@@ -20,10 +20,16 @@
 		"test:coverage": [
 			"@putenv XDEBUG_MODE=coverage",
 			"phpunit --color=always --coverage-text --configuration tests/travis/sqlite.phpunit.xml"
+		],
+		"post-install-cmd": [
+			"sed -i s/name{0}/name[0]/ vendor/mikey179/vfsstream/src/main/php/org/bovigo/vfs/vfsStream.php"
+		],
+		"post-update-cmd": [
+			"sed -i s/name{0}/name[0]/ vendor/mikey179/vfsstream/src/main/php/org/bovigo/vfs/vfsStream.php"
 		]
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.6.*",
-		"phpunit/phpunit": "4.* || 5.* || 9.*"
+		"phpunit/phpunit": "5.* || 9.*"
 	}
 }

@@ -1912,7 +1912,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	*/
 	public function iso8601_encode($time, $utc = FALSE)
 	{
-		return ($utc) ? strftime('%Y%m%dT%H:%i:%s', $time) : gmstrftime('%Y%m%dT%H:%i:%s', $time);
+		return ($utc) ? date('Ymd\TH:i:s', $time) : gmdate('Ymd\TH:i:s', $time);
 	}
 
 } // END XML_RPC_Values Class

@@ -161,7 +161,7 @@ class CI_Encryption {
 			show_error('Encryption: Unable to find an available encryption driver.');
 		}
 
-		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
+		isset(self::$func_overload) OR self::$func_overload = ( ! is_php('8.0') && extension_loaded('mbstring') && @ini_get('mbstring.func_overload'));
 		$this->initialize($params);
 
 		if ( ! isset($this->_key) && self::strlen($key = config_item('encryption_key')) > 0)
@@ -476,7 +476,7 @@ class CI_Encryption {
 
 		$iv = ($iv_size = openssl_cipher_iv_length($params['handle']))
 			? $this->create_key($iv_size)
-			: NULL;
+			: '';
 
 		$data = openssl_encrypt(
 			$data,
@@ -585,7 +585,7 @@ class CI_Encryption {
 		}
 		else
 		{
-			$iv = NULL;
+			$iv = '';
 		}
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $iv) < 0)
@@ -632,7 +632,7 @@ class CI_Encryption {
 		}
 		else
 		{
-			$iv = NULL;
+			$iv = '';
 		}
 
 		return empty($params['handle'])
@@ -910,8 +910,8 @@ class CI_Encryption {
 	protected static function strlen($str)
 	{
 		return (self::$func_overload)
-			? mb_strlen($str, '8bit')
-			: strlen($str);
+			? mb_strlen((string) $str, '8bit')
+			: strlen((string) $str);
 	}
 
 	// --------------------------------------------------------------------

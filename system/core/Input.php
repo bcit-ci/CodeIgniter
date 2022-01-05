@@ -508,7 +508,7 @@ class CI_Input {
 				$which = FILTER_FLAG_IPV6;
 				break;
 			default:
-				$which = NULL;
+				$which = 0;
 				break;
 		}
 
