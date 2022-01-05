@@ -268,35 +268,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Bind parameters
-	 *
-	 * @param	array	$params
-	 * @return	void
-	 */
-	protected function _bind_params($params)
-	{
-		if ( ! is_array($params) OR ! is_resource($this->result_id))
-		{
-			return;
-		}
-
-		foreach ($params as $param)
-		{
-			foreach (array('name', 'value', 'type', 'length') as $val)
-			{
-				if ( ! isset($param[$val]))
-				{
-					$param[$val] = '';
-				}
-			}
-
-			oci_bind_by_name($this->result_id, $param['name'], $param['value'], $param['length'], $param['type']);
-		}
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
 	 * Begin Transaction
 	 *
 	 * @return	bool
