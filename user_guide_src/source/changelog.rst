@@ -135,6 +135,11 @@ Release Date: Not Released
       - Added ability to generate ``data:image/png;base64`` URIs instead of writing image files to disk.
       - Updated to always create PNG images instead of JPEG.
 
+Bug fixes for 3.2.0
+===================
+
+-  Fixed a bug (#5562) - :doc:`Cache Library <libraries/caching>` 'redis' driver would pointlessly attempt to perform its functions if a connection to the Redis server failed.
+
 Version 3.1.12
 ==============
 
