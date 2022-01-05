@@ -357,14 +357,15 @@ class CI_Input {
 	 * @param	string		$prefix		Cookie name prefix
 	 * @param	bool		$secure		Whether to only transfer cookies via SSL
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
+	 * @param	string		$samesite	SameSite attribute
 	 * @return	void
 	 */
-	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
+	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL, $samesite = NULL)
 	{
 		if (is_array($name))
 		{
 			// always leave 'name' in last place, as the loop will break otherwise, due to $$item
-			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'secure', 'httponly', 'name') as $item)
+			foreach (array('value', 'expire', 'domain', 'path', 'prefix', 'secure', 'httponly', 'name', 'samesite') as $item)
 			{
 				if (isset($name[$item]))
 				{
@@ -405,7 +406,42 @@ class CI_Input {
 			$expire = ($expire > 0) ? time() + $expire : 0;
 		}
 
-		setcookie($prefix.$name, $value, $expire, $path, $domain, $secure, $httponly);
+		isset($samesite) OR $samesite = config_item('cookie_samesite');
+		if (isset($samesite))
+		{
+			$samesite = ucfirst(strtolower($samesite));
+			in_array($samesite, array('Lax', 'Strict', 'None'), TRUE) OR $samesite = 'Lax';
+		}
+		else
+		{
+			$samesite = 'Lax';
+		}
+
+		if ($samesite === 'None' && ! $secure)
+		{
+			log_message('error', $name.' cookie sent with SameSite=None, but without Secure attribute.');
+		}
+
+		if (is_php('7.3'))
+		{
+			$setcookie_options = array(
+				'expires' => $expire,
+				'path' => $path,
+				'domain' => $domain,
+				'secure' => $secure,
+				'httponly' => $httponly,
+				'samesite' => $samesite,
+			);
+			setcookie($prefix.$name, $value, $setcookie_options);
+		}
+		else
+		{
+			$cookie_header = 'Set-Cookie: '.$prefix.$name.'='.rawurlencode($value);
+			$cookie_header .= ($expire === 0 ? '' : '; expires='.gmdate('D, d-M-Y H:i:s T', $expire));
+			$cookie_header .= '; path='.$path.($domain !== '' ? '; domain='.$domain : '');
+			$cookie_header .= ($secure ? '; secure' : '').($httponly ? '; HttpOnly' : '').'; SameSite='.$samesite;
+			header($cookie_header);
+		}
 	}
 
 	// --------------------------------------------------------------------
