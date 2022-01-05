@@ -76,13 +76,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	public $stmt_id;
 
 	/**
-	 * Cursor ID
-	 *
-	 * @var	resource
-	 */
-	public $curs_id;
-
-	/**
 	 * Commit mode flag
 	 *
 	 * @var	int
@@ -100,14 +93,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	public $limit_used = FALSE;
 
 	// --------------------------------------------------------------------
-
-	/**
-	 * Reset $stmt_id flag
-	 *
-	 * Used by stored_procedure() to prevent _execute() from
-	 * re-setting the statement ID.
-	 */
-	protected $_reset_stmt_id = TRUE;
 
 	/**
 	 * List of reserved identifiers
@@ -277,75 +262,9 @@ class CI_DB_oci8_driver extends CI_DB {
 		/* Oracle must parse the query before it is run. All of the actions with
 		 * the query are based on the statement id returned by oci_parse().
 		 */
-		if ($this->_reset_stmt_id === TRUE)
-		{
-			$this->stmt_id = oci_parse($this->conn_id, $sql);
-		}
-
+		$this->stmt_id = oci_parse($this->conn_id, $sql);
 		oci_set_prefetch($this->stmt_id, 1000);
 		return oci_execute($this->stmt_id, $this->commit_mode);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get cursor. Returns a cursor from the database
-	 *
-	 * @return	resource
-	 */
-	public function get_cursor()
-	{
-		return $this->curs_id = oci_new_cursor($this->conn_id);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Stored Procedure.  Executes a stored procedure
-	 *
-	 * @param	string	package name in which the stored procedure is in
-	 * @param	string	stored procedure name to execute
-	 * @param	array	parameters
-	 * @return	mixed
-	 *
-	 * params array keys
-	 *
-	 * KEY      OPTIONAL  NOTES
-	 * name     no        the name of the parameter should be in :<param_name> format
-	 * value    no        the value of the parameter.  If this is an OUT or IN OUT parameter,
-	 *                    this should be a reference to a variable
-	 * type     yes       the type of the parameter
-	 * length   yes       the max size of the parameter
-	 */
-	public function stored_procedure($package, $procedure, array $params)
-	{
-		if ($package === '' OR $procedure === '')
-		{
-			log_message('error', 'Invalid query: '.$package.'.'.$procedure);
-			return ($this->db_debug) ? $this->display_error('db_invalid_query') : FALSE;
-		}
-
-		// Build the query string
-		$sql = 'BEGIN '.$package.'.'.$procedure.'(';
-
-		$have_cursor = FALSE;
-		foreach ($params as $param)
-		{
-			$sql .= $param['name'].',';
-
-			if (isset($param['type']) && $param['type'] === OCI_B_CURSOR)
-			{
-				$have_cursor = TRUE;
-			}
-		}
-		$sql = trim($sql, ',').'); END;';
-
-		$this->_reset_stmt_id = FALSE;
-		$this->stmt_id = oci_parse($this->conn_id, $sql);
-		$this->_bind_params($params);
-		$result = $this->query($sql, FALSE, $have_cursor);
-		$this->_reset_stmt_id = TRUE;
-		return $result;
 	}
 
 	// --------------------------------------------------------------------
@@ -562,11 +481,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		// oci_error() returns an array that already contains
 		// 'code' and 'message' keys, but it can return false
 		// if there was no error ....
-		if (is_resource($this->curs_id))
-		{
-			$error = oci_error($this->curs_id);
-		}
-		elseif (is_resource($this->stmt_id))
+		if (is_resource($this->stmt_id))
 		{
 			$error = oci_error($this->stmt_id);
 		}
@@ -682,11 +597,6 @@ class CI_DB_oci8_driver extends CI_DB {
 	 */
 	protected function _close()
 	{
-		if (is_resource($this->curs_id))
-		{
-			oci_free_statement($this->curs_id);
-		}
-
 		if (is_resource($this->stmt_id))
 		{
 			oci_free_statement($this->stmt_id);

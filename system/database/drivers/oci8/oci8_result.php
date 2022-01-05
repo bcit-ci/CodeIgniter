@@ -56,13 +56,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 	public $stmt_id;
 
 	/**
-	 * Cursor ID
-	 *
-	 * @var	resource
-	 */
-	public $curs_id;
-
-	/**
 	 * Limit used flag
 	 *
 	 * @var	bool
@@ -89,7 +82,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 		parent::__construct($driver_object);
 
 		$this->stmt_id = $driver_object->stmt_id;
-		$this->curs_id = $driver_object->curs_id;
 		$this->limit_used = $driver_object->limit_used;
 		$this->commit_mode =& $driver_object->commit_mode;
 		$driver_object->stmt_id = FALSE;
@@ -173,12 +165,6 @@ class CI_DB_oci8_result extends CI_DB_result {
 		{
 			oci_free_statement($this->stmt_id);
 		}
-
-		if (is_resource($this->curs_id))
-		{
-			oci_cancel($this->curs_id);
-			$this->curs_id = NULL;
-		}
 	}
 
 	// --------------------------------------------------------------------
@@ -192,8 +178,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		$id = ($this->curs_id) ? $this->curs_id : $this->stmt_id;
-		return oci_fetch_assoc($id);
+		return oci_fetch_assoc($this->stmt_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -208,9 +193,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{
-		$row = ($this->curs_id)
-			? oci_fetch_object($this->curs_id)
-			: oci_fetch_object($this->stmt_id);
+		$row = oci_fetch_object($this->stmt_id);
 
 		if ($class_name === 'stdClass' OR ! $row)
 		{
@@ -225,5 +208,4 @@ class CI_DB_oci8_result extends CI_DB_result {
 
 		return $class_name;
 	}
-
 }

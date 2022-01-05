@@ -257,3 +257,13 @@ so that if you're using the :doc:`Web Page Caching <../general/caching>`
 feature, you'll be left with some old, garbage cache files.
 
 That shouldn't be a problem, but you may want to clear them.
+
+Step 13: Remove usage of OCI8 get_cursor() and stored_procedure() methods
+=========================================================================
+
+The OCI8 :doc:`Database <database/index>` driver no longer has these two
+methods that were specific to it and not present in other database drivers.
+The ``$curs_id`` property is also removed.
+
+If you were using those, you can create your own cursors via ``oci_new_cursor()``
+and the publicly accessible ``$conn_id()``.

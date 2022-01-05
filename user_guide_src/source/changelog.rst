@@ -76,6 +76,7 @@ Release Date: Not Released
 
 -  :doc:`Database <database/index>` changes include:
 
+   -  Removed driver-specific ``$curs_id`` property and ``get_cursor()``, ``stored_procedure()`` methods from OCI8 driver.
    -  Removed previously deprecated 'sqlite' driver (used for SQLite version 2; no longer shipped with PHP 5.4+).
    -  Removed method ``db_set_charset()`` and the ability to change a connection character set at runtime.
    -  Changed method ``initialize()`` to return void and instead throw a ``RuntimeException`` in case of failure.
