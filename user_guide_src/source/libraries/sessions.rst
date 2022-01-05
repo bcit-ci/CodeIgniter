@@ -571,8 +571,6 @@ However, there are some conditions that must be met:
 
   - Only your **default** database connection (or the one that you access
     as ``$this->db`` from your controllers) can be used.
-  - You must have the :doc:`Query Builder </database/query_builder>`
-    enabled.
   - You can NOT use a persistent connection.
   - You can NOT use a connection with the *cache_on* setting enabled.
 

@@ -132,23 +132,6 @@ variable located in the config file::
 	default we've used the word "default" for the primary connection,
 	but it too can be renamed to something more relevant to your project.
 
-Query Builder
--------------
-
-The :doc:`Query Builder Class <query_builder>` is globally enabled or
-disabled by setting the $query_builder variable in the database
-configuration file to TRUE/FALSE (boolean). The default setting is TRUE.
-If you are not using the
-query builder class, setting it to FALSE will utilize fewer resources
-when the database classes are initialized.
-
-::
-
-	$query_builder = TRUE;
-
-.. note:: that some CodeIgniter classes such as Sessions require Query
-	Builder to be enabled to access certain functionality.
-
 Explanation of Values:
 ----------------------
 
@@ -156,7 +139,7 @@ Explanation of Values:
  Name Config             Description
 ======================  ===========================================================================================================
 **dsn**			The DSN connect string (an all-in-one configuration sequence).
-**hostname** 		The hostname of your database server. Often this is 'localhost'.
+**hostname**		The hostname of your database server. Often this is 'localhost'.
 **username**		The username used to connect to the database.
 **password**		The password used to connect to the database.
 **database**		The name of the database you want to connect to.

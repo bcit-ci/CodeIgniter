@@ -66,13 +66,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | The $active_group variable lets you choose which connection group to
 | make active.  By default there is only one group (the 'default' group).
-|
-| The $query_builder variables lets you determine whether or not to load
-| the query builder class.
 */
 $active_group = 'default';
-$query_builder = TRUE;
-
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
