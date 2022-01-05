@@ -94,7 +94,7 @@ class CI_Loader {
 	protected $_ci_cached_vars =	array();
 
 	/**
-	 * Stack of variable arrays to provide nested _ci_load calls all variables from parent calls
+	 * Stack of variable arrays to provide nested _ci_load calls with all variables from parent calls
 	 *
 	 * @var	array
 	 */
@@ -956,17 +956,10 @@ class CI_Loader {
 		 * configuration.
 		 */
 
-		// Init current _ci_vars as current variable configuration
-		if ( ! is_array($_ci_vars))
-		{
-			$_ci_vars = [];
-		}
+		is_array($_ci_vars) && $_ci_vars = array();
 
 		// Include the global cached vars into the current _ci_vars if needed
-		if ( ! empty($this->_ci_cached_vars))
-		{
-			$_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
-		}
+		empty($this->_ci_cached_vars) OR $_ci_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
 
 		// Merge the last variable configuration from a parent _ci_load()
 		// call into the current _ci_vars
@@ -976,10 +969,7 @@ class CI_Loader {
 			$_ci_vars = array_merge($previous_variable_configuration, $_ci_vars);
 		}
 
-		// Push the current _ci_vars to the stack
 		array_push($this->_ci_load_vars_stack, $_ci_vars);
-
-		// Extract the current _ci_vars
 		extract($_ci_vars);
 
 		/**
@@ -998,7 +988,7 @@ class CI_Loader {
 		include($_ci_path); // include() vs include_once() allows for multiple views with the same name
 		log_message('info', 'File loaded: '.$_ci_path);
 
-		// Remove current _ci_vars from stack again
+		// Remove current _ci_vars from stack
 		array_pop($this->_ci_load_vars_stack);
 
 		// Return the file data if requested
