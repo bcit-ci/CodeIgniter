@@ -311,11 +311,15 @@ class Loader_test extends CI_TestCase {
 		$var = 'hello';
 		$value = 'World!';
 		$content = 'This is my test page.  ';
-		$this->ci_vfs_create($view, $content.'<?php echo $'.$var.';', $this->ci_app_root, 'views');
+		$this->ci_vfs_create($view, $content.'<?php echo (isset($'.$var.') ? $'.$var.' : "undefined");', $this->ci_app_root, 'views');
 
 		// Test returning view
 		$out = $this->load->view($view, array($var => $value), TRUE);
 		$this->assertEquals($content.$value, $out);
+
+		// Test view with missing parameter in $vars
+		$out = $this->load->view($view, [], TRUE);
+		$this->assertEquals($content.'undefined', $out);
 
 		// Mock output class
 		$output = $this->getMockBuilder('CI_Output')->setMethods(array('append_output'))->getMock();
@@ -326,6 +330,15 @@ class Loader_test extends CI_TestCase {
 		$vars = new stdClass();
 		$vars->$var = $value;
 		$this->assertInstanceOf('CI_Loader', $this->load->view($view, $vars));
+
+		// Create another view in VFS, nesting the first one without its own $vars
+		$nesting_view = 'unit_test_nesting_view';
+		$nesting_content = 'Here comes a nested view.  ';
+		$this->ci_vfs_create($nesting_view, $nesting_content.'<?php $loader->view("'.$view.'");', $this->ci_app_root, 'views');
+
+		// Test $vars inheritance to nested views
+		$out = $this->load->view($nesting_view, array("loader" => $this->load, $var => $value), TRUE);
+		$this->assertEquals($nesting_content.$content.$value, $out);
 	}
 
 	// --------------------------------------------------------------------
