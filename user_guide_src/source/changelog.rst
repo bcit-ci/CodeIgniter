@@ -17,6 +17,7 @@ Release Date: Not Released
    -  Updated :doc:`Database Library <database/index>` 'pdo' driver to attempt to free resources in order to allow connections to be closed.
    -  Added ``SameSite=Strict`` attribute to the CSRF cookie sent by the :doc:`Security Class <libraries/security>`.
    -  Added ``$config['cookie_samesite']`` option and ``$samesite`` parameter to :doc:`Input Library <libraries/input>` method ``set_cookie()``.
+   -  Added ``SameSite`` support through ``$config['sess_samesite']`` option to the :doc:`Session Library <libraries/sessions>`.
    -  Added a wrapper class around :doc:`Session <libraries/sessions>` drivers to deal with compatibility between PHP 8.1 and older versions.
    -  Updated a lot of code for PHP 8.0 and 8.1 compatibility.
 

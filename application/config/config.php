@@ -341,6 +341,10 @@ $config['encryption_key'] = '';
 |
 |	The session cookie name, must contain only [0-9a-z_-] characters
 |
+| 'sess_samesite'
+|
+|	Session cookie SameSite attribute: Lax (default), Strict or None
+|
 | 'sess_expiration'
 |
 |	The number of SECONDS you want the session to last.
@@ -381,6 +385,7 @@ $config['encryption_key'] = '';
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
+$config['sess_samesite'] = 'Lax';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
