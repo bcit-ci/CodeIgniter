@@ -35,7 +35,6 @@ The following functions are available:
 	:rtype:	string
 
 	Generates a random string based on the type and length you specify.
-	Useful for creating passwords or generating random hashes.
 
 	The first parameter specifies the type of string, the second parameter
 	specifies the length. The following choices are available:
@@ -51,6 +50,10 @@ The following functions are available:
 	Usage example::
 
 		echo random_string('alnum', 16);
+
+	.. note:: Usage of this function is NOT suitable for password generation
+		or other security-sensitive purposes. Please use
+		`random_bytes() <https://secure.php.net/random_bytes>`_ instead.
 
 .. php:function:: increment_string($str[, $separator = '_'[, $first = 1]])
 
