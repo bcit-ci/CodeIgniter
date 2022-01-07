@@ -325,7 +325,7 @@ class CI_Session {
 				'path'     => $params['cookie_path'],
 				'domain'   => $params['cookie_domain'],
 				'secure'   => $params['cookie_secure'],
-				'httponly' => $params['cookie_httponly'],
+				'httponly' => TRUE,
 				'samesite' => $params['cookie_samesite']
 			));
 		}
