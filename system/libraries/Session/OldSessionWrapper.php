@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_SessionWrapper implements SessionHandlerInterface {
 
-	protected CI_Session_driver_interface $driver;
+	protected $driver;
 
 	public function __construct(CI_Session_driver_interface $driver)
 	{
