@@ -107,17 +107,17 @@ class CI_Session {
 		$wrapper = new CI_SessionWrapper($class);
 		if (is_php('5.4'))
 		{
-			session_set_save_handler($class, TRUE);
+			session_set_save_handler($wrapper, TRUE);
 		}
 		else
 		{
 			session_set_save_handler(
-				array($class, 'open'),
-				array($class, 'close'),
-				array($class, 'read'),
-				array($class, 'write'),
-				array($class, 'destroy'),
-				array($class, 'gc')
+				array($wrapper, 'open'),
+				array($wrapper, 'close'),
+				array($wrapper, 'read'),
+				array($wrapper, 'write'),
+				array($wrapper, 'destroy'),
+				array($wrapper, 'gc')
 			);
 
 			register_shutdown_function('session_write_close');
