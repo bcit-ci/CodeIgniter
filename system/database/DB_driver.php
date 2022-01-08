@@ -1576,6 +1576,7 @@ abstract class CI_DB_driver {
 				'\s+EXISTS\s*\(.*\)',        // EXISTS(sql)
 				'\s+NOT EXISTS\s*\(.*\)',    // NOT EXISTS(sql)
 				'\s+BETWEEN\s+',                 // BETWEEN value AND value
+				'\s+NOT BETWEEN\s+',             // NOT BETWEEN value AND value
 				'\s+IN\s*\(.*\)',            // IN(list)
 				'\s+NOT IN\s*\(.*\)',        // NOT IN (list)
 				'\s+LIKE\s+\S.*('.$_les.')?',    // LIKE 'expr'[ ESCAPE '%s']
