@@ -336,7 +336,7 @@ class CI_Session {
 		{
 			session_set_cookie_params(
 				$params['cookie_lifetime'],
-				$params['cookie_path'],
+				$params['cookie_path'].'; SameSite='.$params['cookie_samesite'],
 				$params['cookie_domain'],
 				$params['cookie_secure'],
 				TRUE // HttpOnly; Yes, this is intentional and not configurable for security reasons
