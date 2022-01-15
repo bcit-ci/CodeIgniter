@@ -182,7 +182,7 @@ class CI_Session {
 
 			if ( ! $this->_config['cookie_secure'] && $this->_config['cookie_samesite'] === 'None')
 			{
-				log_message('error', 'Session:', $this->_config['cookie_name'].' cookie sent with SameSite=None, but without Secure attribute.');
+				log_message('error', "Session: '".$this->_config['cookie_name']."' cookie sent with SameSite=None, but without Secure attribute.'");
 			}
 		}
 
