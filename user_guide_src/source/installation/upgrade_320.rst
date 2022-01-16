@@ -275,7 +275,7 @@ methods that were specific to it and not present in other database drivers.
 The ``$curs_id`` property is also removed.
 
 If you were using those, you can create your own cursors via ``oci_new_cursor()``
-and the publicly accessible ``$conn_id()``.
+and the publicly accessible ``$conn_id``.
 
 Stop 14: Replace $config['log_file_extension'] with $config['log_filename'] in application/config/config.php
 ============================================================================================================
