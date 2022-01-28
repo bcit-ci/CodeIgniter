@@ -55,7 +55,7 @@ class CI_Output {
 	 *
 	 * @var	string
 	 */
-	public $final_output;
+	public $final_output = '';
 
 	/**
 	 * Cache expiration time
