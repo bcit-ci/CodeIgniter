@@ -257,11 +257,7 @@ abstract class CI_DB_utility {
 			$line = array();
 			foreach ($row as $item)
 			{
-				if (is_null($item))
-				{
-					$item = '';
-				}
-				$line[] = $enclosure.str_replace($enclosure, $enclosure.$enclosure, $item).$enclosure;
+				$line[] = $enclosure.str_replace($enclosure, $enclosure.$enclosure, (string) $item).$enclosure;
 			}
 			$out .= implode($delim, $line).$newline;
 		}
