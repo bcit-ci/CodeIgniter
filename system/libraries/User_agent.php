@@ -304,7 +304,10 @@ class CI_User_agent {
 				{
 					$this->is_browser = TRUE;
 					$this->version = $match[1];
-					$this->browser = $val;
+					// Chrome for iOS uses nearly the same user agent as Mobile Safari.
+					// The only way to detect this is to look for 'CriOS' in the user agent.
+					// https://chromium.googlesource.com/chromium/src/+/HEAD/docs/ios/user_agent.md
+					$this->browser = (strtolower($val) === 'safari' && preg_match('/(crios)/', strtolower($this->agent))) ? $this->browsers['Chrome'] : $val;
 					$this->_set_mobile();
 					return TRUE;
 				}
