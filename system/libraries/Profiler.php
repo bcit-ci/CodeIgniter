@@ -496,7 +496,7 @@ class CI_Profiler {
 			}
 
 			$output .= '<tr><td style="padding:5px;vertical-align:top;color:#900;background-color:#ddd;">'
-				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.$pre.htmlspecialchars($val, ENT_QUOTES, config_item('charset')).$pre_close."</td></tr>\n";
+				.$config.'&nbsp;&nbsp;</td><td style="padding:5px;color:#000;background-color:#ddd;">'.$pre.htmlspecialchars((($val) ? $val :''), ENT_QUOTES, config_item('charset')).$pre_close."</td></tr>\n";
 		}
 
 		return $output."</table>\n</fieldset>";
