@@ -153,7 +153,7 @@ abstract class CI_Session_driver {
 
 		return setcookie(
 			$this->_config['cookie_name'],
-			NULL,
+			'',
 			array(
 				'expires' => 1,
 				'path' => $this->_config['cookie_path'],
