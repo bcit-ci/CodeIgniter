@@ -133,7 +133,6 @@ if ( ! function_exists('_list'))
 			// Write the opening list tag
 			.'<'.$type._stringify_attributes($attributes).">\n";
 
-
 		// Cycle through the list elements.  If an array is
 		// encountered we will recursively call _list()
 

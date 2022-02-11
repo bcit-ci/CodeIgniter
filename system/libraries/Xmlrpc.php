@@ -1911,7 +1911,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	 * @param	int	unix timestamp
 	 * @param	bool
 	 * @return	string
-	*/
+	 */
 	public function iso8601_encode($time, $utc = FALSE)
 	{
 		return ($utc) ? date('Ymd\TH:i:s', $time) : gmdate('Ymd\TH:i:s', $time);
