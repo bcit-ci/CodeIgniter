@@ -69,7 +69,6 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	protected $_redis;
 
-
 	/**
 	 * del()/delete() method name depending on phpRedis version
 	 *
