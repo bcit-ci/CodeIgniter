@@ -656,7 +656,6 @@ class CI_Security {
 			return $output;
 		}
 
-
 		if (is_readable('/dev/urandom') && ($fp = fopen('/dev/urandom', 'rb')) !== FALSE)
 		{
 			// Try not to waste entropy ...
