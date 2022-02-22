@@ -122,7 +122,7 @@ abstract class CI_Session_driver {
 	 */
 	public function php5_validate_id()
 	{
-		if (isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateSessionId($_COOKIE[$this->_config['cookie_name']]))
+		if ($this->_success === 0 && isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateId($_COOKIE[$this->_config['cookie_name']]))
 		{
 			unset($_COOKIE[$this->_config['cookie_name']]);
 		}

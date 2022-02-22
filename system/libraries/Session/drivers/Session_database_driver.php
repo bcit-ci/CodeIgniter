@@ -345,15 +345,40 @@ class CI_Session_database_driver extends CI_Session_driver implements CI_Session
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update Timestamp
+	 *
+	 * Update session timestamp without modifying data
+	 *
+	 * @param	string	$id	Session ID
+	 * @param	string	$data	Unknown & unused
+	 * @return	bool
+	 */
+	public function updateTimestamp($id, $unknown)
+	{
+		// Prevent previous QB calls from messing with our queries
+		$this->_db->reset_query();
+
+		$this->_db->where('id', $id);
+		if ($this->_config['match_ip'])
+		{
+			$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
+		}
+
+		return (bool) $this->_db->update($this->_config['save_path'], array('timestamp' => time()));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate ID
 	 *
 	 * Checks whether a session ID record exists server-side,
 	 * to enforce session.use_strict_mode.
 	 *
-	 * @param	string	$id
+	 * @param	string	$id	Session ID
 	 * @return	bool
 	 */
-	public function validateSessionId($id)
+	public function validateId($id)
 	{
 		// Prevent previous QB calls from messing with our queries
 		$this->_db->reset_query();

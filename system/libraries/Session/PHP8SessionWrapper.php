@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author	Andrey Andreev
  * @link	https://codeigniter.com/userguide3/libraries/sessions.html
  */
-class CI_SessionWrapper implements SessionHandlerInterface {
+class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface {
 
 	protected CI_Session_driver_interface $driver;
 
@@ -86,5 +86,15 @@ class CI_SessionWrapper implements SessionHandlerInterface {
 	public function gc(int $maxlifetime): mixed
 	{
 		return $this->driver->gc($maxlifetime);
+	}
+
+	public function updateTimestamp(string $id, string$data): bool
+	{
+		return $this->driver->updateTimestamp($id, $data);
+	}
+
+	public function validateId(string $id): bool
+	{
+		return $this->driver->validateId($id);
 	}
 }

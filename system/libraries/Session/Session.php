@@ -207,6 +207,8 @@ class CI_Session {
 	{
 		// PHP 5.4 compatibility
 		interface_exists('SessionHandlerInterface', FALSE) OR require_once(BASEPATH.'libraries/Session/SessionHandlerInterface.php');
+		// PHP 7 compatibility
+		interface_exists('SessionUpdateTimestampHandlerInterface', FALSE) OR require_once(BASEPATH.'libraries/Session/SessionUpdateTimestampHandlerInterface.php');
 
 		require_once(BASEPATH.'libraries/Session/CI_Session_driver_interface.php');
 		$wrapper = is_php('8.0') ? 'PHP8SessionWrapper' : 'OldSessionWrapper';
