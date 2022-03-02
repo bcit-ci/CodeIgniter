@@ -5,7 +5,11 @@ Change Log
 Version 3.1.12
 ==============
 
-Release Date: Not Released
+Release Date: Mar 3, 2022
+
+- **Security**
+
+   -  Fixed a possible session fixation vulnerability where ``session.use_strict_mode`` wasn't enforced on PHP 7+.
 
 -  General Changes
 
