@@ -296,15 +296,31 @@ class CI_Session_memcached_driver extends CI_Session_driver implements CI_Sessio
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update Timestamp
+	 *
+	 * Update session timestamp without modifying data
+	 *
+	 * @param	string	$id	Session ID
+	 * @param	string	$data	Unknown & unused
+	 * @return	bool
+	 */
+	public function updateTimestamp($id, $unknown)
+	{
+		return $this->_memcached->touch($this->_key_prefix.$id, $this->_config['expiration']);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate ID
 	 *
 	 * Checks whether a session ID record exists server-side,
 	 * to enforce session.use_strict_mode.
 	 *
-	 * @param	string	$id
+	 * @param	string	$id	Session ID
 	 * @return	bool
 	 */
-	public function validateSessionId($id)
+	public function validateId($id)
 	{
 		$this->_memcached->get($this->_key_prefix.$id);
 		return ($this->_memcached->getResultCode() === Memcached::RES_SUCCESS);

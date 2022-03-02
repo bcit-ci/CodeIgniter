@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2022, CodeIgniter Foundation (https://codeigniter.com/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
@@ -55,4 +55,6 @@ interface CI_Session_driver_interface {
 	public function write($session_id, $session_data);
 	public function destroy($session_id);
 	public function gc($maxlifetime);
+	public function updateTimestamp($session_id, $data);
+	public function validateId($session_id);
 }

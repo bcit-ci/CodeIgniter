@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2022, CodeIgniter Foundation (https://codeigniter.com/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author	Andrey Andreev
  * @link	https://codeigniter.com/userguide3/libraries/sessions.html
  */
-class CI_SessionWrapper implements SessionHandlerInterface {
+class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface {
 
 	protected $driver;
 
@@ -84,5 +84,15 @@ class CI_SessionWrapper implements SessionHandlerInterface {
 	public function gc($maxlifetime)
 	{
 		return $this->driver->gc($maxlifetime);
+	}
+
+	public function updateTimestamp($id, $data)
+	{
+		return $this->driver->updateTimestamp($id, $data);
+	}
+
+	public function validateId($id)
+	{
+		return $this->driver->validateId($id);
 	}
 }

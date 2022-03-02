@@ -382,15 +382,31 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	// --------------------------------------------------------------------
 
 	/**
+	 * Update Timestamp
+	 *
+	 * Update session timestamp without modifying data
+	 *
+	 * @param	string	$id	Session ID
+	 * @param	string	$data	Unknown & unused
+	 * @return	bool
+	 */
+	public function updateTimestamp($id, $unknown)
+	{
+		return $this->_redis->{$this->_setTimeout_name}($this->_key_prefix.$id, $this->_config['expiration']);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Validate ID
 	 *
 	 * Checks whether a session ID record exists server-side,
 	 * to enforce session.use_strict_mode.
 	 *
-	 * @param	string	$id
+	 * @param	string	$id	Session ID
 	 * @return	bool
 	 */
-	public function validateSessionId($id)
+	public function validateId($id)
 	{
 		return (bool) $this->_redis->exists($this->_key_prefix.$id);
 	}
