@@ -79,6 +79,6 @@ then
 fi
 
 cp -r user_guide_src/build/html/ user_guide/
-cp user_guide_src/build/epub/CodeIgniter.epub "CodeIgniter ${version_number}.epub"
+git add user_guide/
 
 echo "Build complete."
