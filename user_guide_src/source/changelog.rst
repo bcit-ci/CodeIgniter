@@ -2,6 +2,17 @@
 Change Log
 ##########
 
+Version 3.1.13
+==============
+
+Release Date: Mar 3, 2022
+=========================
+
+Bug fixes for 3.1.13
+====================
+
+-  Fixed a bug (#6107) - :doc:`Session Library <libraries/sessions>` broke for PHP 5 due to a misnamed polyfill interface.
+
 Version 3.1.12
 ==============
 

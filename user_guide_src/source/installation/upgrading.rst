@@ -8,6 +8,7 @@ upgrading from.
 .. toctree::
 	:titlesonly:
 
+	Upgrading from 3.1.12 to 3.1.13 <upgrade_3113>
 	Upgrading from 3.1.11 to 3.1.12 <upgrade_3112>
 	Upgrading from 3.1.10 to 3.1.11 <upgrade_3111>
 	Upgrading from 3.1.9 to 3.1.10 <upgrade_3110>
