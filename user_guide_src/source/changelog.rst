@@ -149,6 +149,16 @@ Bug fixes for 3.2.0
 -  Fixed a bug (#5562) - :doc:`Cache Library <libraries/caching>` 'redis' driver would pointlessly attempt to perform its functions if a connection to the Redis server failed.
 -  Fixed a bug (#92) - :doc:`File Helper <helpers/file_helper>` function :php:func:`get_dir_file_info()` output could have colliding array keys.
 
+Version 3.1.13
+==============
+
+Release Date: Mar 3, 2022
+
+Bug fixes for 3.1.13
+====================
+
+-  Fixed a bug (#6107) - :doc:`Session Library <libraries/sessions>` broke for PHP 5 due to a misnamed polyfill interface.
+
 Version 3.1.12
 ==============
 
