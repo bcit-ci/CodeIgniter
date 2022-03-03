@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author	Andrey Andreev
  * @link	https://codeigniter.com/userguide3/libraries/sessions.html
  */
-interface SessionHandlerInterface {
+interface SessionUpdateTimestampHandlerInterface {
 
 	public function updateTimestamp($session_id, $data);
 	public function validateId($session_id);
