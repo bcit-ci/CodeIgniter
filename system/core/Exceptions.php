@@ -171,6 +171,17 @@ class CI_Exceptions {
 		else
 		{
 			set_status_header($status_code);
+			if (is_array($message))
+			{
+				foreach ($message as &$value)
+				{
+				   $value = htmlspecialchars($value);
+				}
+			}
+			else
+			{
+				$message = htmlspecialchars($message);
+			}
 			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
 			$template = 'html'.DIRECTORY_SEPARATOR.$template;
 		}
