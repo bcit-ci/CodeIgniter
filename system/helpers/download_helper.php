@@ -64,7 +64,7 @@ if ( ! function_exists('force_download'))
 	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)
 	{
-		if ($filename === '' OR $data === '')
+		if ($filename === '' AND $data === '')
 		{
 			return;
 		}
