@@ -228,7 +228,7 @@ if ( ! function_exists('get_dir_file_info'))
 				}
 				elseif ($file[0] !== '.')
 				{
-					$filedata = get_dir_file_info($source_dir.$file);
+					$filedata = get_file_info($source_dir.$file);
 					$filedata['relative_path'] = $relative_path;
 					$_filedata[] = $filedata;
 				}
