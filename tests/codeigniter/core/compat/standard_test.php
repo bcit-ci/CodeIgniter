@@ -4,11 +4,6 @@ class standard_test extends CI_TestCase {
 
 	public function test_bootstrap()
 	{
-		if (is_php('5.5'))
-		{
-			return $this->markTestSkipped('All array functions are already available on PHP 5.5');
-		}
-
 		$this->assertTrue(function_exists('array_column'));
 	}
 

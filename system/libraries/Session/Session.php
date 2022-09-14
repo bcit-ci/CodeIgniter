@@ -105,23 +105,17 @@ class CI_Session {
 
 		$class   = new $class($this->_config);
 		$wrapper = new CI_SessionWrapper($class);
-		if (is_php('5.4'))
-		{
-			session_set_save_handler($wrapper, TRUE);
-		}
-		else
-		{
-			session_set_save_handler(
-				array($wrapper, 'open'),
-				array($wrapper, 'close'),
-				array($wrapper, 'read'),
-				array($wrapper, 'write'),
-				array($wrapper, 'destroy'),
-				array($wrapper, 'gc')
-			);
 
-			register_shutdown_function('session_write_close');
-		}
+		session_set_save_handler(
+			array($wrapper, 'open'),
+			array($wrapper, 'close'),
+			array($wrapper, 'read'),
+			array($wrapper, 'write'),
+			array($wrapper, 'destroy'),
+			array($wrapper, 'gc')
+		);
+
+		register_shutdown_function('session_write_close');
 
 		// Sanitize the cookie, because apparently PHP doesn't do that for userspace handlers
 		if (isset($_COOKIE[$this->_config['cookie_name']])

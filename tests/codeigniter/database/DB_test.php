@@ -29,7 +29,7 @@ class DB_test extends CI_TestCase {
 
 		// E_DEPRECATED notices thrown by mysql_connect(), mysql_pconnect()
 		// on PHP 5.5+ cause the tests to fail
-		if (DB_DRIVER === 'mysql' && version_compare(PHP_VERSION, '5.5', '>='))
+		if (DB_DRIVER === 'mysql')
 		{
 			error_reporting(E_ALL & ~E_DEPRECATED);
 		}

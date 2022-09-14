@@ -4,13 +4,9 @@ class password_test extends CI_TestCase {
 
 	public function test_bootstrap()
 	{
-		if (is_php('5.5'))
-		{
-			return $this->markTestSkipped('ext/standard/password is available on PHP 5.5');
-		}
 		// defined as of HHVM 2.3.0, which is also when they introduce password_*() as well
 		// Note: Do NOT move this after the CRYPT_BLOWFISH check
-		elseif (defined('HHVM_VERSION'))
+		if (defined('HHVM_VERSION'))
 		{
 			$this->markTestSkipped('HHVM 2.3.0+ already has it');
 		}

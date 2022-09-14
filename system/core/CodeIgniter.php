@@ -223,11 +223,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		define('ICONV_ENABLED', FALSE);
 	}
 
-	if (is_php('5.6'))
-	{
-		ini_set('php.internal_encoding', $charset);
-	}
-
 /*
  * ------------------------------------------------------
  *  Load compatibility features

@@ -1303,19 +1303,14 @@ class CI_Form_validation {
 	 */
 	public function valid_mac($mac)
 	{
-		if ( ! is_php('5.5'))
+		// Most common format, with either dash or colon delimiters
+		if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}(?P=delimiter)){4}[0-9a-f]{2}\z#i', $mac))
 		{
-			// Most common format, with either dash or colon delimiters
-			if (preg_match('#\A[0-9a-f]{2}(?<delimiter>[:-])([0-9a-f]{2}(?P=delimiter)){4}[0-9a-f]{2}\z#i', $mac))
-			{
-				return TRUE;
-			}
-
-			// The less common format; e.g. 0123.4567.89ab
-			return (bool) preg_match('#((\A|\.)[0-9a-f]{4}){3}\z#i', $mac);
+			return TRUE;
 		}
 
-		return (bool) filter_var($mac, FILTER_VALIDATE_MAC);
+		// The less common format; e.g. 0123.4567.89ab
+		return (bool) preg_match('#((\A|\.)[0-9a-f]{4}){3}\z#i', $mac);
 	}
 
 	// --------------------------------------------------------------------
