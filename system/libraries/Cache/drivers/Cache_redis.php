@@ -163,7 +163,7 @@ class CI_Cache_redis extends CI_Driver
 	{
 		$data = $this->_redis->hMGet($key, array('__ci_type', '__ci_value'));
 
-		if ($value !== FALSE && $this->_redis->sIsMember('_ci_redis_serialized', $key))
+		if ($data !== FALSE && $this->_redis->sIsMember('_ci_redis_serialized', $key))
 		{
 			return FALSE;
 		}
