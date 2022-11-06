@@ -1,5 +1,6 @@
 <?php
 
+#[AllowDynamicProperties]
 class CI_TestCase extends \PHPUnit\Framework\TestCase {
 
 	public $ci_vfs_root;

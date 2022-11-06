@@ -125,7 +125,7 @@ class Loader_test extends CI_TestCase {
 		// Create library in VFS
 		$lib = 'unit_test_config_lib';
 		$class = 'CI_'.ucfirst($lib);
-		$content = '<?php class '.$class.' { public function __construct($params) { $this->config = $params; } }';
+		$content = "<?php \n#[AllowDynamicProperties]\nclass ".$class.' { public function __construct($params) { $this->config = $params; } }';
 		$this->ci_vfs_create(ucfirst($lib), $content, $this->ci_base_root, 'libraries');
 
 		// Create config file
