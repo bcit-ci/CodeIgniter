@@ -59,9 +59,6 @@ class Upload_test extends CI_TestCase {
 		$data = array(
 				'file_name'		=> 'hello.txt',
 				'file_type'		=> 'text/plain',
-				'file_path'		=> '/tmp/',
-				'full_path'		=> '/tmp/hello.txt',
-				'raw_name'		=> 'hello',
 				'orig_name'		=> 'hello.txt',
 				'client_name'		=> '',
 				'file_ext'		=> '.txt',
@@ -79,6 +76,10 @@ class Upload_test extends CI_TestCase {
 		{
 			$this->upload->{$k}	= $v;
 		}
+
+		$data['file_path'] = '/tmp/';
+		$data['full_path'] = '/tmp/hello.txt';
+		$data['raw_name'] = 'hello';
 
 		$this->assertEquals('hello.txt', $this->upload->data('file_name'));
 		$this->assertEquals($data, $this->upload->data());
