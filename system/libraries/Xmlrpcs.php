@@ -551,8 +551,8 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	 */
 	public function multicall_error($err)
 	{
-		$str = is_string($err) ? $this->xmlrpcstr["multicall_${err}"] : $err->faultString();
-		$code = is_string($err) ? $this->xmlrpcerr["multicall_${err}"] : $err->faultCode();
+		$str = is_string($err) ? $this->xmlrpcstr["multicall_$err"] : $err->faultString();
+		$code = is_string($err) ? $this->xmlrpcerr["multicall_$err"] : $err->faultCode();
 
 		$struct['faultCode'] = new XML_RPC_Values($code, 'int');
 		$struct['faultString'] = new XML_RPC_Values($str, 'string');
