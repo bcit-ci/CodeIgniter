@@ -28,7 +28,14 @@ class Log_test extends CI_TestCase {
 		$this->assertEquals($date_fmt->getValue($instance), 'd.m.Y');
 		$this->assertEquals($filename->getValue($instance), 'log-'.date('Y-m-d').'.php');
 		$this->assertEquals($file_perms->getValue($instance), 0644);
-		$this->assertFalse($enabled->getValue($instance));
+		if (is_really_writable('/root/'))
+		{
+			$this->assertEquals($enabled->getValue($instance), TRUE);
+		}
+		else
+		{
+			$this->assertFalse($enabled->getValue($instance));
+		}
 
 		$this->ci_set_config('log_path', '');
 		$this->ci_set_config('log_threshold', '0');
