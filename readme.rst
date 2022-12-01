@@ -53,7 +53,7 @@ agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/so
 Resources
 *********
 
--  `User Guide <https://codeigniter.com/docs>`_
+-  `User Guide <https://codeigniter.com/userguide3/>`_
 -  `Contributing Guide <https://github.com/bcit-ci/CodeIgniter/blob/develop/contributing.md>`_
 -  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
 -  `Community Forums <https://forum.codeigniter.com/>`_
