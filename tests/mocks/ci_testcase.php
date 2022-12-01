@@ -5,6 +5,7 @@ class CI_TestCase extends \PHPUnit\Framework\TestCase {
 	public $ci_vfs_root;
 	public $ci_app_root;
 	public $ci_base_root;
+	public $ci_readonly_dir;
 	protected $ci_instance;
 	protected static $ci_test_instance;
 
@@ -39,6 +40,7 @@ class CI_TestCase extends \PHPUnit\Framework\TestCase {
 		$this->ci_app_root = vfsStream::newDirectory('application')->at($this->ci_vfs_root);
 		$this->ci_base_root = vfsStream::newDirectory('system')->at($this->ci_vfs_root);
 		$this->ci_view_root = vfsStream::newDirectory('views')->at($this->ci_app_root);
+		$this->ci_readonly_dir = vfsStream::newDirectory('readonly', 555)->at($this->ci_app_root);
 
 		if (method_exists($this, 'set_up'))
 		{

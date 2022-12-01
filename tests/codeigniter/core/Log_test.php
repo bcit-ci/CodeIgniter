@@ -16,14 +16,14 @@ class Log_test extends CI_TestCase {
 		$enabled    = new ReflectionProperty('CI_Log', '_enabled');
 		$enabled->setAccessible(TRUE);
 
-		$this->ci_set_config('log_path', '/root/');
+		$this->ci_set_config('log_path', $this->ci_readonly_dir->url());
 		$this->ci_set_config('log_threshold', 'z');
 		$this->ci_set_config('log_date_format', 'd.m.Y');
 		$this->ci_set_config('log_filename', '');
 		$this->ci_set_config('log_file_permissions', '');
 		$instance = new CI_Log();
 
-		$this->assertEquals($path->getValue($instance), '/root/');
+		$this->assertNotFalse(strpos($path->getValue($instance), 'application/readonly'));
 		$this->assertEquals($threshold->getValue($instance), 1);
 		$this->assertEquals($date_fmt->getValue($instance), 'd.m.Y');
 		$this->assertEquals($filename->getValue($instance), 'log-'.date('Y-m-d').'.php');
@@ -37,7 +37,7 @@ class Log_test extends CI_TestCase {
 		$this->ci_set_config('log_file_permissions', 0600);
 		$instance = new CI_Log();
 
-		$this->assertEquals($path->getValue($instance), APPPATH.'logs/');
+		$this->assertEquals($path->getValue($instance), $this->ci_vfs_root->url().'application/logs'.DIRECTORY_SEPARATOR);
 		$this->assertEquals($threshold->getValue($instance), 0);
 		$this->assertEquals($date_fmt->getValue($instance), 'Y-m-d H:i:s');
 		$this->assertEquals($filename->getValue($instance), 'testname.log');
