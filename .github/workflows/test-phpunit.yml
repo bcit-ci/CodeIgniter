@@ -2,6 +2,9 @@ name: PHPUnit
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   tests:
     runs-on: ubuntu-18.04

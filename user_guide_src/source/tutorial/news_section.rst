@@ -116,7 +116,7 @@ so it can be used in all other methods in this controller.
 It also loads a collection of :doc:`URL Helper <../helpers/url_helper>`
 functions, because we'll use one of them in a view later.
 
-Next, there are two methods to view all news items and one for a specific
+Next, there are two methods to view news items: one for all news items and one for a specific
 news item. You can see that the ``$slug`` variable is passed to the model's
 method in the second method. The model is using this slug to identify the
 news item to be returned.
