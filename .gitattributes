@@ -16,6 +16,8 @@ phpdoc.dist.xml export-ignore
 # Misc other files
 .editorconfig export-ignore
 phpdoc.dist.xml export-ignore
+DCO.txt export-ignore
+contributing.md export-ignore
 
 # They don't want all of our tests...
 tests/codeigniter/ export-ignore
