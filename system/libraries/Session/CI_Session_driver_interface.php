@@ -49,12 +49,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 interface CI_Session_driver_interface {
 
+	#[\ReturnTypeWillChange] <- add this to every function
 	public function open($save_path, $name);
+	#[\ReturnTypeWillChange]
 	public function close();
+	#[\ReturnTypeWillChange]
 	public function read($session_id);
+	#[\ReturnTypeWillChange]
 	public function write($session_id, $session_data);
+	#[\ReturnTypeWillChange]
 	public function destroy($session_id);
+	#[\ReturnTypeWillChange]
 	public function gc($maxlifetime);
-	public function updateTimestamp($session_id, $data);
-	public function validateId($session_id);
 }

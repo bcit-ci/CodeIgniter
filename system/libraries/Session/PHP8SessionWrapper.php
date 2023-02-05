@@ -56,7 +56,7 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 		$this->driver = $driver;
 	}
 
-	public function open(string $save_path, string $name): bool
+	public function open($save_path, $name): bool
 	{
 		return $this->driver->open($save_path, $name);
 	}
@@ -67,33 +67,33 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 	}
 
 	#[\ReturnTypeWillChange]
-	public function read(string $id): mixed
+	public function read($id): mixed
 	{
 		return $this->driver->read($id);
 	}
 
-	public function write(string $id, string $data): bool
+	public function write($id, $data): bool
 	{
 		return $this->driver->write($id, $data);
 	}
 
-	public function destroy(string $id): bool
+	public function destroy($id): bool
 	{
 		return $this->driver->destroy($id);
 	}
 
 	#[\ReturnTypeWillChange]
-	public function gc(int $maxlifetime): mixed
+	public function gc($maxlifetime): mixed
 	{
 		return $this->driver->gc($maxlifetime);
 	}
 
-	public function updateTimestamp(string $id, string$data): bool
+	public function updateTimestamp($id, $data): bool
 	{
 		return $this->driver->updateTimestamp($id, $data);
 	}
 
-	public function validateId(string $id): bool
+	public function validateId($id): bool
 	{
 		return $this->driver->validateId($id);
 	}
