@@ -444,7 +444,7 @@ class CI_Loader {
 	/**
 	 * Load the Database Forge Class
 	 *
-	 * @param	object	$db	Database object
+	 * @param	CI_DB	$db	Database object
 	 * @param	bool	$return	Whether to return the DB Forge class object or not
 	 * @return	object
 	 */
@@ -686,7 +686,7 @@ class CI_Loader {
 	 * Loads language files.
 	 *
 	 * @param	string|string[]	$files	List of language file names to load
-	 * @param	string		Language name
+	 * @param	string  $lang Language name
 	 * @return	object
 	 */
 	public function language($files, $lang = '')
@@ -1425,7 +1425,7 @@ class CI_Loader {
 	 * Get a reference to a specific library or model.
 	 *
 	 * @param 	string	$component	Component name
-	 * @return	bool
+	 * @return	object
 	 */
 	protected function &_ci_get_component($component)
 	{

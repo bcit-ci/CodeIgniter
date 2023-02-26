@@ -285,8 +285,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @param	bool
-	 * @return	string	$prefix_limit
+	 * @param	bool	$prefix_limit
+	 * @return	string
 	 */
 	protected function _list_tables($prefix_limit = FALSE)
 	{

@@ -154,7 +154,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			{
 				log_message('error', "Database: Unable to set the configured connection charset ('{$this->char_set}').");
 				$this->close();
-				return ($this->db->debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
+				return ($this->db_debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
 			}
 
 			if (isset($this->stricton))

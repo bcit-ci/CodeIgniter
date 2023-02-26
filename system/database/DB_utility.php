@@ -230,7 +230,7 @@ abstract class CI_DB_utility {
 	/**
 	 * Generate CSV from a query result object
 	 *
-	 * @param	object	$query		Query result object
+	 * @param	CI_DB_result	$query		Query result object
 	 * @param	string	$delim		Delimiter (default: ,)
 	 * @param	string	$newline	Newline character (default: \n)
 	 * @param	string	$enclosure	Enclosure (default: ")
@@ -266,7 +266,7 @@ abstract class CI_DB_utility {
 	/**
 	 * Generate XML data from a query result object
 	 *
-	 * @param	object	$query	Query result object
+	 * @param	CI_DB_result	$query	Query result object
 	 * @param	array	$params	Any preferences
 	 * @return	string
 	 */

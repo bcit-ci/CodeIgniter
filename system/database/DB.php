@@ -38,6 +38,23 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
+// JTA moved this here for kicks
+	require_once(BASEPATH.'database/DB_driver.php');
+	require_once(BASEPATH.'database/DB_query_builder.php');
+		/**
+		 * CI_DB
+		 *
+		 * Acts as an alias for both CI_DB_driver and CI_DB_query_builder.
+		 *
+		 * @see	CI_DB_query_builder
+		 * @see	CI_DB_driver
+		 */
+		class CI_DB extends CI_DB_query_builder {}
+
+
+
+
 /**
  * Initialize the database
  *
@@ -148,21 +165,6 @@ function &DB($params = '')
 		show_error('You have not selected a database type to connect to.');
 	}
 
-	require_once(BASEPATH.'database/DB_driver.php');
-	require_once(BASEPATH.'database/DB_query_builder.php');
-	if ( ! class_exists('CI_DB', FALSE))
-	{
-		/**
-		 * CI_DB
-		 *
-		 * Acts as an alias for both CI_DB_driver and CI_DB_query_builder.
-		 *
-		 * @see	CI_DB_query_builder
-		 * @see	CI_DB_driver
-		 */
-		class CI_DB extends CI_DB_query_builder {}
-	}
-
 	// Load the DB driver
 	$driver_file = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
 	file_exists($driver_file) OR show_error('Invalid DB driver');
@@ -174,6 +176,9 @@ function &DB($params = '')
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
+	/**
+	 * @var CI_DB_driver
+	 */
 	$DB = new $driver($params);
 
 	// Check for a subdriver

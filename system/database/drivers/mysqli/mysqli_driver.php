@@ -227,7 +227,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 			{
 				log_message('error', "Database: Unable to set the configured connection charset ('{$this->char_set}').");
 				$this->_mysqli->close();
-				return ($this->db->db_debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
+				return ($this->db_debug) ? $this->display_error('db_unable_to_set_charset', $this->char_set) : FALSE;
 			}
 
 			return $this->_mysqli;

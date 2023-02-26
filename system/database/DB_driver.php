@@ -927,8 +927,8 @@ abstract class CI_DB_driver {
 	/**
 	 * Compile Bindings
 	 *
-	 * @param	string	the sql statement
-	 * @param	array	an array of bind data
+	 * @param	string	$sql	the sql statement
+	 * @param	array	$binds	an array of bind data
 	 * @return	string
 	 */
 	public function compile_binds($sql, $binds)
@@ -992,7 +992,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Determines if a query is a "write" type.
 	 *
-	 * @param	string	An SQL query string
+	 * @param	string	$sql	An SQL query string
 	 * @return	bool
 	 */
 	public function is_write_type($sql)
@@ -1005,7 +1005,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Calculate the aggregate query elapsed time
 	 *
-	 * @param	int	The number of decimal places
+	 * @param	int	$decimals	The number of decimal places
 	 * @return	string
 	 */
 	public function elapsed_time($decimals = 6)
@@ -1045,7 +1045,7 @@ abstract class CI_DB_driver {
 	 * Escapes data based on type
 	 * Sets boolean and null types
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	mixed
 	 */
 	public function escape($str)
@@ -1115,7 +1115,7 @@ abstract class CI_DB_driver {
 	 * Calls the individual driver for platform
 	 * specific escaping for LIKE conditions
 	 *
-	 * @param	string|string[]
+	 * @param	string|string[]	$str
 	 * @return	mixed
 	 */
 	public function escape_like_str($str)
@@ -1128,7 +1128,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Platform-dependent string escape
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _escape_str($str)
@@ -1161,7 +1161,7 @@ abstract class CI_DB_driver {
 	 * Generates a platform-specific query string that counts all records in
 	 * the specified database
 	 *
-	 * @param	string
+	 * @param	string	$table
 	 * @return	int
 	 */
 	public function count_all($table = '')
@@ -1299,8 +1299,8 @@ abstract class CI_DB_driver {
 	/**
 	 * Determine if a particular field exists
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$field_name
+	 * @param	string	$table_name
 	 * @return	bool
 	 */
 	public function field_exists($field_name, $table_name)
@@ -1392,8 +1392,8 @@ abstract class CI_DB_driver {
 	/**
 	 * Generate an insert string
 	 *
-	 * @param	string	the table upon which the query will be performed
-	 * @param	array	an associative array data of key/values
+	 * @param	string	$table	the table upon which the query will be performed
+	 * @param	array	$data	an associative array data of key/values
 	 * @return	string
 	 */
 	public function insert_string($table, $data)
@@ -1416,9 +1416,9 @@ abstract class CI_DB_driver {
 	 *
 	 * Generates a platform-specific insert string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
+	 * @param	string	$table	the table name
+	 * @param	array	$keys	the insert keys
+	 * @param	array	$values	the insert values
 	 * @return	string
 	 */
 	protected function _insert($table, $keys, $values)
@@ -1431,9 +1431,9 @@ abstract class CI_DB_driver {
 	/**
 	 * Generate an update string
 	 *
-	 * @param	string	the table upon which the query will be performed
-	 * @param	array	an associative array data of key/values
-	 * @param	mixed	the "where" statement
+	 * @param	string	$table	the table upon which the query will be performed
+	 * @param	array	$data	an associative array data of key/values
+	 * @param	mixed	$where	the "where" statement
 	 * @return	string
 	 */
 	public function update_string($table, $data, $where)
@@ -1463,8 +1463,8 @@ abstract class CI_DB_driver {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
+	 * @param	string	$table	the table name
+	 * @param	array	$values	the update data
 	 * @return	string
 	 */
 	protected function _update($table, $values)
@@ -1485,7 +1485,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Tests whether the string has an SQL operator
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	bool
 	 */
 	protected function _has_operator($str)
@@ -1498,7 +1498,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Returns the SQL string operator
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _get_operator($str)
@@ -1564,7 +1564,7 @@ abstract class CI_DB_driver {
 	/**
 	 * Set Cache Directory Path
 	 *
-	 * @param	string	the path to the cache directory
+	 * @param	string	$path the path to the cache directory
 	 * @return	void
 	 */
 	public function cache_set_path($path = '')
@@ -1683,9 +1683,9 @@ abstract class CI_DB_driver {
 	/**
 	 * Display an error message
 	 *
-	 * @param	string	the error message
-	 * @param	string	any "swap" values
-	 * @param	bool	whether to localize the message
+	 * @param	string	$error	the error message
+	 * @param	string	$swap	any "swap" values
+	 * @param	bool	$native	whether to localize the message
 	 * @return	string	sends the application/views/errors/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '', $native = FALSE)
@@ -1755,10 +1755,10 @@ abstract class CI_DB_driver {
 	 * insert the table prefix (if it exists) in the proper position, and escape only
 	 * the correct identifiers.
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @param	mixed
-	 * @param	bool
+	 * @param	string	$item
+	 * @param	bool	$prefix_single
+	 * @param	mixed	$protect_identifiers
+	 * @param	bool	$field_exists
 	 * @return	string
 	 */
 	public function protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)

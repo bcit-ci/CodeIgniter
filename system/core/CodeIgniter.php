@@ -253,10 +253,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 	$URI =& load_class('URI', 'core', $CFG);
 
-/*
+/**
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
+ * @var CI_Router|NULL
  */
 	$RTR =& load_class('Router', 'core', isset($routing) ? $routing : NULL);
 

@@ -67,7 +67,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	/**
 	 * CUBRID Export
 	 *
-	 * @param	array	Preferences
+	 * @param	array	$params	Preferences
 	 * @return	mixed
 	 */
 	protected function _backup($params = array())

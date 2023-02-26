@@ -79,6 +79,13 @@ class CI_Image_lib {
 	public $source_image		= '';
 
 	/**
+	 * Path to destination image
+	 *
+	 * @var string
+	 */
+	public $dest_image		= '';
+
+	/**
 	 * Path to the modified image
 	 *
 	 * @var string

@@ -278,8 +278,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates the SELECT portion of the query
 	 *
-	 * @param	string
-	 * @param	mixed
+	 * @param	string	$select
+	 * @param	mixed	$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function select($select = '*', $escape = NULL)
@@ -320,8 +320,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates a SELECT MAX(field) portion of a query
 	 *
-	 * @param	string	the field
-	 * @param	string	an alias
+	 * @param	string	$select	the field
+	 * @param	string	$alias	an alias
 	 * @return	CI_DB_query_builder
 	 */
 	public function select_max($select = '', $alias = '')
@@ -336,8 +336,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates a SELECT MIN(field) portion of a query
 	 *
-	 * @param	string	the field
-	 * @param	string	an alias
+	 * @param	string	$select	the field
+	 * @param	string	$alias	an alias
 	 * @return	CI_DB_query_builder
 	 */
 	public function select_min($select = '', $alias = '')
@@ -352,8 +352,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates a SELECT AVG(field) portion of a query
 	 *
-	 * @param	string	the field
-	 * @param	string	an alias
+	 * @param	string	$select	the field
+	 * @param	string	$alias	an alias
 	 * @return	CI_DB_query_builder
 	 */
 	public function select_avg($select = '', $alias = '')
@@ -368,8 +368,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates a SELECT SUM(field) portion of a query
 	 *
-	 * @param	string	the field
-	 * @param	string	an alias
+	 * @param	string	$select	the field
+	 * @param	string	$alias	an alias
 	 * @return	CI_DB_query_builder
 	 */
 	public function select_sum($select = '', $alias = '')
@@ -518,10 +518,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates the JOIN portion of the query
 	 *
-	 * @param	string
-	 * @param	string	the join condition
-	 * @param	string	the type of join
-	 * @param	string	whether not to try to escape identifiers
+	 * @param	string	$table
+	 * @param	string	$cond	the join condition
+	 * @param	string	$type	the type of join
+	 * @param	string	$escape	whether not to try to escape identifiers
 	 * @return	CI_DB_query_builder
 	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
@@ -607,9 +607,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates the WHERE portion of the query.
 	 * Separates multiple calls with 'AND'.
 	 *
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	bool
+	 * @param	mixed	$key
+	 * @param	mixed	$value
+	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function where($key, $value = NULL, $escape = NULL)
@@ -625,9 +625,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates the WHERE portion of the query.
 	 * Separates multiple calls with 'OR'.
 	 *
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	bool
+	 * @param	mixed	$key
+	 * @param	mixed	$value
+	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_where($key, $value = NULL, $escape = NULL)
@@ -1373,9 +1373,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Allows key/value pairs to be set for inserting or updating
 	 *
-	 * @param	mixed
-	 * @param	string
-	 * @param	bool
+	 * @param	mixed	$key
+	 * @param	string	$value
+	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function set($key, $value = '', $escape = NULL)
@@ -1405,8 +1405,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles a SELECT query string and returns the sql.
 	 *
-	 * @param	string	the table name to select from (optional)
-	 * @param	bool	TRUE: resets QB values; FALSE: leave QB values alone
+	 * @param	string	$table	the table name to select from (optional)
+	 * @param	bool	$reset	TRUE: resets QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_select($table = '', $reset = TRUE)
@@ -1435,9 +1435,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Compiles the select statement based on the other functions called
 	 * and runs the query
 	 *
-	 * @param	string	the table
-	 * @param	string	the limit clause
-	 * @param	string	the offset clause
+	 * @param	string	$table	the table
+	 * @param	string	$limit	the limit clause
+	 * @param	string	$offset	the offset clause
 	 * @return	CI_DB_result
 	 */
 	public function get($table = '', $limit = NULL, $offset = NULL)
@@ -1466,8 +1466,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * Generates a platform-specific query string that counts all records
 	 * returned by an Query Builder query.
 	 *
-	 * @param	string
-	 * @param	bool	the reset clause
+	 * @param	string	$table
+	 * @param	bool	$reset	the reset clause
 	 * @return	int
 	 */
 	public function count_all_results($table = '', $reset = TRUE)
@@ -1620,9 +1620,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
 	 *
-	 * @param	mixed
-	 * @param	string
-	 * @param	bool
+	 * @param	mixed	$key
+	 * @param	string	$value
+	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function set_insert_batch($key, $value = '', $escape = NULL)
@@ -1680,8 +1680,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles an insert query and returns the sql
 	 *
-	 * @param	string	the table to insert into
-	 * @param	bool	TRUE: reset QB values; FALSE: leave QB values alone
+	 * @param	string	$table	the table to insert into
+	 * @param	bool	$reset	TRUE: reset QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_insert($table = '', $reset = TRUE)
@@ -1714,8 +1714,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles an insert string and runs the query
 	 *
-	 * @param	string	the table to insert data into
-	 * @param	array	an associative array of insert values
+	 * @param	string	$table	the table to insert data into
+	 * @param	array	$set	an associative array of insert values
 	 * @param	bool	$escape	Whether to escape values and identifiers
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
@@ -1752,7 +1752,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * validate that the there data is actually being set and that table
 	 * has been chosen to be inserted into.
 	 *
-	 * @param	string	the table to insert data into
+	 * @param	string	$table	the table to insert data into
 	 * @return	string
 	 */
 	protected function _validate_insert($table = '')
@@ -1781,8 +1781,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles an replace into string and runs the query
 	 *
-	 * @param	string	the table to replace data into
-	 * @param	array	an associative array of insert values
+	 * @param	string	$table	the table to replace data into
+	 * @param	array	$set	an associative array of insert values
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function replace($table = '', $set = NULL)
@@ -1820,9 +1820,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates a platform-specific replace string from the supplied data
 	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
+	 * @param	string	$table	the table name
+	 * @param	array	$keys	the insert keys
+	 * @param	array	$values	the insert values
 	 * @return	string
 	 */
 	protected function _replace($table, $keys, $values)
@@ -1854,8 +1854,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles an update query and returns the sql
 	 *
-	 * @param	string	the table to update
-	 * @param	bool	TRUE: reset QB values; FALSE: leave QB values alone
+	 * @param	string	$table	the table to update
+	 * @param	bool	$reset	TRUE: reset QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_update($table = '', $reset = TRUE)
@@ -1930,7 +1930,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * validate that data is actually being set and that a table has been
 	 * chosen to be update.
 	 *
-	 * @param	string	the table to update data on
+	 * @param	string	$table	the table to update data on
 	 * @return	bool
 	 */
 	protected function _validate_update($table)
@@ -1959,9 +1959,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles an update string and runs the query
 	 *
-	 * @param	string	the table to retrieve the results from
-	 * @param	array	an associative array of update values
-	 * @param	string	the where key
+	 * @param	string	$table	the table to retrieve the results from
+	 * @param	array	$set	an associative array of update values
+	 * @param	string	$index	the where key
+	 * @param	int	$batch_size
 	 * @return	int	number of rows affected or FALSE on failure
 	 */
 	public function update_batch($table, $set = NULL, $index = NULL, $batch_size = 100)
@@ -2063,9 +2064,9 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * The "set_update_batch" function.  Allows key/value pairs to be set for batch updating
 	 *
-	 * @param	array
-	 * @param	string
-	 * @param	bool
+	 * @param	array	$key
+	 * @param	string	$index
+	 * @param	bool	$escape
 	 * @return	CI_DB_query_builder
 	 */
 	public function set_update_batch($key, $index = '', $escape = NULL)
@@ -2114,7 +2115,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles a delete string and runs "DELETE FROM table"
 	 *
-	 * @param	string	the table to empty
+	 * @param	string	$table	the table to empty
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function empty_table($table = '')
@@ -2147,7 +2148,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * If the database does not support the truncate() command
 	 * This function maps to "DELETE FROM table"
 	 *
-	 * @param	string	the table to truncate
+	 * @param	string	$table	the table to truncate
 	 * @return	bool	TRUE on success, FALSE on failure
 	 */
 	public function truncate($table = '')
@@ -2181,7 +2182,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * If the database does not support the truncate() command,
 	 * then this method maps to 'DELETE FROM table'
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table	the table name
 	 * @return	string
 	 */
 	protected function _truncate($table)
@@ -2196,8 +2197,8 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles a delete query string and returns the sql
 	 *
-	 * @param	string	the table to delete from
-	 * @param	bool	TRUE: reset QB values; FALSE: leave QB values alone
+	 * @param	string	$table	the table to delete from
+	 * @param	bool	$reset	TRUE: reset QB values; FALSE: leave QB values alone
 	 * @return	string
 	 */
 	public function get_compiled_delete($table = '', $reset = TRUE)
@@ -2215,10 +2216,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Compiles a delete string and runs the query
 	 *
-	 * @param	mixed	the table(s) to delete from. String or array
-	 * @param	mixed	the where clause
-	 * @param	mixed	the limit clause
-	 * @param	bool
+	 * @param	mixed	$table	the table(s) to delete from. String or array
+	 * @param	mixed	$where	the where clause
+	 * @param	mixed	$limit	the limit clause
+	 * @param	bool	$reset_data
 	 * @return	mixed
 	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
@@ -2282,7 +2283,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @param	string	the table name
+	 * @param	string	$table	the table name
 	 * @return	string
 	 */
 	protected function _delete($table)
@@ -2298,7 +2299,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Prepends a database prefix if one exists in configuration
 	 *
-	 * @param	string	the table
+	 * @param	string	$table	the table
 	 * @return	string
 	 */
 	public function dbprefix($table = '')
@@ -2318,7 +2319,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Set's the DB Prefix to something new without needing to reconnect
 	 *
-	 * @param	string	the prefix
+	 * @param	string	$prefix	the prefix
 	 * @return	string
 	 */
 	public function set_dbprefix($prefix = '')
@@ -2333,7 +2334,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Used to track SQL statements written with aliased tables.
 	 *
-	 * @param	string	The table to inspect
+	 * @param	string	$table	The table to inspect
 	 * @return	string
 	 */
 	protected function _track_aliases($table)
@@ -2603,7 +2604,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Takes an object as input and converts the class variables to array key/vals
 	 *
-	 * @param	object
+	 * @param	object	$object
 	 * @return	array
 	 */
 	protected function _object_to_array($object)
@@ -2633,7 +2634,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 *
 	 * Takes an object as input and converts the class variables to array key/vals
 	 *
-	 * @param	object
+	 * @param	object	$object
 	 * @return	array
 	 */
 	protected function _object_to_array_batch($object)
@@ -2819,7 +2820,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	/**
 	 * Resets the query builder values.  Called by the get() function
 	 *
-	 * @param	array	An array of fields to reset
+	 * @param	array	$qb_reset_items	An array of fields to reset
 	 * @return	void
 	 */
 	protected function _reset_run($qb_reset_items)
