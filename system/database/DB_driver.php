@@ -722,7 +722,7 @@ abstract class CI_DB_driver {
 	 * we only use it when running transaction commands since they do
 	 * not require all the features of the main query() function.
 	 *
-	 * @param	string	the sql query
+	 * @param	string	$sql	the sql query
 	 * @return	mixed
 	 */
 	public function simple_query($sql)

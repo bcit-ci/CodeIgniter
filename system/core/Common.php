@@ -57,7 +57,7 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is equal to or greater than the supplied value
 	 *
-	 * @param	string
+	 * @param	string $version
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
 	function is_php($version)
@@ -85,7 +85,7 @@ if ( ! function_exists('is_really_writable'))
 	 * the file, based on the read-only attribute.
 	 *
 	 * @link	https://bugs.php.net/bug.php?id=54709
-	 * @param	string
+	 * @param	string	$file
 	 * @return	bool
 	 */
 	function is_really_writable($file)
@@ -133,9 +133,9 @@ if ( ! function_exists('load_class'))
 	 * exist it is instantiated and set to a static variable. If it has
 	 * previously been instantiated the variable is returned.
 	 *
-	 * @param	string	the class name being requested
-	 * @param	string	the directory where the class should be found
-	 * @param	mixed	an optional argument to pass to the class constructor
+	 * @param	string	$class	the class name being requested
+	 * @param	string	$directory	the directory where the class should be found
+	 * @param	mixed	$param	an optional argument to pass to the class constructor
 	 * @return	object
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
@@ -206,7 +206,7 @@ if ( ! function_exists('is_loaded'))
 	 * Keeps track of which libraries have been loaded. This function is
 	 * called by the load_class() function above
 	 *
-	 * @param	string
+	 * @param	string	$class
 	 * @return	array
 	 */
 	function &is_loaded($class = '')
@@ -232,7 +232,7 @@ if ( ! function_exists('get_config'))
 	 * This function lets us grab the config file even if the Config class
 	 * hasn't been instantiated yet
 	 *
-	 * @param	array
+	 * @param	array	$replace
 	 * @return	array
 	 */
 	function &get_config(Array $replace = array())
@@ -287,7 +287,7 @@ if ( ! function_exists('config_item'))
 	/**
 	 * Returns the specified config item
 	 *
-	 * @param	string
+	 * @param	string	$item
 	 * @return	mixed
 	 */
 	function config_item($item)
@@ -395,9 +395,9 @@ if ( ! function_exists('show_error'))
 	 * This function will send the error page directly to the
 	 * browser and exit.
 	 *
-	 * @param	string
-	 * @param	int
-	 * @param	string
+	 * @param	string	$message
+	 * @param	int	$status_code
+	 * @param	string	$heading
 	 * @return	void
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
@@ -430,8 +430,8 @@ if ( ! function_exists('show_404'))
 	 * However, instead of the standard error template it displays
 	 * 404 errors.
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$page
+	 * @param	bool	$log_error
 	 * @return	void
 	 */
 	function show_404($page = '', $log_error = TRUE)
@@ -452,8 +452,8 @@ if ( ! function_exists('log_message'))
 	 * We use this as a simple mechanism to access the logging
 	 * class and send messages to be logged.
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
+	 * @param	string	$level	the error level: 'error', 'debug' or 'info'
+	 * @param	string	$message	the error message
 	 * @return	void
 	 */
 	function log_message($level, $message)
@@ -477,8 +477,8 @@ if ( ! function_exists('set_status_header'))
 	/**
 	 * Set HTTP Status Header
 	 *
-	 * @param	int	the status code
-	 * @param	string
+	 * @param	int	$code	the status code
+	 * @param	string	$text
 	 * @return	void
 	 */
 	function set_status_header($code = 200, $text = '')
@@ -706,8 +706,8 @@ if ( ! function_exists('remove_invisible_characters'))
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$str
+	 * @param	bool	$url_encoded
 	 * @return	string
 	 */
 	function remove_invisible_characters($str, $url_encoded = TRUE)
@@ -777,8 +777,8 @@ if ( ! function_exists('_stringify_attributes'))
 	 * Helper function used to convert a string, array, or object
 	 * of attributes to a string.
 	 *
-	 * @param	mixed	string, array, object
-	 * @param	bool
+	 * @param	mixed	$attributes	string, array, object
+	 * @param	bool	$js
 	 * @return	string
 	 */
 	function _stringify_attributes($attributes, $js = FALSE)

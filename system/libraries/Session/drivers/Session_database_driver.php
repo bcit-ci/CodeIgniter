@@ -350,7 +350,7 @@ class CI_Session_database_driver extends CI_Session_driver implements CI_Session
 	 * Update session timestamp without modifying data
 	 *
 	 * @param	string	$id	Session ID
-	 * @param	string	$data	Unknown & unused
+	 * @param	string	$unknown	Unknown & unused
 	 * @return	bool
 	 */
 	public function updateTimestamp($id, $unknown)

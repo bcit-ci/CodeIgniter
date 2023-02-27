@@ -151,9 +151,9 @@ if ( ! function_exists('anchor'))
 	 *
 	 * Creates an anchor based on the local URL.
 	 *
-	 * @param	string	the URL
-	 * @param	string	the link title
-	 * @param	mixed	any attributes
+	 * @param	string	$uri	the URL
+	 * @param	string	$title	the link title
+	 * @param	mixed	$attributes	any attributes
 	 * @return	string
 	 */
 	function anchor($uri = '', $title = '', $attributes = '')
@@ -188,9 +188,9 @@ if ( ! function_exists('anchor_popup'))
 	 * Creates an anchor based on the local URL. The link
 	 * opens a new window based on the attributes specified.
 	 *
-	 * @param	string	the URL
-	 * @param	string	the link title
-	 * @param	mixed	any attributes
+	 * @param	string	$uri	the URL
+	 * @param	string	$title	the link title
+	 * @param	mixed	$attributes	any attributes
 	 * @return	string
 	 */
 	function anchor_popup($uri = '', $title = '', $attributes = FALSE)
@@ -246,9 +246,9 @@ if ( ! function_exists('mailto'))
 	/**
 	 * Mailto Link
 	 *
-	 * @param	string	the email address
-	 * @param	string	the link title
-	 * @param	mixed	any attributes
+	 * @param	string	$email	the email address
+	 * @param	string	$title	the link title
+	 * @param	mixed	$attributes	any attributes
 	 * @return	string
 	 */
 	function mailto($email, $title = '', $attributes = '')
@@ -273,9 +273,9 @@ if ( ! function_exists('safe_mailto'))
 	 *
 	 * Create a spam-protected mailto link written in Javascript
 	 *
-	 * @param	string	the email address
-	 * @param	string	the link title
-	 * @param	mixed	any attributes
+	 * @param	string	$email	the email address
+	 * @param	string	$title	the link title
+	 * @param	mixed	$attributes	any attributes
 	 * @return	string
 	 */
 	function safe_mailto($email, $title = '', $attributes = '')
@@ -386,9 +386,9 @@ if ( ! function_exists('auto_link'))
 	 * URLs or emails that end in a period. We'll strip these
 	 * off and add them after the link.
 	 *
-	 * @param	string	the string
-	 * @param	string	the type: email, url, or both
-	 * @param	bool	whether to create pop-up links
+	 * @param	string	$str	the string
+	 * @param	string	$type	the type: email, url, or both
+	 * @param	bool	$popup	whether to create pop-up links
 	 * @return	string
 	 */
 	function auto_link($str, $type = 'both', $popup = FALSE)
@@ -439,7 +439,7 @@ if ( ! function_exists('prep_url'))
 	 *
 	 * Simply adds the http:// part if no scheme is included
 	 *
-	 * @param	string	the URL
+	 * @param	string	$str	the URL
 	 * @return	string
 	 */
 	function prep_url($str = '')

@@ -55,8 +55,8 @@ if ( ! function_exists('xss_clean'))
 	/**
 	 * XSS Filtering
 	 *
-	 * @param	string
-	 * @param	bool	whether or not the content is an image file
+	 * @param	string	$str
+	 * @param	bool	$is_image	whether or not the content is an image file
 	 * @return	string
 	 */
 	function xss_clean($str, $is_image = FALSE)
@@ -72,7 +72,7 @@ if ( ! function_exists('sanitize_filename'))
 	/**
 	 * Sanitize Filename
 	 *
-	 * @param	string
+	 * @param	string	$filename
 	 * @return	string
 	 */
 	function sanitize_filename($filename)
@@ -88,7 +88,7 @@ if ( ! function_exists('strip_image_tags'))
 	/**
 	 * Strip Image Tags
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	function strip_image_tags($str)
@@ -104,7 +104,7 @@ if ( ! function_exists('encode_php_tags'))
 	/**
 	 * Convert PHP tags to entities
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	function encode_php_tags($str)

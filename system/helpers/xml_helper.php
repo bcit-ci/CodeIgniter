@@ -55,8 +55,8 @@ if ( ! function_exists('xml_convert'))
 	/**
 	 * Convert Reserved XML characters to Entities
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$str
+	 * @param	bool	$protect_all
 	 * @return	string
 	 */
 	function xml_convert($str, $protect_all = FALSE)

@@ -150,7 +150,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver {
 	/**
 	 * Determines if a query is a "write" type.
 	 *
-	 * @param	string	An SQL query string
+	 * @param	string	$sql	An SQL query string
 	 * @return	bool
 	 */
 	public function is_write_type($sql)

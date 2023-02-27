@@ -253,7 +253,7 @@ class CI_Unit_test {
 	 *
 	 * Enables/disables unit testing
 	 *
-	 * @param	bool
+	 * @param	bool	$state
 	 * @return	void
 	 */
 	public function active($state = TRUE)
@@ -315,7 +315,7 @@ class CI_Unit_test {
 	 *
 	 * This lets us set the template to be used to display results
 	 *
-	 * @param	string
+	 * @param	string	$template
 	 * @return	void
 	 */
 	public function set_template($template)

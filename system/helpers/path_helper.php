@@ -55,8 +55,8 @@ if ( ! function_exists('set_realpath'))
 	/**
 	 * Set Realpath
 	 *
-	 * @param	string
-	 * @param	bool	checks to see if the path exists
+	 * @param	string	$path
+	 * @param	bool	$check_existance	checks to see if the path exists
 	 * @return	string
 	 */
 	function set_realpath($path, $check_existance = FALSE)

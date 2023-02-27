@@ -1041,7 +1041,7 @@ class CI_Security {
 	 * Do Never Allowed
 	 *
 	 * @used-by	CI_Security::xss_clean()
-	 * @param 	string
+	 * @param 	string	$str
 	 * @return 	string
 	 */
 	protected function _do_never_allowed($str)

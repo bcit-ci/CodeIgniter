@@ -116,7 +116,7 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	mixed	unique identifier of item in cache
+	 * @param	mixed	$id	unique identifier of item in cache
 	 * @return	bool	true on success/false on failure
 	 */
 	public function delete($id)
@@ -199,7 +199,7 @@ class CI_Cache_file extends CI_Driver {
 	 *
 	 * Not supported by file-based caching
 	 *
-	 * @param	string	user/filehits
+	 * @param	string	$type	user/filehits
 	 * @return	mixed	FALSE
 	 */
 	public function cache_info($type = NULL)
@@ -212,7 +212,7 @@ class CI_Cache_file extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	mixed	key to get cache metadata on
+	 * @param	mixed	$id	key to get cache metadata on
 	 * @return	mixed	FALSE on failure, array on success.
 	 */
 	public function get_metadata($id)

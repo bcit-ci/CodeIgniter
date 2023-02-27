@@ -57,9 +57,9 @@ if ( ! function_exists('heading'))
 	 *
 	 * Generates an HTML heading tag.
 	 *
-	 * @param	string	content
-	 * @param	int	heading level
-	 * @param	string
+	 * @param	string	$data	content
+	 * @param	int	$h	heading level
+	 * @param	string	$attributes
 	 * @return	string
 	 */
 	function heading($data = '', $h = '1', $attributes = '')
@@ -77,8 +77,8 @@ if ( ! function_exists('ul'))
 	 *
 	 * Generates an HTML unordered list from an single or multi-dimensional array.
 	 *
-	 * @param	array
-	 * @param	mixed
+	 * @param	array	$list
+	 * @param	mixed	$attributes
 	 * @return	string
 	 */
 	function ul($list, $attributes = '')
@@ -96,8 +96,8 @@ if ( ! function_exists('ol'))
 	 *
 	 * Generates an HTML ordered list from an single or multi-dimensional array.
 	 *
-	 * @param	array
-	 * @param	mixed
+	 * @param	array	$list
+	 * @param	mixed	$attributes
 	 * @return	string
 	 */
 	function ol($list, $attributes = '')
@@ -115,10 +115,10 @@ if ( ! function_exists('_list'))
 	 *
 	 * Generates an HTML ordered list from an single or multi-dimensional array.
 	 *
-	 * @param	string
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	int
+	 * @param	string	$type
+	 * @param	mixed	$list
+	 * @param	mixed	$attributes
+	 * @param	int	$depth
 	 * @return	string
 	 */
 	function _list($type = 'ul', $list = array(), $attributes = '', $depth = 0)
@@ -170,9 +170,9 @@ if ( ! function_exists('img'))
 	 *
 	 * Generates an <img /> element
 	 *
-	 * @param	mixed
-	 * @param	bool
-	 * @param	mixed
+	 * @param	mixed	$src
+	 * @param	bool	$index_page
+	 * @param	mixed	$attributes
 	 * @return	string
 	 */
 	function img($src = '', $index_page = FALSE, $attributes = '')
@@ -226,7 +226,7 @@ if ( ! function_exists('doctype'))
 	 * xhtml-frame, html4-strict, html4-trans, and html4-frame.
 	 * All values are saved in the doctypes config file.
 	 *
-	 * @param	string	type	The doctype to be generated
+	 * @param	string	$type	The doctype to be generated
 	 * @return	string
 	 */
 	function doctype($type = 'html5')
@@ -267,12 +267,12 @@ if ( ! function_exists('link_tag'))
 	 *
 	 * Generates link to a CSS file
 	 *
-	 * @param	mixed	stylesheet hrefs or an array
-	 * @param	string	rel
-	 * @param	string	type
-	 * @param	string	title
-	 * @param	string	media
-	 * @param	bool	should index_page be added to the css path
+	 * @param	mixed	$href	stylesheet hrefs or an array
+	 * @param	string	$rel
+	 * @param	string	$type
+	 * @param	string	$title
+	 * @param	string	$media
+	 * @param	bool	$index_page should index_page be added to the css path
 	 * @return	string
 	 */
 	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
@@ -340,10 +340,10 @@ if ( ! function_exists('meta'))
 	/**
 	 * Generates meta tags from an array of key/values
 	 *
-	 * @param	array
-	 * @param	string
-	 * @param	string
-	 * @param	string
+	 * @param	array	$name
+	 * @param	string	$content
+	 * @param	string	$type
+	 * @param	string	$newline
 	 * @return	string
 	 */
 	function meta($name = '', $content = '', $type = 'name', $newline = "\n")

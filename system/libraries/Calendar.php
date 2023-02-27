@@ -145,7 +145,7 @@ class CI_Calendar {
 	 *
 	 * Accepts an associative array as input, containing display preferences
 	 *
-	 * @param	array	config preferences
+	 * @param	array	$config config preferences
 	 * @return	CI_Calendar
 	 */
 	public function initialize($config = array())
@@ -172,9 +172,9 @@ class CI_Calendar {
 	/**
 	 * Generate the calendar
 	 *
-	 * @param	int	the year
-	 * @param	int	the month
-	 * @param	array	the data to be shown in the calendar cells
+	 * @param	int	$year	the year
+	 * @param	int	$month	the month
+	 * @param	array	$data	the data to be shown in the calendar cells
 	 * @return	string
 	 */
 	public function generate($year = '', $month = '', $data = array())
@@ -348,7 +348,7 @@ class CI_Calendar {
 	 * Generates a textual month name based on the numeric
 	 * month provided.
 	 *
-	 * @param	int	the month
+	 * @param	int	$month	the month
 	 * @return	string
 	 */
 	public function get_month_name($month)
@@ -375,7 +375,7 @@ class CI_Calendar {
 	 * Returns an array of day names (Sunday, Monday, etc.) based
 	 * on the type. Options: long, short, abr
 	 *
-	 * @param	string
+	 * @param	string	$day_type
 	 * @return	array
 	 */
 	public function get_day_names($day_type = '')
@@ -416,8 +416,8 @@ class CI_Calendar {
 	 * For example, if you submit 13 as the month, the year will
 	 * increment and the month will become January.
 	 *
-	 * @param	int	the month
-	 * @param	int	the year
+	 * @param	int	$month	the month
+	 * @param	int	$year	the year
 	 * @return	array
 	 */
 	public function adjust_date($month, $year)
@@ -452,8 +452,8 @@ class CI_Calendar {
 	/**
 	 * Total days in a given month
 	 *
-	 * @param	int	the month
-	 * @param	int	the year
+	 * @param	int	$month	the month
+	 * @param	int	$year	the year
 	 * @return	int
 	 */
 	public function get_total_days($month, $year)

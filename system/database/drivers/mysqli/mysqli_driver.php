@@ -387,7 +387,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	/**
 	 * Platform-dependent string escape
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _escape_str($str)

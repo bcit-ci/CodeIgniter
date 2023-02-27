@@ -73,7 +73,7 @@ class CI_Driver_Library {
 	 * The first time a child is used it won't exist, so we instantiate it
 	 * subsequents calls will go straight to the proper child.
 	 *
-	 * @param	string	Child class name
+	 * @param	string	$child	Child class name
 	 * @return	object	Child class
 	 */
 	public function __get($child)
@@ -87,7 +87,7 @@ class CI_Driver_Library {
 	 *
 	 * Separate load_driver call to support explicit driver load by library or user
 	 *
-	 * @param	string	Driver name (w/o parent prefix)
+	 * @param	string	$child	Driver name (w/o parent prefix)
 	 * @return	object	Child class
 	 */
 	public function load_driver($child)
@@ -243,7 +243,7 @@ class CI_Driver {
 	 *
 	 * Decorates the child with the parent driver lib's methods and properties
 	 *
-	 * @param	object
+	 * @param	object	$parent
 	 * @return	void
 	 */
 	public function decorate($parent)
@@ -290,8 +290,8 @@ class CI_Driver {
 	 *
 	 * Handles access to the parent driver library's methods
 	 *
-	 * @param	string
-	 * @param	array
+	 * @param	string	$method
+	 * @param	array	$args
 	 * @return	mixed
 	 */
 	public function __call($method, $args = array())
@@ -311,7 +311,7 @@ class CI_Driver {
 	 *
 	 * Handles reading of the parent driver library's properties
 	 *
-	 * @param	string
+	 * @param	string	$var
 	 * @return	mixed
 	 */
 	public function __get($var)
@@ -329,8 +329,8 @@ class CI_Driver {
 	 *
 	 * Handles writing to the parent driver library's properties
 	 *
-	 * @param	string
-	 * @param	array
+	 * @param	string	$var
+	 * @param	array	$val
 	 * @return	mixed
 	 */
 	public function __set($var, $val)

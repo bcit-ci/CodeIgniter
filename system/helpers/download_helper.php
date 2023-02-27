@@ -57,9 +57,9 @@ if ( ! function_exists('force_download'))
 	 *
 	 * Generates headers that force a download to happen
 	 *
-	 * @param	mixed	filename (or an array of local file path => destination filename)
-	 * @param	mixed	the data to be downloaded
-	 * @param	bool	whether to try and send the actual file MIME type
+	 * @param	mixed	$filename	filename (or an array of local file path => destination filename)
+	 * @param	mixed	$data	the data to be downloaded
+	 * @param	bool	$set_mime	whether to try and send the actual file MIME type
 	 * @return	void
 	 */
 	function force_download($filename = '', $data = '', $set_mime = FALSE)

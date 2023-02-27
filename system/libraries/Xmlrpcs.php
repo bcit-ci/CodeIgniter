@@ -113,7 +113,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Initialize Prefs and Serve
 	 *
-	 * @param	mixed
+	 * @param	mixed	$config
 	 * @return	void
 	 */
 	public function initialize($config = array())
@@ -190,10 +190,10 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Add Method to Class
 	 *
-	 * @param	string	method name
-	 * @param	string	function
-	 * @param	string	signature
-	 * @param	string	docstring
+	 * @param	string	$methodname	method name
+	 * @param	string	$function	function
+	 * @param	string	$sig	signature
+	 * @param	string	$doc	docstring
 	 * @return	void
 	 */
 	public function add_to_map($methodname, $function, $sig, $doc)
@@ -210,7 +210,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Parse Server Request
 	 *
-	 * @param	string	data
+	 * @param	string	$data	data
 	 * @return	object	xmlrpc response
 	 */
 	public function parseRequest($data = '')
@@ -311,7 +311,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Executes the Method
 	 *
-	 * @param	object
+	 * @param	object	$m
 	 * @return	mixed
 	 */
 	protected function _execute($m)
@@ -415,7 +415,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Server Function: List Methods
 	 *
-	 * @param	mixed
+	 * @param	mixed	$m
 	 * @return	object
 	 */
 	public function listMethods($m)
@@ -442,7 +442,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Server Function: Return Signature for Method
 	 *
-	 * @param	mixed
+	 * @param	mixed	$m
 	 * @return	object
 	 */
 	public function methodSignature($m)
@@ -482,7 +482,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Server Function: Doc String for Method
 	 *
-	 * @param	mixed
+	 * @param	mixed	$m
 	 * @return	object
 	 */
 	public function methodHelp($m)
@@ -505,7 +505,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Server Function: Multi-call
 	 *
-	 * @param	mixed
+	 * @param	mixed	$m
 	 * @return	object
 	 */
 	public function multicall($m)
@@ -546,7 +546,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Multi-call Function: Error Handling
 	 *
-	 * @param	mixed
+	 * @param	mixed	$err
 	 * @return	object
 	 */
 	public function multicall_error($err)
@@ -565,7 +565,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc {
 	/**
 	 * Multi-call Function: Processes method
 	 *
-	 * @param	mixed
+	 * @param	mixed	$call
 	 * @return	object
 	 */
 	public function do_multicall($call)

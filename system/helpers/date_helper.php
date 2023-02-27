@@ -58,7 +58,7 @@ if ( ! function_exists('now'))
 	 * Returns time() based on the timezone parameter or on the
 	 * "time_reference" setting
 	 *
-	 * @param	string
+	 * @param	string	$timezone
 	 * @return	int
 	 */
 	function now($timezone = NULL)
@@ -96,8 +96,8 @@ if ( ! function_exists('mdate'))
 	 * have to worry about escaping your text letters that
 	 * match the date codes.
 	 *
-	 * @param	string
-	 * @param	int
+	 * @param	string	$datestr
+	 * @param	int	$time
 	 * @return	int
 	 */
 	function mdate($datestr = '', $time = '')
@@ -131,9 +131,9 @@ if ( ! function_exists('timespan'))
 	 * Returns a span of seconds in this format:
 	 *	10 days 14 hours 36 minutes 47 seconds
 	 *
-	 * @param	int	a number of seconds
-	 * @param	int	Unix timestamp
-	 * @param	int	a number of display units
+	 * @param	int	$seconds	a number of seconds
+	 * @param	int	$time	Unix timestamp
+	 * @param	int	$units	a number of display units
 	 * @return	string
 	 */
 	function timespan($seconds = 1, $time = '', $units = 7)
@@ -235,8 +235,8 @@ if ( ! function_exists('days_in_month'))
 	 * Takes a month/year as input and returns the number of days
 	 * for the given month/year. Takes leap years into consideration.
 	 *
-	 * @param	int	a numeric month
-	 * @param	int	a numeric year
+	 * @param	int	$month	a numeric month
+	 * @param	int	$year	a numeric year
 	 * @return	int
 	 */
 	function days_in_month($month = 0, $year = '')
@@ -280,7 +280,7 @@ if ( ! function_exists('local_to_gmt'))
 	/**
 	 * Converts a local Unix timestamp to GMT
 	 *
-	 * @param	int	Unix timestamp
+	 * @param	int	$time	Unix timestamp
 	 * @return	int
 	 */
 	function local_to_gmt($time = '')
@@ -312,9 +312,9 @@ if ( ! function_exists('gmt_to_local'))
 	 * at the local value based on the timezone and DST setting
 	 * submitted
 	 *
-	 * @param	int	Unix timestamp
-	 * @param	string	timezone
-	 * @param	bool	whether DST is active
+	 * @param	int	$time	Unix timestamp
+	 * @param	string	$timezone	timezone
+	 * @param	bool	$dst	whether DST is active
 	 * @return	int
 	 */
 	function gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
@@ -337,7 +337,7 @@ if ( ! function_exists('mysql_to_unix'))
 	/**
 	 * Converts a MySQL Timestamp to Unix
 	 *
-	 * @param	int	MySQL timestamp YYYY-MM-DD HH:MM:SS
+	 * @param	int	$time	MySQL timestamp YYYY-MM-DD HH:MM:SS
 	 * @return	int	Unix timstamp
 	 */
 	function mysql_to_unix($time = '')
@@ -369,9 +369,9 @@ if ( ! function_exists('unix_to_human'))
 	 *
 	 * Formats Unix timestamp to the following prototype: 2006-08-21 11:35 PM
 	 *
-	 * @param	int	Unix timestamp
-	 * @param	bool	whether to show seconds
-	 * @param	string	format: us or euro
+	 * @param	int	$time	Unix timestamp
+	 * @param	bool	$seconds	whether to show seconds
+	 * @param	string	$fmt	format: us or euro
 	 * @return	string
 	 */
 	function unix_to_human($time = '', $seconds = FALSE, $fmt = 'us')
@@ -410,7 +410,7 @@ if ( ! function_exists('human_to_unix'))
 	 *
 	 * Reverses the above process
 	 *
-	 * @param	string	format: us or euro
+	 * @param	string	$datestr	format: us or euro
 	 * @return	int
 	 */
 	function human_to_unix($datestr = '')
@@ -458,10 +458,10 @@ if ( ! function_exists('timezone_menu'))
 	 *
 	 * Generates a drop-down menu of timezones.
 	 *
-	 * @param	string	timezone
-	 * @param	string	classname
-	 * @param	string	menu name
-	 * @param	mixed	attributes
+	 * @param	string	$default	timezone
+	 * @param	string	$class	classname
+	 * @param	string	$name	menu name
+	 * @param	mixed	$attributes	attributes
 	 * @return	string
 	 */
 	function timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
@@ -500,7 +500,7 @@ if ( ! function_exists('timezones'))
 	 * Returns an array of timezones. This is a helper function
 	 * for various other ones in this library
 	 *
-	 * @param	string	timezone
+	 * @param	string	$tz	timezone
 	 * @return	string
 	 */
 	function timezones($tz = '')
@@ -569,14 +569,14 @@ if ( ! function_exists('date_range'))
 	 *
 	 * Returns a list of dates within a specified period.
 	 *
-	 * @param	int	unix_start	UNIX timestamp of period start date
-	 * @param	int	unix_end|days	UNIX timestamp of period end date
+	 * @param	int	$unix_start	UNIX timestamp of period start date
+	 * @param	int	$mixed	UNIX timestamp of period end date
 	 *					or interval in days.
-	 * @param	mixed	is_unix		Specifies whether the second parameter
+	 * @param	mixed	$is_unix		Specifies whether the second parameter
 	 *					is a UNIX timestamp or a day interval
 	 *					 - TRUE or 'unix' for a timestamp
 	 *					 - FALSE or 'days' for an interval
-	 * @param	string  date_format	Output date format, same as in date()
+	 * @param	string  $format	Output date format, same as in date()
 	 * @return	array
 	 */
 	function date_range($unix_start = '', $mixed = '', $is_unix = TRUE, $format = 'Y-m-d')

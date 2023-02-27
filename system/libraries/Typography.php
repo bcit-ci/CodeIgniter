@@ -102,8 +102,8 @@ class CI_Typography {
 	 *	- Converts double dashes into em-dashes.
 	 *  - Converts two spaces into entities
 	 *
-	 * @param	string
-	 * @param	bool	whether to reduce more then two consecutive newlines to two
+	 * @param	string	$str
+	 * @param	bool	$reduce_linebreaks	whether to reduce more then two consecutive newlines to two
 	 * @return	string
 	 */
 	public function auto_typography($str, $reduce_linebreaks = FALSE)
@@ -288,7 +288,7 @@ class CI_Typography {
 	 * to curly entities, but it also converts em-dashes,
 	 * double spaces, and ampersands
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	public function format_characters($str)
@@ -351,7 +351,7 @@ class CI_Typography {
 	 *
 	 * Converts newline characters into either <p> tags or <br />
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _format_newlines($str)
@@ -391,7 +391,7 @@ class CI_Typography {
 	 * and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
 	 * likewise double spaces are converted to {@NBS} to prevent entity conversion
 	 *
-	 * @param	array
+	 * @param	array	$match
 	 * @return	string
 	 */
 	protected function _protect_characters($match)
@@ -404,7 +404,7 @@ class CI_Typography {
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	public function nl2br_except_pre($str)

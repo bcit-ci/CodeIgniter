@@ -57,9 +57,9 @@ if ( ! function_exists('word_limiter'))
 	 *
 	 * Limits a string to X number of words.
 	 *
-	 * @param	string
-	 * @param	int
-	 * @param	string	the end character. Usually an ellipsis
+	 * @param	string	$str
+	 * @param	int	$limit
+	 * @param	string	$end_char	the end character. Usually an ellipsis
 	 * @return	string
 	 */
 	function word_limiter($str, $limit = 100, $end_char = '&#8230;')
@@ -90,9 +90,9 @@ if ( ! function_exists('character_limiter'))
 	 * Limits the string based on the character count.  Preserves complete words
 	 * so the character count may not be exactly as specified.
 	 *
-	 * @param	string
-	 * @param	int
-	 * @param	string	the end character. Usually an ellipsis
+	 * @param	string	$str
+	 * @param	int	$n
+	 * @param	string	$end_char	the end character. Usually an ellipsis
 	 * @return	string
 	 */
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
@@ -200,8 +200,8 @@ if ( ! function_exists('entities_to_ascii'))
 	 *
 	 * Converts character entities back to ASCII
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$str
+	 * @param	bool	$all
 	 * @return	string
 	 */
 	function entities_to_ascii($str, $all = TRUE)
@@ -257,9 +257,9 @@ if ( ! function_exists('word_censor'))
 	 * matched words will be converted to #### or to the replacement
 	 * word you've submitted.
 	 *
-	 * @param	string	the text string
-	 * @param	string	the array of censored words
-	 * @param	string	the optional replacement value
+	 * @param	string	$str	the text string
+	 * @param	string	$censored	the array of censored words
+	 * @param	string	$replacement	the optional replacement value
 	 * @return	string
 	 */
 	function word_censor($str, $censored, $replacement = '')
@@ -317,7 +317,7 @@ if ( ! function_exists('highlight_code'))
 	 *
 	 * Colorizes code strings
 	 *
-	 * @param	string	the text string
+	 * @param	string	$str	the text string
 	 * @return	string
 	 */
 	function highlight_code($str)
@@ -534,10 +534,10 @@ if ( ! function_exists('ellipsize'))
 	 *
 	 * This function will strip tags from a string, split it at its max_length and ellipsize
 	 *
-	 * @param	string	string to ellipsize
-	 * @param	int	max length of string
-	 * @param	mixed	int (1|0) or float, .5, .2, etc for position to split
-	 * @param	string	ellipsis ; Default '...'
+	 * @param	string	$str	string to ellipsize
+	 * @param	int	$max_length	max length of string
+	 * @param	mixed	$position	int (1|0) or float, .5, .2, etc for position to split
+	 * @param	string	$ellipsis	ellipsis ; Default '...'
 	 * @return	string	ellipsized string
 	 */
 	function ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')

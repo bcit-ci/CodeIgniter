@@ -55,8 +55,8 @@ if ( ! function_exists('byte_format'))
 	/**
 	 * Formats a numbers as bytes, based on size, and adds the appropriate suffix
 	 *
-	 * @param	mixed	will be cast as int
-	 * @param	int
+	 * @param	mixed	$num	will be cast as int
+	 * @param	int	$precision
 	 * @return	string
 	 */
 	function byte_format($num, $precision = 1)

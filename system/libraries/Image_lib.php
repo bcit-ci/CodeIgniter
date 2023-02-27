@@ -462,7 +462,7 @@ class CI_Image_lib {
 	/**
 	 * initialize image preferences
 	 *
-	 * @param	array
+	 * @param	array	$props
 	 * @return	bool
 	 */
 	public function initialize($props = array())
@@ -754,7 +754,7 @@ class CI_Image_lib {
 	 *
 	 * This function will resize or crop
 	 *
-	 * @param	string
+	 * @param	string	$action
 	 * @return	bool
 	 */
 	public function image_process_gd($action = 'resize')
@@ -858,7 +858,7 @@ class CI_Image_lib {
 	 *
 	 * This function will resize, crop or rotate
 	 *
-	 * @param	string
+	 * @param	string	$action
 	 * @return	bool
 	 */
 	public function image_process_imagemagick($action = 'resize')
@@ -928,7 +928,7 @@ class CI_Image_lib {
 	 *
 	 * This function will resize, crop or rotate
 	 *
-	 * @param	string
+	 * @param	string	$action
 	 * @return	bool
 	 */
 	public function image_process_netpbm($action = 'resize')
@@ -1442,8 +1442,8 @@ class CI_Image_lib {
 	 * This simply creates an image resource handle
 	 * based on the type of image being processed
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$path
+	 * @param	string	$image_type
 	 * @return	resource
 	 */
 	public function image_create_gd($path = '', $image_type = '')
@@ -1506,7 +1506,7 @@ class CI_Image_lib {
 	 * Takes an image resource as input and writes the file
 	 * to the specified destination
 	 *
-	 * @param	resource
+	 * @param	resource	$resource
 	 * @return	bool
 	 */
 	public function image_save_gd($resource)
@@ -1579,7 +1579,7 @@ class CI_Image_lib {
 	/**
 	 * Dynamically outputs an image
 	 *
-	 * @param	resource
+	 * @param	resource	$resource
 	 * @return	void
 	 */
 	public function image_display_gd($resource)
@@ -1675,8 +1675,8 @@ class CI_Image_lib {
 	 *
 	 * A helper function that gets info about the file
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$path
+	 * @param	bool	$return
 	 * @return	mixed
 	 */
 	public function get_image_properties($path = '', $return = FALSE)
@@ -1741,7 +1741,7 @@ class CI_Image_lib {
 	 *			'new_height'	=> ''
 	 *		);
 	 *
-	 * @param	array
+	 * @param	array	$vals
 	 * @return	array
 	 */
 	public function size_calculator($vals)
@@ -1790,7 +1790,7 @@ class CI_Image_lib {
 	 * $array['ext']  = '.jpg';
 	 * $array['name'] = 'my.cool';
 	 *
-	 * @param	array
+	 * @param	string	$source_image
 	 * @return	array
 	 */
 	public function explode_name($source_image)
@@ -1844,7 +1844,7 @@ class CI_Image_lib {
 	/**
 	 * Set error message
 	 *
-	 * @param	string
+	 * @param	string	$msg
 	 * @return	void
 	 */
 	public function set_error($msg)
@@ -1874,8 +1874,8 @@ class CI_Image_lib {
 	/**
 	 * Show error messages
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$open
+	 * @param	string	$close
 	 * @return	string
 	 */
 	public function display_errors($open = '<p>', $close = '</p>')

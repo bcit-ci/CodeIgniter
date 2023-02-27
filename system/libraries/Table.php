@@ -150,7 +150,7 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @param	mixed
+	 * @param	mixed	$args
 	 * @return	CI_Table
 	 */
 	public function set_heading($args = array())
@@ -230,7 +230,7 @@ class CI_Table {
 	 *
 	 * Can be passed as an array or discreet params
 	 *
-	 * @param	mixed
+	 * @param	mixed	$args
 	 * @return	CI_Table
 	 */
 	public function add_row($args = array())
@@ -246,7 +246,7 @@ class CI_Table {
 	 *
 	 * Ensures a standard associative array format for all cell data
 	 *
-	 * @param	array
+	 * @param	array	$args
 	 * @return	array
 	 */
 	protected function _prep_args($args)

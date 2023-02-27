@@ -150,9 +150,9 @@ if ( ! function_exists('get_filenames'))
 	 * Reads the specified directory and builds an array containing the filenames.
 	 * Any sub-folders contained within the specified path are read as well.
 	 *
-	 * @param	string	path to source
-	 * @param	bool	whether to include the path as part of the filename
-	 * @param	bool	internal variable to determine recursion status - do not use in calls
+	 * @param	string	$source_dir	path to source
+	 * @param	bool	$include_path	whether to include the path as part of the filename
+	 * @param	bool	$_recursion	internal variable to determine recursion status - do not use in calls
 	 * @return	array
 	 */
 	function get_filenames($source_dir, $include_path = FALSE, $_recursion = FALSE)
@@ -200,9 +200,9 @@ if ( ! function_exists('get_dir_file_info'))
 	 *
 	 * Any sub-folders contained within the specified path are read as well.
 	 *
-	 * @param	string	path to source
-	 * @param	bool	Look only at the top level directory specified?
-	 * @param	bool	internal variable to determine recursion status - do not use in calls
+	 * @param	string	$source_dir	path to source
+	 * @param	bool	$top_level_only	Look only at the top level directory specified?
+	 * @param	bool	$_recursion	internal variable to determine recursion status - do not use in calls
 	 * @return	array
 	 */
 	function get_dir_file_info($source_dir, $top_level_only = TRUE, $_recursion = FALSE)
@@ -254,8 +254,8 @@ if ( ! function_exists('get_file_info'))
 	 * Options are: name, server_path, size, date, readable, writable, executable, fileperms
 	 * Returns FALSE if the file cannot be found.
 	 *
-	 * @param	string	path to file
-	 * @param	mixed	array or comma separated string of information returned
+	 * @param	string	$file	path to file
+	 * @param	mixed	$returned_values	array or comma separated string of information returned
 	 * @return	array
 	 */
 	function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))

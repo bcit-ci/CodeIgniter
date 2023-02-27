@@ -294,7 +294,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	/**
 	 * Determines if a query is a "write" type.
 	 *
-	 * @param	string	An SQL query string
+	 * @param	string	$sql	An SQL query string
 	 * @return	bool
 	 */
 	public function is_write_type($sql)
@@ -312,7 +312,7 @@ class CI_DB_odbc_driver extends CI_DB_driver {
 	/**
 	 * Platform-dependent string escape
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _escape_str($str)

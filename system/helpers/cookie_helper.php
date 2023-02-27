@@ -58,14 +58,14 @@ if ( ! function_exists('set_cookie'))
 	 * Accepts seven parameters, or you can submit an associative
 	 * array in the first parameter containing all the values.
 	 *
-	 * @param	mixed
-	 * @param	string	the value of the cookie
-	 * @param	int	the number of seconds until expiration
-	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
-	 * @param	string	the cookie path
-	 * @param	string	the cookie prefix
-	 * @param	bool	true makes the cookie secure
-	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
+	 * @param	mixed	$name
+	 * @param	string	$value	the value of the cookie
+	 * @param	int	$expire	the number of seconds until expiration
+	 * @param	string	$domain	the cookie domain.  Usually:  .yourdomain.com
+	 * @param	string	$path	the cookie path
+	 * @param	string	$prefix	the cookie prefix
+	 * @param	bool	$secure	true makes the cookie secure
+	 * @param	bool	$httponly	true makes the cookie accessible via http(s) only (no javascript)
 	 * @return	void
 	 */
 	function set_cookie($name, $value = '', $expire = 0, $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL, $samesite = NULL)
@@ -82,8 +82,8 @@ if ( ! function_exists('get_cookie'))
 	/**
 	 * Fetch an item from the COOKIE array
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$index
+	 * @param	bool	$xss_clean
 	 * @return	mixed
 	 */
 	function get_cookie($index, $xss_clean = FALSE)
@@ -100,10 +100,10 @@ if ( ! function_exists('delete_cookie'))
 	/**
 	 * Delete a COOKIE
 	 *
-	 * @param	mixed
-	 * @param	string	the cookie domain. Usually: .yourdomain.com
-	 * @param	string	the cookie path
-	 * @param	string	the cookie prefix
+	 * @param	mixed	$name
+	 * @param	string	$domain	the cookie domain. Usually: .yourdomain.com
+	 * @param	string	$path	the cookie path
+	 * @param	string	$prefix	the cookie prefix
 	 * @return	void
 	 */
 	function delete_cookie($name, $domain = '', $path = '/', $prefix = '')

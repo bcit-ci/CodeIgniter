@@ -54,7 +54,7 @@ class CI_Cache_dummy extends CI_Driver {
 	 *
 	 * Since this is the dummy class, it's always going to return FALSE.
 	 *
-	 * @param	string
+	 * @param	string	$id
 	 * @return	bool	FALSE
 	 */
 	public function get($id)
@@ -67,10 +67,10 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Save
 	 *
-	 * @param	string	Unique Key
-	 * @param	mixed	Data to store
-	 * @param	int	Length of time (in seconds) to cache the data
-	 * @param	bool	Whether to store the raw value
+	 * @param	string	$id	Unique Key
+	 * @param	mixed	$data	Data to store
+	 * @param	int	$ttl	Length of time (in seconds) to cache the data
+	 * @param	bool	$raw	Whether to store the raw value
 	 * @return	bool	TRUE, Simulating success
 	 */
 	public function save($id, $data, $ttl = 60, $raw = FALSE)
@@ -83,7 +83,7 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	mixed	unique identifier of the item in the cache
+	 * @param	mixed	$id	unique identifier of the item in the cache
 	 * @return	bool	TRUE, simulating success
 	 */
 	public function delete($id)
@@ -136,7 +136,7 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Cache Info
 	 *
-	 * @param	string	user/filehits
+	 * @param	string	$type	user/filehits
 	 * @return	bool	FALSE
 	 */
 	public function cache_info($type = NULL)
@@ -149,7 +149,7 @@ class CI_Cache_dummy extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	mixed	key to get cache metadata on
+	 * @param	mixed	$id	key to get cache metadata on
 	 * @return	bool	FALSE
 	 */
 	public function get_metadata($id)

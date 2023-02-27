@@ -91,9 +91,9 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified template view,
 	 * replacing them with the data in the second param
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
+	 * @param	string	$template
+	 * @param	array	$data
+	 * @param	bool	$return
 	 * @return	string
 	 */
 	public function parse($template, $data, $return = FALSE)
@@ -111,9 +111,9 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified string,
 	 * replacing them with the data in the second param
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
+	 * @param	string	$template
+	 * @param	array	$data
+	 * @param	bool	$return
 	 * @return	string
 	 */
 	public function parse_string($template, $data, $return = FALSE)
@@ -129,9 +129,9 @@ class CI_Parser {
 	 * Parses pseudo-variables contained in the specified template,
 	 * replacing them with the data in the second param
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	bool
+	 * @param	string	$template
+	 * @param	array	$data
+	 * @param	bool	$return
 	 * @return	string
 	 */
 	protected function _parse($template, $data, $return = FALSE)
@@ -168,8 +168,8 @@ class CI_Parser {
 	/**
 	 * Set the left/right variable delimiters
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$l
+	 * @param	string	$r
 	 * @return	void
 	 */
 	public function set_delimiters($l = '{', $r = '}')
@@ -183,9 +183,9 @@ class CI_Parser {
 	/**
 	 * Parse a single key/value
 	 *
-	 * @param	string
-	 * @param	string
-	 * @param	string
+	 * @param	string	$key
+	 * @param	string	$val
+	 * @param	string	$string
 	 * @return	string
 	 */
 	protected function _parse_single($key, $val, $string)
@@ -200,9 +200,9 @@ class CI_Parser {
 	 *
 	 * Parses tag pairs: {some_tag} string... {/some_tag}
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	string
+	 * @param	string	$variable
+	 * @param	array	$data
+	 * @param	string	$string
 	 * @return	string
 	 */
 	protected function _parse_pair($variable, $data, $string)

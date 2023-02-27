@@ -435,7 +435,7 @@ class CI_Email {
 	/**
 	 * Initialize the Email Data
 	 *
-	 * @param	bool
+	 * @param	bool	$clear_attachments
 	 * @return	CI_Email
 	 */
 	public function clear($clear_attachments = FALSE)
@@ -515,8 +515,8 @@ class CI_Email {
 	/**
 	 * Set Reply-to
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$replyto
+	 * @param	string	$name
 	 * @return	CI_Email
 	 */
 	public function reply_to($replyto, $name = '')
@@ -556,7 +556,7 @@ class CI_Email {
 	/**
 	 * Set Recipients
 	 *
-	 * @param	string
+	 * @param	string	$to
 	 * @return	CI_Email
 	 */
 	public function to($to)
@@ -584,7 +584,7 @@ class CI_Email {
 	/**
 	 * Set CC
 	 *
-	 * @param	string
+	 * @param	string	$cc
 	 * @return	CI_Email
 	 */
 	public function cc($cc)
@@ -611,8 +611,8 @@ class CI_Email {
 	/**
 	 * Set BCC
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$bcc
+	 * @param	string	$limit
 	 * @return	CI_Email
 	 */
 	public function bcc($bcc, $limit = '')
@@ -647,7 +647,7 @@ class CI_Email {
 	/**
 	 * Set Email Subject
 	 *
-	 * @param	string
+	 * @param	string	$subject
 	 * @return	CI_Email
 	 */
 	public function subject($subject)
@@ -662,7 +662,7 @@ class CI_Email {
 	/**
 	 * Set Body
 	 *
-	 * @param	string
+	 * @param	string	$body
 	 * @return	CI_Email
 	 */
 	public function message($body)
@@ -748,8 +748,8 @@ class CI_Email {
 	/**
 	 * Add a Header Item
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$header
+	 * @param	string	$value
 	 * @return	CI_Email
 	 */
 	public function set_header($header, $value)
@@ -763,7 +763,7 @@ class CI_Email {
 	/**
 	 * Convert a String to an Array
 	 *
-	 * @param	string
+	 * @param	string	$email
 	 * @return	array
 	 */
 	protected function _str_to_array($email)
@@ -783,7 +783,7 @@ class CI_Email {
 	/**
 	 * Set Multipart Value
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	CI_Email
 	 */
 	public function set_alt_message($str)
@@ -797,7 +797,7 @@ class CI_Email {
 	/**
 	 * Set Mailtype
 	 *
-	 * @param	string
+	 * @param	string	$type
 	 * @return	CI_Email
 	 */
 	public function set_mailtype($type = 'text')
@@ -811,7 +811,7 @@ class CI_Email {
 	/**
 	 * Set Wordwrap
 	 *
-	 * @param	bool
+	 * @param	bool	$wordwrap
 	 * @return	CI_Email
 	 */
 	public function set_wordwrap($wordwrap = TRUE)
@@ -825,7 +825,7 @@ class CI_Email {
 	/**
 	 * Set Protocol
 	 *
-	 * @param	string
+	 * @param	string	$protocol
 	 * @return	CI_Email
 	 */
 	public function set_protocol($protocol = 'mail')
@@ -839,7 +839,7 @@ class CI_Email {
 	/**
 	 * Set Priority
 	 *
-	 * @param	int
+	 * @param	int	$n
 	 * @return	CI_Email
 	 */
 	public function set_priority($n = 3)
@@ -853,7 +853,7 @@ class CI_Email {
 	/**
 	 * Set Newline Character
 	 *
-	 * @param	string
+	 * @param	string	$newline
 	 * @return	CI_Email
 	 */
 	public function set_newline($newline = "\n")
@@ -867,7 +867,7 @@ class CI_Email {
 	/**
 	 * Set CRLF
 	 *
-	 * @param	string
+	 * @param	string	$crlf
 	 * @return	CI_Email
 	 */
 	public function set_crlf($crlf = "\n")
@@ -980,7 +980,7 @@ class CI_Email {
 	/**
 	 * Validate Email Address
 	 *
-	 * @param	string
+	 * @param	string	$email
 	 * @return	bool
 	 */
 	public function validate_email($email)
@@ -1008,7 +1008,7 @@ class CI_Email {
 	/**
 	 * Email Validation
 	 *
-	 * @param	string
+	 * @param	string	$email
 	 * @return	bool
 	 */
 	public function valid_email($email)
@@ -1033,7 +1033,7 @@ class CI_Email {
 	/**
 	 * Clean Extended Email Address: Joe Smith <joe@smith.com>
 	 *
-	 * @param	string
+	 * @param	string	$email
 	 * @return	string
 	 */
 	public function clean_email($email)
@@ -1095,8 +1095,8 @@ class CI_Email {
 	/**
 	 * Word Wrap
 	 *
-	 * @param	string
-	 * @param	int	line-length limit
+	 * @param	string	$str
+	 * @param	int	$charlim	line-length limit
 	 * @return	string
 	 */
 	public function word_wrap($str, $charlim = NULL)
@@ -1470,7 +1470,7 @@ class CI_Email {
 	 * Prepares string for Quoted-Printable Content-Transfer-Encoding
 	 * Refer to RFC 2045 https://www.ietf.org/rfc/rfc2045.txt
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _prep_quoted_printable($str)
@@ -1578,7 +1578,7 @@ class CI_Email {
 	 * It's related but not identical to quoted-printable, so it has its
 	 * own method.
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	protected function _prep_q_encoding($str)
@@ -2072,8 +2072,8 @@ class CI_Email {
 	/**
 	 * Send SMTP command
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$cmd
+	 * @param	string	$data
 	 * @return	bool
 	 */
 	protected function _send_command($cmd, $data = '')
@@ -2348,7 +2348,7 @@ class CI_Email {
 	/**
 	 * Mime Types
 	 *
-	 * @param	string
+	 * @param	string	$ext
 	 * @return	string
 	 */
 	protected function _mime_types($ext = '')

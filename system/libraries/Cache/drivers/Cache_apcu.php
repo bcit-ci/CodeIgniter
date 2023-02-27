@@ -71,7 +71,7 @@ class CI_Cache_apcu extends CI_Driver {
 	 * Look for a value in the cache. If it exists, return the data
 	 * if not, return FALSE
 	 *
-	 * @param	string
+	 * @param	string	$id
 	 * @return	mixed	value that is stored/FALSE on failure
 	 */
 	public function get($id)
@@ -116,7 +116,7 @@ class CI_Cache_apcu extends CI_Driver {
 	/**
 	 * Delete from Cache
 	 *
-	 * @param	mixed	unique identifier of the item in the cache
+	 * @param	mixed	$id	unique identifier of the item in the cache
 	 * @return	bool	true on success/false on failure
 	 */
 	public function delete($id)
@@ -181,7 +181,7 @@ class CI_Cache_apcu extends CI_Driver {
 	/**
 	 * Get Cache Metadata
 	 *
-	 * @param	mixed	key to get cache metadata on
+	 * @param	mixed	$id	key to get cache metadata on
 	 * @return	mixed	array on success/false on failure
 	 */
 	public function get_metadata($id)

@@ -55,7 +55,7 @@ if ( ! function_exists('nl2br_except_pre'))
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags
 	 *
-	 * @param	string
+	 * @param	string	$str
 	 * @return	string
 	 */
 	function nl2br_except_pre($str)
@@ -94,8 +94,8 @@ if ( ! function_exists('entity_decode'))
 	 *
 	 * This function is a replacement for html_entity_decode()
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$str
+	 * @param	string	$charset
 	 * @return	string
 	 */
 	function entity_decode($str, $charset = NULL)

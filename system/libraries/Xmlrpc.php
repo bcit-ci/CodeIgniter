@@ -964,7 +964,7 @@ class XML_RPC_Response
 	/**
 	 * XML-RPC Object to PHP Types
 	 *
-	 * @param	object
+	 * @param	object	$xmlrpc_val
 	 * @return	array
 	 */
 	public function xmlrpc_decoder($xmlrpc_val)
@@ -1006,8 +1006,8 @@ class XML_RPC_Response
 	/**
 	 * ISO-8601 time to server or UTC time
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string	$time
+	 * @param	bool	$utc
 	 * @return	int	unix timestamp
 	 */
 	public function iso8601_decode($time, $utc = FALSE)
@@ -1114,7 +1114,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * Parse External XML-RPC Server's Response
 	 *
-	 * @param	resource
+	 * @param	resource	$fp
 	 * @return	object
 	 */
 	public function parseResponse($fp)
@@ -1273,8 +1273,8 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * Start Element Handler
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$the_parser
+	 * @param	string	$name
 	 * @return	void
 	 */
 	public function open_tag($the_parser, $name)
@@ -1374,8 +1374,8 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * End Element Handler
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$the_parser
+	 * @param	string	$name
 	 * @return	void
 	 */
 	public function closing_tag($the_parser, $name)
@@ -1508,8 +1508,8 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * Parse character data
 	 *
-	 * @param	string
-	 * @param	string
+	 * @param	string	$the_parser
+	 * @param	string	$data
 	 * @return	void
 	 */
 	public function character_data($the_parser, $data)
@@ -1540,7 +1540,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * Add parameter
 	 *
-	 * @param	mixed
+	 * @param	mixed	$par
 	 * @return	void
 	 */
 	public function addParam($par)
@@ -1603,7 +1603,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	/**
 	 * Decode message
 	 *
-	 * @param	object
+	 * @param	object	$param
 	 * @return	mixed
 	 */
 	public function decode_message($param)
@@ -1703,8 +1703,8 @@ class XML_RPC_Values extends CI_Xmlrpc
 	/**
 	 * Add scalar value
 	 *
-	 * @param	scalar
-	 * @param	string
+	 * @param	scalar	$val
+	 * @param	string	$type
 	 * @return	int
 	 */
 	public function addScalar($val, $type = 'string')
@@ -1750,7 +1750,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	/**
 	 * Add array value
 	 *
-	 * @param	array
+	 * @param	array	$vals
 	 * @return	int
 	 */
 	public function addArray($vals)
@@ -1771,7 +1771,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	/**
 	 * Add struct value
 	 *
-	 * @param	object
+	 * @param	object	$vals
 	 * @return	int
 	 */
 	public function addStruct($vals)
@@ -1809,8 +1809,8 @@ class XML_RPC_Values extends CI_Xmlrpc
 	/**
 	 * Serialize data
 	 *
-	 * @param	string
-	 * @param	mixed
+	 * @param	string	$typ
+	 * @param	mixed	$val
 	 * @return	string
 	 */
 	public function serializedata($typ, $val)
@@ -1879,7 +1879,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 	/**
 	 * Serialize value
 	 *
-	 * @param	object
+	 * @param	object	$o
 	 * @return	string
 	 */
 	public function serializeval($o)
@@ -1907,8 +1907,8 @@ class XML_RPC_Values extends CI_Xmlrpc
 	 * Encode time in ISO-8601 form.
 	 * Useful for sending time in XML-RPC
 	 *
-	 * @param	int	unix timestamp
-	 * @param	bool
+	 * @param	int	$time	unix timestamp
+	 * @param	bool	$utc
 	 * @return	string
 	 */
 	public function iso8601_encode($time, $utc = FALSE)
