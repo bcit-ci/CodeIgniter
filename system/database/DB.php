@@ -39,18 +39,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-// JTA moved this here for kicks
-	require_once(BASEPATH.'database/DB_driver.php');
-	require_once(BASEPATH.'database/DB_query_builder.php');
-		/**
-		 * CI_DB
-		 *
-		 * Acts as an alias for both CI_DB_driver and CI_DB_query_builder.
-		 *
-		 * @see	CI_DB_query_builder
-		 * @see	CI_DB_driver
-		 */
-		class CI_DB extends CI_DB_query_builder {}
+// S. Imp moved this here from the conditional below because it
+// accomplishes the same thing more efficiently while dramatically
+// reducing the number of errors reported by phpstan
+require_once(BASEPATH.'database/DB_driver.php');
+require_once(BASEPATH.'database/DB_query_builder.php');
+/**
+ * CI_DB
+ *
+ * Acts as an alias for both CI_DB_driver and CI_DB_query_builder.
+ *
+ * @see	CI_DB_query_builder
+ * @see	CI_DB_driver
+ */
+class CI_DB extends CI_DB_query_builder {}
 
 
 
