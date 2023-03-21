@@ -59,7 +59,7 @@ class CI_Cache_redis extends CI_Driver
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
-		'timeout' => 0,
+		'timeout' => 0.0,
 		'database' => 0
 	);
 
