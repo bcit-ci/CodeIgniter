@@ -295,7 +295,7 @@ class CI_Security {
 			header('Set-Cookie: '.$this->_csrf_cookie_name.'='.$this->_csrf_hash
 					.'; Expires='.gmdate('D, d-M-Y H:i:s T', $expire)
 					.'; Max-Age='.$this->_csrf_expire
-					.'; Path='.rawurlencode(config_item('cookie_path'))
+					.'; Path='.implode('/', array_map('rawurlencode', explode('/', config_item('cookie_path'))))
 					.($domain === '' ? '' : '; Domain='.$domain)
 					.($secure_cookie ? '; Secure' : '')
 					.(config_item('cookie_httponly') ? '; HttpOnly' : '')
