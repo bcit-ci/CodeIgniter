@@ -1496,7 +1496,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if (empty($set))
 			{
-				return ($this->db_debug) ? $this->display_error('insert_batch() called with no data') : FALSE;
+				return ($this->db_debug) ? $this->display_error('db_data_required', 'insert_batch()') : FALSE;
 			}
 
 			$this->set_insert_batch($set, '', $escape);
@@ -1913,7 +1913,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if (empty($set))
 			{
-				return ($this->db_debug) ? $this->display_error('update_batch() called with no data') : FALSE;
+				return ($this->db_debug) ? $this->display_error('db_data_required', 'update_batch()') : FALSE;
 			}
 
 			$this->set_update_batch($set, $index);
