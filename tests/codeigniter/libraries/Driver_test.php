@@ -51,12 +51,12 @@ class Driver_test extends CI_TestCase {
 		$this->assertEquals($this->name, $this->lib->get_name());
 
 		// Was driver loaded?
-		$this->assertObjectHasAttribute($driver, $this->lib);
+		$this->assertObjectHasProperty($driver, $this->lib);
 		$this->assertInstanceOf($class, $this->lib->$driver);
 		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
 		// Was decorate called?
-		$this->assertObjectHasAttribute($prop, $this->lib->$driver);
+		$this->assertObjectHasProperty($prop, $this->lib->$driver);
 		$this->assertTrue($this->lib->$driver->$prop);
 
 		// Do we get an error for an invalid driver?
@@ -86,7 +86,7 @@ class Driver_test extends CI_TestCase {
 		$this->assertNotNull($this->lib->load_driver($driver));
 
 		// Was driver loaded?
-		$this->assertObjectHasAttribute($driver, $this->lib);
+		$this->assertObjectHasProperty($driver, $this->lib);
 		$this->assertInstanceOf($class, $this->lib->$driver);
 		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
@@ -120,7 +120,7 @@ class Driver_test extends CI_TestCase {
 		$this->assertNotNull($this->lib->load_driver($driver));
 
 		// Was driver loaded?
-		$this->assertObjectHasAttribute($driver, $this->lib);
+		$this->assertObjectHasProperty($driver, $this->lib);
 		$this->assertInstanceOf($class, $this->lib->$driver);
 		$this->assertInstanceOf($baseclass, $this->lib->$driver);
 		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
