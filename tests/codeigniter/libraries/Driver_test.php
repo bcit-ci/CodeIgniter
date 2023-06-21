@@ -7,6 +7,8 @@ class Driver_test extends CI_TestCase {
 
 	private $name;
 
+	private $realAssertObjectHasProperty;
+
 	/**
 	 * Set up test framework
 	 */
@@ -25,6 +27,12 @@ class Driver_test extends CI_TestCase {
 		// Create mock driver library
 		$this->name = 'Driver';
 		$this->lib = new Mock_Libraries_Driver();
+
+		// assertObjectHasAttribute() is deprecated and will be removed in PHPUnit 10.
+		// It was replaced by assertObjectHasProperty() in phpunit 10.1.0+
+		$this->realAssertObjectHasProperty = method_exists($this, 'assertObjectHasProperty')
+			? 'assertObjectHasProperty'
+			: 'assertObjectHasAttribute';
 	}
 
 	/**
@@ -51,12 +59,12 @@ class Driver_test extends CI_TestCase {
 		$this->assertEquals($this->name, $this->lib->get_name());
 
 		// Was driver loaded?
-		$this->assertObjectHasAttribute($driver, $this->lib);
+		call_user_func_array(array($this, $this->realAssertObjectHasProperty), array($driver, $this->lib));
 		$this->assertInstanceOf($class, $this->lib->$driver);
 		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
 		// Was decorate called?
-		$this->assertObjectHasAttribute($prop, $this->lib->$driver);
+		call_user_func_array(array($this, $this->realAssertObjectHasProperty), array($prop, $this->lib->$driver));
 		$this->assertTrue($this->lib->$driver->$prop);
 
 		// Do we get an error for an invalid driver?
@@ -86,7 +94,8 @@ class Driver_test extends CI_TestCase {
 		$this->assertNotNull($this->lib->load_driver($driver));
 
 		// Was driver loaded?
-		$this->assertObjectHasAttribute($driver, $this->lib);
+		call_user_func_array(array($this, $this->realAssertObjectHasProperty), array($driver, $this->lib));
+
 		$this->assertInstanceOf($class, $this->lib->$driver);
 		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
 
@@ -120,7 +129,7 @@ class Driver_test extends CI_TestCase {
 		$this->assertNotNull($this->lib->load_driver($driver));
 
 		// Was driver loaded?
-		$this->assertObjectHasAttribute($driver, $this->lib);
+		call_user_func_array(array($this, $this->realAssertObjectHasProperty), array($driver, $this->lib));
 		$this->assertInstanceOf($class, $this->lib->$driver);
 		$this->assertInstanceOf($baseclass, $this->lib->$driver);
 		$this->assertInstanceOf('CI_Driver', $this->lib->$driver);
