@@ -262,6 +262,19 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 
 /*
 |--------------------------------------------------------------------------
+| Ignore some log messages
+|--------------------------------------------------------------------------
+|
+| If your server generates lots of unwanted error messages you can exclude 
+| some of them from the log by setting this array.
+|
+| Function stripos us used to check if the message contains the string.
+|
+*/
+$config['log_ignored_messages'] = array();
+
+/*
+|--------------------------------------------------------------------------
 | Error Views Directory Path
 |--------------------------------------------------------------------------
 |

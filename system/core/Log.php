@@ -112,6 +112,13 @@ class CI_Log {
 	 */
 	protected static $func_overload;
 
+	/**
+	 * Messages to NOT be logged
+	 *
+	 * @var array
+	 */
+	protected $_ignored_messages = array();
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -157,6 +164,11 @@ class CI_Log {
 		{
 			$this->_file_permissions = $config['log_file_permissions'];
 		}
+
+		if (isset($config['log_ignored_messages']) && is_array($config['log_ignored_messages']))
+		{
+			$this->_ignored_messages = $config['log_ignored_messages'];
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -175,6 +187,15 @@ class CI_Log {
 		if ($this->_enabled === FALSE)
 		{
 			return FALSE;
+		}
+
+		// Ignored log messages?
+		foreach ($this->_ignored_messages as $ignored_msg)
+		{
+			if (stripos($msg, $ignored_msg) !== FALSE)
+			{
+				return FALSE;
+			}
 		}
 
 		$level = strtoupper($level);
