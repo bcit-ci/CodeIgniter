@@ -165,9 +165,9 @@ class CI_Log {
 			$this->_file_permissions = $config['log_file_permissions'];
 		}
 
-		if (isset($config['ignored_messages']) && is_array($config['ignored_messages']))
+		if (isset($config['log_ignored_messages']) && is_array($config['log_ignored_messages']))
 		{
-			$this->_ignored_messages = $config['ignored_messages'];
+			$this->_ignored_messages = $config['log_ignored_messages'];
 		}
 	}
 
