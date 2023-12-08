@@ -114,100 +114,139 @@
     <div class="views">
 
       <div class="view view-main">
+<div class="pages">
+  <div data-page="form" class="page no-toolbar no-navbar">
+    <div class="page-content">
+    
+	<div class="navbarpages navbarpagesbg">
+                            <div class="navbar_left">
+                                <div class="logo_text"><a href="index.html">AnimalKingdom</a></div>
+                            </div>
+			    <div class="navbar_right navbar_right_menu">
+				<a href="#" data-panel="left" class="open-panel"><img src="images/icons/white/menu.png" alt="" title="" /></a>
+			    </div>			
+			    <div class="navbar_right">
+				<a href="#" data-panel="right" class="open-panel"><img src="images/icons/white/user.png" alt="" title="" /></a>
+			    </div>
+			    <div class="navbar_right">
+				<a href="cart.html" data-view=".view-main"><img src="images/icons/white/cart.png" alt="" title="" /><span>3</span></a>
+			    </div>			
+	</div>
+	
+     <div id="pages_maincontent">
+     
+              <h2 class="page_title">CUSTOM FORM</h2> 
+     
+     <div class="page_single layout_fullwidth_padding">
 
+                <div class="contactform">
+                <form class="" id="CustomForm" method="post" action="">
+                <div class="form_row">
+                <label>Name:</label>
+                <input type="text" name="name" value="" class="form_input" />
+                </div>
+                
+                <div class="form_row">
+                <label>Email:</label>
+                <input type="text" name="email" value="" class="form_input required email" />
+                </div>
+				
+		
 
-
-        <div class="pages">
-
-          <div data-page="index" class="page homepage">
-            <div class="page-content">
-			
-			    <div class="navbarpages">
-					<div class="navbar_left">
-						<div class="logo_text"><a href="index.html">AnimalKingdom</a></div>
-					</div>
-					<div class="navbar_right navbar_right_menu">
-					<a href="#" data-panel="left" class="open-panel"><img src="images/icons/white/menu.png" alt="" title="" /></a>
-					</div>			
-					<div class="navbar_right">
-					<a href="#" data-panel="right" class="open-panel"><img src="images/icons/white/user.png" alt="" title="" /></a>
-					</div>
-					<div class="navbar_right">
-					<a href="cart.html"><img src="images/icons/white/cart.png" alt="" title="" /><span>3</span></a>
-					</div>
+		
+                <div class="form_row">
+                <label>Select:</label>
+			<div class="selector_overlay">
+				<select name="selectoptions" class="required">
+					<option value="" disabled selected>Select options</option>
+					<option value="1">select one</option>
+					<option value="2">select two</option>
+					<option value="3">select three</option>
+					<option value="4">select four</option>
+					<option value="5">select five</option>
+				</select>
+			</div>
+                </div>
+				
+                <div class="form_row">
+                        <label>Radio:</label>
+                        <div class="form_row_right">
+                          <label class="label-radio item-content">
+                            <!-- Checked by default -->
+                            <input type="radio" name="my-radio" value="Books" checked="checked">
+                            <div class="item-inner">
+                              <div class="item-title">Books</div>
+                            </div>
+                          </label>
+                          
+                          <label class="label-radio item-content">
+                            <!-- Checked by default -->
+                            <input type="radio" name="my-radio" value="Movies">
+                            <div class="item-inner">
+                              <div class="item-title">Movies</div>
+                            </div>
+                          </label>
+                         </div> 
+                </div>
+                
+                <div class="form_row">
+                        <label>Checkbox:</label>
+                        <div class="form_row_right">
+                          <label class="label-checkbox item-content">
+                            <!-- Checked by default -->
+                            <input type="checkbox" name="my-checkbox" value="Books" checked="checked">
+                            <div class="item-media">
+                              <i class="icon icon-form-checkbox"></i>
+                            </div>
+                            <div class="item-inner">
+                              <div class="item-title">Books</div>
+                            </div>
+                          </label>
+        
+                          <label class="label-checkbox item-content">
+                            <input type="checkbox" name="my-checkbox" value="Movies">
+                            <div class="item-media">
+                              <i class="icon icon-form-checkbox"></i>
+                            </div>
+                            <div class="item-inner">
+                              <div class="item-title">Movies</div>
+                            </div>
+                          </label>
+                       </div>   
+                </div>
+                
+                <div class="form_row">  
+                 	 <label>Switch:</label>
+			<input type="checkbox" hidden="hidden" id="username">
+			<label class="switch" for="username"></label>
+                 </div>
+                <div class="form_row">
+                <label>Datepicker:</label>
+                <input type="date" name="date" value="" class="form_input" />
                 </div>
 
-                  <!-- Slider -->
-                 <div class="swiper-container slidertoolbar">
-                    <div class="swiper-wrapper">
-                    
-                      <div class="swiper-slide" style="background-image:url(images/slide1.jpg);">
-		     <div class="slider_trans">
-			 <div class="slider-caption">
-			          <span class="subtitle" data-swiper-parallax="-60%">CREATIVE SOLUTION</span>
-				  <h2 data-swiper-parallax="-100%">FOR MOBILE PROJECTS</h2>
-				  
-				  <p data-swiper-parallax="-30%">Design and create, and build the most wonderful place in the world. But it takes people to make the dream a reality.</p>
-			 </div>
-		      </div> 
-                       </div>
-                      <div class="swiper-slide" style="background-image:url(images/slide2.jpg);">
-			<div class="slider_trans">		  
-				<div class="slider-caption">
-				<span class="subtitle" data-swiper-parallax="-60%">MULTIPURPOSE DESIGNS</span>
-				<h2 data-swiper-parallax="-100%">WITH BEAUTIFUL</h2>
-				
-				<p data-swiper-parallax="-30%">You can design and create, and build the most wonderful place in the world. But it takes people to make the dream a reality.</p>
-				</div>	
-			</div>	
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(images/slide3.jpg);">
-			<div class="slider_trans">		  
-				<div class="slider-caption">
-				<span class="subtitle" data-swiper-parallax="-60%">WEB AND NATIVE</span>
-				<h2 data-swiper-parallax="-100%">READY FOR APPS</h2>
-				
-				<p data-swiper-parallax="-30%">You can design and create, and build the most wonderful place in the world. But it takes people to make the dream a reality.</p>
-				</div>
-                       </div>
-		   </div> 		   
-                    </div>
-                    <div class="swiper-pagination"></div>
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-button-next"></div>	
-                  </div>
-			  
-		 <div class="swiper-container-toolbar swiper-toolbar">
-			<div class="swiper-pagination-toolbar"></div>
-			<div class="swiper-wrapper">
-			  <div class="swiper-slide toolbar-icon">
-				<a href="about.html"><img src="images/icons/blue/users.png" alt="" title="" /><span>ABOUT</span></a>
-			        <a href="features.html"><img src="images/icons/blue/features.png" alt="" title="" /><span>FEATURES</span></a>
-				<a href="#" data-popup=".popup-login" class="open-popup"><img src="images/icons/blue/lock.png" alt="" title="" /><span>LOGIN</span></a>
-				<a href="blog.html"><img src="images/icons/blue/blog.png" alt="" title="" /><span>JOURNAL</span></a>
-				<a href="photos.html"><img src="images/icons/blue/photos.png" alt="" title="" /><span>PHOTOS</span></a>
-				<a href="contact.html"><img src="images/icons/blue/contact.png" alt="" title="" /><span>CONTACT</span></a>
-			  </div> 
-			  <div class="swiper-slide toolbar-icon">
-				  <a href="shop.html"><img src="images/icons/blue/shop.png" alt="" title="" /><span>SHOP</span></a>
-				  <a href="music.html"><img src="images/icons/blue/music.png" alt="" title="" /><span>MUSIC</span></a>
-				  <a href="form.html"><img src="images/icons/blue/form.png" alt="" title="" /><span>CUSTOM FORM</span></a>
-				  <a href="#" data-popup=".popup-social" class="open-popup"><img src="images/icons/blue/twitter.png" alt="" title="" /><span>SOCIAL</span></a>
-				  <a href="videos.html"><img src="images/icons/blue/video.png" alt="" title="" /><span>VIDEOS</span></a>
-				  <a href="tel:12345678" ><img src="images/icons/blue/phone.png" alt="" title="" /><span>CALL NOW!</span></a>
-			   </div>
+                <div class="form_row"> 
+               <label>Message:</label>
+                <textarea name="message" class="form_textarea" rows="" cols="">your message here</textarea>
+                </div>
+                
+                
+                <input type="submit" name="submit" class="form_submit" id="submit" value="Send" />
+                </form>
+                </div>
 
-			</div>
-		  </div>	
-
-			  
-            </div>
-          </div>
-        </div>
-
-
-
+              
+              
+              </div>
+      
       </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+         </div>
     </div>
 
     <!-- Login Popup -->
@@ -294,6 +333,7 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.validate.min.js" ></script>
 <script src="js/swiper.min.js"></script>
+
 <script src="js/jquery.custom.js"></script>
   </body>
 </html>

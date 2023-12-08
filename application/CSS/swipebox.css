@@ -1,0 +1,264 @@
+html.swipebox {
+  overflow: hidden!important;
+}
+
+#swipebox-overlay img {
+  border: none!important;
+}
+
+#swipebox-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999999!important;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+#swipebox-slider {
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  white-space: nowrap;
+  position: absolute;
+  display: none;
+}
+
+#swipebox-slider .slide {
+  background: url("img/loader.gif") no-repeat center center;
+  height: 100%;
+  width: 100%;
+  line-height: 1px;
+  text-align: center;
+  display: inline-block;
+}
+
+#swipebox-slider .slide:before {
+  content: "";
+  display: inline-block;
+  height: 50%;
+  width: 1px;
+  margin-right: -1px;
+}
+
+#swipebox-slider .slide img,
+#swipebox-slider .slide .swipebox-video-container {
+  display: inline-block;
+  max-height: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  vertical-align: middle;
+}
+
+#swipebox-slider .slide .swipebox-video-container {
+  background:none;
+  max-width: 1140px;
+  max-height: 100%;
+  width: 100%;
+  padding:5%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+
+#swipebox-slider .slide .swipebox-video-container .swipebox-video{
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  position: relative;
+}
+
+#swipebox-slider .slide .swipebox-video-container .swipebox-video iframe{
+  width: 100%!important; 
+  height: 100%!important;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+#swipebox-action, #swipebox-caption {
+  position: absolute;
+  left: 0;
+  z-index: 999;
+  height: 50px;
+  width: 100%;
+}
+
+#swipebox-action {
+  bottom: -50px;
+}
+#swipebox-action.visible-bars {
+  bottom: 0;
+}
+
+#swipebox-action.force-visible-bars {
+  bottom: 0!important;
+}
+
+#swipebox-caption {
+  top: -50px;
+  text-align: center;
+}
+#swipebox-caption.visible-bars {
+  top: 0;
+}
+
+#swipebox-caption.force-visible-bars {
+  top: 0!important;
+}
+
+#swipebox-action #swipebox-prev, #swipebox-action #swipebox-next,
+#swipebox-action #swipebox-close {
+  background-image: url("img/icons.png");
+  background-repeat: no-repeat;
+  border: none!important;
+  text-decoration: none!important;
+  cursor: pointer;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0;
+}
+
+#swipebox-action #swipebox-close {
+  background-position: 15px 12px;
+  left: 40px;
+}
+
+#swipebox-action #swipebox-prev {
+  background-position: -32px 13px;
+  right: 100px;
+}
+
+#swipebox-action #swipebox-next {
+  background-position: -78px 13px;
+  right: 40px;
+}
+
+#swipebox-action #swipebox-prev.disabled,
+#swipebox-action #swipebox-next.disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+}
+
+#swipebox-slider.rightSpring {
+  -moz-animation: rightSpring 0.3s;
+  -webkit-animation: rightSpring 0.3s;
+}
+
+#swipebox-slider.leftSpring {
+  -moz-animation: leftSpring 0.3s;
+  -webkit-animation: leftSpring 0.3s;
+}
+
+@-moz-keyframes rightSpring {
+  0% {
+    margin-left: 0px;
+  }
+
+  50% {
+    margin-left: -30px;
+  }
+
+  100% {
+    margin-left: 0px;
+  }
+}
+
+@-moz-keyframes leftSpring {
+  0% {
+    margin-left: 0px;
+  }
+
+  50% {
+    margin-left: 30px;
+  }
+
+  100% {
+    margin-left: 0px;
+  }
+}
+
+@-webkit-keyframes rightSpring {
+  0% {
+    margin-left: 0px;
+  }
+
+  50% {
+    margin-left: -30px;
+  }
+
+  100% {
+    margin-left: 0px;
+  }
+}
+
+@-webkit-keyframes leftSpring {
+  0% {
+    margin-left: 0px;
+  }
+
+  50% {
+    margin-left: 30px;
+  }
+
+  100% {
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #swipebox-action #swipebox-close {
+    left: 0;
+  }
+
+  #swipebox-action #swipebox-prev {
+    right: 60px;
+  }
+
+  #swipebox-action #swipebox-next {
+    right: 0;
+  }
+}
+
+
+/* Skin 
+--------------------------*/
+#swipebox-overlay {
+  background: #0d0d0d;
+}
+
+#swipebox-action, #swipebox-caption {
+  text-shadow: 1px 1px 1px black;
+  background-color: #0d0d0d;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0d0d0d), color-stop(100%, #000000));
+  background-image: -webkit-linear-gradient(#0d0d0d, #000000);
+  background-image: -moz-linear-gradient(#0d0d0d, #000000);
+  background-image: -o-linear-gradient(#0d0d0d, #000000);
+  background-image: linear-gradient(#0d0d0d, #000000);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=95);
+  opacity: 0.95;
+}
+
+#swipebox-action {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#swipebox-caption {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: white!important;
+  font-size: 15px;
+  line-height: 43px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+

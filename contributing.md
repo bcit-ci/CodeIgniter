@@ -21,7 +21,6 @@ for us to maintain quality of the code-base.
 
 All code must meet the [Style Guide](https://codeigniter.com/userguide3/general/styleguide.html), which is
 essentially the [Allman indent style](https://en.wikipedia.org/wiki/Indent_style#Allman_style), underscores and readable operators. This makes certain that all code is the same format as the existing code and means it will be as readable as possible.
-
 ### Documentation
 
 If you change anything that requires a change to documentation then you will need to add it. New classes, methods, parameters, changing default values, etc are all things that will require a change to documentation. The change-log must also be updated for every change. Also PHPDoc blocks must be maintained.
@@ -69,7 +68,7 @@ Hard way The best way to contribute is to "clone" your fork of CodeIgniter to yo
 1. [Set up Git](https://help.github.com/en/articles/set-up-git) (Windows, Mac & Linux)
 2. Go to the [CodeIgniter repo](https://github.com/bcit-ci/CodeIgniter)
 3. [Fork it](https://help.github.com/en/articles/fork-a-repo)
-4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git.
+4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: <git@github.com>:<your-name>/CodeIgniter.git.
 5. Checkout the "develop" branch. At this point you are ready to start making changes.
 6. Fix existing bugs on the Issue tracker after taking a look to see nobody else is working on them.
 7. [Commit](https://help.github.com/en/articles/adding-a-file-to-a-repository-using-the-command-line) the files
