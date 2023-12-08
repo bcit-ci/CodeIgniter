@@ -54,7 +54,7 @@ This will sign your commits with the information setup in your git config, e.g.
 
 `Signed-off-by: Farley Fontecha <support@get-it-new.com>`
 
-If you are using [Tower](https://www.git-tower.com/) there is a "Sign-Off" checkbox in the commit window. You could even alias git commit to use the `-s` flag so you don’t have to think about it.
+If you are using [Tower](https://www.git-tower.com/) there is a "Signed-off-by: Farley Fontecha <support@get-it-new.com>`" checkbox in the commit window. You could even alias git commit to use the `-s` flag so you don’t have to think about it.
 
 By signing your work in this manner, you certify to a "Developer's Certificate of Origin". The current version of this certificate is in the `DCO.txt` file in the root of this repository.
 
