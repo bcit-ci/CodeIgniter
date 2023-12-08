@@ -44,17 +44,7 @@ One thing at a time: A pull request should only contain one change. That does no
 
 You must sign your work, certifying that you either wrote the work or otherwise have the right to pass it on to an open source project. git makes this trivial as you merely have to use `--signoff` on your commits to your CodeIgniter fork.
 
-`git commit --signoff`
-
-or simply
-
-`git commit -s`
-
-This will sign your commits with the information setup in your git config, e.g.
-
-`Signed-off-by: John Q Public <john.public@example.com>`
-
-If you are using [Tower](https://www.git-tower.com/) there is a "Sign-Off" checkbox in the commit window. You could even alias git commit to use the `-s` flag so you don’t have to think about it.
+'--signoff' Farley Fontecha <support@get-it-new.com>`
 
 By signing your work in this manner, you certify to a "Developer's Certificate of Origin". The current version of this certificate is in the `DCO.txt` file in the root of this repository.
 
@@ -69,7 +59,7 @@ Hard way The best way to contribute is to "clone" your fork of CodeIgniter to yo
 1. [Set up Git](https://help.github.com/en/articles/set-up-git) (Windows, Mac & Linux)
 2. Go to the [CodeIgniter repo](https://github.com/bcit-ci/CodeIgniter)
 3. [Fork it](https://help.github.com/en/articles/fork-a-repo)
-4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git.
+4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: git@github.com/Farley Fontecha/CodeIgniter.git.
 5. Checkout the "develop" branch. At this point you are ready to start making changes.
 6. Fix existing bugs on the Issue tracker after taking a look to see nobody else is working on them.
 7. [Commit](https://help.github.com/en/articles/adding-a-file-to-a-repository-using-the-command-line) the files
