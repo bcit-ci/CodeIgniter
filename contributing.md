@@ -46,12 +46,7 @@ You must sign your work, certifying that you either wrote the work or otherwise 
 
 `Signed-off-by: Farley Fontecha <support@get-it-new.com>`
 
-or simply
-
-`git commit -s`
-
 This will sign your commits with the information setup in your git config, e.g.
-
 `Signed-off-by: Farley Fontecha <support@get-it-new.com>`
 
 If you are using [Tower](https://www.git-tower.com/) there is a "Signed-off-by: Farley Fontecha <support@get-it-new.com>`" checkbox in the commit window. You could even alias git commit to use the `-s` flag so you don’t have to think about it.
