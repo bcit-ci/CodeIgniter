@@ -44,7 +44,7 @@ One thing at a time: A pull request should only contain one change. That does no
 
 You must sign your work, certifying that you either wrote the work or otherwise have the right to pass it on to an open source project. git makes this trivial as you merely have to use `--signoff` on your commits to your CodeIgniter fork.
 
-`git commit --signoff`
+`Signed-off-by: Farley Fontecha <support@get-it-new.com>`
 
 or simply
 
