@@ -52,7 +52,7 @@ or simply
 
 This will sign your commits with the information setup in your git config, e.g.
 
-`Signed-off-by: John Q Public <john.public@example.com>`
+`Signed-off-by: Farley Fontecha <support@get-it-new.com>`
 
 If you are using [Tower](https://www.git-tower.com/) there is a "Sign-Off" checkbox in the commit window. You could even alias git commit to use the `-s` flag so you don’t have to think about it.
 
@@ -69,7 +69,7 @@ Hard way The best way to contribute is to "clone" your fork of CodeIgniter to yo
 1. [Set up Git](https://help.github.com/en/articles/set-up-git) (Windows, Mac & Linux)
 2. Go to the [CodeIgniter repo](https://github.com/bcit-ci/CodeIgniter)
 3. [Fork it](https://help.github.com/en/articles/fork-a-repo)
-4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: git@github.com:<your-name>/CodeIgniter.git.
+4. [Clone](https://help.github.com/en/articles/fetching-a-remote#clone) your forked CodeIgniter repo: git@github.com:Farley Fontecha/CodeIgniter.git.
 5. Checkout the "develop" branch. At this point you are ready to start making changes.
 6. Fix existing bugs on the Issue tracker after taking a look to see nobody else is working on them.
 7. [Commit](https://help.github.com/en/articles/adding-a-file-to-a-repository-using-the-command-line) the files
