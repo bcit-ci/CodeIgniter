@@ -1151,7 +1151,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
-		$pname = (string) $parser;
+		$pname = spl_object_id($parser);
 		$this->xh[$pname] = array(
 			'isf'		=> 0,
 			'ac'		=> '',
@@ -1279,7 +1279,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 */
 	public function open_tag($the_parser, $name)
 	{
-		$the_parser = (string) $the_parser;
+		$the_parser = spl_object_id($the_parser);
 
 		// If invalid nesting, then return
 		if ($this->xh[$the_parser]['isf'] > 1) return;
@@ -1380,7 +1380,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 */
 	public function closing_tag($the_parser, $name)
 	{
-		$the_parser = (string) $the_parser;
+		$the_parser = spl_object_id($the_parser);
 
 		if ($this->xh[$the_parser]['isf'] > 1) return;
 
@@ -1514,7 +1514,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 */
 	public function character_data($the_parser, $data)
 	{
-		$the_parser = (string) $the_parser;
+		$the_parser = spl_object_id($the_parser);
 
 		if ($this->xh[$the_parser]['isf'] > 1) return; // XML Fault found already
 
