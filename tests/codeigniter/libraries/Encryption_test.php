@@ -5,6 +5,11 @@ class Encryption_test extends CI_TestCase {
 	public function set_up()
 	{
 		$this->encryption = new Mock_Libraries_Encryption();
+
+		if (version_compare(PHP_VERSION, '7.1', '<'))
+		{
+			$this->markTestSkipped('Ubuntu-latest OpenSSL is not working correct in some older PHP versions.');
+		}
 	}
 
 	// --------------------------------------------------------------------
