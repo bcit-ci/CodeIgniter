@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     env:
       PHP_INI_VALUES: assert.exception=1, zend.assertions=1

@@ -91,7 +91,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
-	public $directory;
+	public $directory = '';
 
 	/**
 	 * Default controller (and method if specific)
@@ -340,7 +340,7 @@ class CI_Router {
 	protected function _validate_request($segments)
 	{
 		$c = count($segments);
-		$directory_override = isset($this->directory);
+		$directory_override = $this->directory !== '';
 
 		// Loop through our segments and return as soon as a controller
 		// is found or when such a directory doesn't exist
