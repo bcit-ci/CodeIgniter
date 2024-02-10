@@ -1,8 +1,8 @@
 <?php
 
-class Security_helper_tests extends CI_TestCase {
+class Security_helper_test extends CI_TestCase {
 
-	function setUp()
+	function set_up()
 	{
 		$this->helper('security');
 		$obj = new stdClass;

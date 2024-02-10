@@ -11,7 +11,7 @@ class Number_helper_test extends CI_TestCase {
 
 		// Mock away load, too much going on in there,
 		// we'll just check for the expected parameter
-		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load'))->getMock();
+		$lang = $this->getMockBuilder('CI_Lang')->onlyMethods(array('load'))->getMock();
 		$lang->expects($this->once())
 			 ->method('load')
 			 ->with($this->equalTo('number'));

@@ -35,6 +35,7 @@ class CI_TestCase extends \PHPUnit\Framework\TestCase {
 
 	public function setUp()
 	{
+		self::$ci_test_instance = $this;
 		// Setup VFS with base directories
 		$this->ci_vfs_root = vfsStream::setup('');
 		$this->ci_app_root = vfsStream::newDirectory('application')->at($this->ci_vfs_root);
@@ -347,11 +348,11 @@ class CI_TestCase extends \PHPUnit\Framework\TestCase {
 	 * happen in setUp, but someone is bound to forget to
 	 * call the parent method and debugging this is no fun.
 	 */
-	public function runBare()
+	/*public function runBare()
 	{
 		self::$ci_test_instance = $this;
 		parent::runBare();
-	}
+	}*/
 
 	// --------------------------------------------------------------------
 

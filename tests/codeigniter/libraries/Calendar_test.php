@@ -5,9 +5,9 @@ class Calendar_test extends CI_TestCase {
 	public function set_up()
 	{
 		// Required for get_total_days()
-		$this->ci_instance_var('load', $this->getMockBuilder('CI_Loader')->setMethods(array('helper'))->getMock());
+		$this->ci_instance_var('load', $this->getMockBuilder('CI_Loader')->onlyMethods(array('helper'))->getMock());
 
-		$lang = $this->getMockBuilder('CI_Lang')->setMethods(array('load', 'line'))->getMock();
+		$lang = $this->getMockBuilder('CI_Lang')->onlyMethods(array('load', 'line'))->getMock();
 		$lang->expects($this->any())->method('line')->will($this->returnValue(FALSE));
 		$this->ci_instance_var('lang', $lang);
 
