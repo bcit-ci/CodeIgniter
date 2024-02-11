@@ -98,6 +98,15 @@ directory name loading the view. Example::
 
 	$this->load->view('directory_name/file_name');
 
+Or just passing the directory name it will fetch a file from index.
+Example:
+
+	$this->load->view('directory_name');
+
+if you do not have a file with that name, it is the equivalent of:
+
+	$this->load->view('directory_name/index');
+
 Adding Dynamic Data to the View
 ===============================
 
