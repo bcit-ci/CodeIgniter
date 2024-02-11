@@ -566,7 +566,7 @@ class CI_Image_lib {
 		else
 		{
 			// Is there a file name?
-			if ( ! preg_match('#\.(jpg|jpeg|gif|png)$#i', $this->new_image))
+			if ( ! preg_match('#\.(jpg|jpeg|gif|png|webp)$#i', $this->new_image))
 			{
 				$this->dest_image  = $this->source_image;
 				$this->dest_folder = $this->new_image;
