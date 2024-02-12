@@ -10,6 +10,17 @@ interface and logical structure to access these libraries. CodeIgniter lets
 you creatively focus on your project by minimizing the amount of code needed
 for a given task.
 
+*************
+CodeIgniter 3
+*************
+
+This repository is for the legacy version, CodeIgniter 3.
+`CodeIgniter 4 <https://github.com/codeigniter4/CodeIgniter4>`_ is the latest
+version of the framework.
+
+CodeIgniter 3 is the legacy version of the framework, intended for use with PHP
+5.6+. This version is in maintenance, receiving mostly just security updates.
+
 *******************
 Release Information
 *******************
