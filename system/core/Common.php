@@ -564,7 +564,7 @@ if ( ! function_exists('set_status_header'))
 			}
 		}
 
-		if (strpos(PHP_SAPI, 'cgi') === 0)
+		if (PHP_SAPI === "cgi")
 		{
 			header('Status: '.$code.' '.$text, TRUE);
 			return;
