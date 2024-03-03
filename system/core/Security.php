@@ -299,7 +299,8 @@ class CI_Security {
 					.($domain === '' ? '' : '; Domain='.$domain)
 					.($secure_cookie ? '; Secure' : '')
 					.(config_item('cookie_httponly') ? '; HttpOnly' : '')
-					.'; SameSite=Strict'
+					.'; SameSite=Strict',
+					FALSE
 			);
 		}
 

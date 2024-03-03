@@ -378,7 +378,7 @@ class CI_Input {
 			$cookie_header .= ($expire === 0 ? '' : '; Expires='.gmdate('D, d-M-Y H:i:s T', $expire)).'; Max-Age='.$maxage;
 			$cookie_header .= '; Path='.$path.($domain !== '' ? '; Domain='.$domain : '');
 			$cookie_header .= ($secure ? '; Secure' : '').($httponly ? '; HttpOnly' : '').'; SameSite='.$samesite;
-			header($cookie_header);
+			header($cookie_header, FALSE);
 			return;
 		}
 
