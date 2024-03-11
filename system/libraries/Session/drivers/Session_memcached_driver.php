@@ -108,6 +108,15 @@ class CI_Session_memcached_driver extends CI_Session_driver implements CI_Sessio
 	{
 		$this->_memcached = new Memcached();
 		$this->_memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE); // required for touch() usage
+
+		// Load the memcached library config and set SASL authentication data
+		$ci =& get_instance();
+		$ci->load->config('memcached');
+		$config = $ci->config->item('memcached');
+		if (isset($config['config']['username']) && isset($config['config']['password'])) {
+			$this->_memcached->setSaslAuthData($config['config']['username'], $config['config']['password']);
+		}
+		
 		$server_list = array();
 		foreach ($this->_memcached->getServerList() as $server)
 		{
