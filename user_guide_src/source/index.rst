@@ -1,6 +1,6 @@
-######################
-CodeIgniter User Guide
-######################
+########################
+CodeIgniter 3 User Guide
+########################
 
 - :doc:`License Agreement <license>`
 - :doc:`Change Log <changelog>`
@@ -8,6 +8,16 @@ CodeIgniter User Guide
 .. contents::
    :local:
    :depth: 2
+
+*************
+CodeIgniter 3
+*************
+
+CodeIgniter 3 is the legacy version of the framework, intended for use with PHP
+5.6+. This version is in maintenance, receiving mostly just security updates.
+
+`CodeIgniter 4 <https://codeigniter.com/user_guide/>`_ is the latest version of
+the framework.
 
 *******
 Welcome
