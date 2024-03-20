@@ -177,7 +177,7 @@ class CI_Session {
 				$header .= '; Path='.$this->_config['cookie_path'];
 				$header .= ($this->_config['cookie_domain'] !== '' ? '; Domain='.$this->_config['cookie_domain'] : '');
 				$header .= ($this->_config['cookie_secure'] ? '; Secure' : '').'; HttpOnly; SameSite='.$this->_config['cookie_samesite'];
-				header($header);
+				header($header, FALSE);
 			}
 
 			if ( ! $this->_config['cookie_secure'] && $this->_config['cookie_samesite'] === 'None')
