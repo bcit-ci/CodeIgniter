@@ -52,6 +52,7 @@ function autoload($class)
 		'Upload',
 		'User_agent',
 		'Xmlrpc',
+		'Xmlrpcs',
 		'Zip'
 	);
 
