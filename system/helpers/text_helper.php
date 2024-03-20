@@ -423,6 +423,8 @@ if ( ! function_exists('convert_accented_characters'))
 			$array_from = array_keys($foreign_characters);
 			$array_to = array_values($foreign_characters);
 		}
+		
+		$str = (gettype($str) === 'NULL') ? '' : $str;
 
 		return preg_replace($array_from, $array_to, $str);
 	}
