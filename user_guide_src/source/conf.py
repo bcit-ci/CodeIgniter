@@ -25,7 +25,7 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.ifconfig', 'sphinxcontrib.phpdomain']
+extensions = ['sphinx.ext.ifconfig', 'sphinxcontrib.phpdomain', 'sphinx_rtd_theme']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -101,11 +101,13 @@ html_theme = 'sphinx_rtd_theme'
 #
 # Specifying a few options; just a starting point & we can play with it.
 html_theme_options = {
-
+  'style_nav_header_background': '#dd4814',
+  'includehidden': False,
+  'display_version': False,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ["./_themes"]
+html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
