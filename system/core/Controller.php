@@ -67,6 +67,84 @@ class CI_Controller {
 	public $load;
 
 	/**
+	 * CI_Benchmark
+	 *
+	 * @var	CI_Benchmark
+	 */
+	public $benchmark;
+
+	/**
+	 * CI_Config
+	 *
+	 * @var	CI_Config
+	 */
+	public $config;
+
+	/**
+	 * CI_Log
+	 *
+	 * @var	CI_Log
+	 */
+	public $log;
+
+	/**
+	 * CI_Hooks
+	 *
+	 * @var	CI_Hooks
+	 */
+	public $hooks;
+
+	/**
+	 * CI_Lang
+	 *
+	 * @var	CI_Lang
+	 */
+	public $lang;
+
+	/**
+	 * CI_Utf8
+	 *
+	 * @var	CI_Utf8
+	 */
+	public $utf8;
+
+	/**
+	 * CI_Uri
+	 *
+	 * @var	CI_Uri
+	 */
+	public $uri;
+
+	/**
+	 * CI_Router
+	 *
+	 * @var	CI_Router
+	 */
+
+	public $router;
+
+	/**
+	 * CI_Output
+	 *
+	 * @var	CI_Output
+	 */
+	public $output;
+
+	/**
+	 * CI_Security
+	 *
+	 * @var	CI_Security
+	 */
+	public $security;
+
+	/**
+	 * CI_Input 
+	 *
+	 * @var	CI_Input
+	 */
+	public $input;
+
+	/**
 	 * Class constructor
 	 *
 	 * @return	void

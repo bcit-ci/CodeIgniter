@@ -123,6 +123,80 @@ class CI_Loader {
 	protected $_ci_helpers =	array();
 
 	/**
+	 * List of loaded libraries
+	 *
+	 * @var	array
+	 */
+	protected $load;
+
+	/**
+	 *
+	 * @var CI_Benchmark
+	 */
+	protected $benchmark;
+
+	/**
+	 *
+	 * @var CI_Config
+	 */
+	protected $config;
+
+	/**
+	 *
+	 * @var CI_Log
+	 */
+	protected $log;
+
+	/**
+	 *
+	 * @var CI_Hooks
+	 */
+	protected $hooks;
+
+	/**
+	 *
+	 * @var CI_Lang
+	 */
+	protected $lang;
+
+	/**
+	 *
+	 * @var CI_Utf8
+	 */
+	protected $utf8;
+
+	/**
+	 *
+	 * @var CI_Uri
+	 */
+	protected $uri;
+
+	/**
+	 *
+	 * @var CI_Router
+	 */
+	protected $router;
+
+	/**
+	 *
+	 * @var CI_output
+	 */
+	protected $output;
+
+	/**
+	 *
+	 * @var CI_security
+	 */
+	protected $security;
+
+	/**
+	 *
+	 * @var CI_Input
+	 */
+	protected $input;
+
+
+	/**
 	 * List of class name mappings
 	 *
 	 * @var	array
