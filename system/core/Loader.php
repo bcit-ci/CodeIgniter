@@ -915,6 +915,18 @@ class CI_Loader {
 					break;
 				}
 
+				// checks if there is a directory with that name and a contained index.php. 
+				if(!file_exists($_ci_view_file.$_ci_file) && is_dir( str_replace('.php', '/', $_ci_view_file.$_ci_file)))
+				{
+					$_ci_file = str_replace('.php', '/', $_ci_view_file.$_ci_file).'index.php';
+					if(file_exists($_ci_file))
+					{
+						$_ci_path = $_ci_file;
+						$file_exists = TRUE;
+						break;
+					}
+				}
+
 				if ( ! $cascade)
 				{
 					break;
