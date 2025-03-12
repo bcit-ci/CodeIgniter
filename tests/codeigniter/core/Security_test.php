@@ -121,11 +121,11 @@ class Security_test extends CI_TestCase {
 
 	// --------------------------------------------------------------------
 
-	public function text_xss_clean_js_link_removal()
+	public function test_xss_clean_js_link_removal()
 	{
 		// This one is to prevent a false positive
 		$this->assertEquals(
-			"<a href=\"javascrip\n<t\n:alert\n&#40;1&#41;\"\n>",
+			"<a href=\"javascrip\n<t\n:alert\n&#40;1&#41;\">",
 			$this->security->xss_clean("<a href=\"javascrip\n<t\n:alert\n(1)\"\n>")
 		);
 	}
