@@ -1,0 +1,188 @@
+Group use declarations
+-----
+<?php
+use A\{B};
+use A\{B\C, D};
+use \A\B\{C\D, E};
+use function A\{b\c, d};
+use const \A\{B\C, D};
+use A\B\{C\D, function b\c, const D};
+-----
+array(
+    0: Stmt_GroupUse(
+        type: 0
+        prefix: Name(
+            parts: array(
+                0: A
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: B
+                    )
+                )
+                alias: B
+            )
+        )
+    )
+    1: Stmt_GroupUse(
+        type: 0
+        prefix: Name(
+            parts: array(
+                0: A
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: B
+                        1: C
+                    )
+                )
+                alias: C
+            )
+            1: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: D
+                    )
+                )
+                alias: D
+            )
+        )
+    )
+    2: Stmt_GroupUse(
+        type: 0
+        prefix: Name(
+            parts: array(
+                0: A
+                1: B
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: C
+                        1: D
+                    )
+                )
+                alias: D
+            )
+            1: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: E
+                    )
+                )
+                alias: E
+            )
+        )
+    )
+    3: Stmt_GroupUse(
+        type: 2
+        prefix: Name(
+            parts: array(
+                0: A
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 0
+                name: Name(
+                    parts: array(
+                        0: b
+                        1: c
+                    )
+                )
+                alias: c
+            )
+            1: Stmt_UseUse(
+                type: 0
+                name: Name(
+                    parts: array(
+                        0: d
+                    )
+                )
+                alias: d
+            )
+        )
+    )
+    4: Stmt_GroupUse(
+        type: 3
+        prefix: Name(
+            parts: array(
+                0: A
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 0
+                name: Name(
+                    parts: array(
+                        0: B
+                        1: C
+                    )
+                )
+                alias: C
+            )
+            1: Stmt_UseUse(
+                type: 0
+                name: Name(
+                    parts: array(
+                        0: D
+                    )
+                )
+                alias: D
+            )
+        )
+    )
+    5: Stmt_GroupUse(
+        type: 0
+        prefix: Name(
+            parts: array(
+                0: A
+                1: B
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: C
+                        1: D
+                    )
+                )
+                alias: D
+            )
+            1: Stmt_UseUse(
+                type: 2
+                name: Name(
+                    parts: array(
+                        0: b
+                        1: c
+                    )
+                )
+                alias: c
+            )
+            2: Stmt_UseUse(
+                type: 3
+                name: Name(
+                    parts: array(
+                        0: D
+                    )
+                )
+                alias: D
+            )
+        )
+    )
+)

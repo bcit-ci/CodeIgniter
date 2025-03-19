@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php">
+	<testsuites>
+		<testsuite name="Authentication">
+			<directory suffix=".php">Auth</directory>
+		</testsuite>
+		<testsuite name="Transports">
+			<directory suffix=".php">Transport</directory>
+		</testsuite>
+		<testsuite name="General">
+			<file>ChunkedEncoding.php</file>
+			<file>Cookies.php</file>
+			<file>IDNAEncoder.php</file>
+			<file>IRI.php</file>
+			<file>Requests.php</file>
+			<file>Response/Headers.php</file>
+			<file>SSL.php</file>
+		</testsuite>
+	</testsuites>
+
+	<logging>
+		<log type="coverage-html" target="coverage" title="PHPUnit"
+			charset="UTF-8" yui="true" highlight="true"
+			lowUpperBound="35" highLowerBound="90"/>
+	</logging>
+
+	<filter>
+		<blacklist>
+			<directory suffix=".php">.</directory>
+		</blacklist>
+		<whitelist>
+			<directory suffix=".php">../library</directory>
+		</whitelist>
+	</filter>
+</phpunit>

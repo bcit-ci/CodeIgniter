@@ -1,0 +1,4 @@
+/nbproject/
+/application/tests/build/
+/application/tests/_ci_phpunit_test/tmp/
+/application/tests/_ci_phpunit_test/patcher/debug.log

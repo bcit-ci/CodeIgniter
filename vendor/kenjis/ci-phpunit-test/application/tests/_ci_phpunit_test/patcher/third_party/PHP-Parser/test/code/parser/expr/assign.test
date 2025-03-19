@@ -1,0 +1,255 @@
+Assignments
+-----
+<?php
+// simple assign
+$a = $b;
+
+// combined assign
+$a &= $b;
+$a |= $b;
+$a ^= $b;
+$a .= $b;
+$a /= $b;
+$a -= $b;
+$a %= $b;
+$a *= $b;
+$a += $b;
+$a <<= $b;
+$a >>= $b;
+$a **= $b;
+
+// chained assign
+$a = $b *= $c **= $d;
+
+// by ref assign
+$a =& $b;
+$a =& new B;
+
+// list() assign
+list($a) = $b;
+list($a, , $b) = $c;
+list($a, list(, $c), $d) = $e;
+
+// inc/dec
+++$a;
+$a++;
+--$a;
+$a--;
+-----
+array(
+    0: Expr_Assign(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    1: Expr_AssignOp_BitwiseAnd(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    2: Expr_AssignOp_BitwiseOr(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    3: Expr_AssignOp_BitwiseXor(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    4: Expr_AssignOp_Concat(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    5: Expr_AssignOp_Div(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    6: Expr_AssignOp_Minus(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    7: Expr_AssignOp_Mod(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    8: Expr_AssignOp_Mul(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    9: Expr_AssignOp_Plus(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    10: Expr_AssignOp_ShiftLeft(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    11: Expr_AssignOp_ShiftRight(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    12: Expr_AssignOp_Pow(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    13: Expr_Assign(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_AssignOp_Mul(
+            var: Expr_Variable(
+                name: b
+            )
+            expr: Expr_AssignOp_Pow(
+                var: Expr_Variable(
+                    name: c
+                )
+                expr: Expr_Variable(
+                    name: d
+                )
+            )
+        )
+    )
+    14: Expr_AssignRef(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    15: Expr_AssignRef(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_New(
+            class: Name(
+                parts: array(
+                    0: B
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    16: Expr_Assign(
+        var: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+            )
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    17: Expr_Assign(
+        var: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: null
+                2: Expr_Variable(
+                    name: b
+                )
+            )
+        )
+        expr: Expr_Variable(
+            name: c
+        )
+    )
+    18: Expr_Assign(
+        var: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: Expr_List(
+                    vars: array(
+                        0: null
+                        1: Expr_Variable(
+                            name: c
+                        )
+                    )
+                )
+                2: Expr_Variable(
+                    name: d
+                )
+            )
+        )
+        expr: Expr_Variable(
+            name: e
+        )
+    )
+    19: Expr_PreInc(
+        var: Expr_Variable(
+            name: a
+        )
+    )
+    20: Expr_PostInc(
+        var: Expr_Variable(
+            name: a
+        )
+    )
+    21: Expr_PreDec(
+        var: Expr_Variable(
+            name: a
+        )
+    )
+    22: Expr_PostDec(
+        var: Expr_Variable(
+            name: a
+        )
+    )
+)

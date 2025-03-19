@@ -1,0 +1,186 @@
+Error recovery
+-----
+<?php
+
+foo()
+bar()
+baz()
+-----
+Syntax error, unexpected T_STRING from 4:1 to 4:3
+Syntax error, unexpected T_STRING from 5:1 to 5:3
+Syntax error, unexpected EOF from 5:6 to 5:6
+array(
+)
+-----
+<?php
+
+foo()
+bar();
+baz();
+-----
+Syntax error, unexpected T_STRING from 4:1 to 4:3
+array(
+    0: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: bar
+            )
+        )
+        args: array(
+        )
+    )
+    1: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: baz
+            )
+        )
+        args: array(
+        )
+    )
+)
+-----
+<?php
+
+foo();
+bar()
+baz();
+-----
+Syntax error, unexpected T_STRING from 5:1 to 5:3
+array(
+    0: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: foo
+            )
+        )
+        args: array(
+        )
+    )
+    1: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: baz
+            )
+        )
+        args: array(
+        )
+    )
+)
+-----
+<?php
+abc;
+1 + ;
+-----
+Syntax error, unexpected ';' from 3:5 to 3:5
+array(
+    0: Expr_ConstFetch(
+        name: Name(
+            parts: array(
+                0: abc
+            )
+        )
+    )
+)
+-----
+<?php
+function test() {
+    1 +
+}
+-----
+Syntax error, unexpected '}' from 4:1 to 4:1
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: test
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)
+-----
+<?php
+
+$i = 0;
+while
+
+$j = 1;
+$k = 2;
+-----
+Syntax error, unexpected T_VARIABLE, expecting '(' from 6:1 to 6:2
+array(
+    0: Expr_Assign(
+        var: Expr_Variable(
+            name: i
+        )
+        expr: Scalar_LNumber(
+            value: 0
+        )
+    )
+    1: Expr_Assign(
+        var: Expr_Variable(
+            name: j
+        )
+        expr: Scalar_LNumber(
+            value: 1
+        )
+    )
+    2: Expr_Assign(
+        var: Expr_Variable(
+            name: k
+        )
+        expr: Scalar_LNumber(
+            value: 2
+        )
+    )
+)
+-----
+<?php
+
+$i = 0;
+while () {
+    $j = 1;
+}
+$k = 2;
+// The output here drops the loop - would require Error node to handle this
+-----
+Syntax error, unexpected ')' from 4:8 to 4:8
+array(
+    0: Expr_Assign(
+        var: Expr_Variable(
+            name: i
+        )
+        expr: Scalar_LNumber(
+            value: 0
+        )
+    )
+    1: Expr_Assign(
+        var: Expr_Variable(
+            name: j
+        )
+        expr: Scalar_LNumber(
+            value: 1
+        )
+    )
+    2: Expr_Assign(
+        var: Expr_Variable(
+            name: k
+        )
+        expr: Scalar_LNumber(
+            value: 2
+        )
+    )
+)
+-----
+<?php
+// Can't recover this yet, as the '}' for the inner_statement_list
+// is always required.
+
+$i = 0;
+while (true) {
+    $i = 1;
+    $i = 2;
+-----
+Syntax error, unexpected EOF from 8:12 to 8:12

@@ -1,0 +1,50 @@
+PHP 4 style declarations
+-----
+<?php
+
+class A {
+    var $foo;
+    function bar() {}
+    static abstract function baz() {}
+}
+-----
+array(
+    0: Stmt_Class(
+        type: 0
+        name: A
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                type: 0
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: foo
+                        default: null
+                    )
+                )
+            )
+            1: Stmt_ClassMethod(
+                type: 0
+                byRef: false
+                name: bar
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            2: Stmt_ClassMethod(
+                type: 24
+                byRef: false
+                name: baz
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)

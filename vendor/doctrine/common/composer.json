@@ -1,0 +1,36 @@
+{
+    "name": "doctrine/common",
+    "type": "library",
+    "description": "Common Library for Doctrine projects",
+    "keywords": ["collections", "spl", "eventmanager", "annotations", "persistence"],
+    "homepage": "http://www.doctrine-project.org",
+    "license": "MIT",
+    "authors": [
+        {"name": "Guilherme Blanco", "email": "guilhermeblanco@gmail.com"},
+        {"name": "Roman Borschel", "email": "roman@code-factory.org"},
+        {"name": "Benjamin Eberlei", "email": "kontakt@beberlei.de"},
+        {"name": "Jonathan Wage", "email": "jonwage@gmail.com"},
+        {"name": "Johannes Schmitt", "email": "schmittjoh@gmail.com"}
+    ],
+    "require": {
+        "php": "~5.5|~7.0",
+        "doctrine/inflector": "1.*",
+        "doctrine/cache": "1.*",
+        "doctrine/collections": "1.*",
+        "doctrine/lexer": "1.*",
+        "doctrine/annotations": "1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8|~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doctrine\\Common\\": "lib/Doctrine/Common"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.7.x-dev"
+        }
+    }
+}

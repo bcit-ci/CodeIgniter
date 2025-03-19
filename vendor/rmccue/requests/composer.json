@@ -1,0 +1,23 @@
+{
+	"name": "rmccue/requests",
+	"description": "A HTTP library written in PHP, for human beings.",
+	"homepage": "http://github.com/rmccue/Requests",
+	"license": "ISC",
+	"keywords": ["http", "idna", "iri", "ipv6", "curl", "sockets", "fsockopen"],
+	"authors": [
+		{
+			"name": "Ryan McCue",
+			"homepage": "http://ryanmccue.info"
+		}
+	],
+	"require": {
+		"php": ">=5.2"
+	},
+	"require-dev": {
+		"satooshi/php-coveralls": "dev-master"
+	},
+	"type": "library",
+	"autoload": {
+		"psr-0": {"Requests": "library/"}
+	}
+}

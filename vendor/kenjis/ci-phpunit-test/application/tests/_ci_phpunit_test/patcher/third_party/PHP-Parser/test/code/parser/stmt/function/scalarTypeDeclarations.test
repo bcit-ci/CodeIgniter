@@ -1,0 +1,45 @@
+Scalar type declarations
+-----
+<?php
+function test(bool $a, Int $b, FLOAT $c, StRiNg $d) {}
+-----
+!!php7
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: test
+        params: array(
+            0: Param(
+                type: bool
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+            1: Param(
+                type: int
+                byRef: false
+                variadic: false
+                name: b
+                default: null
+            )
+            2: Param(
+                type: float
+                byRef: false
+                variadic: false
+                name: c
+                default: null
+            )
+            3: Param(
+                type: string
+                byRef: false
+                variadic: false
+                name: d
+                default: null
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)

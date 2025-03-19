@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <title>vfsStream API Doc</title>
+  <parser>
+    <target>docs/api</target>
+    <default-package-name>org\bovigo\vfs</default-package-name>
+  </parser>
+  <transformer>
+    <target>docs/api</target>
+  </transformer>
+  <files>
+    <directory>src/main/php</directory>
+  </files>
+</phpdoc>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         printerClass="PHPUnit_TextUI_ResultPrinter"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         strict="false"
+         verbose="true">
+  <testsuites>
+    <testsuite>
+      <directory suffix="TestCase.php">./src/test/php</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist>
+      <directory>src/main/php</directory>
+    </whitelist>
+  </filter>
+
+  <logging>
+    <log type="coverage-html" target="docs/coverage" charset="UTF-8"
+         yui="true" highlight="false"
+         lowUpperBound="35" highLowerBound="70"/>
+    <log type="junit" target="docs/phpunit/junit.xml" logIncompleteSkipped="false"/>
+    <log type="testdox-html" target="docs/phpunit/testdox.html"/>
+  </logging>
+
+  <php>
+    <ini name="memory_limit" value="-1"/>
+  </php>
+</phpunit>

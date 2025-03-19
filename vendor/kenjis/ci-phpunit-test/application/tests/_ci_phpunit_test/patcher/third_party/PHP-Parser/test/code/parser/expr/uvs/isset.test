@@ -1,0 +1,74 @@
+UVS isset() on temporaries
+-----
+<?php
+
+isset(([0, 1] + [])[0]);
+isset(['a' => 'b']->a);
+isset("str"->a);
+-----
+!!php7
+array(
+    0: Expr_Isset(
+        vars: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_BinaryOp_Plus(
+                    left: Expr_Array(
+                        items: array(
+                            0: Expr_ArrayItem(
+                                key: null
+                                value: Scalar_LNumber(
+                                    value: 0
+                                )
+                                byRef: false
+                            )
+                            1: Expr_ArrayItem(
+                                key: null
+                                value: Scalar_LNumber(
+                                    value: 1
+                                )
+                                byRef: false
+                            )
+                        )
+                    )
+                    right: Expr_Array(
+                        items: array(
+                        )
+                    )
+                )
+                dim: Scalar_LNumber(
+                    value: 0
+                )
+            )
+        )
+    )
+    1: Expr_Isset(
+        vars: array(
+            0: Expr_PropertyFetch(
+                var: Expr_Array(
+                    items: array(
+                        0: Expr_ArrayItem(
+                            key: Scalar_String(
+                                value: a
+                            )
+                            value: Scalar_String(
+                                value: b
+                            )
+                            byRef: false
+                        )
+                    )
+                )
+                name: a
+            )
+        )
+    )
+    2: Expr_Isset(
+        vars: array(
+            0: Expr_PropertyFetch(
+                var: Scalar_String(
+                    value: str
+                )
+                name: a
+            )
+        )
+    )
+)

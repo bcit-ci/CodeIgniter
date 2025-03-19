@@ -1,0 +1,12 @@
+Short array syntax
+-----
+<?php
+
+[];
+array(1, 2, 3);
+['a' => 'b', 'c' => 'd'];
+-----
+!!both {"shortArraySyntax": true}
+[];
+[1, 2, 3];
+['a' => 'b', 'c' => 'd'];

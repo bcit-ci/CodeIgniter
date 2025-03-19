@@ -1,0 +1,47 @@
+{
+    "name": "doctrine/orm",
+    "type": "library",
+    "description": "Object-Relational-Mapper for PHP",
+    "keywords": ["orm", "database"],
+    "homepage": "http://www.doctrine-project.org",
+    "license": "MIT",
+    "authors": [
+        {"name": "Guilherme Blanco", "email": "guilhermeblanco@gmail.com"},
+        {"name": "Roman Borschel", "email": "roman@code-factory.org"},
+        {"name": "Benjamin Eberlei", "email": "kontakt@beberlei.de"},
+        {"name": "Jonathan Wage", "email": "jonwage@gmail.com"}
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4",
+        "ext-pdo": "*",
+        "doctrine/collections": "~1.2",
+        "doctrine/dbal": ">=2.5-dev,<2.6-dev",
+        "doctrine/instantiator": "~1.0.1",
+        "doctrine/common": ">=2.5-dev,<2.7-dev",
+        "doctrine/cache": "~1.4",
+        "symfony/console": "~2.5|~3.0"
+    },
+    "require-dev": {
+        "symfony/yaml": "~2.3|~3.0",
+        "phpunit/phpunit": "~4.0"
+    },
+    "suggest": {
+        "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
+    },
+    "autoload": {
+        "psr-0": { "Doctrine\\ORM\\": "lib/" }
+    },
+    "autoload-dev": {
+        "psr-0": { "Doctrine\\Tests\\": "tests/" }
+    },
+    "bin": ["bin/doctrine", "bin/doctrine.php"],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.6.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": ["!vendor", "tests", "*phpunit.xml", ".travis.yml", "build.xml", "build.properties", "composer.phar", "vendor/satooshi", "lib/vendor", "*.swp", "*coveralls.yml"]
+    }
+}

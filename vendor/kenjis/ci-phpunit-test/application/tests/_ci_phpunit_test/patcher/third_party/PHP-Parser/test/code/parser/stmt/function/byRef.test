@@ -1,0 +1,41 @@
+Return and pass by ref
+-----
+<?php
+
+function a(&$b) {}
+function &a($b) {}
+-----
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: a
+        params: array(
+            0: Param(
+                type: null
+                byRef: true
+                variadic: false
+                name: b
+                default: null
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        byRef: true
+        name: a
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: b
+                default: null
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)

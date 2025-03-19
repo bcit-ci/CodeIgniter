@@ -1,0 +1,62 @@
+Trailing newlines in doc strings
+-----
+<?php
+
+<<<'EOF'@@{ "\n\n" }@@EOF;
+<<<'EOF'@@{ "\n\n\n" }@@EOF;
+<<<'EOF'@@{ "\nFoo\n\n" }@@EOF;
+<<<EOF@@{ "\n\$var\n\n" }@@EOF;
+
+<<<'EOF'@@{ "\r\n\r\n" }@@EOF;
+<<<'EOF'@@{ "\r\n\r\n\r\n" }@@EOF;
+<<<'EOF'@@{ "\r\nFoo\r\n\r\n" }@@EOF;
+<<<EOF@@{ "\r\n\$var\r\n\r\n" }@@EOF;
+
+// comment to force line break before EOF
+-----
+array(
+    0: Scalar_String(
+        value:
+    )
+    1: Scalar_String(
+        value:
+
+    )
+    2: Scalar_String(
+        value: Foo
+
+    )
+    3: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: var
+            )
+            1: Scalar_EncapsedStringPart(
+                value:
+
+            )
+        )
+    )
+    4: Scalar_String(
+        value:
+    )
+    5: Scalar_String(
+        value:
+
+    )
+    6: Scalar_String(
+        value: Foo
+
+    )
+    7: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: var
+            )
+            1: Scalar_EncapsedStringPart(
+                value:
+
+            )
+        )
+    )
+)

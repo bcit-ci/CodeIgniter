@@ -1,0 +1,95 @@
+UVS new expressions
+-----
+<?php
+new $className;
+new $array['className'];
+new $array{'className'};
+new $obj->className;
+new Test::$className;
+new $test::$className;
+new $weird[0]->foo::$className;
+-----
+!!php7
+array(
+    0: Expr_New(
+        class: Expr_Variable(
+            name: className
+        )
+        args: array(
+        )
+    )
+    1: Expr_New(
+        class: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: array
+            )
+            dim: Scalar_String(
+                value: className
+            )
+        )
+        args: array(
+        )
+    )
+    2: Expr_New(
+        class: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: array
+            )
+            dim: Scalar_String(
+                value: className
+            )
+        )
+        args: array(
+        )
+    )
+    3: Expr_New(
+        class: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: obj
+            )
+            name: className
+        )
+        args: array(
+        )
+    )
+    4: Expr_New(
+        class: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: Test
+                )
+            )
+            name: className
+        )
+        args: array(
+        )
+    )
+    5: Expr_New(
+        class: Expr_StaticPropertyFetch(
+            class: Expr_Variable(
+                name: test
+            )
+            name: className
+        )
+        args: array(
+        )
+    )
+    6: Expr_New(
+        class: Expr_StaticPropertyFetch(
+            class: Expr_PropertyFetch(
+                var: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: weird
+                    )
+                    dim: Scalar_LNumber(
+                        value: 0
+                    )
+                )
+                name: foo
+            )
+            name: className
+        )
+        args: array(
+        )
+    )
+)

@@ -1,0 +1,19 @@
+language: php
+before_script:
+ - phpenv local 5.4
+ - composer install --dev --no-interaction
+ - phpenv local --unset
+ - cd tests
+script:
+ - phpunit --coverage-clover clover.xml
+after_script:
+ - cd ..
+ - phpenv local 5.4
+ - php vendor/bin/coveralls -v
+ - phpenv local --unset
+php:
+  - 5.2
+  - 5.3
+  - 5.4
+  - 5.5
+  - hhvm

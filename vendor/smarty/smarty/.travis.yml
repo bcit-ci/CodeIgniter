@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: hhvm
+
+before_script:
+    - travis_retry composer --prefer-source --dev install
+
+install:
+   - git clone --depth=50 --branch=master git://github.com/smarty-php/smarty-phpunit.git
+
+script:
+   - cd smarty-phpunit
+   - phpunit ./
+

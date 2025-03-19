@@ -1,0 +1,92 @@
+Implicitly public properties and methods
+-----
+<?php
+
+abstract class A {
+    var $a;
+    static $b;
+    abstract function c();
+    final function d() {}
+    static function e() {}
+    final static function f() {}
+    function g() {}
+}
+-----
+array(
+    0: Stmt_Class(
+        type: 16
+        name: A
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                type: 0
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: a
+                        default: null
+                    )
+                )
+            )
+            1: Stmt_Property(
+                type: 8
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: b
+                        default: null
+                    )
+                )
+            )
+            2: Stmt_ClassMethod(
+                type: 16
+                byRef: false
+                name: c
+                params: array(
+                )
+                returnType: null
+                stmts: null
+            )
+            3: Stmt_ClassMethod(
+                type: 32
+                byRef: false
+                name: d
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            4: Stmt_ClassMethod(
+                type: 8
+                byRef: false
+                name: e
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            5: Stmt_ClassMethod(
+                type: 40
+                byRef: false
+                name: f
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            6: Stmt_ClassMethod(
+                type: 0
+                byRef: false
+                name: g
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)

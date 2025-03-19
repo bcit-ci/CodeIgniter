@@ -1,0 +1,12 @@
+{
+    "name": "mikey179/vfsStream",
+    "type": "library",
+    "homepage": "http://vfs.bovigo.org/",
+    "license": "BSD",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": { "org\\bovigo\\vfs": "src/main/php" }
+    }
+}

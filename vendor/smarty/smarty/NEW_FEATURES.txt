@@ -1,0 +1,133 @@
+
+
+This file contains a brief description of new features which have been added to Smarty 3.1
+
+Smarty 3.1.28
+
+    OPCACHE
+    =======
+    Smarty does now invalidate automatically updated and cleared compiled or cached template files in OPCACHE.
+    Correct operation is no longer dependent on OPCACHE configuration settings.
+
+    Template inheritance
+    ====================
+    Template inheritance is now processed in run time.
+    See the INHERITANCE_RELEASE_NOTES
+
+    Modifier regex_replace
+    ======================
+    An optional limit parameter was added
+
+    fetch() and display()
+    =====================
+    The fetch() and display() methods of the template object accept now optionally the same parameter
+    as the corresponding Smarty methods to get the content of another template.
+    Example:
+        $template->display();           Does display template of template object
+        $template->display('foo.tpl');  Does display template 'foo.bar' 
+
+    File: resource
+    ==============
+    Multiple template_dir entries can now be selected  by a comma separated list of indices.
+    The template_dir array is searched in the order of the indices. (Could be used to change the default search order)
+    Example:
+        $smarty->display('[1],[0]foo.bar');
+        
+    Filter support
+    ==============
+    Optional filter names
+      An optional filter name was added to $smarty->registerFilter(). It can be used to unregister a filter by name.
+      - $smarty->registerFilter('output', $callback, 'name');
+        $smarty->unregister('output', 'name');
+
+    Closures
+      $smarty->registerFilter() does now accept closures.
+      - $smarty->registerFilter('pre', function($source) {return $source;});
+      If no optional filter name was specified it gets the default name 'closure'.
+      If you register multiple closures register each with a unique filter name.
+      - $smarty->registerFilter('pre', function($source) {return $source;}, 'closure_1');
+      - $smarty->registerFilter('pre', function($source) {return $source;}, 'closure_2');
+      
+
+Smarty 3.1.22
+
+    Namespace support within templates
+    ==================================
+    Within templates you can now use namespace specifications on:
+     - Constants                like    foo\bar\FOO
+     - Class names              like    foo\bar\Baz::FOO, foo\bar\Baz::$foo, foo\bar\Baz::foo()
+     - PHP function names       like    foo\bar\baz()
+
+    Security
+    ========
+    - disable special $smarty variable -
+    The Smarty_Security class has the new property $disabled_special_smarty_vars.
+    It's an array which can be loaded with the $smarty special variable names like
+    'template_object', 'template', 'current_dir' and others which will be disabled.
+    Note: That this security check is performed at compile time.
+
+    - limit template nesting -
+    Property $max_template_nesting of Smarty_Security does set the maximum template nesting level.
+    The main template is level 1. The nesting level is checked at run time. When the maximum will be exceeded
+    an Exception will be thrown. The default setting is 0 which does disable this check.
+
+    - trusted static methods -
+   The Smarty_Security class has the new property $trusted_static_methods to restrict access to static methods.
+   It's an nested array of trusted class and method names.
+         Format:
+         array (
+                    'class_1' => array('method_1', 'method_2'), // allowed methods
+                    'class_2' => array(),                       // all methods of class allowed
+               )
+   To disable access for all methods of all classes set $trusted_static_methods = null;
+   The default value is an empty array() which does enables all methods of all classes, but for backward compatibility
+   the setting of $static_classes will be checked.
+   Note: That this security check is performed at compile time.
+
+    - trusted static properties -
+   The Smarty_Security class has the new property $trusted_static_properties to restrict access to static properties.
+   It's an nested array of trusted class and property names.
+         Format:
+         array (
+                    'class_1' => array('prop_1', 'prop_2'), // allowed properties listed
+                    'class_2' => array(),                   // all properties of class allowed
+                }
+   To disable access for all properties of all classes set $trusted_static_properties = null;
+   The default value is an empty array() which does enables all properties of all classes, but for backward compatibility
+   the setting of $static_classes will be checked.
+   Note: That this security check is performed at compile time.
+
+    - trusted constants .
+   The Smarty_Security class has the new property $trusted_constants to restrict access to constants.
+   It's an array of trusted constant names.
+         Format:
+         array (
+                    'SMARTY_DIR' , // allowed constant
+                }
+   If the array is empty (default) the usage of constants  can be controlled with the
+   Smarty_Security::$allow_constants property (default true)
+
+
+
+    Compiled Templates
+    ==================
+    Smarty does now automatically detects a change of the $merge_compiled_includes and $escape_html
+    property and creates different compiled templates files depending on the setting.
+
+    Same applies to config files and the $config_overwrite, $config_booleanize and
+    $config_read_hidden properties.
+
+    Debugging
+    =========
+    The layout of the debug window has been changed for better readability
+    
+    New class constants
+        Smarty::DEBUG_OFF
+        Smarty::DEBUG_ON
+        Smarty::DEBUG_INDIVIDUAL
+    have been introduced for setting the $debugging property.
+
+    Smarty::DEBUG_INDIVIDUAL will create for each display() and fetch() call an individual debug window.
+
+    .
+    

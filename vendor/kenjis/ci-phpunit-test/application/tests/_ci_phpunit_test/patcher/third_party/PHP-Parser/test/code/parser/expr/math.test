@@ -1,0 +1,226 @@
+Mathematical operators
+-----
+<?php
+
+// unary ops
+~$a;
++$a;
+-$a;
+
+// binary ops
+$a & $b;
+$a | $b;
+$a ^ $b;
+$a . $b;
+$a / $b;
+$a - $b;
+$a % $b;
+$a * $b;
+$a + $b;
+$a << $b;
+$a >> $b;
+$a ** $b;
+
+// associativity
+$a * $b * $c;
+$a * ($b * $c);
+
+// precedence
+$a + $b * $c;
+($a + $b) * $c;
+
+// pow is special
+$a ** $b ** $c;
+($a ** $b) ** $c;
+-----
+array(
+    0: Expr_BitwiseNot(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    1: Expr_UnaryPlus(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    2: Expr_UnaryMinus(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    3: Expr_BinaryOp_BitwiseAnd(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    4: Expr_BinaryOp_BitwiseOr(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    5: Expr_BinaryOp_BitwiseXor(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    6: Expr_BinaryOp_Concat(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    7: Expr_BinaryOp_Div(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    8: Expr_BinaryOp_Minus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    9: Expr_BinaryOp_Mod(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    10: Expr_BinaryOp_Mul(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    11: Expr_BinaryOp_Plus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    12: Expr_BinaryOp_ShiftLeft(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    13: Expr_BinaryOp_ShiftRight(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    14: Expr_BinaryOp_Pow(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    15: Expr_BinaryOp_Mul(
+        left: Expr_BinaryOp_Mul(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+    16: Expr_BinaryOp_Mul(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_BinaryOp_Mul(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    17: Expr_BinaryOp_Plus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_BinaryOp_Mul(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    18: Expr_BinaryOp_Mul(
+        left: Expr_BinaryOp_Plus(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+    19: Expr_BinaryOp_Pow(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_BinaryOp_Pow(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    20: Expr_BinaryOp_Pow(
+        left: Expr_BinaryOp_Pow(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+)

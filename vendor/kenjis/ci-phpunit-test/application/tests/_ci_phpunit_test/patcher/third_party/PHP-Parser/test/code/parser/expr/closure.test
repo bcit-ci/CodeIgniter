@@ -1,0 +1,142 @@
+Closures
+-----
+<?php
+function($a) { $a; };
+function($a) use($b) {};
+function() use($a, &$b) {};
+function &($a) {};
+static function() {};
+function($a) : array {};
+function() use($a) : \Foo\Bar {};
+-----
+array(
+    0: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+        )
+        uses: array(
+        )
+        returnType: null
+        stmts: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    1: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: b
+                byRef: false
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    2: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: a
+                byRef: false
+            )
+            1: Expr_ClosureUse(
+                var: b
+                byRef: true
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    3: Expr_Closure(
+        static: false
+        byRef: true
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+        )
+        uses: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    4: Expr_Closure(
+        static: true
+        byRef: false
+        params: array(
+        )
+        uses: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    5: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+        )
+        uses: array(
+        )
+        returnType: array
+        stmts: array(
+        )
+    )
+    6: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: a
+                byRef: false
+            )
+        )
+        returnType: Name_FullyQualified(
+            parts: array(
+                0: Foo
+                1: Bar
+            )
+        )
+        stmts: array(
+        )
+    )
+)

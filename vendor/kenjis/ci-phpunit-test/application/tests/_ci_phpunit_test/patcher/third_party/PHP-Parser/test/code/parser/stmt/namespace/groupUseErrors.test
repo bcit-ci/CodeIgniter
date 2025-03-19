@@ -1,0 +1,45 @@
+Invalid group use syntax
+-----
+<?php
+// Missing semicolon
+use Foo\{Bar}
+use Bar\{Foo};
+-----
+Syntax error, unexpected T_USE, expecting ';' from 4:1 to 4:3
+array(
+    0: Stmt_GroupUse(
+        type: 0
+        prefix: Name(
+            parts: array(
+                0: Bar
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: 1
+                name: Name(
+                    parts: array(
+                        0: Foo
+                    )
+                )
+                alias: Foo
+            )
+        )
+    )
+)
+-----
+<?php
+// Missing NS separator
+use Foo {Bar, Baz};
+-----
+Syntax error, unexpected '{', expecting ',' or ';' from 3:9 to 3:9
+array(
+)
+-----
+<?php
+// Extra NS separator
+use Foo\{\Bar};
+-----
+Syntax error, unexpected T_NS_SEPARATOR, expecting T_STRING or T_FUNCTION or T_CONST from 3:10 to 3:10
+array(
+)

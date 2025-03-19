@@ -1,0 +1,13 @@
+Error positions
+-----
+<?php foo
+-----
+Syntax error, unexpected EOF from 1:10 to 1:10
+array(
+)
+-----
+<?php foo /* bar */
+-----
+Syntax error, unexpected EOF from 1:20 to 1:20
+array(
+)

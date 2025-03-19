@@ -1,0 +1,380 @@
+Valid usages of reserved keywords as identifiers
+-----
+<?php
+
+class Test {
+    function array() {}
+    function public() {}
+
+    static function list() {}
+    static function protected() {}
+
+    public $class;
+    public $private;
+
+    const TRAIT = 3, FINAL = 4;
+
+    const __CLASS__ = 1, __TRAIT__ = 2, __FUNCTION__ = 3, __METHOD__ = 4, __LINE__ = 5,
+          __FILE__ = 6, __DIR__ = 7, __NAMESPACE__ = 8;
+    // __halt_compiler does not work
+}
+
+$t = new Test;
+$t->array();
+$t->public();
+
+Test::list();
+Test::protected();
+
+$t->class;
+$t->private;
+
+Test::TRAIT;
+Test::FINAL;
+
+class Foo {
+    use TraitA, TraitB {
+        TraitA::catch insteadof namespace\TraitB;
+        TraitA::list as foreach;
+        TraitB::throw as protected public;
+        TraitB::self as protected;
+        exit as die;
+        \TraitC::exit as bye;
+        namespace\TraitC::exit as byebye;
+        TraitA::
+            //
+            /** doc comment */
+            #
+        catch /* comment */
+            // comment
+            # comment
+        insteadof TraitB;
+    }
+}
+-----
+array(
+    0: Stmt_Class(
+        type: 0
+        name: Test
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                type: 0
+                byRef: false
+                name: array
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            1: Stmt_ClassMethod(
+                type: 0
+                byRef: false
+                name: public
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            2: Stmt_ClassMethod(
+                type: 8
+                byRef: false
+                name: list
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            3: Stmt_ClassMethod(
+                type: 8
+                byRef: false
+                name: protected
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            4: Stmt_Property(
+                type: 1
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: class
+                        default: null
+                    )
+                )
+            )
+            5: Stmt_Property(
+                type: 1
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: private
+                        default: null
+                    )
+                )
+            )
+            6: Stmt_ClassConst(
+                consts: array(
+                    0: Const(
+                        name: TRAIT
+                        value: Scalar_LNumber(
+                            value: 3
+                        )
+                    )
+                    1: Const(
+                        name: FINAL
+                        value: Scalar_LNumber(
+                            value: 4
+                        )
+                    )
+                )
+            )
+            7: Stmt_ClassConst(
+                consts: array(
+                    0: Const(
+                        name: __CLASS__
+                        value: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                    1: Const(
+                        name: __TRAIT__
+                        value: Scalar_LNumber(
+                            value: 2
+                        )
+                    )
+                    2: Const(
+                        name: __FUNCTION__
+                        value: Scalar_LNumber(
+                            value: 3
+                        )
+                    )
+                    3: Const(
+                        name: __METHOD__
+                        value: Scalar_LNumber(
+                            value: 4
+                        )
+                    )
+                    4: Const(
+                        name: __LINE__
+                        value: Scalar_LNumber(
+                            value: 5
+                        )
+                    )
+                    5: Const(
+                        name: __FILE__
+                        value: Scalar_LNumber(
+                            value: 6
+                        )
+                    )
+                    6: Const(
+                        name: __DIR__
+                        value: Scalar_LNumber(
+                            value: 7
+                        )
+                    )
+                    7: Const(
+                        name: __NAMESPACE__
+                        value: Scalar_LNumber(
+                            value: 8
+                        )
+                    )
+                )
+            )
+        )
+    )
+    1: Expr_Assign(
+        var: Expr_Variable(
+            name: t
+        )
+        expr: Expr_New(
+            class: Name(
+                parts: array(
+                    0: Test
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    2: Expr_MethodCall(
+        var: Expr_Variable(
+            name: t
+        )
+        name: array
+        args: array(
+        )
+    )
+    3: Expr_MethodCall(
+        var: Expr_Variable(
+            name: t
+        )
+        name: public
+        args: array(
+        )
+    )
+    4: Expr_StaticCall(
+        class: Name(
+            parts: array(
+                0: Test
+            )
+        )
+        name: list
+        args: array(
+        )
+    )
+    5: Expr_StaticCall(
+        class: Name(
+            parts: array(
+                0: Test
+            )
+        )
+        name: protected
+        args: array(
+        )
+    )
+    6: Expr_PropertyFetch(
+        var: Expr_Variable(
+            name: t
+        )
+        name: class
+    )
+    7: Expr_PropertyFetch(
+        var: Expr_Variable(
+            name: t
+        )
+        name: private
+    )
+    8: Expr_ClassConstFetch(
+        class: Name(
+            parts: array(
+                0: Test
+            )
+        )
+        name: TRAIT
+    )
+    9: Expr_ClassConstFetch(
+        class: Name(
+            parts: array(
+                0: Test
+            )
+        )
+        name: FINAL
+    )
+    10: Stmt_Class(
+        type: 0
+        name: Foo
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        parts: array(
+                            0: TraitA
+                        )
+                    )
+                    1: Name(
+                        parts: array(
+                            0: TraitB
+                        )
+                    )
+                )
+                adaptations: array(
+                    0: Stmt_TraitUseAdaptation_Precedence(
+                        trait: Name(
+                            parts: array(
+                                0: TraitA
+                            )
+                        )
+                        method: catch
+                        insteadof: array(
+                            0: Name_Relative(
+                                parts: array(
+                                    0: TraitB
+                                )
+                            )
+                        )
+                    )
+                    1: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name(
+                            parts: array(
+                                0: TraitA
+                            )
+                        )
+                        method: list
+                        newModifier: null
+                        newName: foreach
+                    )
+                    2: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name(
+                            parts: array(
+                                0: TraitB
+                            )
+                        )
+                        method: throw
+                        newModifier: 2
+                        newName: public
+                    )
+                    3: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name(
+                            parts: array(
+                                0: TraitB
+                            )
+                        )
+                        method: self
+                        newModifier: 2
+                        newName: null
+                    )
+                    4: Stmt_TraitUseAdaptation_Alias(
+                        trait: null
+                        method: exit
+                        newModifier: null
+                        newName: die
+                    )
+                    5: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name_FullyQualified(
+                            parts: array(
+                                0: TraitC
+                            )
+                        )
+                        method: exit
+                        newModifier: null
+                        newName: bye
+                    )
+                    6: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name_Relative(
+                            parts: array(
+                                0: TraitC
+                            )
+                        )
+                        method: exit
+                        newModifier: null
+                        newName: byebye
+                    )
+                    7: Stmt_TraitUseAdaptation_Precedence(
+                        trait: Name(
+                            parts: array(
+                                0: TraitA
+                            )
+                        )
+                        method: catch
+                        insteadof: array(
+                            0: Name(
+                                parts: array(
+                                    0: TraitB
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
