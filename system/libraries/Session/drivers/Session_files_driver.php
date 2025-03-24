@@ -180,7 +180,7 @@ class CI_Session_files_driver extends CI_Session_driver implements CI_Session_dr
 				return $this->_failure;
 			}
 
-			if (flock($this->_file_handle, LOCK_EX) === FALSE)
+			if (flock($this->_file_handle, LOCK_SH) === FALSE)
 			{
 				log_message('error', "Session: Unable to obtain lock for file '".$this->_file_path.$session_id."'.");
 				fclose($this->_file_handle);
@@ -225,6 +225,7 @@ class CI_Session_files_driver extends CI_Session_driver implements CI_Session_dr
 		}
 
 		$this->_fingerprint = md5($session_data);
+		flock($this->_file_handle, LOCK_UN);
 		return $session_data;
 	}
 
@@ -247,7 +248,13 @@ class CI_Session_files_driver extends CI_Session_driver implements CI_Session_dr
 		{
 			return $this->_failure;
 		}
-
+		if (flock($this->_file_handle, LOCK_EX) === FALSE)
+		{
+			log_message('error', "Session: Unable to obtain lock for file '".$this->_file_path.$session_id."'.");
+			fclose($this->_file_handle);
+			$this->_file_handle = NULL;
+			return $this->_failure;
+		}
 		if ( ! is_resource($this->_file_handle))
 		{
 			return $this->_failure;
@@ -284,6 +291,7 @@ class CI_Session_files_driver extends CI_Session_driver implements CI_Session_dr
 		}
 
 		$this->_fingerprint = md5($session_data);
+		flock($this->_file_handle, LOCK_UN);
 		return $this->_success;
 	}
 
@@ -300,7 +308,6 @@ class CI_Session_files_driver extends CI_Session_driver implements CI_Session_dr
 	{
 		if (is_resource($this->_file_handle))
 		{
-			flock($this->_file_handle, LOCK_UN);
 			fclose($this->_file_handle);
 
 			$this->_file_handle = $this->_file_new = $this->_session_id = NULL;
