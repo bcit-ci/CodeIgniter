@@ -1,5 +1,5 @@
 ###################
-What is CodeIgniter?
+What is CodeIgniter ?
 ###################
 
 CodeIgniter is a powerful and lightweight PHP application development framework designed for developers building dynamic websites.
