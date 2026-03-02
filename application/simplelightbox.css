@@ -1,0 +1,297 @@
+/* line 27, ../sass/simplelightbox.scss */
+body.hidden-scroll {
+  overflow: hidden;
+}
+
+/* line 30, ../sass/simplelightbox.scss */
+.sl-overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #fff;
+  opacity: 0.7;
+  display: none;
+  z-index: 1050;
+}
+
+/* line 41, ../sass/simplelightbox.scss */
+.sl-wrapper {
+  z-index: 1040;
+}
+/* line 43, ../sass/simplelightbox.scss */
+.sl-wrapper button {
+  border: 0 none;
+  background: transparent;
+  font-size: 28px;
+  padding: 0;
+  cursor: pointer;
+}
+/* line 49, ../sass/simplelightbox.scss */
+.sl-wrapper button:hover {
+  opacity: 0.7;
+}
+/* line 54, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-close {
+  display: none;
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  z-index: 1060;
+  margin-top: -14px;
+  margin-right: -14px;
+  height: 44px;
+  width: 44px;
+  line-height: 44px;
+  font-family: Arial, Baskerville, monospace;
+  color: #000;
+  font-size: 3rem;
+}
+/* line 69, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-close:focus {
+  outline: none;
+}
+/* line 74, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-counter {
+  display: none;
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 1060;
+  color: #000;
+  font-size: 1rem;
+}
+/* line 84, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-navigation {
+  width: 100%;
+  display: none;
+}
+/* line 87, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-navigation button {
+  position: fixed;
+  top: 50%;
+  margin-top: -22px;
+  height: 44px;
+  width: 22px;
+  line-height: 44px;
+  text-align: center;
+  display: block;
+  z-index: 1060;
+  font-family: Arial, Baskerville, monospace;
+  color: #000;
+}
+/* line 99, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-navigation button.sl-next {
+  right: 5px;
+  font-size: 2rem;
+}
+/* line 104, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-navigation button.sl-prev {
+  left: 5px;
+  font-size: 2rem;
+}
+/* line 109, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-navigation button:focus {
+  outline: none;
+}
+@media (min-width: 35.5em) {
+  /* line 87, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-navigation button {
+    width: 44px;
+  }
+  /* line 116, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-navigation button.sl-next {
+    right: 10px;
+    font-size: 3rem;
+  }
+  /* line 121, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-navigation button.sl-prev {
+    left: 10px;
+    font-size: 3rem;
+  }
+}
+@media (min-width: 50em) {
+  /* line 87, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-navigation button {
+    width: 44px;
+  }
+  /* line 129, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-navigation button.sl-next {
+    right: 20px;
+    font-size: 3rem;
+  }
+  /* line 134, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-navigation button.sl-prev {
+    left: 20px;
+    font-size: 3rem;
+  }
+}
+/* line 142, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image {
+  position: fixed;
+  -ms-touch-action: none;
+  touch-action: none;
+  z-index: 10000;
+}
+/* line 147, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image img {
+  margin: 0;
+  padding: 0;
+  display: block;
+  border: 0 none;
+}
+@media (min-width: 35.5em) {
+  /* line 147, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-image img {
+    border: 0 none;
+  }
+}
+@media (min-width: 50em) {
+  /* line 147, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-image img {
+    border: 0 none;
+  }
+}
+/* line 160, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image iframe {
+  background: #000;
+  border: 0 none;
+}
+@media (min-width: 35.5em) {
+  /* line 160, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-image iframe {
+    border: 0 none;
+  }
+}
+@media (min-width: 50em) {
+  /* line 160, ../sass/simplelightbox.scss */
+  .sl-wrapper .sl-image iframe {
+    border: 0 none;
+  }
+}
+/* line 170, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image .sl-caption {
+  display: none;
+  padding: 10px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+/* line 181, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image .sl-caption.pos-top {
+  bottom: auto;
+  top: 0;
+}
+/* line 186, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image .sl-caption.pos-outside {
+  bottom: auto;
+}
+/* line 191, ../sass/simplelightbox.scss */
+.sl-wrapper .sl-image .sl-download {
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: #000;
+  z-index: 1060;
+}
+
+/* line 202, ../sass/simplelightbox.scss */
+.sl-spinner {
+  display: none;
+  border: 5px solid #333;
+  border-radius: 40px;
+  height: 40px;
+  left: 50%;
+  margin: -20px 0 0 -20px;
+  opacity: 0;
+  position: fixed;
+  top: 50%;
+  width: 40px;
+  z-index: 1007;
+  -webkit-animation: pulsate 1s ease-out infinite;
+  -moz-animation: pulsate 1s ease-out infinite;
+  -ms-animation: pulsate 1s ease-out infinite;
+  -o-animation: pulsate 1s ease-out infinite;
+  animation: pulsate 1s ease-out infinite;
+}
+
+/* line 221, ../sass/simplelightbox.scss */
+.sl-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+
+@-webkit-keyframes pulsate {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+@keyframes pulsate {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+@-moz-keyframes pulsate {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+@-o-keyframes pulsate {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+@-ms-keyframes pulsate {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
