@@ -38,6 +38,12 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// Polyfill for pre-8.2 PHP
+if (PHP_VERSION_ID >= 80000 && class_exists('Attribute', false) && !class_exists('AllowDynamicProperties', false)) {
+	#[Attribute(Attribute::TARGET_CLASS)]
+	class AllowDynamicProperties {}
+}
+
 /**
  * Application Controller Class
  *
@@ -50,6 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/userguide3/general/controllers.html
  */
+#[AllowDynamicProperties]
 class CI_Controller {
 
 	/**
@@ -65,6 +72,132 @@ class CI_Controller {
 	 * @var	CI_Loader
 	 */
 	public $load;
+
+	/**
+	 * CI_Benchmark
+	 *
+	 * @var	CI_Benchmark
+	 */
+	public $benchmark;
+
+	/**
+	 * CI_Hooks
+	 *
+	 * @var	CI_Hooks
+	 */
+	public $hooks;
+
+	/**
+	 * CI_Config
+	 *
+	 * @var	CI_Config
+	 */
+	public $config;
+
+	/**
+	 * CI_Log
+	 *
+	 * @var	CI_Log
+	 */
+	public $log;
+
+	/**
+	 * CI_Utf8
+	 *
+	 * @var	CI_Utf8
+	 */
+	public $utf8;
+
+	/**
+	 * CI_URI
+	 *
+	 * @var	CI_URI
+	 */
+	public $uri;
+
+	/**
+	 * CI_Exceptions
+	 *
+	 * @var	CI_Exceptions
+	 */
+	public $exceptions;
+
+	/**
+	 * CI_Router
+	 *
+	 * @var	CI_Router
+	 */
+	public $router;
+
+	/**
+	 * CI_Output
+	 *
+	 * @var	CI_Output
+	 */
+	public $output;
+
+	/**
+	 * CI_Security
+	 *
+	 * @var	CI_Security
+	 */
+	public $security;
+
+	/**
+	 * CI_Input
+	 *
+	 * @var	CI_Input
+	 */
+	public $input;
+
+	/**
+	 * CI_Lang
+	 *
+	 * @var	CI_Lang
+	 */
+	public $lang;
+
+	/**
+	 * CI_DB
+	 *
+	 * @var	CI_DB
+	 */
+	public $db;
+
+	/**
+	 * CI_Session
+	 *
+	 * @var	CI_Session
+	 */
+	public $session;
+
+	/**
+	 * CI_Encryption
+	 *
+	 * @var	CI_Encryption
+	 */
+	public $encryption;
+
+	/**
+	 * CI_Language
+	 *
+	 * @var	CI_Language
+	 */
+	public $language;
+
+	/**
+	 * CI_Email
+	 *
+	 * @var	CI_Email
+	 */
+	public $sendmail;
+
+	/**
+	 * Loop library
+	 *
+	 * @var	object
+	 */
+	public $loop;
 
 	/**
 	 * Class constructor
@@ -99,6 +232,20 @@ class CI_Controller {
 	public static function &get_instance()
 	{
 		return self::$instance;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Allow dynamic properties
+	 *
+	 * @param	string	$name	Property name
+	 * @param	mixed	$value	Property value
+	 * @return	void
+	 */
+	public function __set($name, $value)
+	{
+		$this->$name = $value;
 	}
 
 }

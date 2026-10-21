@@ -621,7 +621,31 @@ if ( ! function_exists('_error_handler'))
 		// Should we display the error?
 		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
 		{
-			$_error->show_php_error($severity, $message, $filepath, $line);
+			// Output before session_start() causes "headers already sent"
+			$session_started = false;
+			if (function_exists('session_status')) {
+				$session_started = (session_status() === PHP_SESSION_ACTIVE);
+			} else {
+				$session_started = (isset($_SESSION) || (function_exists('session_id') && session_id() !== ''));
+			}
+			
+			// PHP 8.4+: log only, don't display until the session is started
+			if (PHP_VERSION_ID >= 80400 && !$session_started) {
+				return;
+			}
+			
+			// Deprecations are displayed only once the session is started
+			if (($severity & E_DEPRECATED) === E_DEPRECATED || $severity == 8192) {
+				if ($session_started) {
+					$_error->show_php_error($severity, $message, $filepath, $line);
+				}
+			} else {
+				if (PHP_VERSION_ID >= 80400 && !$session_started) {
+					return;
+				} else {
+					$_error->show_php_error($severity, $message, $filepath, $line);
+				}
+			}
 		}
 
 		// If the error is fatal, the execution of the script should be stopped because

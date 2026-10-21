@@ -66,10 +66,15 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 		return $this->driver->close();
 	}
 
-	#[\ReturnTypeWillChange]
-	public function read(string $id): mixed
+	public function read(string $id): string|false
 	{
-		return $this->driver->read($id);
+		$data = $this->driver->read($id);
+		if ($data === FALSE)
+		{
+			return FALSE;
+		}
+
+		return is_string($data) ? $data : '';
 	}
 
 	public function write(string $id, string $data): bool
@@ -82,13 +87,18 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 		return $this->driver->destroy($id);
 	}
 
-	#[\ReturnTypeWillChange]
-	public function gc(int $maxlifetime): mixed
+	public function gc(int $maxlifetime): int|false
 	{
-		return $this->driver->gc($maxlifetime);
+		$result = $this->driver->gc($maxlifetime);
+		if ($result === FALSE)
+		{
+			return FALSE;
+		}
+
+		return is_int($result) ? $result : 0;
 	}
 
-	public function updateTimestamp(string $id, string$data): bool
+	public function updateTimestamp(string $id, string $data): bool
 	{
 		return $this->driver->updateTimestamp($id, $data);
 	}

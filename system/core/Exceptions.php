@@ -72,8 +72,7 @@ class CI_Exceptions {
 		E_COMPILE_WARNING	=>	'Compile Warning',
 		E_USER_ERROR		=>	'User Error',
 		E_USER_WARNING		=>	'User Warning',
-		E_USER_NOTICE		=>	'User Notice',
-		E_STRICT		=>	'Runtime Notice'
+		E_USER_NOTICE		=>	'User Notice'
 	);
 
 	/**
@@ -85,6 +84,11 @@ class CI_Exceptions {
 	{
 		$this->ob_level = ob_get_level();
 		// Note: Do not log messages from this constructor.
+		
+		// E_STRICT is deprecated in PHP 8.4; use its value directly
+		if (defined('E_STRICT')) {
+			$this->levels[2048] = 'Runtime Notice';
+		}
 	}
 
 	// --------------------------------------------------------------------
